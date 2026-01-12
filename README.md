@@ -1,6 +1,6 @@
 # Trust.Supply Economic Dashboard v5.4
 
-Professional validator economics dashboard with real-world calibrated data.
+Professional validator economics dashboard with real-world calibrated data for Morpheus.Network validators on the Trust.Supply network.
 
 ## 🚀 Quick Deploy
 
