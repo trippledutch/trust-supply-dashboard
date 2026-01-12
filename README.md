@@ -41,7 +41,7 @@ Professional validator economics dashboard with real-world calibrated data.
 
 ## 🔗 Live Demo
 
-[Your deployment URL here]
+(https://trippledutch.github.io/trust-supply-dashboard/)
 
 ## 📄 License
 
