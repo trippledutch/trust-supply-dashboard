@@ -43,11 +43,6 @@
                 color: white; padding: 30px; text-align: center; }
         header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 700; }
         header p { opacity: 0.9; font-size: 1.1em; }
-        .version-selector { display: flex; gap: 10px; align-items: center; justify-content: center; margin-top: 15px; }
-        .version-selector select { padding: 8px 12px; border-radius: 8px; border: 2px solid white; 
-                                   background: rgba(255,255,255,0.15); color: white; font-weight: 600; 
-                                   cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); }
-        .version-selector select:hover { background: rgba(255,255,255,0.25); }
         
         /* CONTROLS */
         .controls { background: var(--gray-100); padding: 30px; border-bottom: 2px solid var(--gray-200); }
@@ -201,14 +196,6 @@
             <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.5</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 15 January 2026</p>
-            <div class="version-selector">
-                <select id="versionSelect" onchange="switchVersion(this.value)">
-                    <option value="v5.5" selected>v5.5 - My Nodes Calculator + Auto-Update (Current)</option>
-                    <option value="v5.1">v5.1 - Calibrated EVLS</option>
-                    <option value="v5.0">v5.0 - Updated Economics</option>
-                    <option value="v4.9">v4.9 - Bullish Buybacks</option>
-                </select>
-            </div>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
                 <strong>⚠️ Disclaimer:</strong> This is an unofficial, community-created analytical tool. All data is derived from publicly available on-chain sources. Economic models, formulas, and projections are provided by @trippledutch for informational and educational purposes only. <strong>This dashboard does not constitute financial, investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies. Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the accuracy of information displayed herein. Users assume all risk and responsibility for any decisions made based on this dashboard. Always conduct your own research and consult qualified professionals before making investment decisions.
             </div>
@@ -1245,19 +1232,6 @@
             document.getElementById(tabName).classList.add('active');
         }
 
-        function switchVersion(version) {
-            const messages = {
-                'v5.5': 'You are currently on v5.5 (Latest - Token Yield + Scenarios)',
-                'v5.1': 'To use v5.1, download trust_supply_dashboard_v5.1.html',
-                'v5.0': 'To use v5.0, download trust_supply_dashboard_v5.0.html',
-                'v4.9': 'To use v4.9, download trust_supply_dashboard_v4.9.html'
-            };
-            if (version !== 'v5.5') {
-                alert(messages[version]);
-                document.getElementById('versionSelect').value = 'v5.5';
-            }
-        }
-
         function calculate() {
             try {
                 const totalSupply = parseFormattedNumber(document.getElementById('totalSupply').value);
@@ -1399,6 +1373,10 @@
                 const evlsReductionFactor = 0.97; // 3% reduction from EVLS penalties
                 const yearlyRewards = baseYearlyRewards * evlsReductionFactor;
                 const inflationRate = (yearlyRewards / totalSupply) * 100;
+                
+                // Update info box with current emissions calculations
+                document.getElementById('baseEmissions').textContent = (baseYearlyRewards / 1000000).toFixed(2);
+                document.getElementById('netEmissions').textContent = (yearlyRewards / 1000000).toFixed(2);
                 
                 // Effective average reward after EVLS
                 const effectiveAvgReward = weightedAvgReward * evlsReductionFactor;
