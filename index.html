@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v5.4</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v5.5</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
         /* ==================== DESIGN SYSTEM ==================== */
-        :root {
+        :root { 
             --primary: #667eea;
             --primary-dark: #764ba2;
             --success: #28a745;
@@ -198,12 +198,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.4</h1>
+            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.5</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
-            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 10 January 2026</p>
+            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 12 January 2026</p>
             <div class="version-selector">
                 <select id="versionSelect" onchange="switchVersion(this.value)">
-                    <option value="v5.4" selected>v5.4 - Token Yield + Scenarios (Current)</option>
+                    <option value="v5.5" selected>v5.5 - My Nodes Calculator + Auto-Update (Current)</option>
                     <option value="v5.1">v5.1 - Calibrated EVLS</option>
                     <option value="v5.0">v5.0 - Updated Economics</option>
                     <option value="v4.9">v4.9 - Bullish Buybacks</option>
@@ -249,7 +249,7 @@
                 </div>
             </div>
             
-            <!-- NEW v5.4: SCENARIO MODELING SLIDERS -->
+            <!-- NEW v5.5: SCENARIO MODELING SLIDERS -->
             <div class="control-grid" style="margin-top: 20px;">
                 <!-- Transaction Growth Multiplier Slider -->
                 <div class="control-group" style="grid-column: span 2; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 15px; border-radius: 8px; border: 2px solid #2196f3;">
@@ -312,7 +312,7 @@
                     transition: all 0.3s ease;
                 " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';" 
                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
-                    📥 Load Latest Data from GitHub
+                    📥 Load Latest Data from Git
                 </button>
                 <div id="updateStatus" style="margin-top: 10px; font-size: 0.9em; color: #666;"></div>
             </div>
@@ -377,6 +377,12 @@
                     <label>12m Reward</label>
                     <input type="number" id="reward12m" value="0.10" step="0.01" oninput="calculate()">
                 </div>
+            </div>
+            
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+                <strong>ℹ️ About Reward Calculation:</strong> The weighted average (shown as "Avg Reward") represents MNW paid <strong>per validation</strong>, not per MNW staked. 
+                Base network emissions = Daily Validations × Avg Reward × 365 = ${(18500 * 0.0943 * 365 / 1000000).toFixed(2)}M MNW/year (gross). 
+                <strong>Yearly Rewards</strong> accounts for EVLS penalties (~3% reduction) giving actual network emissions of ~${(18500 * 0.0943 * 365 * 0.97 / 1000000).toFixed(2)}M MNW/year (net).
             </div>
 
             <!-- LINE 4: Velocity Slider -->
@@ -645,6 +651,119 @@
                     </p>
                 </div>
                 
+                <!-- NEW v5.5: My Nodes Calculator -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; margin-top: 20px; color: white;">
+                    <h4 style="margin: 0 0 15px 0; font-size: 1.3em;">🎯 My Nodes Calculator</h4>
+                    <p style="margin: 0 0 15px 0; opacity: 0.95;">Calculate economics for YOUR specific node count</p>
+                    
+                    <!-- Number of Nodes -->
+                    <div style="padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">Number of Nodes:</label>
+                        <div style="display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: center;">
+                            <div>
+                                <input type="number" id="myNodesInput" value="1" min="1" max="1000" 
+                                       style="width: 100%; padding: 8px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; text-align: center;"
+                                       oninput="document.getElementById('myNodesSlider').value = this.value; document.getElementById('myNodesSliderValue').textContent = this.value + ' node' + (this.value == 1 ? '' : 's'); calculateMyNodes()">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Adjust with Slider:</label>
+                                <input type="range" id="myNodesSlider" min="1" max="1000" value="1" 
+                                       style="width: 100%;"
+                                       oninput="document.getElementById('myNodesInput').value = this.value; document.getElementById('myNodesSliderValue').textContent = this.value + (this.value == 1 ? ' node' : ' nodes'); calculateMyNodes()">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75em; margin-top: 3px; opacity: 0.85;">
+                                    <span>1 node</span>
+                                    <span id="myNodesSliderValue" style="font-weight: bold;">1 node</span>
+                                    <span>1,000 nodes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Network Size Override -->
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">🌐 Network Size (for modeling):</label>
+                        <div style="display: grid; grid-template-columns: 150px 1fr 120px; gap: 15px; align-items: center;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Active Nodes:</label>
+                                <input type="number" id="myNetworkNodes" value="4338" min="1000" max="20000" 
+                                       style="width: 100%; padding: 8px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; text-align: center;"
+                                       oninput="document.getElementById('myNetworkSlider').value = this.value; updateMyNetworkValidators(); calculateMyNodes()">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Adjust Network Size:</label>
+                                <input type="range" id="myNetworkSlider" min="1000" max="20000" value="4338" step="100"
+                                       style="width: 100%;"
+                                       oninput="document.getElementById('myNetworkNodes').value = this.value; updateMyNetworkValidators(); calculateMyNodes()">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75em; margin-top: 3px; opacity: 0.85;">
+                                    <span>1K nodes</span>
+                                    <span id="myNetworkSliderValue">4,338 nodes</span>
+                                    <span>20K nodes</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Validators:</label>
+                                <div id="myNetworkValidators" style="padding: 8px; font-size: 1em; font-weight: bold; background: rgba(255,255,255,0.2); border-radius: 5px; text-align: center;">108</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.85em; margin-top: 8px; opacity: 0.9;">
+                            💡 Model different network sizes to see how your profitability changes as the network grows
+                        </div>
+                    </div>
+                    
+                    <!-- VPS Configuration -->
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">🖥️ Number of VPS:</label>
+                        <div style="display: grid; grid-template-columns: 150px 1fr; gap: 15px; align-items: center;">
+                            <div>
+                                <input type="number" id="myVPSCount" value="1" min="1" max="100"
+                                       style="width: 100%; padding: 8px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; text-align: center;"
+                                       oninput="calculateMyNodes()">
+                                <div style="font-size: 0.8em; margin-top: 5px; opacity: 0.85;">How many servers you use</div>
+                            </div>
+                            <div style="font-size: 0.85em; opacity: 0.9; line-height: 1.5;">
+                                💡 Multiple nodes can share one VPS. Typical: 1-100 nodes = 1 VPS ($72/yr), 101+ nodes need multiple VPS.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- My Nodes Results -->
+                    <div id="myNodesResults" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.15); border-radius: 8px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">EVLS Penalty</div>
+                                <div id="myNodesEVLS" style="font-size: 1.5em; font-weight: bold;">0%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Token Yield</div>
+                                <div id="myNodesTokenYield" style="font-size: 1.5em; font-weight: bold;">8.65%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Annual Profit</div>
+                                <div id="myNodesProfit" style="font-size: 1.5em; font-weight: bold;">$---</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">ROI</div>
+                                <div id="myNodesROI" style="font-size: 1.5em; font-weight: bold;">---%</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Total VPS Cost</div>
+                                <div id="myNodesVPS" style="font-size: 1.5em; font-weight: bold;">$72/yr × 1</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Total Staked</div>
+                                <div id="myNodesStaked" style="font-size: 1.5em; font-weight: bold;">61.2K MNW</div>
+                            </div>
+                        </div>
+                        <!-- Network Percentage Display -->
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.95; margin-bottom: 5px; font-weight: 600;">📊 Your Network Share</div>
+                            <div id="myNodesNetworkInfo" style="font-size: 1.2em; font-weight: bold; line-height: 1.5;">
+                                <span id="myNodesCount">1</span> <span id="myNodesLabel">node</span> = <span id="myNodesPercentage" style="color: #4ade80;">0.02%</span> of <span id="myNodesNetworkSize">4,338</span> active nodes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <h4 style="margin-top: 20px; color: #667eea;">Multi-Node VPS Strategy</h4>
                 <table style="margin-top: 15px;">
                     <thead>
@@ -695,7 +814,7 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v5.4 | Updated 10 January 2026</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v5.5 | Updated 12 January 2026</p>
             <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | MNW $0.08563 (+103% from $0.042 low) | 4,335 nodes | 18.5K validations/day | Not affiliated with Morpheus.Network</p>
         </footer>
     </div>
@@ -774,7 +893,7 @@
             document.getElementById('currentPrice').value = expectedPrice.toFixed(5);
         }
 
-        // NEW v5.4: Update network display boxes to match input values
+        // NEW v5.5: Update network display boxes to match input values
         function updateNetworkDisplays() {
             const totalNodes = document.getElementById('totalNodes').value;
             const activeValidators = document.getElementById('activeValidators').value;
@@ -783,7 +902,7 @@
             document.getElementById('displayActiveValidators').textContent = activeValidators;
         }
 
-        // NEW v5.4: Update nodes when Daily Validations is manually changed
+        // NEW v5.5: Update nodes when Daily Validations is manually changed
         function updateNodesFromValidations() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
             const baselineDailyVals = 18500;
@@ -816,7 +935,7 @@
             updateCalculatedFields();
         }
 
-        // NEW v5.4: Transaction Growth Multiplier
+        // NEW v5.5: Transaction Growth Multiplier
         function updateTransactionMultiplier() {
             const multiplier = parseFloat(document.getElementById('transactionMultiplier').value);
             document.getElementById('transactionMultiplierValue').textContent = multiplier.toFixed(1) + 'x';
@@ -826,7 +945,7 @@
             const newDailyVals = Math.round(baselineDailyVals * multiplier);
             document.getElementById('dailyValidations').value = formatNumber(newDailyVals);
             
-            // NEW v5.4: Scale network nodes and validators proportionally
+            // NEW v5.5: Scale network nodes and validators proportionally
             const baselineTotalNodes = 4335;
             const baselineValidators = 108;
             const MAX_NODES = 20000; // Hard constraint
@@ -862,7 +981,7 @@
             calculate();
         }
 
-        // NEW v5.4: Price Override Multiplier
+        // NEW v5.5: Price Override Multiplier
         function updatePriceMultiplier() {
             const multiplier = parseFloat(document.getElementById('priceMultiplier').value);
             document.getElementById('priceMultiplierValue').textContent = multiplier.toFixed(1) + 'x';
@@ -883,7 +1002,7 @@
             calculate();
         }
 
-        // NEW v5.4: Reset sliders to default values
+        // NEW v5.5: Reset sliders to default values
         function resetToDefaults() {
             // Reset both sliders to 1.0x
             document.getElementById('transactionMultiplier').value = 1;
@@ -907,6 +1026,11 @@
             // Update display boxes to match input boxes exactly
             document.getElementById('displayTotalNodes').textContent = formatNumber(baselineTotalNodes);
             document.getElementById('displayActiveValidators').textContent = formatNumber(baselineValidators);
+            
+            // Reset My Network Size override
+            document.getElementById('myNetworkNodes').value = 4338;
+            document.getElementById('myNetworkSlider').value = 4338;
+            updateMyNetworkValidators();
             
             // Update calculated fields
             updateCalculatedFields();
@@ -937,11 +1061,26 @@
                 button.disabled = true;
                 statusDiv.innerHTML = '<span style="color: #007bff;">📡 Fetching latest data...</span>';
                 
-                // Fetch data from GitHub
-                const response = await fetch('https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json');
+                // Fetch data from GitHub (with cache-busting and CORS)
+                const timestamp = new Date().getTime();
+                const url = `https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json?t=${timestamp}`;
+                
+                console.log('Fetching from:', url);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
                 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    if (response.status === 404) {
+                        throw new Error('dashboard-data.json not found. Please upload it to your GitHub repository.');
+                    }
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const jsonData = await response.json();
@@ -953,6 +1092,10 @@
                 }
                 if (data.activeNodes !== undefined) {
                     document.getElementById('totalNodes').value = formatNumber(data.activeNodes);
+                    // Also update My Nodes Calculator network size
+                    document.getElementById('myNetworkNodes').value = data.activeNodes;
+                    document.getElementById('myNetworkSlider').value = data.activeNodes;
+                    updateMyNetworkValidators();
                 }
                 if (data.activeValidators !== undefined) {
                     document.getElementById('activeValidators').value = data.activeValidators;
@@ -1011,6 +1154,9 @@
                 // Recalculate everything
                 calculate();
                 
+                // Update My Nodes Calculator
+                calculateMyNodes();
+                
                 // Success feedback
                 button.innerHTML = '✅ Data Loaded!';
                 const lastUpdated = jsonData.lastUpdated || 'Unknown';
@@ -1023,13 +1169,211 @@
                 
             } catch (error) {
                 console.error('Error loading data:', error);
+                
+                // Try alternative URL with 'master' branch
+                if (error.message.includes('Failed to fetch')) {
+                    try {
+                        console.log('Retrying with master branch...');
+                        const altUrl = `https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/master/dashboard-data.json?t=${new Date().getTime()}`;
+                        const altResponse = await fetch(altUrl, {
+                            method: 'GET',
+                            mode: 'cors',
+                            cache: 'no-cache'
+                        });
+                        
+                        if (altResponse.ok) {
+                            const jsonData = await altResponse.json();
+                            const data = jsonData.data;
+                            
+                            // Update all fields (same code as above)
+                            if (data.currentPrice !== undefined) {
+                                document.getElementById('currentPrice').value = data.currentPrice.toFixed(5);
+                            }
+                            if (data.activeNodes !== undefined) {
+                                document.getElementById('totalNodes').value = formatNumber(data.activeNodes);
+                                document.getElementById('myNetworkNodes').value = data.activeNodes;
+                                document.getElementById('myNetworkSlider').value = data.activeNodes;
+                                updateMyNetworkValidators();
+                            }
+                            if (data.activeValidators !== undefined) {
+                                document.getElementById('activeValidators').value = data.activeValidators;
+                            }
+                            if (data.dexLiquidity !== undefined) {
+                                document.getElementById('dexLiquidity').value = formatNumber(data.dexLiquidity);
+                            }
+                            if (data.cexLocked !== undefined) {
+                                document.getElementById('cexLocked').value = formatNumber(data.cexLocked);
+                            }
+                            if (data.teamWallet !== undefined) {
+                                document.getElementById('teamWallet').value = formatNumber(data.teamWallet);
+                            }
+                            if (data.polygonMNW !== undefined) {
+                                document.getElementById('polygonMNW').value = formatNumber(data.polygonMNW);
+                            }
+                            if (data.ethereumMNW !== undefined) {
+                                document.getElementById('ethereumMNW').value = formatNumber(data.ethereumMNW);
+                            }
+                            if (data.lostTokens !== undefined) {
+                                document.getElementById('lostTokens').value = formatNumber(data.lostTokens);
+                            }
+                            if (data.dailyValidations !== undefined) {
+                                document.getElementById('dailyValidations').value = formatNumber(data.dailyValidations);
+                            }
+                            if (data.nodes3m !== undefined) {
+                                document.getElementById('nodes3m').value = formatNumber(data.nodes3m);
+                            }
+                            if (data.nodes6m !== undefined) {
+                                document.getElementById('nodes6m').value = formatNumber(data.nodes6m);
+                            }
+                            if (data.nodes12m !== undefined) {
+                                document.getElementById('nodes12m').value = formatNumber(data.nodes12m);
+                            }
+                            if (data.reward3m !== undefined) {
+                                document.getElementById('reward3m').value = data.reward3m;
+                            }
+                            if (data.reward6m !== undefined) {
+                                document.getElementById('reward6m').value = data.reward6m;
+                            }
+                            if (data.reward12m !== undefined) {
+                                document.getElementById('reward12m').value = data.reward12m;
+                            }
+                            
+                            updateCalculatedFields();
+                            updateYearlyValidations();
+                            updateNetworkDisplays();
+                            calculate();
+                            calculateMyNodes();
+                            
+                            button.innerHTML = '✅ Data Loaded!';
+                            statusDiv.innerHTML = `<span style="color: #28a745;">✅ Successfully loaded data from master branch (${jsonData.lastUpdated || 'Unknown'})</span>`;
+                            
+                            setTimeout(() => {
+                                button.innerHTML = originalText;
+                                button.disabled = false;
+                            }, 2000);
+                            
+                            return; // Success, exit
+                        }
+                    } catch (altError) {
+                        console.error('Master branch also failed:', altError);
+                    }
+                }
+                
                 button.innerHTML = '❌ Load Failed';
-                statusDiv.innerHTML = '<span style="color: #dc3545;">❌ Failed to load data. Please try again.</span>';
+                
+                // Show detailed error message
+                let errorMsg = error.message || 'Unknown error';
+                if (errorMsg.includes('not found')) {
+                    statusDiv.innerHTML = `<span style="color: #dc3545;">❌ ${errorMsg}<br>Upload dashboard-data.json to: https://github.com/trippledutch/trust-supply-dashboard</span>`;
+                } else if (errorMsg.includes('Failed to fetch')) {
+                    statusDiv.innerHTML = `<span style="color: #dc3545;">❌ Network error. Check:<br>
+                    1. Is dashboard-data.json in your repo root?<br>
+                    2. Open browser console (F12) for details<br>
+                    3. Try direct URL: <a href="https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json" target="_blank">Test Link</a></span>`;
+                } else {
+                    statusDiv.innerHTML = `<span style="color: #dc3545;">❌ ${errorMsg}<br>Check console for details.</span>`;
+                }
                 
                 setTimeout(() => {
                     button.innerHTML = originalText;
                     button.disabled = false;
                 }, 2000);
+            }
+        }
+
+        // NEW v5.5: Update Network Validators based on node count
+        function updateMyNetworkValidators() {
+            const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4338;
+            const baselineNodes = 4338;
+            const baselineValidators = 108;
+            const ratio = baselineNodes / baselineValidators; // ~40.17 nodes per validator
+            
+            const calculatedValidators = Math.round(networkNodes / ratio);
+            
+            document.getElementById('myNetworkValidators').textContent = calculatedValidators;
+            document.getElementById('myNetworkSliderValue').textContent = formatNumber(networkNodes) + ' nodes';
+        }
+
+        // NEW v5.5: My Nodes Calculator
+        function calculateMyNodes() {
+            try {
+                const nodes = parseInt(document.getElementById('myNodesInput').value) || 1;
+                const stakePerNode = 1800;
+                const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.08658;
+                const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 18500;
+                
+                // Use My Network override for calculations
+                const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4338;
+                const networkPercentage = ((nodes / networkNodes) * 100).toFixed(2);
+                
+                // Calculate EVLS factor
+                const evlsFactor = calculateEVLSFactor(nodes);
+                const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(1);
+                
+                // Get weighted average reward from staking tiers
+                const nodes3m = parseFormattedNumber(document.getElementById('nodes3m').value) || 437;
+                const nodes6m = parseFormattedNumber(document.getElementById('nodes6m').value) || 357;
+                const nodes12m = parseFormattedNumber(document.getElementById('nodes12m').value) || 3540;
+                const reward3m = parseFloat(document.getElementById('reward3m').value) || 0.06;
+                const reward6m = parseFloat(document.getElementById('reward6m').value) || 0.08;
+                const reward12m = parseFloat(document.getElementById('reward12m').value) || 0.10;
+                const totalNodeSum = nodes3m + nodes6m + nodes12m;
+                const weightedAvgReward = ((nodes3m * reward3m) + (nodes6m * reward6m) + (nodes12m * reward12m)) / totalNodeSum;
+                
+                // Calculate validations per node per day (using My Network override)
+                const validationsPerNode = dailyValidations / networkNodes;
+                const annualValidationsPerNode = validationsPerNode * 365;
+                
+                // Calculate MNW rewards with weighted average and EVLS
+                const annualRewardsMNW = annualValidationsPerNode * weightedAvgReward * evlsFactor;
+                
+                // Calculate Token Yield (always based on MNW, independent of price)
+                const tokenYield = (annualRewardsMNW / stakePerNode) * 100;
+                
+                // Get VPS count
+                const vpsCount = parseInt(document.getElementById('myVPSCount').value) || 1;
+                
+                // Calculate VPS cost (per VPS, not per node!)
+                const vpsPerUnit = nodes <= 100 ? 6.00 : 24.00;
+                const totalAnnualVPSCost = vpsPerUnit * 12 * vpsCount;
+                const vpsPerNode = totalAnnualVPSCost / nodes;
+                
+                // Calculate profits (total rewards minus total VPS cost)
+                const totalAnnualRewardsMNW = annualRewardsMNW * nodes;
+                const totalAnnualRewardsUSD = totalAnnualRewardsMNW * currentPrice;
+                const totalAnnualProfit = totalAnnualRewardsUSD - totalAnnualVPSCost;
+                
+                // Calculate ROI (using current price, matching the table)
+                const totalInvestment = stakePerNode * nodes * currentPrice;
+                const roi = (totalAnnualProfit / totalInvestment) * 100;
+                
+                // Calculate total staked
+                const totalStaked = stakePerNode * nodes;
+                
+                // Update display
+                document.getElementById('myNodesEVLS').textContent = evlsPenaltyPercent + '%';
+                document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : '#fbbf24';
+                
+                document.getElementById('myNodesTokenYield').textContent = tokenYield.toFixed(2) + '%';
+                document.getElementById('myNodesTokenYield').style.color = tokenYield >= 8.0 ? '#4ade80' : tokenYield >= 6.0 ? '#fbbf24' : '#f87171';
+                
+                document.getElementById('myNodesProfit').textContent = '$' + formatNumber(Math.round(totalAnnualProfit));
+                document.getElementById('myNodesProfit').style.color = totalAnnualProfit > 0 ? '#4ade80' : '#f87171';
+                
+                document.getElementById('myNodesROI').textContent = roi.toFixed(1) + '%';
+                document.getElementById('myNodesROI').style.color = roi >= 10 ? '#4ade80' : roi >= 5 ? '#fbbf24' : '#f87171';
+                
+                document.getElementById('myNodesVPS').textContent = '$' + (vpsPerUnit * 12).toFixed(0) + '/yr × ' + vpsCount;
+                
+                document.getElementById('myNodesStaked').textContent = formatCompactMNW(stakePerNode * nodes);
+                
+                // Update network percentage display
+                document.getElementById('myNodesCount').textContent = formatNumber(nodes);
+                document.getElementById('myNodesLabel').textContent = nodes === 1 ? 'node' : 'nodes';
+                document.getElementById('myNodesPercentage').textContent = networkPercentage + '%';
+                document.getElementById('myNodesNetworkSize').textContent = formatNumber(networkNodes);
+            } catch (error) {
+                console.error('Error in calculateMyNodes:', error);
             }
         }
 
@@ -1062,14 +1406,14 @@
 
         function switchVersion(version) {
             const messages = {
-                'v5.4': 'You are currently on v5.4 (Latest - Token Yield + Scenarios)',
+                'v5.5': 'You are currently on v5.5 (Latest - Token Yield + Scenarios)',
                 'v5.1': 'To use v5.1, download trust_supply_dashboard_v5.1.html',
                 'v5.0': 'To use v5.0, download trust_supply_dashboard_v5.0.html',
                 'v4.9': 'To use v4.9, download trust_supply_dashboard_v4.9.html'
             };
-            if (version !== 'v5.4') {
+            if (version !== 'v5.5') {
                 alert(messages[version]);
-                document.getElementById('versionSelect').value = 'v5.4';
+                document.getElementById('versionSelect').value = 'v5.5';
             }
         }
 
@@ -1119,7 +1463,7 @@
                 // ACTUAL STAKED (for supply accounting) - uses real Total Nodes input
                 const actualStaked = totalNodes * stakePerNode;
                 
-                // NEW v5.4: Calculate additional staking above baseline
+                // NEW v5.5: Calculate additional staking above baseline
                 const baselineStaked = baselineNodes * stakePerNode; // 4,335 × 1,800 = 7,803,000
                 const additionalStaked = Math.max(0, actualStaked - baselineStaked);
                 
@@ -1204,6 +1548,20 @@
                 const totalNodeSum = nodes3m + nodes6m + nodes12m;
                 const weightedAvgReward = ((nodes3m * reward3m) + (nodes6m * reward6m) + (nodes12m * reward12m)) / totalNodeSum;
                 
+                // Calculate yearly network rewards (accounting for EVLS)
+                // Base emissions: dailyValidations × avgReward × 365
+                const baseYearlyRewards = dailyValidations * weightedAvgReward * 365;
+                // EVLS reduces total emissions by ~3% (conservative estimate)
+                // Assumptions: ~85% of nodes with small operators (0% EVLS penalty)
+                //              ~15% of nodes with large operators (avg 20% EVLS penalty)
+                // Network-wide impact: 0.85×0% + 0.15×20% = 3% reduction
+                const evlsReductionFactor = 0.97; // 3% reduction from EVLS penalties
+                const yearlyRewards = baseYearlyRewards * evlsReductionFactor;
+                const inflationRate = (yearlyRewards / totalSupply) * 100;
+                
+                // Effective average reward after EVLS
+                const effectiveAvgReward = weightedAvgReward * evlsReductionFactor;
+                
                 const marketCap = totalSupply * currentPrice;
                 
                 document.getElementById('velocityInfo').textContent = velocity.toFixed(1) + 'x';
@@ -1250,11 +1608,6 @@
                         <div class="value">${formatCompactMNW(dynamicDexLiquidity)}</div>
                         <small>Sushiswap, Uniswap</small>
                     </div>
-                    <div class="metric-card" style="background: linear-gradient(135deg, #0dcaf0 0%, #0bb5d6 100%);">
-                        <h3>Expected DEX LP 💧</h3>
-                        <div class="value">${formatCompactMNW(suggestedDEX)}</div>
-                        <small>Based on Ethereum MNW</small>
-                    </div>
                     <div class="metric-card" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
                         <h3>CEX Locked ⚠️</h3>
                         <div class="value">${formatCompactMNW(dynamicCexLocked)}</div>
@@ -1282,8 +1635,14 @@
                     </div>
                     <div class="metric-card" style="background: linear-gradient(135deg, #fd7e14 0%, #e8590c 100%);">
                         <h3>Avg Reward 📊</h3>
-                        <div class="value">${weightedAvgReward.toFixed(3)} MNW</div>
-                        <small>Weighted by node count</small>
+                        <div class="value">${effectiveAvgReward.toFixed(4)} MNW</div>
+                        <small>Per validation (after EVLS)</small>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);">
+                        <h3>Yearly Rewards 💰</h3>
+                        <div class="value">${formatCompactMNW(yearlyRewards)}</div>
+                        <small>Network-wide (~3% EVLS reduction)</small>
+                        <small style="display: block; margin-top: 5px; font-weight: 600; color: #fff3cd;">${inflationRate.toFixed(2)}% annual inflation</small>
                     </div>
                     <div class="metric-card" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
                         <h3>MNW Price 🟢</h3>
@@ -1355,7 +1714,7 @@
                 const stakeValueUSD = stakePerNode * currentPrice;
                 const roiPercent = (netProfit / stakeValueUSD) * 100;
                 
-                // NEW v5.4: Token Yield (Universal metric)
+                // NEW v5.5: Token Yield (Universal metric)
                 const tokenYieldPercent = (annualRewardsMNW / stakePerNode) * 100;
                 
                 const breakEven = vpsCostPerYear / annualRewardsMNW;
@@ -1364,7 +1723,7 @@
                 document.getElementById('annualRewardsPerNode').innerHTML = 
                     `${formatNumber(Math.round(annualRewardsMNW))} MNW<br><small>($${formatNumber(Math.round(annualRewardsUSD))} @ current price)</small>`;
                 
-                // NEW v5.4: Display Token Yield
+                // NEW v5.5: Display Token Yield
                 document.getElementById('tokenYield').innerHTML = 
                     `<span style="font-size: 1.3em;">${tokenYieldPercent.toFixed(2)}%</span><br><small style="color: #2e7d32;">MNW earned / MNW staked</small>`;
                 
@@ -1406,7 +1765,7 @@
                     const totalStakeValue = stakeValueUSD * config.nodes;
                     const multiROI = (profit / totalStakeValue) * 100;
                     
-                    // NEW v5.4: Token Yield for multi-node (includes EVLS impact)
+                    // NEW v5.5: Token Yield for multi-node (includes EVLS impact)
                     const totalStakedMNW = stakePerNode * config.nodes;
                     const annualMNWearned = (annualRewardsMNW * evlsFactor) * config.nodes;
                     const multiTokenYield = (annualMNWearned / totalStakedMNW) * 100;
@@ -1809,6 +2168,12 @@
             updateNetworkDisplays();
             
             calculate();
+            
+            // Initialize My Nodes calculator and network validators
+            setTimeout(function() {
+                updateMyNetworkValidators();
+                calculateMyNodes();
+            }, 100);
         });
     </script>
 </body>
