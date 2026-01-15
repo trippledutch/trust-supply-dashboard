@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
         /* ==================== DESIGN SYSTEM ==================== */
-        :root { 
+        :root {
             --primary: #667eea;
             --primary-dark: #764ba2;
             --success: #28a745;
@@ -200,7 +200,7 @@
         <header>
             <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.5</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
-            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 12 January 2026</p>
+            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 15 January 2026</p>
             <div class="version-selector">
                 <select id="versionSelect" onchange="switchVersion(this.value)">
                     <option value="v5.5" selected>v5.5 - My Nodes Calculator + Auto-Update (Current)</option>
@@ -814,8 +814,8 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v5.5 | Updated 12 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | MNW $0.08563 (+103% from $0.042 low) | 4,335 nodes | 18.5K validations/day | Not affiliated with Morpheus.Network</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v5.5 | Updated 15 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Not affiliated with Morpheus.Network</p>
         </footer>
     </div>
 
@@ -2015,6 +2015,11 @@
                 updateMyNetworkValidators();
                 calculateMyNodes();
             }, 100);
+            
+            // Auto-load latest data from GitHub after page loads
+            setTimeout(function() {
+                loadLatestData();
+            }, 500);
         });
     </script>
 </body>
