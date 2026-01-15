@@ -240,7 +240,7 @@
                 </div>
                 <div class="control-group highlight">
                     <label>Current Price ($) 💰</label>
-                    <input type="number" id="currentPrice" value="0.09042" step="0.00001" oninput="calculate()">
+                    <input type="number" id="currentPrice" value="0.08943" step="0.00001" oninput="calculate()">
                     <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Auto-scales with validation growth</small>
                 </div>
                 <div class="control-group">
@@ -379,10 +379,10 @@
                 </div>
             </div>
             
-            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
+            <div id="rewardCalcInfo" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; margin: 15px 0; border-radius: 4px;">
                 <strong>ℹ️ About Reward Calculation:</strong> The weighted average (shown as "Avg Reward") represents MNW paid <strong>per validation</strong>, not per MNW staked. 
-                Base network emissions = Daily Validations × Avg Reward × 365 = ${(18500 * 0.0943 * 365 / 1000000).toFixed(2)}M MNW/year (gross). 
-                <strong>Yearly Rewards</strong> accounts for EVLS penalties (~3% reduction) giving actual network emissions of ~${(18500 * 0.0943 * 365 * 0.97 / 1000000).toFixed(2)}M MNW/year (net).
+                Base network emissions = Daily Validations × Avg Reward × 365 = <span id="baseEmissions">--</span>M MNW/year (gross). 
+                <strong>Yearly Rewards</strong> accounts for EVLS penalties (~3% reduction) giving actual network emissions of ~<span id="netEmissions">--</span>M MNW/year (net).
             </div>
 
             <!-- LINE 4: Velocity Slider -->
@@ -815,7 +815,7 @@
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
             <p>Unofficial Trust.Supply Economic Dashboard v5.5 | Updated 15 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Not affiliated with Morpheus.Network</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch</p>
         </footer>
     </div>
 
