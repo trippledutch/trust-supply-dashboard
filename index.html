@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v5.5</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v5.6.2</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
         /* ==================== DESIGN SYSTEM ==================== */
@@ -193,7 +193,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.5</h1>
+            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v5.6.2</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 15 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -222,12 +222,12 @@
                 </div>
                 <div class="control-group highlight">
                     <label>Daily Validations 🔥</label>
-                    <input type="text" id="dailyValidations" value="14,160" oninput="updateYearlyValidations(); updatePriceScaling(); updateNodesFromValidations(); calculate()">
+                    <input type="text" id="dailyValidations" value="17,900" oninput="updateYearlyValidations(); updateActiveNodesFromValidations(); calculate(); calculateMyNodes()">
                     <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Drives network growth & price</small>
                 </div>
                 <div class="control-group highlight">
                     <label>Current Price ($) 💰</label>
-                    <input type="number" id="currentPrice" value="0.08943" step="0.00001" oninput="calculate()">
+                    <input type="number" id="currentPrice" value="0.08943" step="0.00001" oninput="calculate(); calculateMyNodes()">
                     <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Auto-scales with validation growth</small>
                 </div>
                 <div class="control-group">
@@ -263,25 +263,6 @@
                         Independent price adjustment (0.5x = $0.043 → 10x = $0.856). Does NOT affect transaction volume.
                     </small>
                 </div>
-            </div>
-            
-            <!-- Reset Button -->
-            <div style="text-align: center; margin-top: 15px;">
-                <button onclick="resetToDefaults()" style="
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    border: none;
-                    padding: 12px 30px;
-                    border-radius: 8px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';" 
-                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
-                    🔄 Reset Sliders to Default (1.0x)
-                </button>
             </div>
             
             <!-- NEW: Load Latest Data Button -->
@@ -708,7 +689,7 @@
                                 <div style="font-size: 0.8em; margin-top: 5px; opacity: 0.85;">How many servers you use</div>
                             </div>
                             <div style="font-size: 0.85em; opacity: 0.9; line-height: 1.5;">
-                                💡 Multiple nodes can share one VPS. Typical: 1-100 nodes = 1 VPS ($72/yr), 101+ nodes need multiple VPS.
+                                💡 Multiple nodes can share one VPS. Typical: 1-100 nodes = 1 VPS ($72/yr), 101+ nodes = 1 VPS ($288/yr).
                             </div>
                         </div>
                     </div>
@@ -716,6 +697,14 @@
                     <!-- My Nodes Results -->
                     <div id="myNodesResults" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.15); border-radius: 8px;">
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Daily Validations</div>
+                                <div id="myNodesDailyVals" style="font-size: 1.5em; font-weight: bold;">0</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.85em; opacity: 0.9;">Yearly Validations</div>
+                                <div id="myNodesYearlyVals" style="font-size: 1.5em; font-weight: bold;">0</div>
+                            </div>
                             <div>
                                 <div style="font-size: 0.85em; opacity: 0.9;">EVLS Penalty</div>
                                 <div id="myNodesEVLS" style="font-size: 1.5em; font-weight: bold;">0%</div>
@@ -757,14 +746,16 @@
                         <tr>
                             <th>Configuration</th>
                             <th style="text-align: right;">Nodes</th>
-                            <th style="text-align: right;">Validations/Day</th>
-                            <th style="text-align: right;">VPS Cost/Node/Year</th>
-                            <th style="text-align: right;">EVLS Factor</th>
-                            <th style="text-align: right;">EVLS Penalty %</th>
+                            <th style="text-align: right;">AVG Val/Day</th>
+                            <th style="text-align: right;">Yearly Validations</th>
+                            <th style="text-align: right;">Yearly MNW</th>
+                            <th style="text-align: right;">VPS $/Node/Yr</th>
+                            <th style="text-align: right;">EVLS</th>
+                            <th style="text-align: right;">EVLS %</th>
                             <th style="text-align: right;">EVLS Loss ($)</th>
-                            <th style="text-align: right;">Annual Profit</th>
-                            <th style="text-align: right;">Token Yield 🌟</th>
-                            <th style="text-align: right;">ROI</th>
+                            <th style="text-align: right;">Annual $</th>
+                            <th style="text-align: right;">Yield %</th>
+                            <th style="text-align: right;">ROI %</th>
                         </tr>
                     </thead>
                     <tbody id="multiNodeTable"></tbody>
@@ -772,7 +763,7 @@
                 
                 <div class="alert-box alert-success" style="margin-top: 15px;" id="multiNodeInsight"></div>
                 <div class="evls-warning" id="evlsWarning" style="display: none;">
-                    <strong>⚠️ EVLS Active:</strong> Yellow highlighted rows show configurations with EVLS penalties (101+ nodes). The EVLS factor and dollar loss are shown in red. See detailed explanation above.
+                    <strong>⚠️ EVLS Active:</strong> Yellow/red highlighted rows show configurations with EVLS penalties (100+ nodes). v5.6.1 uses CORRECTED linear model: 10.26% penalty at 100 nodes, +0.28%/node. Based on 20 real validators with 12-month stakes (Aug 2025 - Jan 2026). Baseline: 4.97 val/node/day.
                 </div>
             </div>
 
@@ -801,8 +792,8 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v5.5 | Updated 15 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v5.6.2 | Updated 17 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v5.6.2: Default 17,900 daily validations (6-month avg from actual data)</p>
         </footer>
     </div>
 
@@ -833,24 +824,18 @@
 
         function calculateEVLSFactor(nodes) {
             // EVLS (Effective Validator Load Score) penalty for large validators
-            // CALIBRATED from real validator performance data (Jul 2025 - Jan 2026)
-            // Real data: 132 nodes = ~1% penalty, 221 nodes = 34% penalty
-            if (nodes <= 100) {
-                return 1.0;  // No penalty (confirmed by 49 & 100-node real data)
-            } else if (nodes <= 150) {
-                return 0.975;  // ~2.5% penalty (conservative estimate)
-            } else if (nodes <= 200) {
-                return 0.825;  // ~17.5% penalty (interpolated)
-            } else if (nodes <= 250) {
-                return 0.66;   // ~34% penalty (matches 221-node real performance)
-            } else if (nodes <= 300) {
-                return 0.55;   // ~45% penalty
-            } else if (nodes <= 500) {
-                return 0.35;   // ~65% penalty
-            } else if (nodes <= 1000) {
-                return 0.20;   // ~80% penalty
+            // v5.6.1 EXACT MODEL from 12-month stake data
+            // Baseline: 4.9662 val/node/day (<100 nodes)
+            // At 100 nodes: 10.26% penalty (actual: 4.457 val/node/day)
+            // At 221 nodes: 44.02% penalty (actual: 2.78 val/node/day)
+            // Linear slope: 0.2790% per node
+            if (nodes < 100) {
+                return 1.0;  // No EVLS penalty below 100 nodes
             } else {
-                return Math.max(0.15, 0.15 - (nodes - 1000) * 0.00005);  // ~85-90% penalty
+                // Linear penalty: EVLS% = 10.26 + 0.2790 × (nodes - 100)
+                const penaltyPercent = 10.26 + (0.2790 * (nodes - 100));
+                const evlsFactor = 1.0 - (penaltyPercent / 100.0);
+                return Math.max(0.15, evlsFactor);  // Cap at 85% maximum penalty
             }
         }
 
@@ -869,7 +854,7 @@
 
         function updatePriceScaling() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 18500;
+            const baselineDailyVals = 17900;
             const baselinePrice = 0.08658;
             
             // Price scales proportionally with validation growth (1:1 ratio for utility scaling)
@@ -892,7 +877,7 @@
         // NEW v5.5: Update nodes when Daily Validations is manually changed
         function updateNodesFromValidations() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 18500;
+            const baselineDailyVals = 17900;
             const baselineTotalNodes = 4335;
             const baselineValidators = 108;
             const MAX_NODES = 20000;
@@ -921,6 +906,35 @@
             // Update calculated fields
             updateCalculatedFields();
         }
+        
+        // v5.6.2: Update My Network Active Nodes when Daily Validations changes
+        function updateActiveNodesFromValidations() {
+            const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
+            const baselineDailyVals = 17900;
+            const baselineTotalNodes = 4339;  // Default for My Network
+            const baselineValidators = 108;
+            
+            // Calculate new active nodes based on validations
+            const multiplier = dailyValidations / baselineDailyVals;
+            const newActiveNodes = Math.round(baselineTotalNodes * multiplier);
+            const newValidators = Math.round(baselineValidators * multiplier);
+            
+            // Update My Network Active Nodes field
+            document.getElementById('myNetworkNodes').value = newActiveNodes;
+            document.getElementById('myNetworkSlider').value = newActiveNodes;
+            
+            // v5.6.2: Also update the main Network Size display box
+            document.getElementById('totalNodes').value = formatNumber(newActiveNodes);
+            document.getElementById('activeValidators').value = newValidators;
+            document.getElementById('displayTotalNodes').textContent = formatNumber(newActiveNodes);
+            document.getElementById('displayActiveValidators').textContent = formatNumber(newValidators);
+            
+            // Update calculated fields
+            updateCalculatedFields();
+            
+            // Refresh My Nodes Calculator with new network size
+            calculateMyNodes();
+        }
 
         // NEW v5.5: Transaction Growth Multiplier
         function updateTransactionMultiplier() {
@@ -928,7 +942,7 @@
             document.getElementById('transactionMultiplierValue').textContent = multiplier.toFixed(1) + 'x';
             
             // Update daily validations based on multiplier
-            const baselineDailyVals = 18500; // The default baseline
+            const baselineDailyVals = 17900; // The default baseline
             const newDailyVals = Math.round(baselineDailyVals * multiplier);
             document.getElementById('dailyValidations').value = formatNumber(newDailyVals);
             
@@ -975,7 +989,7 @@
             
             // Get current price from the transaction-adjusted baseline
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 18500;
+            const baselineDailyVals = 17900;
             const baselinePrice = 0.08658;
             
             // Calculate what price should be based on transactions alone
@@ -990,53 +1004,6 @@
         }
 
         // NEW v5.5: Reset sliders to default values
-        function resetToDefaults() {
-            // Reset both sliders to 1.0x
-            document.getElementById('transactionMultiplier').value = 1;
-            document.getElementById('priceMultiplier').value = 1;
-            
-            // Update the display values
-            document.getElementById('transactionMultiplierValue').textContent = '1.0x';
-            document.getElementById('priceMultiplierValue').textContent = '1.0x';
-            
-            // Reset to baseline values
-            const baselineDailyVals = 14160;
-            const baselinePrice = 0.08943;
-            const baselineTotalNodes = 4339;
-            const baselineValidators = 108;
-            
-            document.getElementById('dailyValidations').value = formatNumber(baselineDailyVals);
-            document.getElementById('currentPrice').value = baselinePrice.toFixed(5);
-            document.getElementById('totalNodes').value = formatNumber(baselineTotalNodes);
-            document.getElementById('activeValidators').value = baselineValidators;
-            
-            // Update display boxes to match input boxes exactly
-            document.getElementById('displayTotalNodes').textContent = formatNumber(baselineTotalNodes);
-            document.getElementById('displayActiveValidators').textContent = formatNumber(baselineValidators);
-            
-            // Reset My Network Size override
-            document.getElementById('myNetworkNodes').value = 4339;
-            document.getElementById('myNetworkSlider').value = 4339;
-            updateMyNetworkValidators();
-            
-            // Update calculated fields
-            updateCalculatedFields();
-            
-            // Update yearly validations
-            updateYearlyValidations();
-            
-            // Recalculate everything
-            calculate();
-            
-            // Visual feedback
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '✅ Reset Complete!';
-            setTimeout(() => {
-                button.innerHTML = originalText;
-            }, 1500);
-        }
-
         // NEW: Load latest data from GitHub
         async function loadLatestData() {
             const statusDiv = document.getElementById('updateStatus');
@@ -1128,35 +1095,37 @@
                 const nodes = parseInt(document.getElementById('myNodesInput').value) || 1;
                 const stakePerNode = 1800;
                 const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.08658;
-                const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 18500;
+                const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 17900;
                 
-                // Use My Network override for calculations
+                // v5.6.1: Calculate baseline dynamically based on Daily Validations input
+                // The baseline represents what a node would get from the network
+                // If network validations increase, per-node validations increase proportionally
+                const DEFAULT_DAILY_VALIDATIONS = 17900;  // Reference point
+                const BASE_VAL_PER_NODE = 4.9662;  // Exact baseline from 12-month data
+                const scalingFactor = dailyValidations / DEFAULT_DAILY_VALIDATIONS;
+                const BASELINE_VAL_PER_NODE_PER_DAY = BASE_VAL_PER_NODE * scalingFactor;
+                
+                // Use My Network override for network percentage display only
                 const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4338;
                 const networkPercentage = ((nodes / networkNodes) * 100).toFixed(2);
                 
-                // Calculate EVLS factor
+                // Calculate EVLS factor (same as Multi-Node table)
                 const evlsFactor = calculateEVLSFactor(nodes);
-                const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(1);
+                const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(2);
                 
-                // Get weighted average reward from staking tiers
-                const nodes3m = parseFormattedNumber(document.getElementById('nodes3m').value) || 437;
-                const nodes6m = parseFormattedNumber(document.getElementById('nodes6m').value) || 357;
-                const nodes12m = parseFormattedNumber(document.getElementById('nodes12m').value) || 3540;
-                const reward3m = parseFloat(document.getElementById('reward3m').value) || 0.06;
-                const reward6m = parseFloat(document.getElementById('reward6m').value) || 0.08;
-                const reward12m = parseFloat(document.getElementById('reward12m').value) || 0.10;
-                const totalNodeSum = nodes3m + nodes6m + nodes12m;
-                const weightedAvgReward = ((nodes3m * reward3m) + (nodes6m * reward6m) + (nodes12m * reward12m)) / totalNodeSum;
+                // v5.6.1: Use 12-month reward rate (0.10) to match Multi-Node table
+                const reward12m = 0.10;
                 
-                // Calculate validations per node per day (using My Network override)
-                const validationsPerNode = dailyValidations / networkNodes;
-                const annualValidationsPerNode = validationsPerNode * 365;
+                // v5.6.1: Calculate validations using SAME method as Multi-Node table
+                const validationsPerNodePerDay = BASELINE_VAL_PER_NODE_PER_DAY * evlsFactor;
+                const totalValidationsPerDay = validationsPerNodePerDay * nodes;
+                const yearlyValidations = totalValidationsPerDay * 365;
                 
-                // Calculate MNW rewards with weighted average and EVLS
-                const annualRewardsMNW = annualValidationsPerNode * weightedAvgReward * evlsFactor;
+                // Calculate MNW rewards (12-month rate, with EVLS)
+                const yearlyMNW = yearlyValidations * reward12m;
                 
                 // Calculate Token Yield (always based on MNW, independent of price)
-                const tokenYield = (annualRewardsMNW / stakePerNode) * 100;
+                const tokenYield = (yearlyMNW / (stakePerNode * nodes)) * 100;
                 
                 // Get VPS count
                 const vpsCount = parseInt(document.getElementById('myVPSCount').value) || 1;
@@ -1164,11 +1133,9 @@
                 // Calculate VPS cost (per VPS, not per node!)
                 const vpsPerUnit = nodes <= 100 ? 6.00 : 24.00;
                 const totalAnnualVPSCost = vpsPerUnit * 12 * vpsCount;
-                const vpsPerNode = totalAnnualVPSCost / nodes;
                 
-                // Calculate profits (total rewards minus total VPS cost)
-                const totalAnnualRewardsMNW = annualRewardsMNW * nodes;
-                const totalAnnualRewardsUSD = totalAnnualRewardsMNW * currentPrice;
+                // Calculate profits (total rewards minus total VPS cost) - NOW USES CURRENT PRICE
+                const totalAnnualRewardsUSD = yearlyMNW * currentPrice;
                 const totalAnnualProfit = totalAnnualRewardsUSD - totalAnnualVPSCost;
                 
                 // Calculate ROI (using current price, matching the table)
@@ -1180,7 +1147,7 @@
                 
                 // Update display
                 document.getElementById('myNodesEVLS').textContent = evlsPenaltyPercent + '%';
-                document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : '#fbbf24';
+                document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
                 
                 document.getElementById('myNodesTokenYield').textContent = tokenYield.toFixed(2) + '%';
                 document.getElementById('myNodesTokenYield').style.color = tokenYield >= 8.0 ? '#4ade80' : tokenYield >= 6.0 ? '#fbbf24' : '#f87171';
@@ -1188,8 +1155,14 @@
                 document.getElementById('myNodesProfit').textContent = '$' + formatNumber(Math.round(totalAnnualProfit));
                 document.getElementById('myNodesProfit').style.color = totalAnnualProfit > 0 ? '#4ade80' : '#f87171';
                 
-                document.getElementById('myNodesROI').textContent = roi.toFixed(1) + '%';
+                document.getElementById('myNodesROI').textContent = roi.toFixed(2) + '%';
                 document.getElementById('myNodesROI').style.color = roi >= 10 ? '#4ade80' : roi >= 5 ? '#fbbf24' : '#f87171';
+                
+                // v5.6.1: Add Daily Validations display
+                document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                
+                // v5.6.2: Add Yearly Validations display
+                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
                 
                 document.getElementById('myNodesVPS').textContent = '$' + (vpsPerUnit * 12).toFixed(0) + '/yr × ' + vpsCount;
                 
@@ -1261,7 +1234,7 @@
                 // CONSTANTS FOR SCALING MODEL
                 const MAX_NODES = 20000;
                 const MAX_STAKEABLE = MAX_NODES * 1800;
-                const baselineDailyVals = 18500;
+                const baselineDailyVals = 17900;
                 const baselineNodes = 4335;
                 const baselineValidators = 108;
                 const baselinePrice = 0.08658;
@@ -1556,97 +1529,128 @@
                     {nodes: 1, vps: 1}, {nodes: 5, vps: 1}, {nodes: 10, vps: 1},
                     {nodes: 25, vps: 1}, {nodes: 50, vps: 1}, {nodes: 75, vps: 1},
                     {nodes: 100, vps: 1}, {nodes: 125, vps: 1}, {nodes: 150, vps: 1},
-                    {nodes: 200, vps: 1}, {nodes: 250, vps: 1}, {nodes: 300, vps: 1},
+                    {nodes: 175, vps: 1}, {nodes: 200, vps: 1}, {nodes: 250, vps: 1},
                     {nodes: 500, vps: 1}, {nodes: 1000, vps: 1}
                 ];
+                
+                // v5.6.1: Scale baseline with Daily Validations input
+                const DEFAULT_DAILY_VALIDATIONS = 17900;  // 6-month average from actual validator data
+                const BASE_VAL_PER_NODE = 4.9662;  // Exact baseline from 12-month data <100 nodes
+                const scalingFactor = dailyValidations / DEFAULT_DAILY_VALIDATIONS;
+                const BASELINE_VAL_PER_NODE_PER_DAY = BASE_VAL_PER_NODE * scalingFactor;
                 
                 let multiNodeHTML = '';
                 let showEVLS = false;
                 nodeConfigs.forEach(config => {
-                    // VPS cost: $6/month ($72/year) up to 100 nodes, $24/month ($288/year) for 101+
+                    // v5.6: Corrected VPS costs
+                    // 1-100 nodes: $6/month = $72/year
+                    // 101+ nodes: $24/month = $288/year  
                     const vpsYearlyCost = config.nodes <= 100 ? vpsCostPerYear : vpsCostPerYear100Plus;
                     const costPerNodePerYear = vpsYearlyCost / config.nodes;
                     
-                    // EVLS penalty factor
+                    // EVLS penalty factor (corrected linear model)
                     const evlsFactor = calculateEVLSFactor(config.nodes);
                     const evlsPenalty = (1 - evlsFactor) * 100;
                     
-                    // Calculate validations received (per node × nodes × EVLS)
-                    const validationsPerNodeBeforeEVLS = dailyValidations / scaledNodes;
-                    const validationsPerNodeAfterEVLS = validationsPerNodeBeforeEVLS * evlsFactor;
-                    const totalValidationsPerDay = validationsPerNodeAfterEVLS * config.nodes;
+                    // v5.6: Calculate validations using CORRECTED baseline
+                    const validationsPerNodePerDay = BASELINE_VAL_PER_NODE_PER_DAY * evlsFactor;
+                    const totalValidationsPerDay = validationsPerNodePerDay * config.nodes;
+                    const yearlyValidations = totalValidationsPerDay * 365;
                     
-                    // Apply EVLS to validation count
-                    const effectiveRewards = annualRewardsUSD * evlsFactor;
-                    const totalRewards = effectiveRewards * config.nodes;
+                    // Calculate earnings with 12-month reward rate (0.10 MNW/validation)
+                    const reward12m = 0.10;
+                    const yearlyMNW = yearlyValidations * reward12m;
+                    const yearlyUSD = yearlyMNW * currentPrice;
+                    
                     const totalCost = vpsYearlyCost * config.vps;
-                    const profit = totalRewards - totalCost;
+                    const profit = yearlyUSD - totalCost;
                     const totalStakeValue = stakeValueUSD * config.nodes;
                     const multiROI = (profit / totalStakeValue) * 100;
                     
-                    // NEW v5.5: Token Yield for multi-node (includes EVLS impact)
+                    // Token Yield (MNW earned / MNW staked)
                     const totalStakedMNW = stakePerNode * config.nodes;
-                    const annualMNWearned = (annualRewardsMNW * evlsFactor) * config.nodes;
-                    const multiTokenYield = (annualMNWearned / totalStakedMNW) * 100;
+                    const multiTokenYield = (yearlyMNW / totalStakedMNW) * 100;
                     
-                    // EVLS loss calculation
-                    const rewardsWithoutEVLS = annualRewardsUSD * config.nodes;
-                    const evlsLoss = rewardsWithoutEVLS - totalRewards;
+                    // EVLS loss calculation (compared to no penalty)
+                    const yearlyValidationsNoPenalty = BASELINE_VAL_PER_NODE_PER_DAY * config.nodes * 365;
+                    const evlsLossValidations = yearlyValidationsNoPenalty - yearlyValidations;
+                    const evlsLoss = evlsLossValidations * reward12m * currentPrice;
                     
                     if (config.nodes >= 100) showEVLS = true;
                     
                     // Color coding for profit: green for positive, red for negative
                     const profitColor = profit >= 0 ? '#28a745' : '#dc3545';
                     
-                    // Special styling for sweet spot (75), decay start (100), and warning configs (300/500/1000)
+                    // v5.6.1: Updated styling for expanded configurations
                     let rowStyle = '';
                     let nodeLabel = `${config.nodes} Node${config.nodes > 1 ? 's' : ''} / ${config.vps} VPS`;
                     
-                    if (config.nodes === 75 || config.nodes === 100) {
+                    if (config.nodes >= 75 && config.nodes < 100) {
+                        // Sweet spot: 75-99 nodes
                         rowStyle = 'background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); border: 2px solid #28a745;';
                         nodeLabel = `⭐ ${nodeLabel} (OPTIMAL)`;
-                    } else if (config.nodes === 300 || config.nodes === 500 || config.nodes === 1000) {
-                        // Red background for warning configurations
+                    } else if (config.nodes === 100) {
+                        // 100 nodes: still good, EVLS just starting
+                        rowStyle = 'background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); border: 2px solid #28a745;';
+                        nodeLabel = `⭐ ${nodeLabel} (OPTIMAL)`;
+                    } else if (config.nodes > 100 && config.nodes <= 150) {
+                        // Yellow zone: EVLS active but manageable
+                        rowStyle = 'background: #fff3cd;';
+                    } else if (config.nodes > 150 && config.nodes < 500) {
+                        // Orange zone: higher EVLS penalty
+                        rowStyle = 'background: linear-gradient(135deg, #ffe8cc 0%, #ffd9a8 100%);';
+                    } else if (config.nodes >= 500) {
+                        // Red zone: severe EVLS penalty
                         rowStyle = 'background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); border: 2px solid #dc3545;';
                         nodeLabel = `🚨 ${nodeLabel} (HIGH PENALTY)`;
-                    } else if (config.nodes > 100) {
-                        rowStyle = 'background: #fff3cd;';
+                    } else if (profit < 0) {
+                        // Unprofitable configurations
+                        rowStyle = 'background: #f8d7da;';
                     }
                     
                     // EVLS penalty display
-                    const evlsPenaltyDisplay = evlsPenalty > 0 ? `${evlsPenalty.toFixed(1)}%` : '—';
+                    const evlsPenaltyDisplay = evlsPenalty > 0 ? `${evlsPenalty.toFixed(2)}%` : '—';
                     const evlsLossDisplay = evlsLoss > 0 ? `$${formatNumber(Math.round(evlsLoss))}` : '—';
                     const evlsFactorColor = evlsPenalty > 0 ? '#dc3545' : '#28a745';
                     
                     multiNodeHTML += `
                         <tr style="${rowStyle}">
-                            <td style="font-weight: ${config.nodes === 75 || config.nodes === 100 || config.nodes === 300 || config.nodes === 500 || config.nodes === 1000 ? 'bold' : 'normal'};">${nodeLabel}</td>
+                            <td style="font-weight: ${config.nodes >= 75 && config.nodes <= 100 ? 'bold' : 'normal'};">${nodeLabel}</td>
                             <td style="text-align: right;">${formatNumber(config.nodes)}</td>
                             <td style="text-align: right; color: ${evlsPenalty > 0 ? '#dc3545' : '#28a745'};">${formatNumber(Math.round(totalValidationsPerDay))}</td>
+                            <td style="text-align: right;">${formatNumber(Math.round(yearlyValidations))}</td>
+                            <td style="text-align: right;">${formatNumber(Math.round(yearlyMNW))}</td>
                             <td style="text-align: right;">$${costPerNodePerYear.toFixed(2)}</td>
                             <td style="text-align: right; color: ${evlsFactorColor};">${evlsFactor.toFixed(2)}x</td>
                             <td style="text-align: right; color: ${evlsPenalty > 0 ? '#dc3545' : '#6c757d'};">${evlsPenaltyDisplay}</td>
                             <td style="text-align: right; color: ${evlsLoss > 0 ? '#dc3545' : '#6c757d'};">${evlsLossDisplay}</td>
                             <td style="text-align: right; color: ${profitColor}; font-weight: bold;">${profit >= 0 ? '$' + formatNumber(Math.round(profit)) : '-$' + formatNumber(Math.round(Math.abs(profit)))}</td>
-                            <td style="text-align: right; font-weight: ${config.nodes === 75 || config.nodes === 100 ? 'bold' : 'normal'}; color: ${config.nodes === 75 || config.nodes === 100 ? '#28a745' : 'inherit'};">${multiTokenYield.toFixed(2)}%</td>
-                            <td style="text-align: right; font-weight: ${config.nodes === 75 || config.nodes === 100 ? 'bold' : 'normal'}; color: ${config.nodes === 75 || config.nodes === 100 ? '#28a745' : 'inherit'};">${multiROI.toFixed(1)}%</td>
+                            <td style="text-align: right; font-weight: ${config.nodes >= 75 && config.nodes <= 100 ? 'bold' : 'normal'}; color: ${config.nodes >= 75 && config.nodes <= 100 ? '#28a745' : 'inherit'};">${multiTokenYield.toFixed(2)}%</td>
+                            <td style="text-align: right; font-weight: ${config.nodes >= 75 && config.nodes <= 100 ? 'bold' : 'normal'}; color: ${config.nodes >= 75 && config.nodes <= 100 ? '#28a745' : 'inherit'};">${multiROI.toFixed(2)}%</td>
                         </tr>
                     `;
                 });
                 document.getElementById('multiNodeTable').innerHTML = multiNodeHTML;
                 
-                const profitAt75 = (annualRewardsUSD * calculateEVLSFactor(75) * 75) - vpsCostPerYear;
-                const profitAt100 = (annualRewardsUSD * calculateEVLSFactor(100) * 100) - vpsCostPerYear;  // 100 still uses cheap VPS
-                const profitAt101 = (annualRewardsUSD * calculateEVLSFactor(101) * 101) - vpsCostPerYear100Plus;  // 101+ uses expensive VPS
-                const profitAt1000 = (annualRewardsUSD * calculateEVLSFactor(1000) * 1000) - vpsCostPerYear100Plus;
-                const evlsLossAt1000 = (annualRewardsUSD * 1000) - (annualRewardsUSD * calculateEVLSFactor(1000) * 1000);
+                // Calculate key profitability metrics with CORRECTED baseline (4.97)
+                const validationsPerNode75 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(75) * 365;
+                const validationsPerNode100 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(100) * 365;
+                const validationsPerNode200 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(200) * 365;
+                
+                const profitAt75 = (validationsPerNode75 * 75 * 0.10 * currentPrice) - vpsCostPerYear;
+                const profitAt100 = (validationsPerNode100 * 100 * 0.10 * currentPrice) - vpsCostPerYear;
+                const profitAt200 = (validationsPerNode200 * 200 * 0.10 * currentPrice) - vpsCostPerYear100Plus;
                 
                 const roi75 = (profitAt75 / (stakeValueUSD * 75)) * 100;
                 const roi100 = (profitAt100 / (stakeValueUSD * 100)) * 100;
-                const roi101 = (profitAt101 / (stakeValueUSD * 101)) * 100;
+                const roi200 = (profitAt200 / (stakeValueUSD * 200)) * 100;
+                
+                const evlsPenalty100 = ((1 - calculateEVLSFactor(100)) * 100).toFixed(2);
+                const evlsPenalty200 = ((1 - calculateEVLSFactor(200)) * 100).toFixed(1);
+                const evlsLoss200 = (200 * BASELINE_VAL_PER_NODE_PER_DAY * 365 * (1 - calculateEVLSFactor(200)) * 0.10 * currentPrice);
                 
                 document.getElementById('multiNodeInsight').innerHTML = 
-                    `<strong>💡 Optimal Strategy:</strong> <strong style="color: #28a745;">75-100 nodes = SWEET SPOT</strong> with cheap $6/month VPS. 75 nodes: <strong>$${formatNumber(Math.round(profitAt75))}/year (${roi75.toFixed(1)}% ROI)</strong>. 100 nodes: <strong>$${formatNumber(Math.round(profitAt100))}/year (${roi100.toFixed(1)}% ROI)</strong>. At 101+ nodes, VPS jumps 4x ($72→$288/year) causing ROI to drop to ${roi101.toFixed(1)}%. At 1000 nodes: 80% EVLS penalty costs <strong style="color: #dc3545;">$${formatNumber(Math.round(evlsLossAt1000))}/year</strong>, leaving only $${formatNumber(Math.round(profitAt1000))} profit.`;
+                    `<strong>💡 Optimal Strategy:</strong> <strong style="color: #28a745;">75-99 nodes = SWEET SPOT</strong> with cheap $6/month VPS and no EVLS. 75 nodes: <strong>$${formatNumber(Math.round(profitAt75))}/year (${roi75.toFixed(2)}% ROI)</strong>. 100 nodes: <strong>$${formatNumber(Math.round(profitAt100))}/year (${roi100.toFixed(2)}% ROI)</strong> but ${evlsPenalty100}% EVLS starts. At 101+ nodes, VPS jumps 4x ($72→$288/year). At 200 nodes: ${evlsPenalty200}% EVLS penalty costs <strong style="color: #dc3545;">$${formatNumber(Math.round(evlsLoss200))}/year</strong>, ROI drops to ${roi200.toFixed(2)}%. <em>Do not extrapolate beyond 200 nodes - insufficient data.</em>`;
                 
                 document.getElementById('evlsWarning').style.display = showEVLS ? 'block' : 'none';
                 
