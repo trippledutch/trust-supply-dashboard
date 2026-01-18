@@ -1,16 +1,16 @@
 {
   "lastUpdated": "2026-01-17",
   "data": {
-    "currentPrice": 0.07564,
+    "currentPrice": 0.06226,
     "activeNodes": 4339,
     "activeValidators": 108,
     "dailyValidations": 17900,
     
-    "dexLiquidity": 1116732,
+    "dexLiquidity": 1255285,
     "cexLocked": 3381385,
-    "teamWallet": 1451053,
-    "polygonMNW": 5477624,
-    "ethereumMNW": 28638771,
+    "teamWallet": 1725034,
+    "polygonMNW": 5534741,
+    "ethereumMNW": 28443101,
     "lostTokens": 21453,
     
     "nodes3m": 441,
