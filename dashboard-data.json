@@ -1,6 +1,7 @@
 { 
-  "lastUpdated": "2026-01-18",
+ # "lastUpdated": "2026-01-18",
   "data": {
+    "lastUpdated": "2026-01-18",
     "currentPrice": 0.0622,
     "activeNodes": 4339,
     "activeValidators": 108,
