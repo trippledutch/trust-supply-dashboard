@@ -1144,6 +1144,9 @@
         // NEW v5.5: Reset sliders to default values
         // NEW: Load latest data from GitHub
  async function loadLatestData(event) {
+
+    console.log('loadLatestData NEW VERSION', new Date().toISOString());
+
     const statusDiv = document.getElementById('updateStatus');
     const button = event.currentTarget;
     const originalText = button.innerHTML;
