@@ -1169,6 +1169,12 @@ async function loadLatestData(event) {
             const jsonData = await response.json();
             const data = jsonData.data;
 
+            // ✅ ADD THIS RIGHT HERE
+            statusDiv.innerHTML =
+                `<span style="color:#28a745;">
+                    ✅ Data loaded (JSON date: ${jsonData.lastUpdated || 'unknown'}, fetched at ${new Date().toLocaleTimeString()})
+                </span>`;
+
             // 2️⃣ Apply STATIC JSON values → DOM
             if (data.currentPrice !== undefined)
                 document.getElementById('currentPrice').value = data.currentPrice.toFixed(5);
