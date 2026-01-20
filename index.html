@@ -1146,6 +1146,7 @@
  async function loadLatestData(event) {
 
     console.log('loadLatestData NEW VERSION', new Date().toISOString());
+    console.log('About to fetch LIVE MNW price');
 
     const statusDiv = document.getElementById('updateStatus');
     const button = event.currentTarget;
@@ -1169,12 +1170,12 @@
         // 🔹 Live price override
         try {
             const livePrice = await fetchMNWPrice();
+            console.log('LIVE PRICE RECEIVED:', livePrice);
             document.getElementById('currentPrice').value = livePrice.toFixed(5);
-        } catch {
-            if (data.currentPrice !== undefined) {
-                document.getElementById('currentPrice').value = data.currentPrice.toFixed(5);
-            }
+        } catch (e) {
+            console.warn('Live price failed, using JSON fallback', e);
         }
+
 
         updateCalculatedFields();
         updateYearlyValidations();
