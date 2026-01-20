@@ -1,9 +1,9 @@
 { 
-  "lastUpdated": "2026-01-19",
+  "lastUpdated": "2026-01-20",
   "data": {
-    "currentPrice": 0.06293,
-    "activeNodes": 4368,
-    "activeValidators": 109,
+    "currentPrice": 0.06202,
+    "activeNodes": 4366,
+    "activeValidators": 108,
     "dailyValidations": 17900,
     
     "dexLiquidity": 1252619,
