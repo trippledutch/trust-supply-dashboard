@@ -1168,14 +1168,14 @@
         const data = jsonData.data;
 
         // 🔹 Live price override
-        try {
-            const livePrice = await fetchMNWPrice();
+        const livePrice = await fetchMNWPrice();
+
+        if (typeof livePrice === 'number' && !isNaN(livePrice)) {
             console.log('LIVE PRICE RECEIVED:', livePrice);
             document.getElementById('currentPrice').value = livePrice.toFixed(5);
-        } catch (e) {
-            console.warn('Live price failed, using JSON fallback', e);
+        } else {
+            throw new Error('Invalid price returned');
         }
-
 
         updateCalculatedFields();
         updateYearlyValidations();
