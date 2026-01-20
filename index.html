@@ -1139,7 +1139,12 @@
                 statusDiv.innerHTML = '<span style="color: #007bff;">📡 Fetching latest data...</span>';
                 
                 // Fetch data from GitHub - simple version
-                const response = await fetch('https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json');
+
+                //const response = await fetch('https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json');
+                //replaced by
+                const response = await fetch(
+                    `https://raw.githubusercontent.com/trippledutch/trust-supply-dashboard/main/dashboard-data.json?v=${Date.now()}`
+                );
                 
                 if (!response.ok) {
                     throw new Error(`HTTP Error ${response.status}`);
