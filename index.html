@@ -1141,6 +1141,42 @@
             return priceData['morpheus-network'].usd;
         }
 
+        async function fetchActiveNodesFromAlchemy() {
+            const ALCHEMY_URL =
+                'https://polygon-mainnet.g.alchemy.com/v2/dPG-8rulN-Hn_xyJ9v1Z6HNALOxScwSY';
+
+            const MNW_TOKEN = '0x3c59798620e5fec0ae6df1a19c6454094572ab92';
+            const WALLET = '0xf994b03d2793788a3ed86eabe792963620bae2c6';
+
+            const payload = {
+                jsonrpc: '2.0',
+                id: 1,
+                method: 'alchemy_getTokenBalances',
+                params: [WALLET, [MNW_TOKEN]]
+            };
+
+            const res = await fetch(ALCHEMY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error('Alchemy API error');
+
+            const json = await res.json();
+            const hexBalance = json.result.tokenBalances[0].tokenBalance;
+
+            if (!hexBalance) throw new Error('No MNW balance returned');
+
+            const mnw = parseInt(hexBalance, 16) / 1e18;
+            const nodes = Math.floor(mnw / 1800);
+
+            console.log('MNW balance:', mnw, '→ active nodes:', nodes);
+            return nodes;
+        }
+            
+
+
         // NEW v5.5: Reset sliders to default values
         // NEW: Load latest data
 
@@ -1170,13 +1206,25 @@ async function loadLatestData(event) {
         const jsonData = await response.json();
         const data = jsonData.data;
 
-        // 2️⃣ Apply STATIC JSON values → DOM
-
+        // Load ACTIVE NODES from JSON (default failback)
         if (data.activeNodes !== undefined) {
             document.getElementById('totalNodes').value = formatNumber(data.activeNodes);
             document.getElementById('myNetworkNodes').value = data.activeNodes;
             document.getElementById('myNetworkSlider').value = data.activeNodes;
+         }
+
+
+        // 🔹 Live ACTIVE NODES override (from wallet via Alchemy)
+        try {
+            const liveNodes = await fetchActiveNodesFromAlchemy();
+
+            document.getElementById('totalNodes').value = formatNumber(liveNodes);
+            document.getElementById('myNetworkNodes').value = liveNodes;
+            document.getElementById('myNetworkSlider').value = liveNodes;
+
             updateMyNetworkValidators();
+        } catch (e) {
+            console.warn('Live node fetch failed, using JSON fallback', e);
         }
 
         if (data.activeValidators !== undefined)
