@@ -1,64 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trust.Supply Validator Analytics v1.0.6</title>
     <link rel="icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
     <link rel="shortcut icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --blue: #2563eb; --accent: #60a5fa; --green: #4ade80; --yellow: #fbbf24; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 900px; }
-        .card { background: var(--card); padding: 28px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); }
+        /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --success: #28a745;
+            --success-light: #d4edda;
+            --warning: #ffc107;
+            --warning-light: #fff3cd;
+            --info: #17a2b8;
+            --info-light: #d1ecf1;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-500: #6c757d;
+            --gray-700: #495057;
+            --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-glow: 0 4px 16px rgba(102, 126, 234, 0.3);
+            --radius: 10px;
+            --transition: all 0.3s ease;
+        }
         
-        /* Back Link */
-        .back-link { margin-bottom: 20px; }
-        .back-link a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
-        .back-link a:hover { color: white; transform: translateX(-3px); }
+        /* BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+            padding: 20px; 
+            color: #333; 
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+            overflow: hidden; 
+        }
         
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-        .box { background: var(--bg); padding: 18px 10px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
+        /* BACK NAVIGATION */
+        .back-nav { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 12px 20px; 
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-nav a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 14px; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+            transition: var(--transition);
+            opacity: 0.95;
+        }
+        .back-nav a:hover { 
+            opacity: 1;
+            transform: translateX(-3px); 
+        }
         
-        /* Summary Row */
-        .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .summary-box { padding: 30px 15px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 140px; }
-        .grand-total-box { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); border: 1px solid #60a5fa; }
-        .avg-total-box { background: rgba(74, 222, 128, 0.05); border: 1px solid var(--green); }
-
-        /* Typography */
-        .stat-val { font-size: 42px; font-weight: 900; display: block; line-height: 1.2; margin-top: 5px; }
-        .sub-val { font-size: 28px; font-weight: 800; display: block; margin-top: 5px; }
-        .lbl { font-size: 13px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; display: block; }
-        .title-lbl { font-size: 15px; font-weight: 900; color: white; margin-bottom: 4px; }
+        /* HEADER */
+        header { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+            color: white; 
+            padding: 30px; 
+            text-align: center; 
+        }
+        header h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px; 
+            font-weight: 700; 
+        }
+        header p { 
+            opacity: 0.9; 
+            font-size: 1.1em; 
+        }
         
-        .controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        select { padding: 14px; border-radius: 8px; background: var(--bg); color: white; border: 1px solid #334155; font-weight: bold; font-size: 16px; }
-        button { padding: 16px; border-radius: 8px; background: var(--blue); color: white; border: none; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 16px; transition: 0.2s; }
-        button:hover { background: #1d4ed8; transform: scale(1.01); }
-
-        /* Log Table */
-        .log-container { background: #000; border-radius: 12px; border: 1px solid #334155; overflow: hidden; }
-        .log-header { background: #111; padding: 14px; display: grid; grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; font-size: 11px; color: #94a3b8; border-bottom: 1px solid #222; font-weight: bold; text-align: center; }
-        #log-body { max-height: 400px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-        .log-row { display: grid; grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; padding: 14px; border-bottom: 1px solid #111; color: var(--green); text-align: center; }
-        .today-row { background: rgba(37, 99, 235, 0.2); color: #fff; font-weight: bold; }
+        /* CONTENT AREA */
+        .content-wrapper {
+            padding: 30px;
+        }
         
-        #status { text-align: center; color: var(--yellow); font-size: 13px; font-weight: bold; margin-bottom: 10px; }
-        .footer { margin-top: 25px; font-size: 12px; color: #64748b; text-align: center; font-weight: 600; }
+        /* STATUS */
+        #status { 
+            text-align: center; 
+            color: var(--warning); 
+            font-size: 13px; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            padding: 10px;
+            background: var(--warning-light);
+            border-radius: 8px;
+        }
+        
+        /* CONTROLS */
+        .controls { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+        select { 
+            padding: 14px; 
+            border-radius: 8px; 
+            background: white; 
+            color: #333; 
+            border: 2px solid var(--gray-200); 
+            font-weight: 600; 
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        select:hover {
+            border-color: var(--primary);
+        }
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        button { 
+            padding: 16px; 
+            border-radius: 8px; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            font-size: 16px; 
+            transition: var(--transition);
+            box-shadow: var(--shadow-glow);
+        }
+        button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* STATS GRID */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .box { 
+            background: var(--gray-100); 
+            padding: 20px 10px; 
+            border-radius: 12px; 
+            border: 2px solid var(--gray-200); 
+            text-align: center;
+            transition: var(--transition);
+        }
+        .box:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+        
+        /* SUMMARY ROW */
+        .summary-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .summary-box { 
+            padding: 30px 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 140px;
+            transition: var(--transition);
+        }
+        .summary-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        .grand-total-box { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+            border: 2px solid var(--primary);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+        .avg-total-box { 
+            background: var(--success-light); 
+            border: 2px solid var(--success);
+        }
+        
+        /* TYPOGRAPHY */
+        .stat-val { 
+            font-size: 42px; 
+            font-weight: 900; 
+            display: block; 
+            line-height: 1.2; 
+            margin-top: 5px; 
+        }
+        .sub-val { 
+            font-size: 28px; 
+            font-weight: 800; 
+            display: block; 
+            margin-top: 5px; 
+        }
+        .lbl { 
+            font-size: 13px; 
+            color: var(--gray-500); 
+            text-transform: uppercase; 
+            font-weight: 800; 
+            letter-spacing: 1px; 
+            display: block; 
+        }
+        .title-lbl { 
+            font-size: 15px; 
+            font-weight: 900; 
+            color: white; 
+            margin-bottom: 4px; 
+        }
+        
+        /* LOG TABLE */
+        .log-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .log-section-title .highlight {
+            color: var(--primary);
+            font-weight: 400;
+            text-transform: none;
+            font-size: 12px;
+        }
+        .log-container { 
+            background: white; 
+            border-radius: 12px; 
+            border: 2px solid var(--gray-200); 
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .log-header { 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+            padding: 14px; 
+            display: grid; 
+            grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; 
+            font-size: 11px; 
+            color: white; 
+            border-bottom: 2px solid var(--primary-dark); 
+            font-weight: bold; 
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        #log-body { 
+            max-height: 400px; 
+            overflow-y: auto; 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px; 
+            background: var(--gray-100);
+        }
+        .log-row { 
+            display: grid; 
+            grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; 
+            padding: 14px; 
+            border-bottom: 1px solid var(--gray-200); 
+            color: #333; 
+            text-align: center;
+            transition: var(--transition);
+        }
+        .log-row:hover {
+            background: white;
+        }
+        .log-row:last-child {
+            border-bottom: none;
+        }
+        .today-row { 
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); 
+            color: var(--primary-dark); 
+            font-weight: bold;
+            border-left: 4px solid var(--primary);
+        }
+        .today-row:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+        }
+        
+        /* BOTTOM NAVIGATION */
+        .back-nav-bottom {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 3px solid var(--primary);
+            margin-top: 20px;
+        }
+        .back-nav-bottom a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 14px 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .back-nav-bottom a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* FOOTER */
+        .footer { 
+            text-align: center; 
+            padding: 20px; 
+            color: var(--gray-500); 
+            border-top: 2px solid var(--gray-200);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-row {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="back-link">
+    <div class="back-nav">
         <a href="index.html">← Back to Tools</a>
     </div>
     
-    <div class="card">
-        <h1 style="margin: 0 0 20px 0; text-align: center; font-weight: 900; letter-spacing: -1px;">Trust.Supply Validator Analytics</h1>
-        
+    <header>
+        <h1>📊 Trust.Supply Validator Analytics</h1>
+        <p>Real-time blockchain transaction analysis and validation tracking</p>
+        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.0.6 | January 2026</p>
+    </header>
+    
+    <div class="content-wrapper">
         <div id="status">System Ready</div>
 
         <div class="controls">
@@ -74,32 +382,32 @@
         <div class="stats-grid">
             <div class="box">
                 <span class="lbl">Total Queries</span>
-                <span id="qMain" class="sub-val" style="color: var(--accent);">0</span>
+                <span id="qMain" class="sub-val" style="color: var(--primary);">0</span>
             </div>
             <div class="box">
                 <span class="lbl">Batched Tx</span>
-                <span id="bMain" class="sub-val" style="color: var(--accent);">0</span>
+                <span id="bMain" class="sub-val" style="color: var(--primary);">0</span>
             </div>
             <div class="box">
                 <span class="lbl" id="txDaysLabel">Tx found on ? days</span>
-                <span id="dCount" class="sub-val" style="color: var(--yellow);">0</span>
+                <span id="dCount" class="sub-val" style="color: var(--warning);">0</span>
             </div>
         </div>
 
         <div class="summary-row">
             <div class="summary-box grand-total-box">
                 <span class="title-lbl">Total Validations</span>
-                <span class="lbl" style="color: rgba(255,255,255,0.7); text-transform: none;">(AVG Batched TX * 7 validations)</span>
+                <span class="lbl" style="color: rgba(255,255,255,0.8); text-transform: none;">(AVG Batched TX * 7 validations)</span>
                 <span id="vMain" class="stat-val" style="color:white;">0</span>
             </div>
             <div class="summary-box avg-total-box">
-                <span class="title-lbl" style="color: var(--green);">Period AVG / Day</span>
-                <span class="lbl" style="color: var(--green); opacity: 0.7; text-transform: none;">(Calendar Day Average)</span>
-                <span id="avgMain" class="stat-val" style="color:var(--green);">0</span>
+                <span class="title-lbl" style="color: var(--success);">Period AVG / Day</span>
+                <span class="lbl" style="color: var(--success); opacity: 0.8; text-transform: none;">(Calendar Day Average)</span>
+                <span id="avgMain" class="stat-val" style="color: var(--success);">0</span>
             </div>
         </div>
 
-        <div class="lbl" style="margin-bottom: 10px; color: #fff;">Detailed History Log <span style="color: #2563eb; font-weight: 400; font-size: 11px;">(Blue row = Today)</span></div>
+        <div class="log-section-title">Detailed History Log <span class="highlight">(Purple row = Today)</span></div>
         <div class="log-container">
             <div class="log-header">
                 <span>#</span>
@@ -110,14 +418,19 @@
                 <span>AVG VALS/DAY</span>
             </div>
             <div id="log-body">
-                <div style="padding: 50px; text-align: center; color: #444;">Run scan to view data logs.</div>
+                <div style="padding: 50px; text-align: center; color: var(--gray-500);">Run scan to view data logs.</div>
             </div>
         </div>
     </div>
     
-    <div class="footer">
-        By @trippledutch January 2026 v1.0.6
+    <div class="back-nav-bottom">
+        <a href="index.html">← Back to Tools</a>
     </div>
+    
+    <footer class="footer">
+        <p>Trust.Supply Validator Analytics v1.0.6 | Updated January 2026</p>
+        <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
+    </footer>
 </div>
 
 <script>
@@ -197,7 +510,7 @@
 
             rowHtml += `
                 <div class="log-row ${isToday ? 'today-row' : ''}">
-                    <span style="color: #475569; font-weight: bold;">${index + 1}</span>
+                    <span style="color: var(--gray-500); font-weight: bold;">${index + 1}</span>
                     <span>${date}</span>
                     <span>${q.toLocaleString()}</span>
                     <span>${b.toLocaleString()}</span>
