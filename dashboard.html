@@ -49,6 +49,55 @@
         header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 700; }
         header p { opacity: 0.9; font-size: 1.1em; }
         
+        /* BACK NAVIGATION */
+        .back-nav { 
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 12px 20px; 
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-nav a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 14px; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+            transition: var(--transition);
+            opacity: 0.9;
+        }
+        .back-nav a:hover { 
+            opacity: 1;
+            transform: translateX(-3px); 
+        }
+        .back-nav-bottom {
+            background: var(--gray-100);
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid var(--gray-200);
+        }
+        .back-nav-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+        .back-nav-bottom a:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
         /* CONTROLS */
         .controls { background: var(--gray-100); padding: 30px; border-bottom: 2px solid var(--gray-200); }
         .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
@@ -197,6 +246,9 @@
 </head>
 <body>
     <div class="container">
+        <div class="back-nav">
+            <a href="index.html">← Back to Tools</a>
+        </div>
         <header>
             <h1>🚀 Unofficial Trust.Supply Economic Dashboard v1.0.1</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
@@ -772,7 +824,7 @@
                 
                 <div class="alert-box alert-success" style="margin-top: 15px;" id="multiNodeInsight"></div>
                 <div class="evls-warning" id="evlsWarning" style="display: none;">
-                    <strong>⚠️ EVLS Active:</strong> Yellow/red highlighted rows show configurations with EVLS penalties (100+ nodes). v1.0.1 uses CORRECTED linear model: 10.26% penalty at 100 nodes, +0.28%/node. Based on 20 real validators with 12-month stakes (Aug 2025 - Jan 2026). Baseline: 4.97 val/node/day.
+                    <strong>⚠️ EVLS Active:</strong> Yellow/red highlighted rows show configurations with EVLS penalties (100+ nodes). v5.8 uses CORRECTED linear model: 10.26% penalty at 100 nodes, +0.28%/node. Based on 20 real validators with 12-month stakes (Aug 2025 - Jan 2026). Baseline: 4.97 val/node/day.
                 </div>
                 <div style="margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-left: 4px solid #1e40af; border-radius: 8px; color: white;">
                     <strong>🔄 Buyback Mechanism:</strong> Team Wallet operates on a circular model (no burning). When empty, buybacks occur from market, creating temporary buy pressure. Tokens return to circulation through operations. Price cycles expected: buyback periods (upward) followed by spending periods (downward).
@@ -912,9 +964,13 @@
             </div>
         </div>
 
+        <div class="back-nav-bottom">
+            <a href="index.html">← Back to Tools</a>
+        </div>
+
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.0.1 | Updated 19 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.0.1: Multi-tier liquidity analysis, dynamic ROI</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.0.1 | Updated 20 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.0.1: Live data integration</p>
         </footer>
     </div>
 
@@ -995,7 +1051,7 @@
             document.getElementById('displayActiveValidators').textContent = formatNumber(parseFormattedNumber(activeValidators));
         }
 
-        // NEW v1.0.1: Update My Nodes Calculator Active Nodes when main Active Nodes changes
+        // NEW v5.8: Update My Nodes Calculator Active Nodes when main Active Nodes changes
         function updateMyNodesActiveNodes() {
             const totalNodes = parseFormattedNumber(document.getElementById('totalNodes').value);
             document.getElementById('myNetworkNodes').value = totalNodes;
@@ -1035,7 +1091,7 @@
             updateCalculatedFields();
         }
         
-        // v1.0.1: Update My Network Active Nodes when Daily Validations changes
+        // v5.8: Update My Network Active Nodes when Daily Validations changes
         function updateActiveNodesFromValidations() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
             const baselineDailyVals = 17900;
@@ -1051,7 +1107,7 @@
             document.getElementById('myNetworkNodes').value = newActiveNodes;
             document.getElementById('myNetworkSlider').value = newActiveNodes;
             
-            // v1.0.1: Also update the main Network Size display box
+            // v5.8: Also update the main Network Size display box
             document.getElementById('totalNodes').value = formatNumber(newActiveNodes);
             document.getElementById('activeValidators').value = newValidators;
             document.getElementById('displayTotalNodes').textContent = formatNumber(newActiveNodes);
@@ -1342,7 +1398,7 @@ async function loadLatestData(event) {
                 const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.062;
                 const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 17900;
                 
-                // v1.0.1: Active Nodes - INVERSE relationship
+                // v5.8: Active Nodes - INVERSE relationship
                 // More nodes = same validations split among more nodes = lower per-node share
                 const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4339;
                 const baselineNetworkNodes = 4339;
@@ -1413,7 +1469,7 @@ async function loadLatestData(event) {
                 // v5.6.1: Add Daily Validations display
                 document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
                 
-                // v1.0.1: Add Yearly Validations display
+                // v5.8: Add Yearly Validations display
                 document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
                 
                 document.getElementById('myNodesVPS').textContent = '$' + (vpsPerUnit * 12).toFixed(0) + '/yr × ' + vpsCount;
@@ -1459,7 +1515,7 @@ async function loadLatestData(event) {
 
         function calculate() {
             try {
-                // v1.0.1: Ensure network display boxes are updated with formatted numbers
+                // v5.8: Ensure network display boxes are updated with formatted numbers
                 updateNetworkDisplays();
                 
                 const totalSupply = parseFormattedNumber(document.getElementById('totalSupply').value);
@@ -1506,7 +1562,7 @@ async function loadLatestData(event) {
                 // ACTUAL STAKED (for supply accounting) - uses real Total Nodes input
                 const actualStaked = totalNodes * stakePerNode;
                 
-                // v1.0.1: Calculate Polygon and Ethereum wallets based on available supply
+                // v5.8: Calculate Polygon and Ethereum wallets based on available supply
                 // Total Supply - Staked - Team Wallet - DEX - CEX - Lost = Available for wallets
                 const availableForWallets = totalSupply - actualStaked - teamWallet - dexLiquidity - cexLocked - lostTokens;
                 
@@ -1825,7 +1881,7 @@ async function loadLatestData(event) {
                     {nodes: 250, vps: 1}, {nodes: 500, vps: 1}, {nodes: 1000, vps: 1}
                 ];
                 
-                // v1.0.1: Calculate per-node validations accounting for NETWORK SIZE (inverse relationship)
+                // v5.8: Calculate per-node validations accounting for NETWORK SIZE (inverse relationship)
                 // More network nodes = fewer validations per node
                 const networkNodes = parseFormattedNumber(document.getElementById('totalNodes').value) || 4339;
                 const baselineNetworkNodes = 4339;
@@ -1843,7 +1899,7 @@ async function loadLatestData(event) {
                 // Apply adjustment to get actual per-node validations
                 const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeFromNetwork * adjustmentFactor;
                 
-                // v1.0.1: First pass - calculate all configs to find max ROI
+                // v5.8: First pass - calculate all configs to find max ROI
                 const calculatedConfigs = [];
                 nodeConfigs.forEach(config => {
                     const vpsYearlyCost = config.nodes <= 100 ? vpsCostPerYear : vpsCostPerYear100Plus;
@@ -1898,7 +1954,7 @@ async function loadLatestData(event) {
                     // Color coding for profit: green for positive, red for negative
                     const profitColor = calc.profit >= 0 ? '#28a745' : '#dc3545';
                     
-                    // v1.0.1: Dynamic styling - highlight ALL configs with maximum ROI
+                    // v5.8: Dynamic styling - highlight ALL configs with maximum ROI
                     const isOptimal = Math.abs(calc.multiROI - maxROI) < roiTolerance;
                     let rowStyle = '';
                     let nodeLabel = `${config.nodes} Node${config.nodes > 1 ? 's' : ''} / ${config.vps} VPS`;
@@ -1950,7 +2006,7 @@ async function loadLatestData(event) {
                 });
                 document.getElementById('multiNodeTable').innerHTML = multiNodeHTML;
                 
-                // v1.0.1: Update optimal nodes text dynamically
+                // v5.8: Update optimal nodes text dynamically
                 const optimalConfigs = calculatedConfigs.filter(c => Math.abs(c.multiROI - maxROI) < roiTolerance);
                 const optimalNodeCounts = optimalConfigs.map(c => c.config.nodes).sort((a, b) => a - b);
                 let optimalText = '';
