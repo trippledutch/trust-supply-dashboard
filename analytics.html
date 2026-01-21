@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust.Supply Validator Analytics v1.0.6</title>
+    <title>Trust.Supply Validator Analytics v1.0.7</title>
     <link rel="icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
     <link rel="shortcut icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
     <style>
@@ -366,7 +366,7 @@
     <header>
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
-        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.0.6 | January 2026</p>
+        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.0.7 | January 2026</p>
     </header>
     
     <div class="content-wrapper">
@@ -378,6 +378,9 @@
                 <option value="3">Period: Last 3 Full Days</option>
                 <option value="7">Period: Weekly (Last 7 Full Days)</option>
                 <option value="30">Period: Monthly (Last 30 Full Days)</option>
+                <option value="90">Period: Quarterly (Last 90 Full Days)</option>
+                <option value="180">Period: Semi-Annual (Last 180 Full Days)</option>
+                <option value="365">Period: Annual (Last 365 Full Days)</option>
             </select>
             <button onclick="runV106()" id="scanBtn">Show transactions</button>
         </div>
@@ -431,7 +434,7 @@
     </div>
     
     <footer class="footer">
-        <p>Trust.Supply Validator Analytics v1.0.6 | Updated January 2026</p>
+        <p>Trust.Supply Validator Analytics v1.0.7 | Updated January 2026</p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
@@ -460,7 +463,7 @@
         const cutoff = startDay.getTime() / 1000;
 
         try {
-            while (keepCrawling) { 
+            while (keepCrawling) {
                 status.innerText = `SCANNING BLOCK: ${currentEndBlock}`;
                 const url = `https://api.etherscan.io/v2/api?chainid=137&module=account&action=txlist&address=${ADDR}&startblock=0&endblock=${currentEndBlock}&page=1&offset=10000&sort=desc&apikey=${KEY}`;
                 
