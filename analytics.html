@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust.Supply Validator Analytics v1.0.6</title>
+    <link rel="icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --blue: #2563eb; --accent: #60a5fa; --green: #4ade80; --yellow: #fbbf24; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 900px; }
+        .card { background: var(--card); padding: 28px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); }
+        
+        /* Back Link */
+        .back-link { margin-bottom: 20px; }
+        .back-link a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .back-link a:hover { color: white; transform: translateX(-3px); }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+        .box { background: var(--bg); padding: 18px 10px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
+        
+        /* Summary Row */
+        .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .summary-box { padding: 30px 15px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; min-height: 140px; }
+        .grand-total-box { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); border: 1px solid #60a5fa; }
+        .avg-total-box { background: rgba(74, 222, 128, 0.05); border: 1px solid var(--green); }
+
+        /* Typography */
+        .stat-val { font-size: 42px; font-weight: 900; display: block; line-height: 1.2; margin-top: 5px; }
+        .sub-val { font-size: 28px; font-weight: 800; display: block; margin-top: 5px; }
+        .lbl { font-size: 13px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; display: block; }
+        .title-lbl { font-size: 15px; font-weight: 900; color: white; margin-bottom: 4px; }
+        
+        .controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        select { padding: 14px; border-radius: 8px; background: var(--bg); color: white; border: 1px solid #334155; font-weight: bold; font-size: 16px; }
+        button { padding: 16px; border-radius: 8px; background: var(--blue); color: white; border: none; cursor: pointer; font-weight: 800; text-transform: uppercase; font-size: 16px; transition: 0.2s; }
+        button:hover { background: #1d4ed8; transform: scale(1.01); }
+
+        /* Log Table */
+        .log-container { background: #000; border-radius: 12px; border: 1px solid #334155; overflow: hidden; }
+        .log-header { background: #111; padding: 14px; display: grid; grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; font-size: 11px; color: #94a3b8; border-bottom: 1px solid #222; font-weight: bold; text-align: center; }
+        #log-body { max-height: 400px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .log-row { display: grid; grid-template-columns: 0.5fr 1.2fr 0.8fr 1fr 1fr 1.2fr; padding: 14px; border-bottom: 1px solid #111; color: var(--green); text-align: center; }
+        .today-row { background: rgba(37, 99, 235, 0.2); color: #fff; font-weight: bold; }
+        
+        #status { text-align: center; color: var(--yellow); font-size: 13px; font-weight: bold; margin-bottom: 10px; }
+        .footer { margin-top: 25px; font-size: 12px; color: #64748b; text-align: center; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="back-link">
+        <a href="index.html">← Back to Tools</a>
+    </div>
+    
+    <div class="card">
+        <h1 style="margin: 0 0 20px 0; text-align: center; font-weight: 900; letter-spacing: -1px;">Trust.Supply Validator Analytics</h1>
+        
+        <div id="status">System Ready</div>
+
+        <div class="controls">
+            <select id="timeRange">
+                <option value="1">Period: Today (00:00 UTC to Now)</option>
+                <option value="3">Period: Last 3 Full Days</option>
+                <option value="7">Period: Weekly (Last 7 Full Days)</option>
+                <option value="30">Period: Monthly (Last 30 Full Days)</option>
+            </select>
+            <button onclick="runV106()" id="scanBtn">Show transactions</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="box">
+                <span class="lbl">Total Queries</span>
+                <span id="qMain" class="sub-val" style="color: var(--accent);">0</span>
+            </div>
+            <div class="box">
+                <span class="lbl">Batched Tx</span>
+                <span id="bMain" class="sub-val" style="color: var(--accent);">0</span>
+            </div>
+            <div class="box">
+                <span class="lbl" id="txDaysLabel">Tx found on ? days</span>
+                <span id="dCount" class="sub-val" style="color: var(--yellow);">0</span>
+            </div>
+        </div>
+
+        <div class="summary-row">
+            <div class="summary-box grand-total-box">
+                <span class="title-lbl">Total Validations</span>
+                <span class="lbl" style="color: rgba(255,255,255,0.7); text-transform: none;">(AVG Batched TX * 7 validations)</span>
+                <span id="vMain" class="stat-val" style="color:white;">0</span>
+            </div>
+            <div class="summary-box avg-total-box">
+                <span class="title-lbl" style="color: var(--green);">Period AVG / Day</span>
+                <span class="lbl" style="color: var(--green); opacity: 0.7; text-transform: none;">(Calendar Day Average)</span>
+                <span id="avgMain" class="stat-val" style="color:var(--green);">0</span>
+            </div>
+        </div>
+
+        <div class="lbl" style="margin-bottom: 10px; color: #fff;">Detailed History Log <span style="color: #2563eb; font-weight: 400; font-size: 11px;">(Blue row = Today)</span></div>
+        <div class="log-container">
+            <div class="log-header">
+                <span>#</span>
+                <span>DATE (UTC)</span>
+                <span>QUERIES</span>
+                <span>BATCHED</span>
+                <span>TOTAL VALS</span>
+                <span>AVG VALS/DAY</span>
+            </div>
+            <div id="log-body">
+                <div style="padding: 50px; text-align: center; color: #444;">Run scan to view data logs.</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        By @trippledutch January 2026 v1.0.6
+    </div>
+</div>
+
+<script>
+    const KEY = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
+    const ADDR = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
+    const SIG = { Q: "0xde93c2ef", V: "0x25871242" };
+
+    async function runV106() {
+        const btn = document.getElementById('scanBtn');
+        const status = document.getElementById('status');
+        const logBody = document.getElementById('log-body');
+        const daysRequested = parseInt(document.getElementById('timeRange').value);
+        
+        btn.disabled = true;
+        logBody.innerHTML = `<div style="padding:30px; text-align:center;">Analyzing UTC Calendar Window...</div>`;
+        
+        let stats = {}; 
+        let currentEndBlock = 999999999;
+        let keepCrawling = true;
+        
+        const now = new Date();
+        const todayStr = now.toISOString().split('T')[0];
+        const startDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (daysRequested - 1), 0, 0, 0));
+        const cutoff = startDay.getTime() / 1000;
+
+        try {
+            while (keepCrawling) {
+                status.innerText = `SCANNING BLOCK: ${currentEndBlock}`;
+                const url = `https://api.etherscan.io/v2/api?chainid=137&module=account&action=txlist&address=${ADDR}&startblock=0&endblock=${currentEndBlock}&page=1&offset=10000&sort=desc&apikey=${KEY}`;
+                
+                const r = await fetch(url);
+                const d = await r.json();
+
+                if (d.status !== "1" || !d.result.length) break;
+
+                let lastBlock = currentEndBlock;
+                for (const tx of d.result) {
+                    const ts = parseInt(tx.timeStamp);
+                    lastBlock = parseInt(tx.blockNumber);
+                    if (ts < cutoff) { keepCrawling = false; break; }
+
+                    const date = new Date(ts * 1000).toISOString().split('T')[0];
+                    if (!stats[date]) stats[date] = { q: 0, v: 0 };
+
+                    const input = (tx.input || "").toLowerCase();
+                    if (input.includes(SIG.Q)) stats[date].q++;
+                    if (input.includes(SIG.V)) stats[date].v++;
+                }
+
+                refreshUI(stats, daysRequested, todayStr);
+
+                if (d.result.length === 10000 && keepCrawling) {
+                    currentEndBlock = lastBlock - 1;
+                    await new Promise(res => setTimeout(res, 200));
+                } else {
+                    keepCrawling = false;
+                }
+            }
+            status.innerText = "SCAN COMPLETE";
+        } catch (e) {
+            status.innerText = "CONNECTION ERROR";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function refreshUI(stats, selectedDays, todayStr) {
+        let totalQ = 0, totalB = 0, rowHtml = "";
+        const sortedDates = Object.keys(stats).sort().reverse();
+        
+        sortedDates.forEach((date, index) => {
+            const q = stats[date].q;
+            const b = stats[date].v;
+            const tv = b * 7;
+            const isToday = (date === todayStr);
+            totalQ += q; totalB += b;
+
+            rowHtml += `
+                <div class="log-row ${isToday ? 'today-row' : ''}">
+                    <span style="color: #475569; font-weight: bold;">${index + 1}</span>
+                    <span>${date}</span>
+                    <span>${q.toLocaleString()}</span>
+                    <span>${b.toLocaleString()}</span>
+                    <span>${tv.toLocaleString()}</span>
+                    <span>${tv.toLocaleString()}</span>
+                </div>`;
+        });
+
+        const grandTotalVals = totalB * 7;
+        const periodAvg = (grandTotalVals / selectedDays).toFixed(0);
+
+        document.getElementById('qMain').innerText = totalQ.toLocaleString();
+        document.getElementById('bMain').innerText = totalB.toLocaleString();
+        document.getElementById('dCount').innerText = sortedDates.length;
+        document.getElementById('vMain').innerText = grandTotalVals.toLocaleString();
+        document.getElementById('avgMain').innerText = parseInt(periodAvg).toLocaleString();
+        document.getElementById('log-body').innerHTML = rowHtml;
+        document.getElementById('txDaysLabel').innerText = `Tx found on ${sortedDates.length} days`;
+    }
+</script>
+</body>
+</html>
