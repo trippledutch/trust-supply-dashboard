@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.0.1</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.0.9</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -73,30 +73,31 @@
             transform: translateX(-3px); 
         }
         .back-nav-bottom {
-            background: var(--gray-100);
-            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px 20px;
             text-align: center;
-            border-top: 2px solid var(--gray-200);
+            border-top: 3px solid var(--primary);
+            margin-top: 20px;
         }
         .back-nav-bottom a {
-            color: var(--primary);
+            color: white;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: var(--transition);
-            padding: 12px 24px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: var(--shadow-sm);
+            padding: 14px 32px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .back-nav-bottom a:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
         
         /* CONTROLS */
@@ -251,7 +252,7 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v1.0.1</h1>
+            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v1.0.9</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 20 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -264,7 +265,7 @@
             <div class="control-grid">
                 <div class="control-group">
                     <label>Active Nodes</label>
-                    <input type="text" id="totalNodes" value="4,339" oninput="updateCalculatedFields(); updateNetworkDisplays(); updateMyNodesActiveNodes(); calculate()">
+                    <input type="text" id="totalNodes" value="4,339" oninput="updateCalculatedFields(); updateNetworkDisplays(); updateActiveValidatorsFromNodes(); updateMyNodesActiveNodes(); calculate()">
                 </div>
                 <div class="control-group">
                     <label>Active Validators</label>
@@ -300,12 +301,12 @@
                 <div class="control-group" style="grid-column: span 2; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 15px; border-radius: 8px; border: 2px solid #2196f3;">
                     <label style="font-weight: bold; color: #1976d2;">📈 Transaction Growth Multiplier</label>
                     <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
-                        <input type="range" id="transactionMultiplier" min="0.5" max="10" step="0.1" value="1" 
+                        <input type="range" id="transactionMultiplier" min="0.5" max="40" step="0.1" value="1" 
                                style="flex: 1;" oninput="updateTransactionMultiplier()">
-                        <span id="transactionMultiplierValue" style="font-weight: bold; min-width: 60px; color: #1976d2;">1.0x</span>
+                        <span id="transactionMultiplierValue" style="font-weight: bold; min-width: 70px; color: #1976d2;">1.0x</span>
                     </div>
                     <small style="display: block; margin-top: 8px; font-size: 0.85em; color: #1565c0;">
-                        Scales daily validations AND price together (utility-driven model). Use Price Override slider to model independent price movements.
+                        Scales daily validations AND price together (utility-driven model). Square root node growth. Range: 0.5x to 40x.
                     </small>
                 </div>
                 
@@ -313,12 +314,12 @@
                 <div class="control-group" style="grid-column: span 2; background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 15px; border-radius: 8px; border: 2px solid #ff9800;">
                     <label style="font-weight: bold; color: #e65100;">💰 Price Override Multiplier</label>
                     <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
-                        <input type="range" id="priceMultiplier" min="0.5" max="10" step="0.1" value="1" 
+                        <input type="range" id="priceMultiplier" min="0.5" max="40" step="0.1" value="1" 
                                style="flex: 1;" oninput="updatePriceMultiplier()">
-                        <span id="priceMultiplierValue" style="font-weight: bold; min-width: 60px; color: #e65100;">1.0x</span>
+                        <span id="priceMultiplierValue" style="font-weight: bold; min-width: 70px; color: #e65100;">1.0x</span>
                     </div>
                     <small style="display: block; margin-top: 8px; font-size: 0.85em; color: #ef6c00;">
-                        Independent price adjustment (0.5x = $0.043 → 10x = $0.856). Does NOT affect transaction volume.
+                        Independent price adjustment. Range: 0.5x ($0.031) to 40x ($2.48). Does NOT affect transaction volume.
                     </small>
                 </div>
             </div>
@@ -802,6 +803,33 @@
                     </div>
                 </div>
                 
+                <!-- Network Economics Summary Box -->
+                <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                    <h4 style="margin: 0 0 15px 0; color: white; font-size: 1.1em;">📊 Network Economics Summary</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Total Network Nodes</div>
+                            <div id="summaryTotalNodes" style="font-size: 1.4em; font-weight: bold; color: white;">4,339</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Total Yearly Validations</div>
+                            <div id="summaryYearlyValidations" style="font-size: 1.4em; font-weight: bold; color: white;">6.53M</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Average Reward</div>
+                            <div id="summaryAvgReward" style="font-size: 1.4em; font-weight: bold; color: white;">0.10</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Total Yearly MNW</div>
+                            <div id="summaryYearlyMNW" style="font-size: 1.4em; font-weight: bold; color: white;">653K</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Current Price</div>
+                            <div id="summaryPrice" style="font-size: 1.4em; font-weight: bold; color: white;">$0.062</div>
+                        </div>
+                    </div>
+                </div>
+                
                 <h4 style="margin-top: 20px; color: #667eea;">Multi-Node VPS Strategy</h4>
                 <table style="margin-top: 15px;">
                     <thead>
@@ -970,8 +998,8 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.0.1 | Updated 20 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.0.1: Live data integration</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.0.9 | Updated 22 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.0.9: Extended sliders to 40x (analyze up to $25 MNW)</p>
         </footer>
     </div>
 
@@ -1056,7 +1084,20 @@
         function updateMyNodesActiveNodes() {
             const totalNodes = parseFormattedNumber(document.getElementById('totalNodes').value);
             document.getElementById('myNetworkNodes').value = totalNodes;
+            document.getElementById('myNetworkSlider').value = totalNodes;
+            updateMyNetworkValidators(); // Update the validators display in My Nodes section
             calculateMyNodes(); // Recalculate with new network size
+        }
+
+        // Update Active Validators proportionally when Active Nodes is changed
+        function updateActiveValidatorsFromNodes() {
+            const totalNodes = parseFormattedNumber(document.getElementById('totalNodes').value);
+            const baselineNodes = 4338;
+            const baselineValidators = 108;
+            const ratio = baselineNodes / baselineValidators; // ~40.17 nodes per validator
+            
+            const calculatedValidators = Math.round(totalNodes / ratio);
+            document.getElementById('activeValidators').value = calculatedValidators;
         }
 
         // NEW v5.5: Update nodes when Daily Validations is manually changed
@@ -1099,10 +1140,10 @@
             const baselineTotalNodes = 4339;  // Default for My Network
             const baselineValidators = 108;
             
-            // Calculate new active nodes based on validations
+            // Calculate new active nodes based on validations using SQUARE ROOT
             const multiplier = dailyValidations / baselineDailyVals;
-            const newActiveNodes = Math.round(baselineTotalNodes * multiplier);
-            const newValidators = Math.round(baselineValidators * multiplier);
+            const newActiveNodes = Math.round(baselineTotalNodes * Math.sqrt(multiplier));
+            const newValidators = Math.round(baselineValidators * Math.sqrt(multiplier));
             
             // Update My Network Active Nodes field
             document.getElementById('myNetworkNodes').value = newActiveNodes;
@@ -1131,13 +1172,16 @@
             const newDailyVals = Math.round(baselineDailyVals * multiplier);
             document.getElementById('dailyValidations').value = formatNumber(newDailyVals);
             
-            // NEW v5.5: Scale network nodes and validators proportionally
+            // NEW v5.5: Scale network nodes using SQUARE ROOT (diminishing returns model)
+            // Node growth follows square root of validation growth
             const baselineTotalNodes = 4335;
             const baselineValidators = 108;
             const MAX_NODES = 20000; // Hard constraint
             
-            let newTotalNodes = Math.round(baselineTotalNodes * multiplier);
-            let newValidators = Math.round(baselineValidators * multiplier);
+            // SQUARE ROOT scaling: nodes grow slower than transactions
+            // At 1x: 4335 nodes, At 4.7x: ~9,400 nodes, At 21x: 20,000 nodes
+            let newTotalNodes = Math.round(baselineTotalNodes * Math.sqrt(multiplier));
+            let newValidators = Math.round(baselineValidators * Math.sqrt(multiplier));
             
             // Apply 20,000 node cap
             if (newTotalNodes > MAX_NODES) {
@@ -1165,6 +1209,7 @@
             
             // Recalculate everything
             calculate();
+            calculateMyNodes(); // Update Multi-Node Strategy table
         }
 
         // NEW v5.5: Price Override Multiplier
@@ -1344,6 +1389,12 @@ async function loadLatestData(event) {
             console.warn('Live price failed, keeping JSON price', e);
         }
 
+        // Reset multipliers to 1 for consistent baseline calculations
+        document.getElementById('transactionMultiplier').value = 1;
+        document.getElementById('transactionMultiplierValue').textContent = '1.0x';
+        document.getElementById('priceMultiplier').value = 1;
+        document.getElementById('priceMultiplierValue').textContent = '1.0x';
+
         // 4️⃣ Recalculate derived values
         updateCalculatedFields();
         updateYearlyValidations();
@@ -1402,19 +1453,17 @@ async function loadLatestData(event) {
                 // v5.8: Active Nodes - INVERSE relationship
                 // More nodes = same validations split among more nodes = lower per-node share
                 const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4339;
-                const baselineNetworkNodes = 4339;
                 
                 // Calculate per-node baseline from network validations
                 // If network has more nodes, each node gets LESS
                 const validationsPerNodeBaseline = dailyValidations / networkNodes;
-                const baselineValidationsPerNode = 17900 / baselineNetworkNodes; // 4.127
                 
-                // v5.6.1: Scale to match baseline (4.9662) which was calculated with 4339 nodes
-                // The 4.9662 baseline includes EVLS already baked in from the data
-                // So we need to adjust for network size differences
-                const BASE_VAL_PER_NODE = 4.9662;  // Exact baseline from 12-month data
-                const adjustmentFactor = BASE_VAL_PER_NODE / baselineValidationsPerNode;
-                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeBaseline * adjustmentFactor;
+                // Baseline adjustment factor accounts for actual validator performance vs theoretical
+                // Baseline: 17900 validations / 4339 nodes = 4.127 theoretical
+                // Actual observed: 4.9662 per node per day from 12-month data
+                // Adjustment factor: 4.9662 / 4.127 = 1.203...
+                const BASELINE_ADJUSTMENT = 1.203;
+                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeBaseline * BASELINE_ADJUSTMENT;
                 
                 const networkPercentage = ((nodes / networkNodes) * 100).toFixed(2);
                 
@@ -1841,6 +1890,14 @@ async function loadLatestData(event) {
                 
                 document.getElementById('verificationTableBody').innerHTML = tableHTML;
                 
+                // Update Network Economics Summary box
+                document.getElementById('summaryTotalNodes').textContent = formatNumber(scaledNodes);
+                document.getElementById('summaryYearlyValidations').textContent = formatCompactNumber(yearlyValidations);
+                document.getElementById('summaryAvgReward').textContent = weightedAvgReward.toFixed(2);
+                const totalYearlyMNW = yearlyValidations * weightedAvgReward;
+                document.getElementById('summaryYearlyMNW').textContent = formatCompactMNW(totalYearlyMNW);
+                document.getElementById('summaryPrice').textContent = '$' + currentPrice.toFixed(5);
+                
                 const vpsCostPerYear = 72; // $6/month for up to 100 nodes
                 const vpsCostPerYear100Plus = 288; // $24/month for 101+ nodes
                 
@@ -1882,23 +1939,23 @@ async function loadLatestData(event) {
                     {nodes: 250, vps: 1}, {nodes: 500, vps: 1}, {nodes: 1000, vps: 1}
                 ];
                 
-                // v5.8: Calculate per-node validations accounting for NETWORK SIZE (inverse relationship)
-                // More network nodes = fewer validations per node
+                // v5.8: Calculate per-node validations accounting for ACTUAL network size
+                // When transactions increase AND network grows, validations are shared among more nodes
+                // Use the ACTUAL scaled network size from totalNodes input
                 const networkNodes = parseFormattedNumber(document.getElementById('totalNodes').value) || 4339;
-                const baselineNetworkNodes = 4339;
                 
                 // Calculate actual per-node share of daily validations
+                // This properly accounts for increased competition when network grows
                 const validationsPerNodeFromNetwork = dailyValidations / networkNodes;
                 
-                // Baseline comparison (what it was at 4339 nodes and 17900 validations)
-                const baselineValidationsPerNode = 17900 / baselineNetworkNodes; // 4.127
-                
-                // The 4.9662 baseline includes adjustment for actual validator performance
-                const BASE_VAL_PER_NODE = 4.9662;  // Exact baseline from 12-month data
-                const adjustmentFactor = BASE_VAL_PER_NODE / baselineValidationsPerNode;
+                // The baseline adjustment factor accounts for actual validator performance vs theoretical
+                // Baseline: 17900 validations / 4339 nodes = 4.127 theoretical
+                // Actual observed: 4.9662 per node per day from 12-month data
+                // Adjustment factor: 4.9662 / 4.127 = 1.203...
+                const BASELINE_ADJUSTMENT = 1.203;
                 
                 // Apply adjustment to get actual per-node validations
-                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeFromNetwork * adjustmentFactor;
+                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeFromNetwork * BASELINE_ADJUSTMENT;
                 
                 // v5.8: First pass - calculate all configs to find max ROI
                 const calculatedConfigs = [];
