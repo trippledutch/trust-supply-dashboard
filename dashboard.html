@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.0.9</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.1.0</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -252,7 +252,7 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>🚀 Unofficial Trust.Supply Economic Dashboard v1.0.9</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.1.0</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 20 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -757,42 +757,117 @@
                         </div>
                     </div>
                     
+                    <!-- Staking Period Selection -->
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">📅 Staking Period:</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                            <button onclick="selectStakingPeriod(3)" id="stakePeriod3" style="padding: 12px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; background: rgba(255,255,255,0.2); color: white; cursor: pointer; transition: all 0.3s;">
+                                3 Months
+                            </button>
+                            <button onclick="selectStakingPeriod(6)" id="stakePeriod6" style="padding: 12px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; background: rgba(255,255,255,0.2); color: white; cursor: pointer; transition: all 0.3s;">
+                                6 Months
+                            </button>
+                            <button onclick="selectStakingPeriod(12)" id="stakePeriod12" style="padding: 12px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; background: white; color: #667eea; cursor: pointer; transition: all 0.3s;">
+                                12 Months
+                            </button>
+                        </div>
+                        <div style="font-size: 0.85em; margin-top: 8px; opacity: 0.9;">
+                            💡 Different staking periods affect your validation count and ROI
+                        </div>
+                    </div>
+                    
                     <!-- My Nodes Results -->
                     <div id="myNodesResults" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.15); border-radius: 8px;">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Daily Validations</div>
-                                <div id="myNodesDailyVals" style="font-size: 1.5em; font-weight: bold;">0</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Yearly Validations</div>
-                                <div id="myNodesYearlyVals" style="font-size: 1.5em; font-weight: bold;">0</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">EVLS Penalty</div>
-                                <div id="myNodesEVLS" style="font-size: 1.5em; font-weight: bold;">0%</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Token Yield</div>
-                                <div id="myNodesTokenYield" style="font-size: 1.5em; font-weight: bold;">8.65%</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Annual Profit</div>
-                                <div id="myNodesProfit" style="font-size: 1.5em; font-weight: bold;">$---</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">ROI</div>
-                                <div id="myNodesROI" style="font-size: 1.5em; font-weight: bold;">---%</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Total VPS Cost</div>
-                                <div id="myNodesVPS" style="font-size: 1.5em; font-weight: bold;">$72/yr × 1</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 0.85em; opacity: 0.9;">Total Staked</div>
-                                <div id="myNodesStaked" style="font-size: 1.5em; font-weight: bold;">61.2K MNW</div>
+                        <!-- Period Results Section -->
+                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid white;">
+                            <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📅 Your <span id="periodLabel">12-Month</span> Staking Period Results</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
+                                    <div id="myNodesPeriodDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodVals">Validations/12m</span></div>
+                                    <div id="myNodesPeriodVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodMNW">MNW/12m</span></div>
+                                    <div id="myNodesPeriodMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodRewards">Rewards/12m</span></div>
+                                    <div id="myNodesPeriodUSD" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">EVLS Penalty</div>
+                                    <div id="myNodesPeriodEVLS" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodYield">Token Yield/12m</span></div>
+                                    <div id="myNodesPeriodYield" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodProfit">Profit/12m</span></div>
+                                    <div id="myNodesPeriodProfit" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodROI">ROI/12m</span></div>
+                                    <div id="myNodesPeriodROI" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodVPS">VPS Cost/12m</span></div>
+                                    <div id="myNodesPeriodVPS" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- Yearly Equivalents Section -->
+                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; border-left: 4px solid #4ade80;">
+                            <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📊 Annualized Comparison (Yearly Equivalents)</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
+                                    <div id="myNodesDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/12m</div>
+                                    <div id="myNodesYearlyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/12m</div>
+                                    <div id="myNodesYearlyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Rewards/12m</div>
+                                    <div id="myNodesYearlyUSD" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">EVLS Penalty</div>
+                                    <div id="myNodesEVLS" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Token Yield/12m</div>
+                                    <div id="myNodesTokenYield" style="font-size: 1.3em; font-weight: bold;">8.65%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Profit/12m</div>
+                                    <div id="myNodesProfit" style="font-size: 1.3em; font-weight: bold;">$---</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">ROI/12m</div>
+                                    <div id="myNodesROI" style="font-size: 1.3em; font-weight: bold;">---%</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">VPS Cost/12m</div>
+                                    <div id="myNodesVPS" style="font-size: 1.3em; font-weight: bold;">$72</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">Total Staked</div>
+                                    <div id="myNodesStaked" style="font-size: 1.3em; font-weight: bold;">1.8K MNW</div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Network Percentage Display -->
                         <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3);">
                             <div style="font-size: 0.85em; opacity: 0.95; margin-bottom: 5px; font-weight: 600;">📊 Your Network Share</div>
@@ -803,9 +878,11 @@
                     </div>
                 </div>
                 
-                <!-- Network Economics Summary Box -->
-                <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
-                    <h4 style="margin: 0 0 15px 0; color: white; font-size: 1.1em;">📊 Network Economics Summary</h4>
+                <h4 style="margin-top: 20px; color: #667eea;">Multi-Node VPS Strategy</h4>
+                
+                <!-- Current parameters for Multi-Node Strategy -->
+                <div style="margin-top: 15px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                    <h4 style="margin: 0 0 15px 0; color: white; font-size: 1.1em;">Current parameters for Multi-Node Strategy</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
                             <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Total Network Nodes</div>
@@ -817,10 +894,18 @@
                         </div>
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
                             <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Average Reward</div>
-                            <div id="summaryAvgReward" style="font-size: 1.4em; font-weight: bold; color: white;">0.10</div>
+                            <div id="summaryAvgReward" style="font-size: 1.4em; font-weight: bold; color: white;">0.1000</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
-                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Total Yearly MNW</div>
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Daily Rewards</div>
+                            <div id="summaryDailyRewards" style="font-size: 1.4em; font-weight: bold; color: white;">$---</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Yearly Rewards</div>
+                            <div id="summaryYearlyRewards" style="font-size: 1.4em; font-weight: bold; color: white;">$---</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Yearly MNW</div>
                             <div id="summaryYearlyMNW" style="font-size: 1.4em; font-weight: bold; color: white;">653K</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
@@ -830,7 +915,6 @@
                     </div>
                 </div>
                 
-                <h4 style="margin-top: 20px; color: #667eea;">Multi-Node VPS Strategy</h4>
                 <table style="margin-top: 15px;">
                     <thead>
                         <tr>
@@ -868,20 +952,20 @@
                     <h5 style="color: #ffffff; margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">🔴 Tier 1: Immediate Liquidity (Can Sell Today)</h5>
                     <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #cc0000;" id="tier1DexLiquidity">1.07M</strong>
-                            <span style="font-size: 12px;">DEX Liquidity</span>
+                            <strong style="color: #cc0000; font-size: 16px;" id="tier1DexLiquidity">1.07M</strong>
+                            <span style="font-size: 13px;">DEX Liquidity</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #cc0000;" id="tier1EthereumWallets">28.68M</strong>
-                            <span style="font-size: 12px;">Ethereum Wallets</span>
+                            <strong style="color: #cc0000; font-size: 16px;" id="tier1EthereumWallets">28.68M</strong>
+                            <span style="font-size: 13px;">Ethereum Wallets</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #cc0000;" id="tier1PolygonWallets">2.15M</strong>
-                            <span style="font-size: 12px;">Polygon Wallets</span>
+                            <strong style="color: #cc0000; font-size: 16px;" id="tier1PolygonWallets">2.15M</strong>
+                            <span style="font-size: 13px;">Polygon Wallets</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px; border: 2px solid #cc0000;">
                             <strong style="color: #cc0000; font-size: 18px;" id="tier1Total">31.90M</strong>
-                            <span style="font-size: 12px; font-weight: 600;">Tier 1 Total</span>
+                            <span style="font-size: 13px; font-weight: 600;">Tier 1 Total</span>
                         </div>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: #ffffff; font-weight: 500;">Can be sold immediately on DEX or bridged to Ethereum (10-30 min)</p>
@@ -892,12 +976,12 @@
                     <h5 style="color: #ffffff; margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">🟠 Tier 2: Risk Overhang (Unpredictable Timing)</h5>
                     <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #ff6600;">3.38M</strong>
-                            <span style="font-size: 12px;">KuCoin Locked</span>
+                            <strong style="color: #ff6600; font-size: 16px;">3.38M</strong>
+                            <span style="font-size: 13px;">KuCoin Locked</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px; border: 2px solid #ff6600;">
                             <strong style="color: #ff6600; font-size: 18px;">3.38M</strong>
-                            <span style="font-size: 12px; font-weight: 600;">Tier 2 Total</span>
+                            <span style="font-size: 13px; font-weight: 600;">Tier 2 Total</span>
                         </div>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: #ffffff; font-weight: 500;">⚠️ Confiscated by exchange - can be dumped anytime without warning</p>
@@ -908,36 +992,36 @@
                     <h5 style="color: #ffffff; margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">🔵 Tier 3: Protocol Locked (Predictable Unlock)</h5>
                     <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #2563eb;" id="stake12m">Loading...</strong>
-                            <span style="font-size: 12px;">12-Month Stakes</span>
+                            <strong style="color: #2563eb; font-size: 16px;" id="stake12m">Loading...</strong>
+                            <span style="font-size: 13px;">12-Month Stakes</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #2563eb;" id="stake6m">Loading...</strong>
-                            <span style="font-size: 12px;">6-Month Stakes</span>
+                            <strong style="color: #2563eb; font-size: 16px;" id="stake6m">Loading...</strong>
+                            <span style="font-size: 13px;">6-Month Stakes</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #2563eb;" id="stake3m">Loading...</strong>
-                            <span style="font-size: 12px;">3-Month Stakes</span>
+                            <strong style="color: #2563eb; font-size: 16px;" id="stake3m">Loading...</strong>
+                            <span style="font-size: 13px;">3-Month Stakes</span>
                         </div>
                         <div class="info-item" style="background: white; padding: 12px; border: 2px solid #2563eb;">
                             <strong style="color: #2563eb; font-size: 18px;" id="tier3Total">Loading...</strong>
-                            <span style="font-size: 12px; font-weight: 600;">Tier 3 Total</span>
+                            <span style="font-size: 13px; font-weight: 600;">Tier 3 Total</span>
                         </div>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: #ffffff; font-weight: 500;">Validator stakes with known unlock dates - becomes Tier 1 after unlock</p>
                 </div>
 
-                <!-- Lost/Inaccessible (Gray) -->
+                <!-- Tier 4: Lost/Inaccessible (Gray) -->
                 <div style="background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); padding: 15px; border-radius: 8px; border-left: 4px solid #374151; margin-bottom: 15px;">
-                    <h5 style="color: #ffffff; margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">⚫ Permanently Lost/Inaccessible</h5>
+                    <h5 style="color: #ffffff; margin: 0 0 10px 0; font-size: 14px; font-weight: bold;">⚫ Tier 4: Permanently Lost/Inaccessible</h5>
                     <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
                         <div class="info-item" style="background: white; padding: 12px;">
-                            <strong style="color: #4b5563;" id="lostMNW">Loading...</strong>
-                            <span style="font-size: 12px;">Lost Wallets</span>
+                            <strong style="color: #4b5563; font-size: 16px;" id="lostMNW">Loading...</strong>
+                            <span style="font-size: 13px;">Lost Wallets</span>
                         </div>
-                        <div class="info-item" style="background: white; padding: 12px;">
+                        <div class="info-item" style="background: white; padding: 12px; border: 2px solid #4b5563;">
                             <strong style="color: #4b5563; font-size: 18px;" id="totalLostDisplay">Loading...</strong>
-                            <span style="font-size: 12px; font-weight: 600;">Total Lost</span>
+                            <span style="font-size: 13px; font-weight: 600;">Tier 4 Total</span>
                         </div>
                     </div>
                     <p style="margin: 10px 0 0 0; font-size: 12px; color: #ffffff; font-weight: 500;">Lost keys or permanently inaccessible - reduces effective supply</p>
@@ -998,12 +1082,30 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.0.9 | Updated 22 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.0.9: Extended sliders to 40x (analyze up to $25 MNW)</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.1.0 | Updated 23 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.1.0: Staking periods, repositioned summary, tier improvements</p>
         </footer>
     </div>
 
     <script>
+        // Global variable for staking period (in months)
+        let selectedStakingPeriod = 12;  // Default to 12 months
+        
+        function selectStakingPeriod(months) {
+            selectedStakingPeriod = months;
+            
+            // Update button styling
+            document.getElementById('stakePeriod3').style.background = months === 3 ? 'white' : 'rgba(255,255,255,0.2)';
+            document.getElementById('stakePeriod3').style.color = months === 3 ? '#667eea' : 'white';
+            document.getElementById('stakePeriod6').style.background = months === 6 ? 'white' : 'rgba(255,255,255,0.2)';
+            document.getElementById('stakePeriod6').style.color = months === 6 ? '#667eea' : 'white';
+            document.getElementById('stakePeriod12').style.background = months === 12 ? 'white' : 'rgba(255,255,255,0.2)';
+            document.getElementById('stakePeriod12').style.color = months === 12 ? '#667eea' : 'white';
+            
+            // Recalculate with new period
+            calculateMyNodes();
+        }
+        
         function parseFormattedNumber(str) {
             if (typeof str === 'number') return str;
             if (typeof str === 'string') return parseFloat(str.replace(/,/g, '')) || 0;
@@ -1471,60 +1573,102 @@ async function loadLatestData(event) {
                 const evlsFactor = calculateEVLSFactor(nodes);
                 const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(2);
                 
-                // v5.6.1: Use 12-month reward rate (0.10) to match Multi-Node table
-                const reward12m = 0.10;
+                // Reward rates based on staking period
+                const rewardRates = {
+                    3: 0.065,   // 3-month rate
+                    6: 0.083,   // 6-month rate
+                    12: 0.10    // 12-month rate
+                };
+                const periodReward = rewardRates[selectedStakingPeriod];
                 
-                // v5.6.1: Calculate validations using SAME method as Multi-Node table
+                // Period days from lightpaper (N+1 formula)
+                const periodDays = {
+                    3: 91,    // 90+1
+                    6: 181,   // 180+1
+                    12: 366   // 365+1
+                };
+                const daysInPeriod = periodDays[selectedStakingPeriod];
+                
+                // Calculate validations
                 const validationsPerNodePerDay = BASELINE_VAL_PER_NODE_PER_DAY * evlsFactor;
                 const totalValidationsPerDay = validationsPerNodePerDay * nodes;
                 const yearlyValidations = totalValidationsPerDay * 365;
                 
-                // Calculate MNW rewards (12-month rate, with EVLS)
-                const yearlyMNW = yearlyValidations * reward12m;
+                // PERIOD CALCULATIONS (actual staking period)
+                const periodValidations = totalValidationsPerDay * daysInPeriod;
+                const periodMNW = periodValidations * periodReward;
+                const periodUSD = periodMNW * currentPrice;
                 
-                // Calculate Token Yield (always based on MNW, independent of price)
-                const tokenYield = (yearlyMNW / (stakePerNode * nodes)) * 100;
-                
-                // Get VPS count
+                // Get VPS count and calculate costs
                 const vpsCount = parseInt(document.getElementById('myVPSCount').value) || 1;
-                
-                // Calculate VPS cost (per VPS, not per node!)
                 const vpsPerUnit = nodes <= 100 ? 6.00 : 24.00;
+                const periodVPSCost = (vpsPerUnit * selectedStakingPeriod) * vpsCount;
                 const totalAnnualVPSCost = vpsPerUnit * 12 * vpsCount;
                 
-                // Calculate profits (total rewards minus total VPS cost) - NOW USES CURRENT PRICE
-                const totalAnnualRewardsUSD = yearlyMNW * currentPrice;
-                const totalAnnualProfit = totalAnnualRewardsUSD - totalAnnualVPSCost;
-                
-                // Calculate ROI (using current price, matching the table)
-                const totalInvestment = stakePerNode * nodes * currentPrice;
-                const roi = (totalAnnualProfit / totalInvestment) * 100;
-                
-                // Calculate total staked
+                // Period Token Yield and ROI (actual period, not annualized)
                 const totalStaked = stakePerNode * nodes;
+                const periodTokenYield = (periodMNW / totalStaked) * 100;
+                const totalInvestment = totalStaked * currentPrice;
+                const periodProfit = periodUSD - periodVPSCost;
+                const periodROI = (periodProfit / totalInvestment) * 100;
                 
-                // Update display
+                // ANNUALIZED CALCULATIONS (for comparison)
+                const yearlyMNW = (periodMNW / selectedStakingPeriod) * 12;
+                const yearlyUSD = yearlyMNW * currentPrice;
+                const totalAnnualProfit = yearlyUSD - totalAnnualVPSCost;
+                const annualTokenYield = (yearlyMNW / totalStaked) * 100;
+                const annualROI = (totalAnnualProfit / totalInvestment) * 100;
+                
+                // Update period label and dynamic field labels
+                const periodLabels = {3: '3-Month', 6: '6-Month', 12: '12-Month'};
+                const periodSuffix = {3: '3m', 6: '6m', 12: '12m'};
+                document.getElementById('periodLabel').textContent = periodLabels[selectedStakingPeriod];
+                
+                // Update dynamic labels in Period section
+                const suffix = periodSuffix[selectedStakingPeriod];
+                document.getElementById('labelPeriodVals').textContent = 'Validations/' + suffix;
+                document.getElementById('labelPeriodMNW').textContent = 'MNW/' + suffix;
+                document.getElementById('labelPeriodRewards').textContent = 'Rewards/' + suffix;
+                document.getElementById('labelPeriodYield').textContent = 'Token Yield/' + suffix;
+                document.getElementById('labelPeriodProfit').textContent = 'Profit/' + suffix;
+                document.getElementById('labelPeriodROI').textContent = 'ROI/' + suffix;
+                document.getElementById('labelPeriodVPS').textContent = 'VPS Cost/' + suffix;
+                
+                // UPDATE PERIOD RESULTS (actual staking period)
+                document.getElementById('myNodesPeriodDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                document.getElementById('myNodesPeriodVals').textContent = formatNumber(Math.round(periodValidations));
+                document.getElementById('myNodesPeriodMNW').textContent = formatCompactMNW(periodMNW);
+                document.getElementById('myNodesPeriodUSD').textContent = '$' + formatNumber(Math.round(periodUSD));
+                document.getElementById('myNodesPeriodEVLS').textContent = evlsPenaltyPercent + '%';
+                document.getElementById('myNodesPeriodEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesPeriodYield').textContent = periodTokenYield.toFixed(2) + '%';
+                document.getElementById('myNodesPeriodYield').style.color = periodTokenYield >= 8.0 ? '#4ade80' : periodTokenYield >= 6.0 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesPeriodProfit').textContent = '$' + formatNumber(Math.round(periodProfit));
+                document.getElementById('myNodesPeriodProfit').style.color = periodProfit > 0 ? '#4ade80' : '#f87171';
+                document.getElementById('myNodesPeriodROI').textContent = periodROI.toFixed(2) + '%';
+                document.getElementById('myNodesPeriodROI').style.color = periodROI >= 10 ? '#4ade80' : periodROI >= 5 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesPeriodVPS').textContent = '$' + formatNumber(Math.round(periodVPSCost));
+                
+                // UPDATE ANNUALIZED RESULTS (yearly equivalents)
+                document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
+                document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(yearlyMNW);
+                document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(yearlyUSD));
+                
                 document.getElementById('myNodesEVLS').textContent = evlsPenaltyPercent + '%';
                 document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
                 
-                document.getElementById('myNodesTokenYield').textContent = tokenYield.toFixed(2) + '%';
-                document.getElementById('myNodesTokenYield').style.color = tokenYield >= 8.0 ? '#4ade80' : tokenYield >= 6.0 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesTokenYield').textContent = annualTokenYield.toFixed(2) + '%';
+                document.getElementById('myNodesTokenYield').style.color = annualTokenYield >= 8.0 ? '#4ade80' : annualTokenYield >= 6.0 ? '#fbbf24' : '#f87171';
                 
                 document.getElementById('myNodesProfit').textContent = '$' + formatNumber(Math.round(totalAnnualProfit));
                 document.getElementById('myNodesProfit').style.color = totalAnnualProfit > 0 ? '#4ade80' : '#f87171';
                 
-                document.getElementById('myNodesROI').textContent = roi.toFixed(2) + '%';
-                document.getElementById('myNodesROI').style.color = roi >= 10 ? '#4ade80' : roi >= 5 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesROI').textContent = annualROI.toFixed(2) + '%';
+                document.getElementById('myNodesROI').style.color = annualROI >= 10 ? '#4ade80' : annualROI >= 5 ? '#fbbf24' : '#f87171';
                 
-                // v5.6.1: Add Daily Validations display
-                document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
-                
-                // v5.8: Add Yearly Validations display
-                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
-                
-                document.getElementById('myNodesVPS').textContent = '$' + (vpsPerUnit * 12).toFixed(0) + '/yr × ' + vpsCount;
-                
-                document.getElementById('myNodesStaked').textContent = formatCompactMNW(stakePerNode * nodes);
+                document.getElementById('myNodesVPS').textContent = '$' + formatNumber(Math.round(totalAnnualVPSCost));
+                document.getElementById('myNodesStaked').textContent = formatCompactMNW(totalStaked);
                 
                 // Update network percentage display
                 document.getElementById('myNodesCount').textContent = formatNumber(nodes);
@@ -1892,9 +2036,14 @@ async function loadLatestData(event) {
                 
                 // Update Network Economics Summary box
                 document.getElementById('summaryTotalNodes').textContent = formatNumber(scaledNodes);
-                document.getElementById('summaryYearlyValidations').textContent = formatCompactNumber(yearlyValidations);
-                document.getElementById('summaryAvgReward').textContent = weightedAvgReward.toFixed(2);
+                document.getElementById('summaryYearlyValidations').textContent = formatCompactMNW(yearlyValidations);
+                document.getElementById('summaryAvgReward').textContent = weightedAvgReward.toFixed(4);
                 const totalYearlyMNW = yearlyValidations * weightedAvgReward;
+                const dailyMNW = totalYearlyMNW / 365;
+                const dailyRewardsUSD = dailyMNW * currentPrice;
+                const yearlyRewardsUSD = totalYearlyMNW * currentPrice;
+                document.getElementById('summaryDailyRewards').textContent = formatCompactNumber(dailyRewardsUSD);
+                document.getElementById('summaryYearlyRewards').textContent = formatCompactNumber(yearlyRewardsUSD);
                 document.getElementById('summaryYearlyMNW').textContent = formatCompactMNW(totalYearlyMNW);
                 document.getElementById('summaryPrice').textContent = '$' + currentPrice.toFixed(5);
                 
@@ -1993,7 +2142,6 @@ async function loadLatestData(event) {
                 
                 // Find maximum ROI
                 const maxROI = Math.max(...calculatedConfigs.map(c => c.multiROI));
-                const roiTolerance = 0.01; // Consider ROIs within 0.01% as equal (for floating point)
                 
                 let multiNodeHTML = '';
                 let showEVLS = false;
@@ -2012,8 +2160,8 @@ async function loadLatestData(event) {
                     // Color coding for profit: green for positive, red for negative
                     const profitColor = calc.profit >= 0 ? '#28a745' : '#dc3545';
                     
-                    // v5.8: Dynamic styling - highlight ALL configs with maximum ROI
-                    const isOptimal = Math.abs(calc.multiROI - maxROI) < roiTolerance;
+                    // Only highlight the exact maximum ROI (no tolerance)
+                    const isOptimal = calc.multiROI === maxROI;
                     let rowStyle = '';
                     let nodeLabel = `${config.nodes} Node${config.nodes > 1 ? 's' : ''} / ${config.vps} VPS`;
                     
@@ -2064,8 +2212,8 @@ async function loadLatestData(event) {
                 });
                 document.getElementById('multiNodeTable').innerHTML = multiNodeHTML;
                 
-                // v5.8: Update optimal nodes text dynamically
-                const optimalConfigs = calculatedConfigs.filter(c => Math.abs(c.multiROI - maxROI) < roiTolerance);
+                // Update optimal nodes text dynamically (only exact maximum ROI)
+                const optimalConfigs = calculatedConfigs.filter(c => c.multiROI === maxROI);
                 const optimalNodeCounts = optimalConfigs.map(c => c.config.nodes).sort((a, b) => a - b);
                 let optimalText = '';
                 if (optimalNodeCounts.length === 1) {
