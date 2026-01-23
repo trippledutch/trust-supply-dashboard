@@ -7,7 +7,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.1.0</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.1.5</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -252,7 +252,7 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>Unofficial Trust.Supply Economic Dashboard v1.1.0</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.1.5</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 20 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -861,10 +861,6 @@
                                     <div style="font-size: 0.8em; opacity: 0.9;">VPS Cost/12m</div>
                                     <div id="myNodesVPS" style="font-size: 1.3em; font-weight: bold;">$72</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Total Staked</div>
-                                    <div id="myNodesStaked" style="font-size: 1.3em; font-weight: bold;">1.8K MNW</div>
-                                </div>
                             </div>
                         </div>
                         
@@ -873,6 +869,10 @@
                             <div style="font-size: 0.85em; opacity: 0.95; margin-bottom: 5px; font-weight: 600;">📊 Your Network Share</div>
                             <div id="myNodesNetworkInfo" style="font-size: 1.2em; font-weight: bold; line-height: 1.5;">
                                 <span id="myNodesCount">1</span> <span id="myNodesLabel">node</span> = <span id="myNodesPercentage" style="color: #4ade80;">0.02%</span> of <span id="myNodesNetworkSize">4,339</span> active nodes
+                            </div>
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3);">
+                                <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 3px;">Total Staked</div>
+                                <div id="myNodesStaked" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">1.8K MNW</div>
                             </div>
                         </div>
                     </div>
@@ -1082,7 +1082,7 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.1.0 | Updated 23 January 2026</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.1.5 | Updated 23 January 2026</p>
             <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.1.0: Staking periods, repositioned summary, tier improvements</p>
         </footer>
     </div>
@@ -1573,10 +1573,10 @@ async function loadLatestData(event) {
                 const evlsFactor = calculateEVLSFactor(nodes);
                 const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(2);
                 
-                // Reward rates based on staking period
+                // Reward rates based on staking period (from lightpaper)
                 const rewardRates = {
-                    3: 0.065,   // 3-month rate
-                    6: 0.083,   // 6-month rate
+                    3: 0.06,    // 3-month rate (CORRECTED from 0.065)
+                    6: 0.08,    // 6-month rate (CORRECTED from 0.083)
                     12: 0.10    // 12-month rate
                 };
                 const periodReward = rewardRates[selectedStakingPeriod];
@@ -1612,11 +1612,18 @@ async function loadLatestData(event) {
                 const periodProfit = periodUSD - periodVPSCost;
                 const periodROI = (periodProfit / totalInvestment) * 100;
                 
-                // ANNUALIZED CALCULATIONS (for comparison)
-                const yearlyMNW = (periodMNW / selectedStakingPeriod) * 12;
-                const yearlyUSD = yearlyMNW * currentPrice;
-                const totalAnnualProfit = yearlyUSD - totalAnnualVPSCost;
-                const annualTokenYield = (yearlyMNW / totalStaked) * 100;
+                // ANNUALIZED CALCULATIONS 
+                // ALWAYS shows 12-month equivalents using 366 days (N+1 formula for 12 months)
+                // This row should show IDENTICAL numbers regardless of which period (3m/6m/12m) is selected
+                const TWELVE_MONTH_DAYS = 366;  // 365+1 per lightpaper
+                const TWELVE_MONTH_REWARD_RATE = 0.10;
+                
+                const annualizedValidations = totalValidationsPerDay * TWELVE_MONTH_DAYS;
+                const annualizedMNW = annualizedValidations * TWELVE_MONTH_REWARD_RATE;
+                const annualizedUSD = annualizedMNW * currentPrice;
+                const annualVPSCost = totalAnnualVPSCost;  // Always $72/year
+                const totalAnnualProfit = annualizedUSD - annualVPSCost;
+                const annualTokenYield = (annualizedMNW / totalStaked) * 100;
                 const annualROI = (totalAnnualProfit / totalInvestment) * 100;
                 
                 // Update period label and dynamic field labels
@@ -1651,9 +1658,9 @@ async function loadLatestData(event) {
                 
                 // UPDATE ANNUALIZED RESULTS (yearly equivalents)
                 document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
-                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
-                document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(yearlyMNW);
-                document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(yearlyUSD));
+                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(annualizedValidations));
+                document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(annualizedMNW);
+                document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(annualizedUSD));
                 
                 document.getElementById('myNodesEVLS').textContent = evlsPenaltyPercent + '%';
                 document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
@@ -2125,6 +2132,11 @@ async function loadLatestData(event) {
                     const profit = yearlyUSD - totalCost;
                     const totalStakeValue = stakeValueUSD * config.nodes;
                     const multiROI = (profit / totalStakeValue) * 100;
+                    const multiTokenYield = (yearlyMNW / (stakePerNode * config.nodes)) * 100;
+                    
+                    // Round to 1 decimal for display AND comparison
+                    const multiROIRounded = Math.round(multiROI * 10) / 10;
+                    const multiTokenYieldRounded = Math.round(multiTokenYield * 10) / 10;
                     
                     calculatedConfigs.push({
                         config: config,
@@ -2135,13 +2147,16 @@ async function loadLatestData(event) {
                         yearlyValidations: yearlyValidations,
                         yearlyMNW: yearlyMNW,
                         profit: profit,
-                        multiROI: multiROI,
-                        multiTokenYield: (yearlyMNW / (stakePerNode * config.nodes)) * 100
+                        multiROI: multiROIRounded,  // Store rounded value
+                        multiTokenYield: multiTokenYieldRounded  // Store rounded value
                     });
                 });
                 
-                // Find maximum ROI
+                // Find maximum ROI from rounded values
                 const maxROI = Math.max(...calculatedConfigs.map(c => c.multiROI));
+                
+                // Check if ROI equals max (both already rounded to 1 decimal)
+                const isOptimalROI = (roi) => roi === maxROI;
                 
                 let multiNodeHTML = '';
                 let showEVLS = false;
@@ -2160,8 +2175,8 @@ async function loadLatestData(event) {
                     // Color coding for profit: green for positive, red for negative
                     const profitColor = calc.profit >= 0 ? '#28a745' : '#dc3545';
                     
-                    // Only highlight the exact maximum ROI (no tolerance)
-                    const isOptimal = calc.multiROI === maxROI;
+                    // Highlight ALL configurations with maximum ROI (handles floating point precision)
+                    const isOptimal = isOptimalROI(calc.multiROI);
                     let rowStyle = '';
                     let nodeLabel = `${config.nodes} Node${config.nodes > 1 ? 's' : ''} / ${config.vps} VPS`;
                     
@@ -2205,26 +2220,26 @@ async function loadLatestData(event) {
                             <td style="text-align: right; color: ${calc.evlsPenalty > 0 ? '#dc3545' : '#6c757d'};">${evlsPenaltyDisplay}</td>
                             <td style="text-align: right; color: ${evlsLoss > 0 ? '#dc3545' : '#6c757d'};">${evlsLossDisplay}</td>
                             <td style="text-align: right; color: ${profitColor}; font-weight: bold;">${calc.profit >= 0 ? '$' + formatNumber(Math.round(calc.profit)) : '-$' + formatNumber(Math.round(Math.abs(calc.profit)))}</td>
-                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiTokenYield.toFixed(2)}%</td>
-                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiROI.toFixed(2)}%</td>
+                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiTokenYield.toFixed(1)}%</td>
+                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiROI.toFixed(1)}%</td>
                         </tr>
                     `;
                 });
                 document.getElementById('multiNodeTable').innerHTML = multiNodeHTML;
                 
-                // Update optimal nodes text dynamically (only exact maximum ROI)
-                const optimalConfigs = calculatedConfigs.filter(c => c.multiROI === maxROI);
+                // Update optimal nodes text dynamically (shows ALL with maximum ROI)
+                const optimalConfigs = calculatedConfigs.filter(c => isOptimalROI(c.multiROI));
                 const optimalNodeCounts = optimalConfigs.map(c => c.config.nodes).sort((a, b) => a - b);
                 let optimalText = '';
                 if (optimalNodeCounts.length === 1) {
-                    optimalText = `✅ ${optimalNodeCounts[0]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts[0]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
                 } else if (optimalNodeCounts.length === 2) {
-                    optimalText = `✅ ${optimalNodeCounts[0]} & ${optimalNodeCounts[1]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts[0]} & ${optimalNodeCounts[1]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
                 } else if (optimalNodeCounts.length <= 4) {
                     const lastNode = optimalNodeCounts.pop();
-                    optimalText = `✅ ${optimalNodeCounts.join(', ')} & ${lastNode} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts.join(', ')} & ${lastNode} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
                 } else {
-                    optimalText = `✅ ${optimalNodeCounts.join(', ')} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts.join(', ')} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
                 }
                 document.getElementById('optimalNodesText').textContent = optimalText;
                 
