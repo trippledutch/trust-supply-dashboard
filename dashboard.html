@@ -785,10 +785,14 @@
                         <!-- Period Results Section -->
                         <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid white;">
                             <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📅 Your <span id="periodLabel">12-Month</span> Staking Period Results</h5>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px;">
                                 <div>
                                     <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
                                     <div id="myNodesPeriodDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/Day</div>
+                                    <div id="myNodesPeriodDailyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
                                 </div>
                                 <div>
                                     <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodVals">Validations/12m</span></div>
@@ -828,10 +832,14 @@
                         <!-- Yearly Equivalents Section -->
                         <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; border-left: 4px solid #4ade80;">
                             <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📊 Annualized Comparison (Yearly Equivalents)</h5>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px;">
                                 <div>
                                     <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
                                     <div id="myNodesDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/Day</div>
+                                    <div id="myNodesDailyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
                                 </div>
                                 <div>
                                     <div style="font-size: 0.8em; opacity: 0.9;">Validations/12m</div>
@@ -1647,6 +1655,11 @@ async function loadLatestData(event) {
                 
                 // UPDATE PERIOD RESULTS (actual staking period)
                 document.getElementById('myNodesPeriodDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                
+                // Calculate and display daily MNW earned
+                const periodDailyMNW = totalValidationsPerDay * periodReward;
+                document.getElementById('myNodesPeriodDailyMNW').textContent = Math.round(periodDailyMNW);
+                
                 document.getElementById('myNodesPeriodVals').textContent = formatNumber(Math.round(periodValidations));
                 document.getElementById('myNodesPeriodMNW').textContent = formatCompactMNW(periodMNW);
                 document.getElementById('myNodesPeriodUSD').textContent = '$' + formatNumber(Math.round(periodUSD));
@@ -1662,6 +1675,11 @@ async function loadLatestData(event) {
                 
                 // UPDATE ANNUALIZED RESULTS (yearly equivalents)
                 document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                
+                // Calculate and display daily MNW earned (at 12-month rate)
+                const annualizedDailyMNW = totalValidationsPerDay * TWELVE_MONTH_REWARD_RATE;
+                document.getElementById('myNodesDailyMNW').textContent = Math.round(annualizedDailyMNW);
+                
                 document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(annualizedValidations));
                 document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(annualizedMNW);
                 document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(annualizedUSD));
