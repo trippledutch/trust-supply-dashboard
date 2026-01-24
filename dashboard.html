@@ -1658,7 +1658,7 @@ async function loadLatestData(event) {
                 
                 // Calculate and display daily MNW earned
                 const periodDailyMNW = totalValidationsPerDay * periodReward;
-                document.getElementById('myNodesPeriodDailyMNW').textContent = Math.round(periodDailyMNW);
+                document.getElementById('myNodesPeriodDailyMNW').textContent = periodDailyMNW.toFixed(1);
                 
                 document.getElementById('myNodesPeriodVals').textContent = formatNumber(Math.round(periodValidations));
                 document.getElementById('myNodesPeriodMNW').textContent = formatCompactMNW(periodMNW);
@@ -1678,7 +1678,7 @@ async function loadLatestData(event) {
                 
                 // Calculate and display daily MNW earned (at 12-month rate)
                 const annualizedDailyMNW = totalValidationsPerDay * TWELVE_MONTH_REWARD_RATE;
-                document.getElementById('myNodesDailyMNW').textContent = Math.round(annualizedDailyMNW);
+                document.getElementById('myNodesDailyMNW').textContent = annualizedDailyMNW.toFixed(1);
                 
                 document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(annualizedValidations));
                 document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(annualizedMNW);
