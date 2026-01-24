@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust.Supply Validator Analytics v1.0.9</title>
+    <title>Trust.Supply Validator Analytics v1.1.0</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
@@ -369,6 +369,12 @@
             header h1 {
                 font-size: 1.8em;
             }
+            header p {
+                font-size: 0.75em !important;
+            }
+            .footer {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -382,7 +388,7 @@
     <header>
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
-        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.0.9 | January 2026</p>
+        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.1.0 | 24 January 2026</p>
     </header>
     
     <div class="content-wrapper">
@@ -399,8 +405,6 @@
                 <option value="365">Period: Annual (Last 365 Full Days)</option>
                 <option value="since-batching">Period: All Since Batching Started (12 Nov 2024)</option>
             </select>
-            <button onclick="runV106()" id="scanBtn">Show transactions</button>
-            <button onclick="exportCSV()" id="exportBtn" class="export-btn" disabled>📥 Export CSV</button>
         </div>
 
         <div class="stats-grid">
@@ -445,14 +449,34 @@
                 <div style="padding: 50px; text-align: center; color: var(--gray-500);">Run scan to view data logs.</div>
             </div>
         </div>
+        
+        <!-- Progress Indicator -->
+        <div id="progressIndicator" style="display: none; margin-top: 20px; padding: 20px; background: rgba(102, 126, 234, 0.1); border-radius: 10px; text-align: center;">
+            <div style="font-size: 16px; font-weight: bold; color: var(--primary); margin-bottom: 10px;">
+                <span id="progressText">Scanning blockchain...</span>
+            </div>
+            <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                <div id="progressBar" style="background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+            <div style="font-size: 14px; color: var(--gray-500); margin-top: 8px;">
+                <span id="progressDetails">Initializing...</span>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div style="margin-top: 30px; text-align: center; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <button onclick="runV106()" id="scanBtn" style="flex: 1; min-width: 200px; max-width: 250px;">Show Transactions</button>
+            <button onclick="exportCSV()" id="exportBtn" class="export-btn" disabled style="flex: 1; min-width: 200px; max-width: 250px;">📥 Export CSV</button>
+            <button onclick="window.location.href='index.html'" style="flex: 1; min-width: 200px; max-width: 250px; background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">← Back to Tools</button>
+        </div>
     </div>
     
-    <div class="back-nav-bottom">
+    <div class="back-nav-bottom" style="display: none;">
         <a href="index.html">← Back to Tools</a>
     </div>
     
     <footer class="footer">
-        <p>Trust.Supply Validator Analytics v1.0.9 | Updated January 2026</p>
+        <p>Trust.Supply Validator Analytics v1.1.0 | Updated 24 January 2026</p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
@@ -467,19 +491,36 @@
     let currentDays = 0;
     let currentTodayStr = '';
     let currentPeriod = '';
+    let currentStartDay = null;
 
     async function runV106() {
         const btn = document.getElementById('scanBtn');
         const status = document.getElementById('status');
         const logBody = document.getElementById('log-body');
         const timeRangeValue = document.getElementById('timeRange').value;
+        const progressIndicator = document.getElementById('progressIndicator');
+        const progressText = document.getElementById('progressText');
+        const progressBar = document.getElementById('progressBar');
+        const progressDetails = document.getElementById('progressDetails');
         
         btn.disabled = true;
+        progressIndicator.style.display = 'block';
+        progressBar.style.width = '0%';
         logBody.innerHTML = `<div style="padding:30px; text-align:center;">Analyzing UTC Calendar Window...</div>`;
+        
+        // Reset all display values before starting new scan
+        document.getElementById('qMain').innerText = '0';
+        document.getElementById('bMain').innerText = '0';
+        document.getElementById('dCount').innerText = '0';
+        document.getElementById('vMain').innerText = '0';
+        document.getElementById('avgMain').innerText = '0';
+        document.getElementById('txDaysLabel').innerText = 'Tx found on ? days';
+        document.getElementById('exportBtn').disabled = true;
         
         let stats = {}; 
         let currentEndBlock = 999999999;
         let keepCrawling = true;
+        let blocksFetched = 0;
         
         const now = new Date();
         const todayStr = now.toISOString().split('T')[0];
@@ -500,6 +541,12 @@
 
         try {
             while (keepCrawling) {
+                blocksFetched++;
+                const progress = Math.min(blocksFetched * 10, 90); // Max 90% during scanning
+                progressBar.style.width = progress + '%';
+                progressText.textContent = 'Scanning blockchain...';
+                progressDetails.textContent = `Block: ${currentEndBlock.toLocaleString()} | Batch ${blocksFetched}`;
+                
                 status.innerText = `SCANNING BLOCK: ${currentEndBlock}`;
                 const url = `https://api.etherscan.io/v2/api?chainid=137&module=account&action=txlist&address=${ADDR}&startblock=0&endblock=${currentEndBlock}&page=1&offset=10000&sort=desc&apikey=${KEY}`;
                 
@@ -522,7 +569,7 @@
                     if (input.includes(SIG.V)) stats[date].v++;
                 }
 
-                refreshUI(stats, daysRequested, todayStr);
+                refreshUI(stats, daysRequested, todayStr, startDay);
 
                 if (d.result.length === 10000 && keepCrawling) {
                     currentEndBlock = lastBlock - 1;
@@ -531,15 +578,28 @@
                     keepCrawling = false;
                 }
             }
+            
+            progressBar.style.width = '100%';
+            progressText.textContent = 'Complete!';
+            // Count only days with batched transactions
+            const daysWithBatched = Object.keys(stats).filter(date => stats[date].v > 0).length;
+            progressDetails.textContent = `Processed ${blocksFetched} batches | Found ${daysWithBatched} days with validations`;
+            
             status.innerText = "SCAN COMPLETE";
             // Store data for CSV export
             currentStats = stats;
             currentDays = daysRequested;
             currentTodayStr = todayStr;
             currentPeriod = timeRangeValue;
+            currentStartDay = startDay;
             document.getElementById('exportBtn').disabled = false;
+            
+            setTimeout(() => {
+                progressIndicator.style.display = 'none';
+            }, 3000);
         } catch (e) {
             status.innerText = "CONNECTION ERROR";
+            progressIndicator.style.display = 'none';
         } finally {
             btn.disabled = false;
         }
@@ -575,20 +635,27 @@
         // CSV Header
         let csv = 'Date (UTC),Queries,Batched Transactions,Total Validations,Daily Average Validations\n';
         
-        // Sort dates in reverse chronological order (newest first)
-        const sortedDates = Object.keys(currentStats).sort().reverse();
+        // Create array of ALL days in the period
+        const now = new Date();
+        const allDates = [];
+        for (let i = currentDays - 1; i >= 0; i--) {
+            const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i, 0, 0, 0));
+            allDates.push(d.toISOString().split('T')[0]);
+        }
         
         // Calculate totals
         let totalQ = 0;
         let totalB = 0;
+        let daysWithTx = 0;
         
-        // Add data rows
-        sortedDates.forEach(date => {
-            const q = currentStats[date].q;
-            const b = currentStats[date].v;
+        // Add data rows for ALL days (including 0 transaction days)
+        allDates.forEach(date => {
+            const q = currentStats[date] ? currentStats[date].q : 0;
+            const b = currentStats[date] ? currentStats[date].v : 0;
             const tv = b * 7;
             totalQ += q;
             totalB += b;
+            if (b > 0) daysWithTx++;  // Only count days with batched transactions
             
             csv += `${date},${q},${b},${tv},${tv}\n`;
         });
@@ -599,7 +666,7 @@
         csv += `\n`;
         csv += `SUMMARY,,,\n`;
         csv += `Period,${currentDays} days,,\n`;
-        csv += `Days with Transactions,${sortedDates.length},,\n`;
+        csv += `Days with Transactions,${daysWithTx},,\n`;
         csv += `Total Queries,${totalQ},,\n`;
         csv += `Total Batched TX,${totalB},,\n`;
         csv += `Total Validations,${grandTotalVals},,\n`;
@@ -624,16 +691,27 @@
         }, 3000);
     }
 
-    function refreshUI(stats, selectedDays, todayStr) {
+    function refreshUI(stats, selectedDays, todayStr, startDay) {
         let totalQ = 0, totalB = 0, rowHtml = "";
-        const sortedDates = Object.keys(stats).sort().reverse();
         
-        sortedDates.forEach((date, index) => {
-            const q = stats[date].q;
-            const b = stats[date].v;
+        // Create array of ALL days in the period
+        const allDates = [];
+        const now = new Date();
+        for (let i = selectedDays - 1; i >= 0; i--) {
+            const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i, 0, 0, 0));
+            allDates.push(d.toISOString().split('T')[0]);
+        }
+        
+        // Process all days (with or without transactions)
+        let daysWithTx = 0;
+        allDates.forEach((date, index) => {
+            const q = stats[date] ? stats[date].q : 0;
+            const b = stats[date] ? stats[date].v : 0;
             const tv = b * 7;
             const isToday = (date === todayStr);
-            totalQ += q; totalB += b;
+            totalQ += q; 
+            totalB += b;
+            if (b > 0) daysWithTx++;  // Only count days with batched transactions
 
             rowHtml += `
                 <div class="log-row ${isToday ? 'today-row' : ''}">
@@ -651,11 +729,11 @@
 
         document.getElementById('qMain').innerText = totalQ.toLocaleString();
         document.getElementById('bMain').innerText = totalB.toLocaleString();
-        document.getElementById('dCount').innerText = sortedDates.length;
+        document.getElementById('dCount').innerText = daysWithTx;
         document.getElementById('vMain').innerText = grandTotalVals.toLocaleString();
         document.getElementById('avgMain').innerText = parseInt(periodAvg).toLocaleString();
         document.getElementById('log-body').innerHTML = rowHtml;
-        document.getElementById('txDaysLabel').innerText = `Tx found on ${sortedDates.length} days`;
+        document.getElementById('txDaysLabel').innerText = `Tx found on ${daysWithTx} of ${selectedDays} days`;
     }
 </script>
 
