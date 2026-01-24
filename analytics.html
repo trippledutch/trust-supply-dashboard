@@ -370,10 +370,21 @@
                 font-size: 1.8em;
             }
             header p {
-                font-size: 0.75em !important;
+                font-size: 0.65em !important;
             }
             .footer {
-                font-size: 11px;
+                font-size: 9.5px;
+            }
+            .date-full {
+                display: none;
+            }
+            .date-short {
+                display: inline;
+            }
+        }
+        @media (min-width: 769px) {
+            .date-short {
+                display: none;
             }
         }
     </style>
@@ -388,7 +399,9 @@
     <header>
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
-        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Version 1.1.0 | 24 January 2026</p>
+        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
+            📅 <span class="date-full">Version 1.1.0 | 24 January 2026</span><span class="date-short">v1.1.0 | 24 Jan 2026</span>
+        </p>
     </header>
     
     <div class="content-wrapper">
@@ -476,7 +489,9 @@
     </div>
     
     <footer class="footer">
-        <p>Trust.Supply Validator Analytics v1.1.0 | Updated 24 January 2026</p>
+        <p>
+            <span class="date-full">Trust.Supply Validator Analytics v1.1.0 | Updated 24 January 2026</span><span class="date-short">Analytics v1.1.0 | 24 Jan 2026</span>
+        </p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
