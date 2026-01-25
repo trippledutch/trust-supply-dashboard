@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust.Supply Validator Analytics v1.1.0</title>
+    <title>Trust.Supply Validator Analytics v1.1.1</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
@@ -400,7 +400,7 @@
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
         <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
-            📅 <span class="date-full">Version 1.1.0 | 24 January 2026</span><span class="date-short">v1.1.0 | 24 Jan 2026</span>
+            📅 <span class="date-full">Version 1.1.1 | 25 January 2026</span><span class="date-short">v1.1.1 | 25 Jan 2026</span>
         </p>
     </header>
     
@@ -412,6 +412,7 @@
                 <option value="1">Period: Today (00:00 UTC to Now)</option>
                 <option value="3">Period: Last 3 Full Days</option>
                 <option value="7">Period: Weekly (Last 7 Full Days)</option>
+                <option value="current-month">Period: Current Month (1st to Now)</option>
                 <option value="30">Period: Monthly (Last 30 Full Days)</option>
                 <option value="90">Period: Quarterly (Last 90 Full Days)</option>
                 <option value="180">Period: Semi-Annual (Last 180 Full Days)</option>
@@ -448,6 +449,23 @@
             </div>
         </div>
 
+        <!-- Monthly Summary Section -->
+        <div id="monthlySummary" style="display: none; margin: 20px 0;">
+            <div class="log-section-title">📊 Monthly Summary</div>
+            <div class="log-container">
+                <div class="log-header">
+                    <span>MONTH</span>
+                    <span>TOTAL QUERIES</span>
+                    <span>TOTAL VALS BATCHED</span>
+                    <span>TX FOUND</span>
+                    <span>TOTAL VALS / AVG</span>
+                </div>
+                <div id="monthly-body">
+                    <!-- Monthly data will be inserted here -->
+                </div>
+            </div>
+        </div>
+
         <div class="log-section-title">Detailed History Log <span class="highlight">(Purple row = Today)</span></div>
         <div class="log-container">
             <div class="log-header">
@@ -473,6 +491,9 @@
             <div style="font-size: 14px; color: var(--gray-500); margin-top: 8px;">
                 <span id="progressDetails">Initializing...</span>
             </div>
+            <div style="font-size: 14px; color: var(--primary); margin-top: 8px; font-weight: 600;">
+                Elapsed Time: <span id="elapsedTime">00:00</span>
+            </div>
         </div>
         
         <!-- Action Buttons -->
@@ -489,7 +510,7 @@
     
     <footer class="footer">
         <p>
-            <span class="date-full">Trust.Supply Validator Analytics v1.1.0 | Updated 24 January 2026</span><span class="date-short">Analytics v1.1.0 | 24 Jan 2026</span>
+            <span class="date-full">Trust.Supply Validator Analytics v1.1.1 | Updated 25 January 2026</span><span class="date-short">Analytics v1.1.1 | 25 Jan 2026</span>
         </p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
@@ -520,7 +541,19 @@
         btn.disabled = true;
         progressIndicator.style.display = 'block';
         progressBar.style.width = '0%';
+        progressText.textContent = 'Scanning blockchain...';
+        progressDetails.textContent = 'Initializing...';
         logBody.innerHTML = `<div style="padding:30px; text-align:center;">Analyzing UTC Calendar Window...</div>`;
+        
+        // Start timer
+        const startTime = Date.now();
+        const timerInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('elapsedTime').innerText = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
         
         // Reset all display values before starting new scan
         document.getElementById('qMain').innerText = '0';
@@ -529,6 +562,8 @@
         document.getElementById('vMain').innerText = '0';
         document.getElementById('avgMain').innerText = '0';
         document.getElementById('txDaysLabel').innerText = 'Tx found on ? days';
+        document.getElementById('elapsedTime').innerText = '00:00';
+        document.getElementById('monthlySummary').style.display = 'none';
         document.getElementById('exportBtn').disabled = true;
         
         let stats = {}; 
@@ -547,6 +582,12 @@
             cutoff = startDay.getTime() / 1000;
             // Calculate days from batching start to now for display
             daysRequested = Math.floor((now.getTime() - startDay.getTime()) / (1000 * 60 * 60 * 24));
+        } else if (timeRangeValue === 'current-month') {
+            // Current month from 1st to now
+            startDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
+            cutoff = startDay.getTime() / 1000;
+            // Calculate days from start of month to now
+            daysRequested = now.getUTCDate(); // Day of month (1-31)
         } else {
             daysRequested = parseInt(timeRangeValue);
             startDay = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - (daysRequested - 1), 0, 0, 0));
@@ -570,10 +611,14 @@
                 if (d.status !== "1" || !d.result.length) break;
 
                 let lastBlock = currentEndBlock;
+                let txProcessed = 0;
                 for (const tx of d.result) {
                     const ts = parseInt(tx.timeStamp);
                     lastBlock = parseInt(tx.blockNumber);
-                    if (ts < cutoff) { keepCrawling = false; break; }
+                    if (ts < cutoff) { 
+                        keepCrawling = false; 
+                        continue; // Skip this old tx but keep processing rest of batch
+                    }
 
                     const date = new Date(ts * 1000).toISOString().split('T')[0];
                     if (!stats[date]) stats[date] = { q: 0, v: 0 };
@@ -581,6 +626,12 @@
                     const input = (tx.input || "").toLowerCase();
                     if (input.includes(SIG.Q)) stats[date].q++;
                     if (input.includes(SIG.V)) stats[date].v++;
+                    
+                    // Refresh UI every 2000 transactions for faster initial display
+                    txProcessed++;
+                    if (txProcessed % 2000 === 0) {
+                        refreshUI(stats, daysRequested, todayStr, startDay);
+                    }
                 }
 
                 refreshUI(stats, daysRequested, todayStr, startDay);
@@ -599,6 +650,12 @@
             const daysWithBatched = Object.keys(stats).filter(date => stats[date].v > 0).length;
             progressDetails.textContent = `Processed ${blocksFetched} batches | Found ${daysWithBatched} days with validations`;
             
+            // Stop timer
+            clearInterval(timerInterval);
+            
+            // Display monthly summary
+            displayMonthlySummary(stats, startDay, daysRequested);
+            
             status.innerText = "SCAN COMPLETE";
             // Store data for CSV export
             currentStats = stats;
@@ -608,10 +665,9 @@
             currentStartDay = startDay;
             document.getElementById('exportBtn').disabled = false;
             
-            setTimeout(() => {
-                progressIndicator.style.display = 'none';
-            }, 3000);
+            // Keep timer visible - don't hide progress indicator
         } catch (e) {
+            clearInterval(timerInterval);
             status.innerText = "CONNECTION ERROR";
             progressIndicator.style.display = 'none';
         } finally {
@@ -629,6 +685,8 @@
         let periodName;
         if (currentPeriod === 'since-batching') {
             periodName = 'SinceBatching';
+        } else if (currentPeriod === 'current-month') {
+            periodName = 'CurrentMonth';
         } else {
             const periodNames = {
                 1: 'Today',
@@ -748,6 +806,92 @@
         document.getElementById('log-body').innerHTML = rowHtml;
         document.getElementById('txDaysLabel').innerText = `Tx found on ${daysWithTx} of ${selectedDays} days`;
     }
+
+    function displayMonthlySummary(stats, startDay, totalDays) {
+        // Group data by month
+        const monthlyData = {};
+        
+        for (const date in stats) {
+            const monthKey = date.substring(0, 7); // 'YYYY-MM' format
+            if (!monthlyData[monthKey]) {
+                monthlyData[monthKey] = {
+                    queries: 0,
+                    batched: 0,
+                    txDays: 0,
+                    calendarDays: 0
+                };
+            }
+            monthlyData[monthKey].queries += stats[date].q;
+            monthlyData[monthKey].batched += stats[date].v;
+            if (stats[date].v > 0) monthlyData[monthKey].txDays++;
+        }
+        
+        // Calculate calendar days for each month
+        const now = new Date();
+        const endDay = now;
+        
+        for (const monthKey in monthlyData) {
+            const [year, month] = monthKey.split('-').map(Number);
+            const monthStart = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0));
+            const monthEnd = new Date(Date.UTC(year, month, 0, 23, 59, 59)); // Last day of month
+            
+            // Calculate overlap with selection range
+            const rangeStart = startDay > monthStart ? startDay : monthStart;
+            const rangeEnd = endDay < monthEnd ? endDay : monthEnd;
+            
+            // Calculate calendar days
+            const daysDiff = Math.floor((rangeEnd - rangeStart) / (1000 * 60 * 60 * 24)) + 1;
+            monthlyData[monthKey].calendarDays = Math.max(0, daysDiff);
+        }
+        
+        // Sort months chronologically
+        const sortedMonths = Object.keys(monthlyData).sort();
+        
+        // Build monthly summary HTML
+        let monthlyHtml = '';
+        let totalQueries = 0, totalBatched = 0, totalTxDays = 0, totalCalendarDays = 0;
+        
+        sortedMonths.forEach((monthKey, index) => {
+            const data = monthlyData[monthKey];
+            const totalVals = data.batched * 7;
+            const avgVals = data.calendarDays > 0 ? Math.round(totalVals / data.calendarDays) : 0;
+            
+            // Format month name
+            const [year, month] = monthKey.split('-');
+            const monthName = new Date(year, month - 1, 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            
+            totalQueries += data.queries;
+            totalBatched += data.batched;
+            totalTxDays += data.txDays;
+            totalCalendarDays += data.calendarDays;
+            
+            monthlyHtml += `
+                <div class="log-row">
+                    <span style="font-weight: 600; color: var(--primary);">${monthName}</span>
+                    <span>${data.queries.toLocaleString()}</span>
+                    <span>${data.batched.toLocaleString()}</span>
+                    <span>${data.txDays}</span>
+                    <span style="font-weight: 600;">${totalVals.toLocaleString()} <span style="color: var(--success);">/ ${avgVals.toLocaleString()}</span></span>
+                </div>`;
+        });
+        
+        // Add totals row
+        const grandTotalVals = totalBatched * 7;
+        const grandAvgVals = totalCalendarDays > 0 ? Math.round(grandTotalVals / totalCalendarDays) : 0;
+        
+        monthlyHtml += `
+            <div class="log-row" style="background: var(--primary); color: white; font-weight: bold;">
+                <span>TOTAL</span>
+                <span>${totalQueries.toLocaleString()}</span>
+                <span>${totalBatched.toLocaleString()}</span>
+                <span>${totalTxDays}</span>
+                <span>${grandTotalVals.toLocaleString()} / ${grandAvgVals.toLocaleString()}</span>
+            </div>`;
+        
+        document.getElementById('monthly-body').innerHTML = monthlyHtml;
+        document.getElementById('monthlySummary').style.display = 'block';
+    }
+
 </script>
 
 <!-- Cloudflare Web Analytics -->
