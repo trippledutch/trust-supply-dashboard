@@ -19,5 +19,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "*.html,favicon.ico"
-          target: "/var/www/trustnodes.nl/html/"
+          target: "/var/www/trustnodes.nl/"
           strip_components: 0
