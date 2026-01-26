@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Trust.Supply Validator Analytics v1.1.1</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
@@ -541,6 +544,8 @@
         btn.disabled = true;
         progressIndicator.style.display = 'block';
         progressBar.style.width = '0%';
+        progressText.textContent = 'Scanning blockchain...';
+        progressDetails.textContent = 'Initializing...';
         logBody.innerHTML = `<div style="padding:30px; text-align:center;">Analyzing UTC Calendar Window...</div>`;
         
         // Start timer
@@ -561,6 +566,7 @@
         document.getElementById('avgMain').innerText = '0';
         document.getElementById('txDaysLabel').innerText = 'Tx found on ? days';
         document.getElementById('elapsedTime').innerText = '00:00';
+        document.getElementById('monthlySummary').style.display = 'none';
         document.getElementById('exportBtn').disabled = true;
         
         let stats = {}; 
@@ -662,9 +668,7 @@
             currentStartDay = startDay;
             document.getElementById('exportBtn').disabled = false;
             
-            setTimeout(() => {
-                progressIndicator.style.display = 'none';
-            }, 3000);
+            // Keep timer visible - don't hide progress indicator
         } catch (e) {
             clearInterval(timerInterval);
             status.innerText = "CONNECTION ERROR";
