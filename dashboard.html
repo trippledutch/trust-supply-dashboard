@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.2.1</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.2.2</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -278,7 +278,7 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.1</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.2</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 27 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -307,8 +307,8 @@
                 </div>
                 <div class="control-group highlight">
                     <label>Daily Validations 🔥</label>
-                    <input type="text" id="dailyValidations" value="17,900" oninput="updateYearlyValidations(); updateActiveNodesFromValidations(); calculate(); calculateMyNodes()">
-                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Drives network growth & price</small>
+                    <input type="text" id="dailyValidations" value="18,584" oninput="updateYearlyValidations(); updateActiveNodesFromValidations(); calculate(); calculateMyNodes()">
+                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">12-month rolling average (Dec 2025) - Update monthly via Load Latest Data</small>
                 </div>
                 <div class="control-group highlight">
                     <label>Current Price ($) 💰</label>
@@ -811,6 +811,28 @@
                         </div>
                     </div>
                     
+                    <!-- Validator Runtime (NEW v1.2.2) -->
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">⏱️ Validator Runtime (optional):</label>
+                        <div style="display: grid; grid-template-columns: 150px 1fr; gap: 15px; align-items: center;">
+                            <div>
+                                <input type="number" id="validatorRuntime" value="120" min="0" max="365"
+                                       style="width: 100%; padding: 8px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; text-align: center;"
+                                       oninput="calculateMyNodes()">
+                                <div style="font-size: 0.8em; margin-top: 5px; opacity: 0.85;">Days validator has been active</div>
+                            </div>
+                            <div style="font-size: 0.85em; opacity: 0.9; line-height: 1.6;">
+                                <div id="runtimeStatus" style="margin-bottom: 5px; font-weight: 600;">📊 Maturity: 100% (Steady-state)</div>
+                                💡 <strong>New validators earn less while ramping up:</strong><br>
+                                • 0-30 days: ~82% of steady-state<br>
+                                • 30-60 days: ~88% of steady-state<br>
+                                • 60-90 days: ~94% of steady-state<br>
+                                • 90-120 days: ~97% of steady-state<br>
+                                • 120+ days: 100% (full allocation)
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Staking Period Selection -->
                     <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
                         <label style="font-weight: bold; display: block; margin-bottom: 10px;">📅 Staking Period:</label>
@@ -1157,8 +1179,8 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.2.1 | Updated 27 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.1: Real-world baseline (4.9 vals/node/day from 25 current validators), fixed calculation consistency</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.2.2 | Updated 27 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.2: Real-world baseline (4.9), 12-month rolling average (18,584), runtime maturity adjustment for new validators</p>
         </footer>
     </div>
 
@@ -1662,6 +1684,17 @@ async function loadLatestData(event) {
             document.getElementById('myNetworkValidators').textContent = calculatedValidators;
         }
 
+        // NEW v1.2.2: Validator Maturity Factor (Ramp-up Period)
+        function getValidatorMaturityFactor(runtimeDays) {
+            // New validators take 120 days to reach full validation allocation
+            // Based on empirical data from actual validators
+            if (runtimeDays < 30) return 0.82;      // Very new: 18% below steady-state
+            if (runtimeDays < 60) return 0.88;      // Ramping up: 12% below
+            if (runtimeDays < 90) return 0.94;      // Maturing: 6% below
+            if (runtimeDays < 120) return 0.97;     // Nearly mature: 3% below
+            return 1.00;                             // Steady-state: full allocation
+        }
+
         // NEW v5.5: My Nodes Calculator
         function calculateMyNodes() {
             try {
@@ -1698,6 +1731,33 @@ async function loadLatestData(event) {
                                                        validationScalingFactor * 
                                                        networkScalingFactor;
                 
+                // v1.2.2: Apply validator maturity factor (ramp-up period)
+                const runtimeDays = parseInt(document.getElementById('validatorRuntime').value) || 120;
+                const maturityFactor = getValidatorMaturityFactor(runtimeDays);
+                const ADJUSTED_BASELINE = BASELINE_VAL_PER_NODE_PER_DAY * maturityFactor;
+                
+                // Update runtime status display
+                const maturityPercent = (maturityFactor * 100).toFixed(0);
+                let statusText = '';
+                let statusColor = '';
+                if (runtimeDays < 30) {
+                    statusText = `📊 Maturity: ${maturityPercent}% (Very new - ${120-runtimeDays} days to steady-state)`;
+                    statusColor = '#ff6b6b';
+                } else if (runtimeDays < 60) {
+                    statusText = `📊 Maturity: ${maturityPercent}% (Ramping up - ${120-runtimeDays} days to steady-state)`;
+                    statusColor = '#fbbf24';
+                } else if (runtimeDays < 90) {
+                    statusText = `📊 Maturity: ${maturityPercent}% (Maturing - ${120-runtimeDays} days to steady-state)`;
+                    statusColor = '#4ade80';
+                } else if (runtimeDays < 120) {
+                    statusText = `📊 Maturity: ${maturityPercent}% (Nearly mature - ${120-runtimeDays} days to steady-state)`;
+                    statusColor = '#4ade80';
+                } else {
+                    statusText = `📊 Maturity: ${maturityPercent}% (Steady-state - full allocation)`;
+                    statusColor = '#4ade80';
+                }
+                document.getElementById('runtimeStatus').innerHTML = `<span style="color: ${statusColor};">${statusText}</span>`;
+                
                 const networkPercentage = ((nodes / networkNodes) * 100).toFixed(2);
                 
                 // Calculate EVLS factor (same as Multi-Node table)
@@ -1717,8 +1777,8 @@ async function loadLatestData(event) {
                 };
                 const daysInPeriod = periodDays[selectedStakingPeriod];
                 
-                // Calculate validations
-                const validationsPerNodePerDay = BASELINE_VAL_PER_NODE_PER_DAY * evlsFactor;
+                // Calculate validations (using maturity-adjusted baseline)
+                const validationsPerNodePerDay = ADJUSTED_BASELINE * evlsFactor;
                 const totalValidationsPerDay = validationsPerNodePerDay * nodes;
                 const yearlyValidations = totalValidationsPerDay * 365;
                 
