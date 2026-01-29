@@ -303,7 +303,7 @@
                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(40, 167, 69, 0.3)';">
                 📥 Load Latest Data
             </button>
-            <a href="#myNodesCalculator" onclick="loadLatestData(event)" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
+            <a href="#myNodesCalculator" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
                 🎯 Jump to My Nodes Calculator
             </a>
         </div>
@@ -1709,10 +1709,9 @@ async function loadLatestData(event) {
                 const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.062;
                 const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 17900;
                 
-                // v1.2.1: Use ACTUAL network nodes from totalNodes (same as Multi-Node Strategy)
-                // v1.2.3: Subtract earlyUnstakes for nodes in unstake waiting period
-                const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
-                const networkNodes = (parseFormattedNumber(document.getElementById('totalNodes').value) || 4510) - earlyUnstakes;
+                // v1.2.3: Use myNetworkNodes for network scaling (user can adjust this in My Nodes Calculator)
+                // This allows modeling how network growth affects profitability
+                const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4509;
                 
                 // v1.2.1: Use ACTUAL real-world baseline from current validator data
                 // Analysis of 25 validators (today's data, various sizes):
