@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.2.2</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.2.3</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -278,13 +278,20 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.2</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.3</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 27 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
                 <strong>⚠️ Disclaimer:</strong> This is an unofficial, community-created analytical tool. All data is derived from publicly available on-chain sources. Economic models, formulas, and projections are provided by @trippledutch for informational and educational purposes only. <strong>This dashboard does not constitute financial, investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies. Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the accuracy of information displayed herein. Users assume all risk and responsibility for any decisions made based on this dashboard. Always conduct your own research and consult qualified professionals before making investment decisions.
             </div>
         </header>
+
+        <!-- Quick Jump to My Nodes Calculator -->
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="#myNodesCalculator" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
+                🎯 Jump to My Nodes Calculator
+            </a>
+        </div>
 
         <div class="controls">
             <!-- LINE 1: Core Network Metrics -->
@@ -663,7 +670,7 @@
                     <!-- Formula and Technical Details -->
                     <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; border-left: 4px solid #0066cc; margin-bottom: 15px;">
                         <h5 style="margin: 0 0 10px 0; color: #0066cc;">📐 The Formula</h5>
-                        <div style="background: rgba(0,0,0,0.05); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.9em;">
+                        <div style="background: rgba(0,0,0,0.05); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 1em; line-height: 1.6;">
                             • Below 100 nodes: <strong>Impact = 0%</strong> (Full validation rate)<br>
                             • At 100+ nodes: <strong>Impact% = 10.26 + (0.2790 × (nodes - 100))</strong><br>
                             • Load Factor = 1.0 - (Impact% / 100)<br>
@@ -737,7 +744,7 @@
                 </div>
                 
                 <!-- NEW v5.5: My Nodes Calculator -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; margin-top: 20px; color: white;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; margin-top: 20px; color: white;" id="myNodesCalculator">
                     <h4 style="margin: 0 0 15px 0; font-size: 1.3em;">🎯 My Nodes Calculator</h4>
                     <p style="margin: 0 0 15px 0; opacity: 0.95;">Calculate economics for YOUR specific node count</p>
                     
@@ -950,11 +957,11 @@
                         
                         <!-- Network Percentage Display -->
                         <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3);">
-                            <div style="font-size: 0.9em; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">📊 Your Network Share</div>
+                            <div style="font-size: 1.3em; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">📊 Your Network Share</div>
                             <div id="myNodesNetworkInfo" style="font-size: 1.3em; font-weight: bold; line-height: 1.6;">
                                 <span id="myNodesCount">1</span> <span id="myNodesLabel">node</span> = <span id="myNodesPercentage" style="color: #4ade80;">0.02%</span> of <span id="myNodesNetworkSize">4,339</span> active nodes
                             </div>
-                            <div style="font-size: 1.1em; font-weight: bold; margin-top: 8px; opacity: 0.9;">
+                            <div style="font-size: 1.3em; font-weight: bold; margin-top: 8px; opacity: 0.9;">
                                 Staked MNW: <span id="myNodesStaked" style="color: #4ade80;">1.8K</span>
                             </div>
                         </div>
@@ -1006,22 +1013,24 @@
                     </div>
                 </div>
                 
-                <table style="margin-top: 15px;">
-                    <thead>
-                        <tr>
-                            <th>Configuration</th>
-                            <th style="text-align: right;">Nodes</th>
-                            <th style="text-align: right;">AVG VAL/Day</th>
-                            <th style="text-align: right;">MNW/Day</th>
-                            <th style="text-align: right;">VAL/Yr</th>
-                            <th style="text-align: right;">MNW/Yr</th>
-                            <th style="text-align: right;">VPS Cost/Yr</th>
-                            <th style="text-align: right;">EVLS Impact</th>
-                            <th style="text-align: right;">Earnings/Yr</th>
-                        </tr>
-                    </thead>
-                    <tbody id="multiNodeTable"></tbody>
-                </table>
+                <div style="overflow-x: auto;">
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Configuration</th>
+                                <th style="text-align: right;">Nodes</th>
+                                <th style="text-align: right;">AVG VAL/Day</th>
+                                <th style="text-align: right;">MNW/Day</th>
+                                <th style="text-align: right;">VAL/Yr</th>
+                                <th style="text-align: right;">MNW/Yr</th>
+                                <th style="text-align: right;">VPS Cost/Yr</th>
+                                <th style="text-align: right;">EVLS Impact</th>
+                                <th style="text-align: right;">Earnings/Yr</th>
+                            </tr>
+                        </thead>
+                        <tbody id="multiNodeTable"></tbody>
+                    </table>
+                </div>
                 
                 <div class="alert-box alert-success" style="margin-top: 15px;" id="multiNodeInsight"></div>
                 <div class="evls-warning" id="evlsWarning" style="display: none;">
@@ -1180,7 +1189,7 @@
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
             <p>Unofficial Trust.Supply Economic Dashboard v1.2.2 | Updated 27 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.2: Real-world baseline (4.9), 12-month rolling average (18,584), runtime maturity adjustment for new validators</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.3: My Nodes validator sync, mobile table scroll, UI improvements</p>
         </footer>
     </div>
 
@@ -1675,13 +1684,10 @@ async function loadLatestData(event) {
 
         // NEW v5.5: Update Network Validators based on node count
         function updateMyNetworkValidators() {
-            // v1.2.1: Use totalNodes from main calculation (same as Update button)
-            const networkNodes = parseFormattedNumber(document.getElementById('totalNodes').value) || 4339;
-            const ratio = 40; // nodes per validator (4339 / 109 = ~39.8, round to 40)
+            // v1.2.3: Use activeValidators directly from Load Latest Data button
+            const validators = parseFormattedNumber(document.getElementById('activeValidators').value) || 109;
             
-            const calculatedValidators = Math.round(networkNodes / ratio);
-            
-            document.getElementById('myNetworkValidators').textContent = calculatedValidators;
+            document.getElementById('myNetworkValidators').textContent = validators;
         }
 
         // NEW v1.2.2: Validator Maturity Factor (Ramp-up Period)
