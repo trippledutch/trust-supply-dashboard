@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Trust.Supply Validator Analytics v1.1.1</title>
+    <title>Trust.Supply Validator Analytics v1.2.1</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
@@ -403,7 +403,7 @@
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
         <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
-            📅 <span class="date-full">Version 1.1.1 | 25 January 2026</span><span class="date-short">v1.1.1 | 25 Jan 2026</span>
+            📅 <span class="date-full">Version 1.2.1 | 29 January 2026</span><span class="date-short">v1.2.1 | 29 Jan 2026</span>
         </p>
     </header>
     
@@ -469,6 +469,21 @@
             </div>
         </div>
 
+        <!-- Recent Queries Section (NEW v1.2.1) -->
+        <div id="recentQueries" style="display: none; margin: 20px 0;">
+            <div class="log-section-title">🔍 Validation Transaction Details (Last 25)</div>
+            <div class="log-container">
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="font-size: 0.9em; color: var(--gray-700); line-height: 1.6;">
+                        <strong>📊 Real Blockchain Data:</strong> Shows decoded validation transactions from your scan. Each entry includes the actual transaction ID from PolygonScan, pool name, 3-letter code, query ID, date, and coordinates.
+                    </div>
+                </div>
+                <div id="queries-body" style="max-height: 500px; overflow-y: auto;">
+                    <!-- Query data will be inserted here -->
+                </div>
+            </div>
+        </div>
+
         <div class="log-section-title">Detailed History Log <span class="highlight">(Purple row = Today)</span></div>
         <div class="log-container">
             <div class="log-header">
@@ -502,6 +517,7 @@
         <!-- Action Buttons -->
         <div style="margin-top: 30px; text-align: center; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
             <button onclick="runV106()" id="scanBtn" style="flex: 1; min-width: 200px; max-width: 250px;">Show Transactions</button>
+            <button onclick="showDetailsWindow()" id="detailsBtn" disabled style="flex: 1; min-width: 200px; max-width: 250px; background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">🔍 Show Details</button>
             <button onclick="exportCSV()" id="exportBtn" class="export-btn" disabled style="flex: 1; min-width: 200px; max-width: 250px;">📥 Export CSV</button>
             <button onclick="window.location.href='index.html'" style="flex: 1; min-width: 200px; max-width: 250px; background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">← Back to Tools</button>
         </div>
@@ -513,16 +529,38 @@
     
     <footer class="footer">
         <p>
-            <span class="date-full">Trust.Supply Validator Analytics v1.1.1 | Updated 25 January 2026</span><span class="date-short">Analytics v1.1.1 | 25 Jan 2026</span>
+            <span class="date-full">Trust.Supply Validator Analytics v1.2.1 | Updated 29 January 2026</span><span class="date-short">Analytics v1.2.1 | 29 Jan 2026</span>
         </p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
 <script>
     const KEY = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
     const ADDR = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
     const SIG = { Q: "0xde93c2ef", V: "0x25871242" };
+    
+    // NEW v1.2.1: Array to store recent queries with decoded data
+    let recentQueries = [];
+    let validationCount = 0; // Track how many validations we found
+    
+    // NEW v1.2.1: ABI for addValidation function
+    const ADD_VALIDATION_ABI = [
+        "function addValidation(address _validatorAddress, string _poolName, string _queryId, string _validatedQuery)"
+    ];
+    
+    // NEW v1.2.1: Check if ethers.js loaded successfully
+    window.addEventListener('load', function() {
+        if (typeof ethers !== 'undefined') {
+            console.log('✅ ethers.js v' + ethers.version + ' loaded successfully');
+        } else {
+            console.error('❌ CRITICAL: ethers.js library failed to load!');
+            console.error('📝 Transaction decoding will not work without ethers.js');
+            alert('Warning: ethers.js library failed to load. Transaction decoding will not work. Please check your internet connection and refresh the page.');
+        }
+    });
     
     // Global variables for CSV export
     let currentStats = {};
@@ -530,6 +568,202 @@
     let currentTodayStr = '';
     let currentPeriod = '';
     let currentStartDay = null;
+
+    // NEW v1.2.1: Parse Query ID into components
+    function parseQueryId(queryUrl) {
+        try {
+            // ACTUAL Format: CODE.ID@DATE:LATITUDE,LONGITUDE
+            // Example: HNH.xpjxfxK7QRqT@2026-01-26:-33.5808615,-71.6132377
+            
+            const parts = queryUrl.split('@');
+            if (parts.length !== 2) return null;
+            
+            // Parse 3-letter code and ID
+            const [codePart, rest] = parts;
+            const [code, id] = codePart.split('.');
+            
+            // Parse date and coordinates
+            const [date, coords] = rest.split(':');
+            
+            if (!coords) return null;
+            
+            // Parse latitude and longitude (comma-separated)
+            const coordParts = coords.split(',');
+            const latitude = coordParts[0] || 'N/A';
+            const longitude = coordParts[1] || 'N/A';
+            
+            return {
+                code: code || 'N/A',           // 3-letter code (e.g., HNH)
+                id: id || 'N/A',               // Query ID (e.g., xpjxfxK7QRqT)
+                date: date || 'N/A',           // Date (e.g., 2026-01-26)
+                latitude: latitude,             // Latitude (e.g., -33.5808615)
+                longitude: longitude,           // Longitude (e.g., -71.6132377)
+                raw: queryUrl
+            };
+        } catch (e) {
+            console.error('Query URL parse error:', e);
+            return null;
+        }
+    }
+
+    // NEW v1.2.1: Show details window function
+    function showDetailsWindow() {
+        if (validationCount === 0) {
+            alert('No validation transactions found. Please run a blockchain scan first.');
+            return;
+        }
+        
+        if (recentQueries.length === 0) {
+            alert(`Found ${validationCount} validation transactions, but decoding failed.\n\nethers.js library may not be loaded. Check the browser console for errors.\n\nPlease refresh the page and try again.`);
+            return;
+        }
+        
+        console.log('🔍 Displaying', recentQueries.length, 'REAL validation transactions from blockchain');
+        console.log('✅ All transaction IDs are verifiable on PolygonScan');
+        
+        displayRecentQueries();
+        
+        // Scroll to the section
+        document.getElementById('recentQueries').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // NEW v1.2.1: Function to decode transaction input data
+    function decodeValidationData(inputData, txHash, timestamp) {
+        try {
+            // Check if ethers is loaded
+            if (typeof ethers === 'undefined') {
+                console.error('❌ ethers.js library not loaded. Cannot decode transaction:', txHash);
+                return null;
+            }
+            
+            const iface = new ethers.utils.Interface(ADD_VALIDATION_ABI);
+            const decoded = iface.parseTransaction({ data: inputData });
+            
+            const result = {
+                txHash: txHash,
+                timestamp: timestamp,
+                validatorAddress: decoded.args._validatorAddress,
+                poolName: decoded.args._poolName,
+                queryId: decoded.args._queryId,
+                validatedQuery: decoded.args._validatedQuery
+            };
+            
+            console.log('✅ Decoded validation:', result.poolName, result.queryId.substring(0, 30) + '...');
+            return result;
+        } catch (e) {
+            console.error('❌ Decode error for tx:', txHash, e.message);
+            return null;
+        }
+    }
+
+    // NEW v1.2.1: Function to display recent queries
+    function displayRecentQueries() {
+        const queriesBody = document.getElementById('queries-body');
+        const recentQueriesSection = document.getElementById('recentQueries');
+        
+        // Always show section after scan
+        recentQueriesSection.style.display = 'block';
+        
+        console.log('displayRecentQueries called. Found:', recentQueries.length, 'queries');
+        
+        if (recentQueries.length === 0) {
+            queriesBody.innerHTML = `
+                <div style="padding: 30px; text-align: center; color: var(--gray-500);">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🔍</div>
+                    <div style="font-size: 1.2em; font-weight: 600; margin-bottom: 10px;">No Validation Data Available</div>
+                    <div>Please run a blockchain scan first using the "Show Transactions" button.</div>
+                    <div style="margin-top: 10px; font-size: 0.9em;">After the scan completes, click "Show Details" to view decoded transactions.</div>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        recentQueries.slice(0, 25).forEach((query, index) => {
+            const date = new Date(query.timestamp * 1000);
+            const dateStr = date.toISOString().split('T')[0];
+            const timeStr = date.toISOString().split('T')[1].split('.')[0];
+            
+            // Parse the Query URL into components
+            const parsed = parseQueryId(query.queryId);
+            
+            html += `
+                <div style="padding: 20px; border-bottom: 2px solid var(--gray-200); background: ${index % 2 === 0 ? 'white' : 'rgba(102, 126, 234, 0.05)'};">
+                    <div style="display: flex; gap: 15px; align-items: flex-start;">
+                        <div style="font-weight: bold; color: var(--primary); font-size: 1.5em; min-width: 50px;">
+                            #${index + 1}
+                        </div>
+                        <div style="flex: 1;">
+                            <!-- Transaction Info -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; padding: 12px; background: rgba(0,0,0,0.02); border-radius: 8px;">
+                                <div>
+                                    <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 3px;">📅 TX Timestamp</div>
+                                    <div style="color: var(--gray-700); font-weight: 500;">${dateStr} ${timeStr} UTC</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 3px;">🏊 Pool Name</div>
+                                    <div style="color: var(--primary); font-weight: 700; font-size: 1.15em;">${query.poolName || 'N/A'}</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Full Query URL -->
+                            <div style="margin-bottom: 12px; padding: 10px; background: rgba(255, 193, 7, 0.08); border-radius: 5px; border-left: 3px solid var(--warning);">
+                                <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 5px;">🔗 Full Query URL</div>
+                                <div style="font-family: monospace; color: var(--gray-700); font-size: 0.9em; word-break: break-all; font-weight: 500;">${query.queryId || 'N/A'}</div>
+                            </div>
+                            
+                            <!-- Parsed Query Data -->
+                            ${parsed ? `
+                                <div style="padding: 15px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%); border-radius: 8px; border-left: 4px solid var(--info); margin-bottom: 15px;">
+                                    <div style="font-weight: 600; color: var(--info); margin-bottom: 10px; font-size: 1.05em;">🔍 Parsed Query Details</div>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
+                                        <div>
+                                            <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 2px;">3-Letter Code</div>
+                                            <div style="font-family: monospace; color: var(--primary); font-weight: 700; font-size: 1.2em; background: white; padding: 6px 10px; border-radius: 4px; display: inline-block; letter-spacing: 1px;">${parsed.code}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 2px;">Query ID</div>
+                                            <div style="font-family: monospace; color: var(--gray-700); font-size: 0.9em; background: white; padding: 6px 10px; border-radius: 4px; font-weight: 500;">${parsed.id}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 2px;">Query Date</div>
+                                            <div style="font-family: monospace; color: var(--gray-700); font-size: 0.9em; background: white; padding: 6px 10px; border-radius: 4px; font-weight: 500;">${parsed.date}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 2px;">🌍 Latitude</div>
+                                            <div style="font-family: monospace; color: var(--success); font-weight: 600; font-size: 0.95em; background: white; padding: 6px 10px; border-radius: 4px;">${parsed.latitude}</div>
+                                        </div>
+                                        <div>
+                                            <div style="font-size: 0.75em; text-transform: uppercase; color: var(--gray-500); font-weight: 600; margin-bottom: 2px;">🌍 Longitude</div>
+                                            <div style="font-family: monospace; color: var(--success); font-weight: 600; font-size: 0.95em; background: white; padding: 6px 10px; border-radius: 4px;">${parsed.longitude}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            <!-- Blockchain Links -->
+                            <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 10px; border-top: 1px solid var(--gray-200);">
+                                <div>
+                                    <span style="font-weight: 600; color: var(--primary); font-size: 0.85em;">📝 Transaction ID:</span>
+                                    <a href="https://polygonscan.com/tx/${query.txHash}" target="_blank" style="color: var(--primary); text-decoration: none; font-family: monospace; font-size: 0.85em; margin-left: 5px; word-break: break-all;">
+                                        ${query.txHash}
+                                    </a>
+                                </div>
+                                <div>
+                                    <span style="font-weight: 600; color: var(--success); font-size: 0.85em;">✅ Validator Address:</span>
+                                    <a href="https://polygonscan.com/address/${query.validatorAddress}" target="_blank" style="color: var(--success); text-decoration: none; font-family: monospace; font-size: 0.85em; margin-left: 5px;">
+                                        ${query.validatorAddress.substring(0, 10)}...${query.validatorAddress.substring(query.validatorAddress.length - 8)}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        queriesBody.innerHTML = html;
+    }
 
     async function runV106() {
         const btn = document.getElementById('scanBtn');
@@ -568,6 +802,10 @@
         document.getElementById('elapsedTime').innerText = '00:00';
         document.getElementById('monthlySummary').style.display = 'none';
         document.getElementById('exportBtn').disabled = true;
+        
+        // NEW v1.2.1: Reset recent queries array and validation counter
+        recentQueries = [];
+        validationCount = 0;
         
         let stats = {}; 
         let currentEndBlock = 999999999;
@@ -628,7 +866,20 @@
 
                     const input = (tx.input || "").toLowerCase();
                     if (input.includes(SIG.Q)) stats[date].q++;
-                    if (input.includes(SIG.V)) stats[date].v++;
+                    if (input.includes(SIG.V)) {
+                        stats[date].v++;
+                        validationCount++; // Track total validations found
+                        
+                        // NEW v1.2.1: Decode and store validation data (first 25 only)
+                        if (recentQueries.length < 25) {
+                            console.log('🔄 Processing validation tx:', tx.hash);
+                            const decoded = decodeValidationData(tx.input, tx.hash, ts);
+                            if (decoded) {
+                                recentQueries.push(decoded);
+                                console.log('📊 Total decoded queries so far:', recentQueries.length);
+                            }
+                        }
+                    }
                     
                     // Refresh UI every 2000 transactions for faster initial display
                     txProcessed++;
@@ -658,6 +909,21 @@
             
             // Display monthly summary
             displayMonthlySummary(stats, startDay, daysRequested);
+            
+            // NEW v1.2.1: Enable Show Details button if we found validation transactions
+            const detailsBtn = document.getElementById('detailsBtn');
+            if (validationCount > 0) {
+                detailsBtn.disabled = false;
+                if (recentQueries.length > 0) {
+                    detailsBtn.title = `Show ${recentQueries.length} decoded validation transactions`;
+                    console.log('✅ Found', validationCount, 'validations, successfully decoded', recentQueries.length + '. Click "Show Details" to view.');
+                } else {
+                    detailsBtn.title = `Show ${validationCount} validation transactions (decoding failed - check ethers.js)`;
+                    console.log('⚠️ Found', validationCount, 'validations but decoding failed. ethers.js may not be loaded.');
+                }
+            } else {
+                console.log('ℹ️ No validations found in scan period.');
+            }
             
             status.innerText = "SCAN COMPLETE";
             // Store data for CSV export
