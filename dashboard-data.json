@@ -1,8 +1,8 @@
 {
   "lastUpdated": "2026-01-29",
   "data": {
-    "activeNodes": 4509,
-    "prematureUnstaked": 1,
+    "activeNodes": 4510,
+    "earlyUnstakes": 1,
     "activeValidators": 109,
     "dailyValidations": 18449,
     
