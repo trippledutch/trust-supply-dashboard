@@ -6,11 +6,11 @@
     "activeValidators": 109,
     "dailyValidations": 18449,
     
-    "dexLiquidity": 1307882,
-    "cexLocked": 3372311,
+    "dexLiquidity": 1271824,
+    "cexLocked": 3372234,
     "teamWallet": 1724534,
-    "polygonMNW": 5524409,
-    "ethereumMNW": 27625363,
+    "polygonMNW": 5517551,
+    "ethereumMNW": 27668356,
     "lostTokens": 500000,
     
     "nodes3m": 445,
