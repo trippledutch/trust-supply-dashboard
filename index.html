@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Trust.Supply Tools - Unofficial Analytics Suite</title>
+    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --blue: #2563eb;
+            --blue-dark: #1e40af;
+            --card: #1e293b;
+            --bg-dark: #0f172a;
+            --success: #4ade80;
+            --accent: #60a5fa;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px 60px 20px;
+        }
+        
+        header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #60a5fa 0%, #fff 50%, #4ade80 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+        }
+        
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 500;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        
+        .tool-card.analytics::before {
+            background: linear-gradient(90deg, var(--blue) 0%, var(--blue-dark) 100%);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+        }
+        
+        .tool-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+        
+        .tool-card h2 {
+            font-size: 2em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #1e293b;
+        }
+        
+        .tool-card .version {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .tool-card.analytics .version {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+        }
+        
+        .tool-card .description {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #475569;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        
+        .tool-card .features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .tool-card .features li {
+            padding: 8px 0;
+            color: #64748b;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-card .features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 12px;
+        }
+        
+        .tool-card .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .tool-card.analytics .cta {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+        }
+        
+        .tool-card .cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tool-card.analytics .cta:hover {
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+        
+        /* Info Section */
+        .info-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .info-section h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .info-section p {
+            line-height: 1.8;
+            opacity: 0.95;
+            font-size: 1.05em;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.9;
+        }
+        
+        footer p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2em;
+            }
+            
+            header p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Trust.Supply Tools on trustnodes.nl</h1>
+            <p>Unofficial community-created analytics suite for Trust.Supply validator economics and MNW tokenomics</p>
+        </header>
+        
+        <div class="tools-grid">
+            <!-- Economic Dashboard Card -->
+            <div class="tool-card">
+                <div class="tool-icon">💰</div>
+                <h2>Economic Dashboard</h2>
+                <span class="version">v1.2.3</span>
+                <p class="description">
+                    Comprehensive validator economics, treasury modeling, and tokenomics analysis with real-time data integration.
+                </p>
+                <ul class="features">
+                    <li>Live MNW price from CoinGecko</li>
+                    <li>On-chain staked MNW via Alchemy</li>
+                    <li>Dynamic liquidity tier analysis</li>
+                    <li>Token velocity scenarios</li>
+                    <li>Network scaling projections</li>
+                    <li>Team treasury sustainability</li>
+                </ul>
+                <button class="cta" onclick="window.location.href='dashboard.html'">
+                    Open Dashboard →
+                </button>
+            </div>
+            
+            <!-- Validator Analytics Card -->
+            <div class="tool-card analytics">
+                <div class="tool-icon">📊</div>
+                <h2>Validator Analytics</h2>
+                <span class="version">v1.3.2</span>
+                <p class="description">
+                    Real-time transaction analysis and validation tracking from Polygon blockchain with detailed historical logs.
+                </p>
+                <ul class="features">
+                    <li>Live blockchain transaction scanning</li>
+                    <li>Query and validation counting</li>
+                    <li>Daily average calculations</li>
+                    <li>Flexible time periods (1-365 days)</li>
+                    <li>Consistent data across multiple runs</li>
+                    <li>CSV export for custom analysis</li>
+                </ul>
+                <button class="cta" onclick="window.location.href='analytics.html'">
+                    Open Analytics →
+                </button>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3>⚠️ Important Disclaimer</h3>
+            <p>
+                These are <strong>unofficial, community-created analytical tools</strong>. All data is derived from publicly available sources. 
+                Economic models, formulas, and projections are provided for informational and educational purposes only. 
+                <strong>This does not constitute financial, investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies. 
+                Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the accuracy of information displayed herein. 
+                Users assume all risk and responsibility for any decisions made based on these tools. Always conduct your own research and consult qualified professionals before making investment decisions.
+            </p>
+        </div>
+        
+        <footer>
+            <p><strong>Created by @trippledutch</strong> for the Trust.Supply community</p>
+            <p>Dashboard v1.2.3 | Analytics v1.3.2 | Updated 30 January 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
