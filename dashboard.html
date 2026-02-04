@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+    <!-- Force favicon load (GitHub Pages safe) -->
+    <link rel="icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="/trust-supply-dashboard/favicon.ico?v=2" type="image/x-icon">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.1.8</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Unofficial Trust.Supply Economic Dashboard v1.2.3</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -242,49 +247,102 @@
         .evls-warning { background: var(--warning-light); border-left: 4px solid #ff9800; 
                        padding: 15px; border-radius: var(--radius); margin-top: 15px; 
                        font-size: 0.9em; box-shadow: var(--shadow-sm); }
+        
+        /* BACK TO TOP BUTTON */
+        .back-to-top {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .back-to-top:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .back-to-top-container {
+            text-align: center;
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="top">
         <div class="back-nav">
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>Unofficial Trust.Supply Economic Dashboard v1.1.8</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.3</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
-            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 20 January 2026</p>
+            <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 29 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
                 <strong>⚠️ Disclaimer:</strong> This is an unofficial, community-created analytical tool. All data is derived from publicly available on-chain sources. Economic models, formulas, and projections are provided by @trippledutch for informational and educational purposes only. <strong>This dashboard does not constitute financial, investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies. Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the accuracy of information displayed herein. Users assume all risk and responsibility for any decisions made based on this dashboard. Always conduct your own research and consult qualified professionals before making investment decisions.
             </div>
         </header>
 
+        <!-- Quick Actions -->
+        <div style="text-align: center; margin: 20px 0; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="loadLatestData(event)" style="
+                background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 1em;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+                transition: all 0.3s ease;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(40, 167, 69, 0.4)';" 
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(40, 167, 69, 0.3)';">
+                📥 Load Latest Data
+            </button>
+            <a href="#myNodesCalculator" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
+                🎯 Jump to My Nodes Calculator
+            </a>
+        </div>
+        <div id="updateStatus" style="text-align: center; margin: -10px 0 10px 0; font-size: 0.9em; color: #666;"></div>
+
         <div class="controls">
             <!-- LINE 1: Core Network Metrics -->
             <div class="control-grid">
                 <div class="control-group">
+                    <label>Total Staked</label>
+                    <input type="text" id="totalStaked" value="8,118,000" oninput="updateCalculatedFields(); calculate()">
+                </div>
+                <div class="control-group">
                     <label>Active Nodes</label>
-                    <input type="text" id="totalNodes" value="4,339" oninput="updateCalculatedFields(); updateNetworkDisplays(); updateActiveValidatorsFromNodes(); updateMyNodesActiveNodes(); calculate()">
+                    <input type="text" id="totalNodes" value="4,509" oninput="updateCalculatedFields(); calculate()">
+                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #28a745;">Effective active nodes (earning rewards)</small>
+                </div>
+                <div class="control-group">
+                    <label>Early Unstakes</label>
+                    <input type="number" id="earlyUnstakes" value="1" min="0" oninput="updateCalculatedFields(); calculate()">
+                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Nodes in unstake waiting period (not earning)</small>
                 </div>
                 <div class="control-group">
                     <label>Active Validators</label>
-                    <input type="text" id="activeValidators" value="108" oninput="updateNetworkDisplays(); calculate()">
+                    <input type="text" id="activeValidators" value="109" oninput="updateNetworkDisplays(); calculate()">
                 </div>
                 <div class="control-group">
                     <label>Stake Per Node</label>
-                    <input type="text" id="stakePerNode" value="1,800" oninput="updateCalculatedFields(); calculate()">
-                </div>
-                <div class="control-group">
-                    <label>Total Staked</label>
-                    <input type="text" id="totalStaked" value="7,785,000" readonly>
+                    <input type="text" id="stakePerNode" value="1,800" readonly>
+                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #666;">Fixed at 1,800 MNW per node</small>
                 </div>
                 <div class="control-group highlight">
                     <label>Daily Validations 🔥</label>
-                    <input type="text" id="dailyValidations" value="19,119" oninput="updateYearlyValidations(); updateActiveNodesFromValidations(); calculate(); calculateMyNodes()">
-                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Drives network growth & price</small>
+                    <input type="text" id="dailyValidations" value="18,449" oninput="updateCalculatedFields(); calculate(); calculateMyNodes()">
+                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">12-month rolling average (Jan 2026) - Update monthly via Load Latest Data</small>
                 </div>
                 <div class="control-group highlight">
                     <label>Current Price ($) 💰</label>
-                    <input type="number" id="currentPrice" value="0.05152" step="0.00001" oninput="calculate(); calculateMyNodes()">
+                    <input type="number" id="currentPrice" value="0.049" step="0.00001" oninput="calculate(); calculateMyNodes()">
                     <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Auto-scales with validation growth</small>
                 </div>
                 <div class="control-group">
@@ -320,26 +378,6 @@
                         Independent price adjustment. Range: 0.5x ($0.031) to 40x ($2.48). Does NOT affect transaction volume.
                     </small>
                 </div>
-            </div>
-            
-            <!-- NEW: Load Latest Data Button -->
-            <div style="text-align: center; margin-top: 15px;">
-                <button onclick="loadLatestData(event)" style="
-                    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-                    color: white;
-                    border: none;
-                    padding: 12px 30px;
-                    border-radius: 8px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';" 
-                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
-                    📥 Load Latest Data
-                </button>
-                <div id="updateStatus" style="margin-top: 10px; font-size: 0.9em; color: #666;"></div>
             </div>
             
             <!-- LINE 2: MNW Supply Distribution -->
@@ -380,7 +418,7 @@
             <div class="control-grid">
                 <div class="control-group">
                     <label>3m Nodes</label>
-                    <input type="text" id="nodes3m" value="441" oninput="updateCalculatedFields(); calculate()">
+                    <input type="text" id="nodes3m" value="445" oninput="updateCalculatedFields(); calculate()">
                 </div>
                 <div class="control-group">
                     <label>3m Reward</label>
@@ -396,7 +434,7 @@
                 </div>
                 <div class="control-group">
                     <label>12m Nodes</label>
-                    <input type="text" id="nodes12m" value="3,540" oninput="updateCalculatedFields(); calculate()">
+                    <input type="text" id="nodes12m" value="3,706" oninput="updateCalculatedFields(); calculate()">
                 </div>
                 <div class="control-group">
                     <label>12m Reward</label>
@@ -627,67 +665,89 @@
                 </div>
                 
                 <div style="background: linear-gradient(135deg, #e7f3ff 0%, #d4e9ff 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #0066cc; margin-top: 20px;">
-                    <h4 style="color: #0066cc; margin: 0 0 15px 0; font-size: 1.2em;">🛡️ EVLS Weight Cap System (Equitable Validator Leader Selector)</h4>
+                    <h4 style="color: #0066cc; margin: 0 0 15px 0; font-size: 1.2em;">🛡️ EVLS Protection System (Equitable Validator Leader Selector)</h4>
                     <p style="margin: 0 0 15px 0; line-height: 1.6;">
-                        <strong>What is EVLS?</strong> EVLS is Trust.Supply's fairness mechanism that prevents validator monopolization by capping the selection weight of large validators. According to the whitepaper, EVLS applies the formula: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">wi_max = min(wi_max, 2 × Sum_rest - 1)</code>
+                        <strong>EVLS (Equitable Validator Leader Selector)</strong> is the algorithm that distributes validation work across the network. As validator operations scale up, each individual node receives proportionally less validation work, creating a natural scaling impact that prevents validator monopolization. Combined with VPS cost structure (jumps 4x at 101 nodes), this creates clear economic incentives for decentralization.
                     </p>
-                    <p style="margin: 0 0 15px 0; line-height: 1.6;">
-                        <strong>How it works:</strong> The largest validator's weight is capped at twice the sum of all other validators minus one. This ensures no single validator can dominate the network, even with thousands of nodes. The result: larger validators receive <strong>fewer validations per node</strong> than smaller validators.
-                    </p>
-                    <p style="margin: 0 0 15px 0; line-height: 1.6;">
-                        <strong>Dashboard formula:</strong> Based on empirical data from 20 real validators (12-month stakes, Aug 2025 - Jan 2026), the weight cap effect is: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">Cap% = 10.26 + 0.2790 × (nodes - 100)</code>. Validators with 100+ nodes experience progressively reduced validation rates, reaching a maximum 85% reduction at ~304 nodes.
-                    </p>
+                    
+                    <!-- Formula and Technical Details -->
+                    <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 8px; border-left: 4px solid #0066cc; margin-bottom: 15px;">
+                        <h5 style="margin: 0 0 10px 0; color: #0066cc;">📐 The Formula</h5>
+                        <div style="background: rgba(0,0,0,0.05); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 1em; line-height: 1.6;">
+                            • Below 100 nodes: <strong>Impact = 0%</strong> (Full validation rate)<br>
+                            • At 100+ nodes: <strong>Impact% = 10.26 + (0.2790 × (nodes - 100))</strong><br>
+                            • Load Factor = 1.0 - (Impact% / 100)<br>
+                            • Maximum Impact: <strong>85%</strong> (minimum 15% load factor)
+                        </div>
+                    </div>
                     
                     <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 15px;">
                         <h5 style="margin: 0 0 10px 0; color: #856404;">⭐ CRITICAL ECONOMIC THRESHOLDS:</h5>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
                             <div>
                                 <strong style="color: #28a745;" id="optimalNodesText">✅ Calculating optimal configuration...</strong>
-                                <div style="font-size: 0.9em; margin-top: 5px;">$6/month VPS, no weight cap</div>
+                                <div style="font-size: 0.9em; margin-top: 5px;">$6/month VPS, no EVLS impact</div>
                                 <div style="font-size: 0.85em; color: #6c757d;">75 = peak ROI (6.0%), 100 = max cheap VPS</div>
                             </div>
                             <div>
-                                <strong style="color: #dc3545;">🚨 101+ Nodes = DUAL IMPACT STARTS</strong>
-                                <div style="font-size: 0.9em; margin-top: 5px;">VPS jumps 4x ($72→$288) + weight cap begins</div>
-                                <div style="font-size: 0.85em; color: #6c757d;">Double impact: expensive VPS + reduced rewards</div>
+                                <strong style="color: #dc3545;">🚨 101+ Nodes = DUAL PENALTY STARTS</strong>
+                                <div style="font-size: 0.9em; margin-top: 5px;">VPS jumps 4x ($72→$288) + EVLS impact begins</div>
+                                <div style="font-size: 0.85em; color: #6c757d;">Double penalty: expensive VPS + reduced rewards</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
-                        <div style="background: white; padding: 12px; border-radius: 6px;">
-                            <div style="font-weight: bold; color: #28a745;">✅ 1-100 Nodes</div>
-                            <div style="font-size: 0.9em; margin-top: 5px;">$6/month VPS, No weight cap</div>
-                            <div style="font-size: 0.85em; color: #6c757d;">Optimal zone (peak at 75-100)</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 15px;">
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #28a745;">
+                            <div style="font-weight: bold; color: #28a745; font-size: 1.1em;">✅ 1-99 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #28a745;">0% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$6/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Optimal zone</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 6px;">
-                            <div style="font-weight: bold; color: #fd7e14;">⚠️ 101-250 Nodes</div>
-                            <div style="font-size: 0.9em; margin-top: 5px;">$24/month VPS + 10-52% weight cap</div>
-                            <div style="font-size: 0.85em; color: #6c757d;">Dual impact: cost + reduced rate</div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #ffc107;">
+                            <div style="font-weight: bold; color: #856404; font-size: 1.1em;">⚠️ 100 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #856404;">10.26% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Impact starts</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 6px;">
-                            <div style="font-weight: bold; color: #dc3545;">🚨 250-500 Nodes</div>
-                            <div style="font-size: 0.9em; margin-top: 5px;">52-85% weight cap</div>
-                            <div style="font-size: 0.85em; color: #6c757d;">Significant rate reduction</div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #fd7e14;">
+                            <div style="font-weight: bold; color: #fd7e14; font-size: 1.1em;">⚠️ 125 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #fd7e14;">17.24% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Growing impact</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 6px;">
-                            <div style="font-weight: bold; color: #dc3545;">🚨 500-1000 Nodes</div>
-                            <div style="font-size: 0.9em; margin-top: 5px;">85% maximum cap (reached at 304)</div>
-                            <div style="font-size: 0.85em; color: #6c757d;">Severe rate reduction</div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #ff6b6b;">
+                            <div style="font-weight: bold; color: #dc3545; font-size: 1.1em;">🚨 150 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #dc3545;">24.21% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Moderate impact</div>
                         </div>
-                        <div style="background: white; padding: 12px; border-radius: 6px;">
-                            <div style="font-weight: bold; color: #dc3545;">🚫 1000+ Nodes</div>
-                            <div style="font-size: 0.9em; margin-top: 5px;">85% cap + extreme VPS costs</div>
-                            <div style="font-size: 0.85em; color: #6c757d;">Monopolization unfeasible</div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #dc3545;">
+                            <div style="font-weight: bold; color: #dc3545; font-size: 1.1em;">🚨 200 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #dc3545;">38.16% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">High impact</div>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #b91c1c;">
+                            <div style="font-weight: bold; color: #b91c1c; font-size: 1.1em;">🚨 250 Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #b91c1c;">52.11% EVLS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Severe impact</div>
+                        </div>
+                        <div style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #7f1d1d;">
+                            <div style="font-weight: bold; color: #7f1d1d; font-size: 1.1em;">🚫 370+ Nodes</div>
+                            <div style="font-size: 1.2em; margin: 8px 0; font-weight: bold; color: #7f1d1d;">85% EVLS MAX</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">$24/month VPS</div>
+                            <div style="font-size: 0.85em; color: #6c757d;">Capped at max</div>
                         </div>
                     </div>
                     <p style="margin: 15px 0 0 0; font-size: 0.95em; color: #0066cc; font-weight: 600;">
-                        💡 Example: A validator with 300+ nodes hits the 85% weight cap = receives only 15% of expected validations per node. Combined with expensive VPS costs ($288+/month), ROI becomes economically unfeasible, naturally preventing monopolization!
+                        💡 <strong>Key Insight:</strong> Based on 18 months of real validator data, the sweet spot is <strong>75-99 nodes</strong> where you avoid EVLS impact while maximizing validation work. Beyond 100 nodes, VPS costs jump 4x ($72→$288/year) AND EVLS impact begins reducing per-node validations. At 370+ nodes, impact caps at 85% - making large-scale operations economically unfeasible.
                     </p>
                 </div>
                 
                 <!-- NEW v5.5: My Nodes Calculator -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; margin-top: 20px; color: white;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; margin-top: 20px; color: white;" id="myNodesCalculator">
                     <h4 style="margin: 0 0 15px 0; font-size: 1.3em;">🎯 My Nodes Calculator</h4>
                     <p style="margin: 0 0 15px 0; opacity: 0.95;">Calculate economics for YOUR specific node count</p>
                     
@@ -717,31 +777,30 @@
                     <!-- Network Size Override -->
                     <div style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
                         <label style="font-weight: bold; display: block; margin-bottom: 10px;">🌐 Network Size (for modeling):</label>
-                        <div style="display: grid; grid-template-columns: 150px 1fr 120px; gap: 15px; align-items: center;">
+                        <div style="display: grid; grid-template-columns: 150px 1fr; gap: 15px; align-items: center;">
                             <div>
                                 <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Active Nodes:</label>
-                                <input type="number" id="myNetworkNodes" value="4339" min="1000" max="20000" 
+                                <input type="number" id="myNetworkNodes" value="4509" min="1000" max="20000" 
                                        style="width: 100%; padding: 8px; font-size: 1em; font-weight: bold; border-radius: 5px; border: 2px solid white; text-align: center;"
-                                       oninput="document.getElementById('myNetworkSlider').value = this.value; updateMyNetworkValidators(); calculateMyNodes()">
+                                       oninput="document.getElementById('myNetworkSlider').value = this.value; calculateMyNodes()">
                             </div>
                             <div>
                                 <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Adjust Network Size:</label>
-                                <input type="range" id="myNetworkSlider" min="1000" max="20000" value="4339" step="100"
+                                <input type="range" id="myNetworkSlider" min="1000" max="20000" value="4509" step="100"
                                        style="width: 100%;"
-                                       oninput="document.getElementById('myNetworkNodes').value = this.value; updateMyNetworkValidators(); calculateMyNodes()">
+                                       oninput="document.getElementById('myNetworkNodes').value = this.value; calculateMyNodes()">
                                 <div style="display: flex; justify-content: space-between; font-size: 0.75em; margin-top: 3px; opacity: 0.85;">
                                     <span>1K nodes</span>
-                                    <span id="myNetworkSliderValue">4,339 nodes</span>
+                                    <span id="myNetworkSliderValue">4,509 nodes</span>
                                     <span>20K nodes</span>
                                 </div>
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 5px; font-size: 0.9em;">Validators:</label>
-                                <div id="myNetworkValidators" style="padding: 8px; font-size: 1em; font-weight: bold; background: rgba(255,255,255,0.2); border-radius: 5px; text-align: center;">108</div>
                             </div>
                         </div>
                         <div style="font-size: 0.85em; margin-top: 8px; opacity: 0.9;">
                             💡 Model different network sizes to see how your profitability changes as the network grows
+                        </div>
+                        <div style="margin-top: 10px; padding: 8px; background: rgba(255,255,255,0.15); border-radius: 5px; font-size: 0.9em;">
+                            <span style="opacity: 0.85;">Early Unstakes (not earning):</span> <span id="myEarlyUnstakes" style="font-weight: bold; color: #fbbf24;">1</span> node
                         </div>
                     </div>
                     
@@ -781,113 +840,116 @@
                     </div>
                     
                     <!-- My Nodes Results -->
-                    <div id="myNodesResults" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.15); border-radius: 8px;">
+                    <div id="myNodesResults" style="margin-top: 20px;">
                         <!-- Period Results Section -->
-                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid white;">
-                            <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📅 Your <span id="periodLabel">12-Month</span> Staking Period Results</h5>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px;">
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
-                                    <div id="myNodesPeriodDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                        <div style="background: linear-gradient(135deg, rgba(102,126,234,0.9) 0%, rgba(118,75,162,0.9) 100%); padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid white; color: white;">
+                            <h5 style="margin: 0 0 15px 0; font-size: 1em; font-weight: bold;">📅 Your <span id="periodLabel">12-Month</span> Staking Period Results</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">VALS/DAY</div>
+                                    <div id="myNodesPeriodDailyVals" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/Day</div>
-                                    <div id="myNodesPeriodDailyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">MNW/DAY</div>
+                                    <div id="myNodesPeriodDailyMNW" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodVals">Validations/12m</span></div>
-                                    <div id="myNodesPeriodVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodVals">VALS/12M</span></div>
+                                    <div id="myNodesPeriodVals" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodMNW">MNW/12m</span></div>
-                                    <div id="myNodesPeriodMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodMNW">MNW/12M</span></div>
+                                    <div id="myNodesPeriodMNW" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodRewards">Rewards/12m</span></div>
-                                    <div id="myNodesPeriodUSD" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodRewards">REWARDS/12M</span></div>
+                                    <div id="myNodesPeriodUSD" style="font-size: 1.4em; font-weight: bold;">$0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Weight Cap</div>
-                                    <div id="myNodesPeriodEVLS" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">EVLS IMPACT</div>
+                                    <div id="myNodesPeriodEVLS" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">0%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodYield">Token Yield/12m</span></div>
-                                    <div id="myNodesPeriodYield" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodYield">YIELD/12M</span></div>
+                                    <div id="myNodesPeriodYield" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">0%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodProfit">Profit/12m</span></div>
-                                    <div id="myNodesPeriodProfit" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodProfit">PROFIT/12M</span></div>
+                                    <div id="myNodesPeriodProfit" style="font-size: 1.4em; font-weight: bold; color: #ff6b6b;">$0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodROI">ROI/12m</span></div>
-                                    <div id="myNodesPeriodROI" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodROI">ROI/12M</span></div>
+                                    <div id="myNodesPeriodROI" style="font-size: 1.4em; font-weight: bold; color: #ff6b6b;">0%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;"><span id="labelPeriodVPS">VPS Cost/12m</span></div>
-                                    <div id="myNodesPeriodVPS" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;"><span id="labelPeriodVPS">VPS/12M</span></div>
+                                    <div id="myNodesPeriodVPS" style="font-size: 1.4em; font-weight: bold;">$0</div>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Yearly Equivalents Section -->
-                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; border-left: 4px solid #4ade80;">
-                            <h5 style="margin: 0 0 10px 0; font-size: 1.1em; font-weight: bold;">📊 Annualized Comparison (Yearly Equivalents)</h5>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 8px;">
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/Day</div>
-                                    <div id="myNodesDailyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                        <div style="background: linear-gradient(135deg, rgba(74,222,128,0.9) 0%, rgba(34,197,94,0.9) 100%); padding: 15px; border-radius: 8px; border-left: 4px solid white; color: white;">
+                            <h5 style="margin: 0 0 15px 0; font-size: 1em; font-weight: bold;">📊 Annualized Comparison (Yearly Equivalents)</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">VALS/DAY</div>
+                                    <div id="myNodesDailyVals" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/Day</div>
-                                    <div id="myNodesDailyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">MNW/DAY</div>
+                                    <div id="myNodesDailyMNW" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Validations/12m</div>
-                                    <div id="myNodesYearlyVals" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">VALS/12M</div>
+                                    <div id="myNodesYearlyVals" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">MNW/12m</div>
-                                    <div id="myNodesYearlyMNW" style="font-size: 1.3em; font-weight: bold;">0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">MNW/12M</div>
+                                    <div id="myNodesYearlyMNW" style="font-size: 1.4em; font-weight: bold;">0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Rewards/12m</div>
-                                    <div id="myNodesYearlyUSD" style="font-size: 1.3em; font-weight: bold;">$0</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">REWARDS/12M</div>
+                                    <div id="myNodesYearlyUSD" style="font-size: 1.4em; font-weight: bold;">$0</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Weight Cap</div>
-                                    <div id="myNodesEVLS" style="font-size: 1.3em; font-weight: bold;">0%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">EVLS IMPACT</div>
+                                    <div id="myNodesEVLS" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">0%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Token Yield/12m</div>
-                                    <div id="myNodesTokenYield" style="font-size: 1.3em; font-weight: bold;">8.65%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">YIELD/12M</div>
+                                    <div id="myNodesTokenYield" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">8.65%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">Profit/12m</div>
-                                    <div id="myNodesProfit" style="font-size: 1.3em; font-weight: bold;">$---</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">PROFIT/12M</div>
+                                    <div id="myNodesProfit" style="font-size: 1.4em; font-weight: bold; color: #ff6b6b;">$---</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">ROI/12m</div>
-                                    <div id="myNodesROI" style="font-size: 1.3em; font-weight: bold;">---%</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">ROI/12M</div>
+                                    <div id="myNodesROI" style="font-size: 1.4em; font-weight: bold; color: #ff6b6b;">---%</div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.8em; opacity: 0.9;">VPS Cost/12m</div>
-                                    <div id="myNodesVPS" style="font-size: 1.3em; font-weight: bold;">$72</div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 0.75em; opacity: 0.9; margin-bottom: 5px;">VPS/12M</div>
+                                    <div id="myNodesVPS" style="font-size: 1.4em; font-weight: bold;">$72</div>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Network Percentage Display -->
                         <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.2); border-radius: 8px; text-align: center; border: 2px solid rgba(255,255,255,0.3);">
-                            <div style="font-size: 0.85em; opacity: 0.95; margin-bottom: 5px; font-weight: 600;">📊 Your Network Share</div>
-                            <div id="myNodesNetworkInfo" style="font-size: 1.2em; font-weight: bold; line-height: 1.5;">
+                            <div style="font-size: 1.3em; opacity: 0.95; margin-bottom: 8px; font-weight: 600;">📊 Your Network Share</div>
+                            <div id="myNodesNetworkInfo" style="font-size: 1.3em; font-weight: bold; line-height: 1.6;">
                                 <span id="myNodesCount">1</span> <span id="myNodesLabel">node</span> = <span id="myNodesPercentage" style="color: #4ade80;">0.02%</span> of <span id="myNodesNetworkSize">4,339</span> active nodes
                             </div>
-                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.3);">
-                                <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 3px;">Total Staked</div>
-                                <div id="myNodesStaked" style="font-size: 1.4em; font-weight: bold; color: #4ade80;">1.8K MNW</div>
+                            <div style="font-size: 1.3em; font-weight: bold; margin-top: 8px; opacity: 0.9;">
+                                Staked MNW: <span id="myNodesStaked" style="color: #4ade80;">1.8K</span>
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="back-to-top-container">
+                    <a href="#top" class="back-to-top">⬆️ Back to Top</a>
                 </div>
                 
                 <h4 style="margin-top: 20px; color: #667eea;">Multi-Node VPS Strategy</h4>
@@ -913,6 +975,10 @@
                             <div id="summaryDailyRewards" style="font-size: 1.4em; font-weight: bold; color: white;">$---</div>
                         </div>
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
+                            <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Daily Validations</div>
+                            <div id="summaryDailyValidations" style="font-size: 1.4em; font-weight: bold; color: white;">17,900</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
                             <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Yearly Rewards</div>
                             <div id="summaryYearlyRewards" style="font-size: 1.4em; font-weight: bold; color: white;">$---</div>
                         </div>
@@ -922,38 +988,42 @@
                         </div>
                         <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3);">
                             <div style="font-size: 0.85em; opacity: 0.9; color: white; margin-bottom: 5px;">Current Price</div>
-                            <div id="summaryPrice" style="font-size: 1.4em; font-weight: bold; color: white;">$0.05152</div>
+                            <div id="summaryPrice" style="font-size: 1.4em; font-weight: bold; color: white;">$0.062</div>
                         </div>
                     </div>
                 </div>
                 
-                <table style="margin-top: 15px;">
-                    <thead>
-                        <tr>
-                            <th>Configuration</th>
-                            <th style="text-align: right;">Nodes</th>
-                            <th style="text-align: right;">AVG Val/Day</th>
-                            <th style="text-align: right;">Yearly Validations</th>
-                            <th style="text-align: right;">Yearly MNW</th>
-                            <th style="text-align: right;">VPS $/Node/Yr</th>
-                            <th style="text-align: right;">EVLS</th>
-                            <th style="text-align: right;">EVLS %</th>
-                            <th style="text-align: right;">EVLS Loss ($)</th>
-                            <th style="text-align: right;">Annual $</th>
-                            <th style="text-align: right;">Yield %</th>
-                            <th style="text-align: right;">ROI %</th>
-                        </tr>
-                    </thead>
-                    <tbody id="multiNodeTable"></tbody>
-                </table>
+                <div style="overflow-x: auto;">
+                    <table style="margin-top: 15px;">
+                        <thead>
+                            <tr>
+                                <th>Configuration</th>
+                                <th style="text-align: right;">Nodes</th>
+                                <th style="text-align: right;">AVG VAL/Day</th>
+                                <th style="text-align: right;">MNW/Day</th>
+                                <th style="text-align: right;">VAL/Yr</th>
+                                <th style="text-align: right;">MNW/Yr</th>
+                                <th style="text-align: right;">VPS Cost/Yr</th>
+                                <th style="text-align: right;">EVLS Impact</th>
+                                <th style="text-align: right;">Earnings/Yr</th>
+                            </tr>
+                        </thead>
+                        <tbody id="multiNodeTable"></tbody>
+                    </table>
+                </div>
                 
                 <div class="alert-box alert-success" style="margin-top: 15px;" id="multiNodeInsight"></div>
                 <div class="evls-warning" id="evlsWarning" style="display: none;">
-                    <strong>⚠️ EVLS Active:</strong> Yellow/red highlighted rows show configurations with weight caps (100+ nodes). Uses CORRECTED linear model: 10.26% cap at 100 nodes, +0.28%/node. Based on 20 real validators with 12-month stakes (Aug 2025 - Jan 2026). Baseline: 4.97 val/node/day.
+                    <strong>⚠️ EVLS Active:</strong> Yellow/red highlighted rows show configurations with EVLS penalties (100+ nodes). v5.8 uses CORRECTED linear model: 10.26% impact at 100 nodes, +0.28%/node. Based on 20 real validators with 12-month stakes (Aug 2025 - Jan 2026). Baseline: 4.97 val/node/day.
                 </div>
                 <div style="margin: 15px 0; padding: 15px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-left: 4px solid #1e40af; border-radius: 8px; color: white;">
                     <strong>🔄 Buyback Mechanism:</strong> Team Wallet operates on a circular model (no burning). When empty, buybacks occur from market, creating temporary buy pressure. Tokens return to circulation through operations. Price cycles expected: buyback periods (upward) followed by spending periods (downward).
                 </div>
+            </div>
+
+            
+            <div class="back-to-top-container">
+                <a href="#top" class="back-to-top">⬆️ Back to Top</a>
             </div>
 
             <div class="overhang-box" id="liquidity-tiers">
@@ -1088,18 +1158,67 @@
                 </div>
             </div>
         </div>
+        
+        <div class="back-to-top-container">
+            <a href="#top" class="back-to-top">⬆️ Back to Top</a>
+        </div>
 
         <div class="back-nav-bottom">
             <a href="index.html">← Back to Tools</a>
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.1.8 | Updated 24 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.1.8: EVLS terminology update ("Weight Cap"), favicon fix</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.2.2 | Updated 27 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.3: Removed runtime adjustment, -1 node for unstakes, improved button layout</p>
         </footer>
     </div>
 
     <script>
+        // ===== HISTORICAL VALIDATOR DATA (18 months, 29 validators) =====
+        // Data source: validator_data_complete.xlsx
+        // Actual performance across 3, 6, and 12-month staking periods
+        const VALIDATOR_HISTORICAL_DATA = {
+            '3_month': {
+                total_nodes: 59,
+                total_days: 211,
+                total_validations: 22494,
+                total_mnw_earned: 1349.64,
+                avg_mnw_per_val: 0.06,
+                avg_val_per_day: 106.61,
+                avg_mnw_per_day: 6.40,
+                avg_yearly_validations: 36987,
+                avg_yearly_mnw: 2219,
+                avg_daily_val_per_node: 5.42,
+                avg_daily_mnw_per_node: 0.33
+            },
+            '6_month': {
+                total_nodes: 245,
+                total_days: 581,
+                total_validations: 94220,
+                total_mnw_earned: 7537.60,
+                avg_mnw_per_val: 0.08,
+                avg_val_per_day: 162.17,
+                avg_mnw_per_day: 12.97,
+                avg_yearly_validations: 63577,
+                avg_yearly_mnw: 5086,
+                avg_daily_val_per_node: 3.97,
+                avg_daily_mnw_per_node: 0.32
+            },
+            '12_month': {
+                total_nodes: 1064,
+                total_days: 2752,
+                total_validations: 619344,
+                total_mnw_earned: 61934.40,
+                avg_mnw_per_val: 0.10,
+                avg_val_per_day: 225.05,
+                avg_mnw_per_day: 22.51,
+                avg_yearly_validations: 80384,
+                avg_yearly_mnw: 8038,
+                avg_daily_val_per_node: 4.23,
+                avg_daily_mnw_per_node: 0.42
+            }
+        };
+        
         // Global variable for staking period (in months)
         let selectedStakingPeriod = 12;  // Default to 12 months
         
@@ -1142,28 +1261,51 @@
             return formatNumber(num);
         }
 
-        function calculateEVLSWeightCap(nodes) {
-            // EVLS (Equitable Validator Leader Selector) weight cap for large validators
+        function calculateEVLSFactor(nodes) {
+            // EVLS (Equitable Validator Leader Selector) penalty for large validators
             // v5.6.1 EXACT MODEL from 12-month stake data
             // Baseline: 4.9662 val/node/day (<100 nodes)
-            // At 100 nodes: 10.26% weight reduction (actual: 4.457 val/node/day)
-            // At 221 nodes: 44.02% weight reduction (actual: 2.78 val/node/day)
+            // At 100 nodes: 10.26% impact (actual: 4.457 val/node/day)
+            // At 221 nodes: 44.02% impact (actual: 2.78 val/node/day)
             // Linear slope: 0.2790% per node
             if (nodes < 100) {
-                return 1.0;  // No weight cap below 100 nodes
+                return 1.0;  // No EVLS impact below 100 nodes
             } else {
-                // Linear weight cap: Cap% = 10.26 + 0.2790 × (nodes - 100)
-                const capPercent = 10.26 + (0.2790 * (nodes - 100));
-                const weightFactor = 1.0 - (capPercent / 100.0);
-                return Math.max(0.15, weightFactor);  // Cap at 85% maximum reduction
+                // Linear impact: EVLS% = 10.26 + 0.2790 × (nodes - 100)
+                const penaltyPercent = 10.26 + (0.2790 * (nodes - 100));
+                const evlsFactor = 1.0 - (penaltyPercent / 100.0);
+                return Math.max(0.15, evlsFactor);  // Cap at 85% maximum impact
             }
         }
 
+        // Calculate Active Nodes from Total Staked and Early Unstakes
         function updateCalculatedFields() {
-            const totalNodes = parseFormattedNumber(document.getElementById('totalNodes').value);
-            const stakePerNode = parseFormattedNumber(document.getElementById('stakePerNode').value);
-            const totalStaked = totalNodes * stakePerNode;
-            document.getElementById('totalStaked').value = formatNumber(totalStaked);
+            // Update yearly validations
+            const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
+            const yearlyValidations = dailyValidations * 365;
+            document.getElementById('yearlyValidations').value = formatNumber(yearlyValidations);
+            
+            // Update My Nodes Calculator with latest Active Nodes
+            updateMyNodesActiveNodes();
+            
+            // Update network displays
+            updateNetworkDisplays();
+        }
+
+        function updateActiveNodesFromStaked() {
+            // Legacy function - kept for compatibility but not used in main flow
+            const totalStaked = parseFormattedNumber(document.getElementById('totalStaked').value);
+            const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
+            const stakePerNode = 1800; // Fixed at 1,800 MNW per node
+            
+            // Active Nodes = (Total Staked / 1800) - Early Unstakes
+            const activeNodes = Math.floor(totalStaked / stakePerNode) - earlyUnstakes;
+            
+            document.getElementById('totalNodes').value = formatNumber(activeNodes);
+            document.getElementById('stakePerNode').value = formatNumber(stakePerNode);
+            
+            // Update My Nodes calculator with new active nodes
+            updateMyNodesActiveNodes();
         }
 
         function updateYearlyValidations() {
@@ -1174,8 +1316,8 @@
 
         function updatePriceScaling() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 19119;
-            const baselinePrice = 0.05152;
+            const baselineDailyVals = 17900;
+            const baselinePrice = 0.062;
             
             // Price scales proportionally with validation growth (1:1 ratio for utility scaling)
             const validationMultiplier = dailyValidations / baselineDailyVals;
@@ -1199,7 +1341,12 @@
             const totalNodes = parseFormattedNumber(document.getElementById('totalNodes').value);
             document.getElementById('myNetworkNodes').value = totalNodes;
             document.getElementById('myNetworkSlider').value = totalNodes;
-            updateMyNetworkValidators(); // Update the validators display in My Nodes section
+            document.getElementById('myNetworkSliderValue').textContent = formatNumber(totalNodes) + ' nodes';
+            
+            // Update Early Unstakes display in My Nodes Calculator
+            const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
+            document.getElementById('myEarlyUnstakes').textContent = earlyUnstakes;
+            
             calculateMyNodes(); // Recalculate with new network size
         }
 
@@ -1217,7 +1364,7 @@
         // NEW v5.5: Update nodes when Daily Validations is manually changed
         function updateNodesFromValidations() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 19119;
+            const baselineDailyVals = 17900;
             const baselineTotalNodes = 4335;
             const baselineValidators = 108;
             const MAX_NODES = 20000;
@@ -1250,7 +1397,7 @@
         // v5.8: Update My Network Active Nodes when Daily Validations changes
         function updateActiveNodesFromValidations() {
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 19119;
+            const baselineDailyVals = 17900;
             const baselineTotalNodes = 4339;  // Default for My Network
             const baselineValidators = 108;
             
@@ -1282,7 +1429,7 @@
             document.getElementById('transactionMultiplierValue').textContent = multiplier.toFixed(1) + 'x';
             
             // Update daily validations based on multiplier
-            const baselineDailyVals = 19119; // The default baseline
+            const baselineDailyVals = 17900; // The default baseline
             const newDailyVals = Math.round(baselineDailyVals * multiplier);
             document.getElementById('dailyValidations').value = formatNumber(newDailyVals);
             
@@ -1333,8 +1480,8 @@
             
             // Get current price from the transaction-adjusted baseline
             const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value);
-            const baselineDailyVals = 19119;
-            const baselinePrice = 0.05152;
+            const baselineDailyVals = 17900;
+            const baselinePrice = 0.062;
             
             // Calculate what price should be based on transactions alone
             const transactionBasedPrice = baselinePrice * (dailyValidations / baselineDailyVals);
@@ -1362,7 +1509,7 @@
             return priceData['morpheus-network'].usd;
         }
 
-        async function fetchActiveNodesFromAlchemy() {
+        async function fetchTotalStakedFromAlchemy() {
             const ALCHEMY_URL =
                 'https://polygon-mainnet.g.alchemy.com/v2/dPG-8rulN-Hn_xyJ9v1Z6HNALOxScwSY';
 
@@ -1390,10 +1537,9 @@
             if (!hexBalance) throw new Error('No MNW balance returned');
 
             const mnw = parseInt(hexBalance, 16) / 1e18;
-            const nodes = Math.floor(mnw / 1800);
 
-            console.log('MNW balance:', mnw, '→ active nodes:', nodes);
-            return nodes;
+            console.log('Total Staked MNW:', mnw);
+            return mnw;
         }
             
 
@@ -1427,25 +1573,37 @@ async function loadLatestData(event) {
         const jsonData = await response.json();
         const data = jsonData.data;
 
-        // Load ACTIVE NODES from JSON (default failback)
+        // Load TOTAL STAKED from JSON (default failback)
+        if (data.totalStaked !== undefined) {
+            document.getElementById('totalStaked').value = formatNumber(data.totalStaked);
+        }
+        
+        // Load ACTIVE NODES from JSON
+        let effectiveActiveNodes = data.activeNodes || 4510;
+        
+        // Load EARLY UNSTAKES from JSON
+        let earlyUnstakes = data.earlyUnstakes || 0;
+        
+        if (data.earlyUnstakes !== undefined) {
+            document.getElementById('earlyUnstakes').value = earlyUnstakes;
+        }
+        
+        // Display EFFECTIVE Active Nodes (activeNodes - earlyUnstakes)
         if (data.activeNodes !== undefined) {
-            document.getElementById('totalNodes').value = formatNumber(data.activeNodes);
-            document.getElementById('myNetworkNodes').value = data.activeNodes;
-            document.getElementById('myNetworkSlider').value = data.activeNodes;
-         }
+            effectiveActiveNodes = data.activeNodes - earlyUnstakes;
+            document.getElementById('totalNodes').value = formatNumber(effectiveActiveNodes);
+        }
 
-
-        // 🔹 Live ACTIVE NODES override (from wallet via Alchemy)
+        // 🔹 Live TOTAL STAKED override (from wallet via Alchemy)
         try {
-            const liveNodes = await fetchActiveNodesFromAlchemy();
+            const liveTotalStaked = await fetchTotalStakedFromAlchemy();
 
-            document.getElementById('totalNodes').value = formatNumber(liveNodes);
-            document.getElementById('myNetworkNodes').value = liveNodes;
-            document.getElementById('myNetworkSlider').value = liveNodes;
-
-            updateMyNetworkValidators();
+            document.getElementById('totalStaked').value = formatNumber(Math.floor(liveTotalStaked));
+            
+            // Note: We keep activeNodes from JSON, don't recalculate from totalStaked
+            // This allows independent control of both values via JSON
         } catch (e) {
-            console.warn('Live node fetch failed, using JSON fallback', e);
+            console.warn('Live total staked fetch failed, using JSON fallback', e);
         }
 
         if (data.activeValidators !== undefined)
@@ -1543,61 +1701,56 @@ async function loadLatestData(event) {
 
 
 
-        // NEW v5.5: Update Network Validators based on node count
-        function updateMyNetworkValidators() {
-            const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4338;
-            const baselineNodes = 4338;
-            const baselineValidators = 108;
-            const ratio = baselineNodes / baselineValidators; // ~40.17 nodes per validator
-            
-            const calculatedValidators = Math.round(networkNodes / ratio);
-            
-            document.getElementById('myNetworkValidators').textContent = calculatedValidators;
-            document.getElementById('myNetworkSliderValue').textContent = formatNumber(networkNodes) + ' nodes';
-        }
-
         // NEW v5.5: My Nodes Calculator
         function calculateMyNodes() {
             try {
                 const nodes = parseInt(document.getElementById('myNodesInput').value) || 1;
                 const stakePerNode = 1800;
-                const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.05152;
-                const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 19119;
+                const currentPrice = parseFloat(document.getElementById('currentPrice').value) || 0.062;
+                const dailyValidations = parseFormattedNumber(document.getElementById('dailyValidations').value) || 17900;
                 
-                // v5.8: Active Nodes - INVERSE relationship
-                // More nodes = same validations split among more nodes = lower per-node share
-                const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4339;
+                // v1.2.3: Use myNetworkNodes for network scaling (user can adjust this in My Nodes Calculator)
+                // This allows modeling how network growth affects profitability
+                const networkNodes = parseInt(document.getElementById('myNetworkNodes').value) || 4509;
                 
-                // Calculate per-node baseline from network validations
-                // If network has more nodes, each node gets LESS
-                const validationsPerNodeBaseline = dailyValidations / networkNodes;
+                // v1.2.1: Use ACTUAL real-world baseline from current validator data
+                // Analysis of 25 validators (today's data, various sizes):
+                // - Validators ≤100 nodes: avg 4.77 vals/node/day
+                // - Validators >100 nodes (adjusted for EVLS): avg 4.9 vals/node/day
+                // - Combined baseline: 4.9 vals/node/day
+                const HISTORICAL_VAL_PER_NODE_PER_DAY = 4.9;  // Real-world baseline (today's data)
                 
-                // Baseline adjustment factor accounts for actual validator performance vs theoretical
-                // Baseline: 19119 validations / 4339 nodes = 4.406 theoretical
-                // Actual observed: 4.9662 per node per day from 12-month data
-                // Adjustment factor: 4.9662 / 4.406 = 1.127...
-                const BASELINE_ADJUSTMENT = 1.127;
-                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeBaseline * BASELINE_ADJUSTMENT;
+                // Scale baseline by current network validations vs historical baseline
+                // Historical baseline: ~17900 validations/day across various network sizes
+                const baselineValidations = 17900;
+                const validationScalingFactor = dailyValidations / baselineValidations;
+                
+                // Network size scaling: more nodes = validations spread thinner
+                // But use square root to model network effects
+                const baselineNetworkNodes = 4339;
+                const networkScalingFactor = Math.sqrt(baselineNetworkNodes / networkNodes);
+                
+                // Combined baseline validations per node per day
+                const BASELINE_VAL_PER_NODE_PER_DAY = HISTORICAL_VAL_PER_NODE_PER_DAY * 
+                                                       validationScalingFactor * 
+                                                       networkScalingFactor;
                 
                 const networkPercentage = ((nodes / networkNodes) * 100).toFixed(2);
                 
                 // Calculate EVLS factor (same as Multi-Node table)
-                const evlsFactor = calculateEVLSWeightCap(nodes);
-                const evlsCapPercent = ((1 - evlsFactor) * 100).toFixed(2);
+                const evlsFactor = calculateEVLSFactor(nodes);
+                const evlsPenaltyPercent = ((1 - evlsFactor) * 100).toFixed(2);
                 
-                // Reward rates based on staking period (from lightpaper)
-                const rewardRates = {
-                    3: 0.06,    // 3-month rate (CORRECTED from 0.065)
-                    6: 0.08,    // 6-month rate (CORRECTED from 0.083)
-                    12: 0.10    // 12-month rate
-                };
-                const periodReward = rewardRates[selectedStakingPeriod];
+                // v1.2.0: Get period-specific reward rate ONLY
+                const periodKey = selectedStakingPeriod + '_month';
+                const historicalData = VALIDATOR_HISTORICAL_DATA[periodKey];
+                const periodReward = historicalData.avg_mnw_per_val;
                 
                 // Period days from lightpaper (N+1 formula)
                 const periodDays = {
                     3: 91,    // 90+1
                     6: 181,   // 180+1
-                    12: 366   // 365+1
+                    12: 365   // 365 (12 months = exactly 1 year)
                 };
                 const daysInPeriod = periodDays[selectedStakingPeriod];
                 
@@ -1610,6 +1763,7 @@ async function loadLatestData(event) {
                 const periodValidations = totalValidationsPerDay * daysInPeriod;
                 const periodMNW = periodValidations * periodReward;
                 const periodUSD = periodMNW * currentPrice;
+                const periodDailyMNW = totalValidationsPerDay * periodReward;
                 
                 // Get VPS count and calculate costs
                 const vpsCount = parseInt(document.getElementById('myVPSCount').value) || 1;
@@ -1624,18 +1778,22 @@ async function loadLatestData(event) {
                 const periodProfit = periodUSD - periodVPSCost;
                 const periodROI = (periodProfit / totalInvestment) * 100;
                 
-                // ANNUALIZED CALCULATIONS 
-                // ALWAYS shows 12-month equivalents using 366 days (N+1 formula for 12 months)
-                // This row should show IDENTICAL numbers regardless of which period (3m/6m/12m) is selected
-                const TWELVE_MONTH_DAYS = 366;  // 365+1 per lightpaper
-                const TWELVE_MONTH_REWARD_RATE = 0.10;
-                
-                const annualizedValidations = totalValidationsPerDay * TWELVE_MONTH_DAYS;
-                const annualizedMNW = annualizedValidations * TWELVE_MONTH_REWARD_RATE;
-                const annualizedUSD = annualizedMNW * currentPrice;
-                const annualVPSCost = totalAnnualVPSCost;  // Always $72/year
-                const totalAnnualProfit = annualizedUSD - annualVPSCost;
-                const annualTokenYield = (annualizedMNW / totalStaked) * 100;
+                // ANNUALIZED CALCULATIONS (for comparison)
+                // v1.2.1: For 12-month period, use direct values to avoid rounding errors
+                let yearlyMNW, yearlyUSD, yearlyDailyMNW;
+                if (selectedStakingPeriod === 12) {
+                    // 12 months = exactly 1 year, use period values directly
+                    yearlyMNW = periodMNW;
+                    yearlyUSD = periodUSD;
+                    yearlyDailyMNW = periodDailyMNW;
+                } else {
+                    // For 3m and 6m, annualize the results
+                    yearlyMNW = (periodMNW / selectedStakingPeriod) * 12;
+                    yearlyUSD = yearlyMNW * currentPrice;
+                    yearlyDailyMNW = yearlyMNW / 365;
+                }
+                const totalAnnualProfit = yearlyUSD - totalAnnualVPSCost;
+                const annualTokenYield = (yearlyMNW / totalStaked) * 100;
                 const annualROI = (totalAnnualProfit / totalInvestment) * 100;
                 
                 // Update period label and dynamic field labels
@@ -1645,26 +1803,22 @@ async function loadLatestData(event) {
                 
                 // Update dynamic labels in Period section
                 const suffix = periodSuffix[selectedStakingPeriod];
-                document.getElementById('labelPeriodVals').textContent = 'Validations/' + suffix;
-                document.getElementById('labelPeriodMNW').textContent = 'MNW/' + suffix;
-                document.getElementById('labelPeriodRewards').textContent = 'Rewards/' + suffix;
-                document.getElementById('labelPeriodYield').textContent = 'Token Yield/' + suffix;
-                document.getElementById('labelPeriodProfit').textContent = 'Profit/' + suffix;
-                document.getElementById('labelPeriodROI').textContent = 'ROI/' + suffix;
-                document.getElementById('labelPeriodVPS').textContent = 'VPS Cost/' + suffix;
+                document.getElementById('labelPeriodVals').textContent = 'VALS/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodMNW').textContent = 'MNW/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodRewards').textContent = 'REWARDS/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodYield').textContent = 'YIELD/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodProfit').textContent = 'PROFIT/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodROI').textContent = 'ROI/' + suffix.toUpperCase();
+                document.getElementById('labelPeriodVPS').textContent = 'VPS/' + suffix.toUpperCase();
                 
                 // UPDATE PERIOD RESULTS (actual staking period)
                 document.getElementById('myNodesPeriodDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
-                
-                // Calculate and display daily MNW earned
-                const periodDailyMNW = totalValidationsPerDay * periodReward;
                 document.getElementById('myNodesPeriodDailyMNW').textContent = periodDailyMNW.toFixed(1);
-                
                 document.getElementById('myNodesPeriodVals').textContent = formatNumber(Math.round(periodValidations));
                 document.getElementById('myNodesPeriodMNW').textContent = formatCompactMNW(periodMNW);
                 document.getElementById('myNodesPeriodUSD').textContent = '$' + formatNumber(Math.round(periodUSD));
-                document.getElementById('myNodesPeriodEVLS').textContent = evlsCapPercent + '%';
-                document.getElementById('myNodesPeriodEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsCapPercent < 15 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesPeriodEVLS').textContent = evlsPenaltyPercent + '%';
+                document.getElementById('myNodesPeriodEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
                 document.getElementById('myNodesPeriodYield').textContent = periodTokenYield.toFixed(2) + '%';
                 document.getElementById('myNodesPeriodYield').style.color = periodTokenYield >= 8.0 ? '#4ade80' : periodTokenYield >= 6.0 ? '#fbbf24' : '#f87171';
                 document.getElementById('myNodesPeriodProfit').textContent = '$' + formatNumber(Math.round(periodProfit));
@@ -1675,17 +1829,13 @@ async function loadLatestData(event) {
                 
                 // UPDATE ANNUALIZED RESULTS (yearly equivalents)
                 document.getElementById('myNodesDailyVals').textContent = formatNumber(Math.round(totalValidationsPerDay));
+                document.getElementById('myNodesDailyMNW').textContent = yearlyDailyMNW.toFixed(1);
+                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(yearlyValidations));
+                document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(yearlyMNW);
+                document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(yearlyUSD));
                 
-                // Calculate and display daily MNW earned (at 12-month rate)
-                const annualizedDailyMNW = totalValidationsPerDay * TWELVE_MONTH_REWARD_RATE;
-                document.getElementById('myNodesDailyMNW').textContent = annualizedDailyMNW.toFixed(1);
-                
-                document.getElementById('myNodesYearlyVals').textContent = formatNumber(Math.round(annualizedValidations));
-                document.getElementById('myNodesYearlyMNW').textContent = formatCompactMNW(annualizedMNW);
-                document.getElementById('myNodesYearlyUSD').textContent = '$' + formatNumber(Math.round(annualizedUSD));
-                
-                document.getElementById('myNodesEVLS').textContent = evlsCapPercent + '%';
-                document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsCapPercent < 15 ? '#fbbf24' : '#f87171';
+                document.getElementById('myNodesEVLS').textContent = evlsPenaltyPercent + '%';
+                document.getElementById('myNodesEVLS').style.color = evlsFactor >= 1.0 ? '#4ade80' : evlsPenaltyPercent < 15 ? '#fbbf24' : '#f87171';
                 
                 document.getElementById('myNodesTokenYield').textContent = annualTokenYield.toFixed(2) + '%';
                 document.getElementById('myNodesTokenYield').style.color = annualTokenYield >= 8.0 ? '#4ade80' : annualTokenYield >= 6.0 ? '#fbbf24' : '#f87171';
@@ -1768,10 +1918,10 @@ async function loadLatestData(event) {
                 // CONSTANTS FOR SCALING MODEL
                 const MAX_NODES = 20000;
                 const MAX_STAKEABLE = MAX_NODES * 1800;
-                const baselineDailyVals = 19119;
+                const baselineDailyVals = 17900;
                 const baselineNodes = 4335;
                 const baselineValidators = 108;
-                const baselinePrice = 0.05152;
+                const baselinePrice = 0.062;
                 const currentNodesBaseline = 4335;
                 const currentValsBaseline = 18500;
                 
@@ -1871,8 +2021,8 @@ async function loadLatestData(event) {
                 // Base emissions: dailyValidations × avgReward × 365
                 const baseYearlyRewards = dailyValidations * weightedAvgReward * 365;
                 // EVLS reduces total emissions by ~3% (conservative estimate)
-                // Assumptions: ~85% of nodes with small operators (0% weight cap)
-                //              ~15% of nodes with large operators (avg 20% weight cap)
+                // Assumptions: ~85% of nodes with small operators (0% EVLS impact)
+                //              ~15% of nodes with large operators (avg 20% EVLS impact)
                 // Network-wide impact: 0.85×0% + 0.15×20% = 3% reduction
                 const evlsReductionFactor = 0.97; // 3% reduction from EVLS penalties
                 const yearlyRewards = baseYearlyRewards * evlsReductionFactor;
@@ -2072,6 +2222,7 @@ async function loadLatestData(event) {
                 const dailyRewardsUSD = dailyMNW * currentPrice;
                 const yearlyRewardsUSD = totalYearlyMNW * currentPrice;
                 document.getElementById('summaryDailyRewards').textContent = formatCompactNumber(dailyRewardsUSD);
+                document.getElementById('summaryDailyValidations').textContent = formatNumber(dailyValidations);
                 document.getElementById('summaryYearlyRewards').textContent = formatCompactNumber(yearlyRewardsUSD);
                 document.getElementById('summaryYearlyMNW').textContent = formatCompactMNW(totalYearlyMNW);
                 document.getElementById('summaryPrice').textContent = '$' + currentPrice.toFixed(5);
@@ -2117,88 +2268,89 @@ async function loadLatestData(event) {
                     {nodes: 250, vps: 1}, {nodes: 500, vps: 1}, {nodes: 1000, vps: 1}
                 ];
                 
-                // v5.8: Calculate per-node validations accounting for ACTUAL network size
-                // When transactions increase AND network grows, validations are shared among more nodes
-                // Use the ACTUAL scaled network size from totalNodes input
-                const networkNodes = parseFormattedNumber(document.getElementById('totalNodes').value) || 4339;
+                // v1.2.1: Calculate per-node validations using ACTUAL real-world baseline
+                // Analysis of 25 validators (today's data): baseline = 4.9 vals/node/day
+                // This ensures consistency with My Nodes Calculator
+                // v1.2.3: Subtract earlyUnstakes for nodes in unstake waiting period
+                const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
+                const networkNodes = (parseFormattedNumber(document.getElementById('totalNodes').value) || 4510) - earlyUnstakes;
                 
-                // Calculate actual per-node share of daily validations
-                // This properly accounts for increased competition when network grows
-                const validationsPerNodeFromNetwork = dailyValidations / networkNodes;
+                // v1.2.1: Use real-world baseline for ALL periods
+                // Validation work distribution is independent of staking period
+                // Only the REWARD RATE varies by period (0.06, 0.08, 0.10)
+                // Real-world data from 25 validators: 4.9 vals/node/day
+                const HISTORICAL_VAL_PER_NODE_PER_DAY = 4.9;  // Real-world baseline (today's data)
                 
-                // The baseline adjustment factor accounts for actual validator performance vs theoretical
-                // Baseline: 19119 validations / 4339 nodes = 4.406 theoretical
-                // Actual observed: 4.9662 per node per day from 12-month data
-                // Adjustment factor: 4.9662 / 4.406 = 1.127...
-                const BASELINE_ADJUSTMENT = 1.127;
+                // v1.2.0: Get period-specific reward rate ONLY
+                const periodKey = selectedStakingPeriod + '_month';
+                const historicalData = VALIDATOR_HISTORICAL_DATA[periodKey];
+                const periodReward = historicalData.avg_mnw_per_val;
                 
-                // Apply adjustment to get actual per-node validations
-                const BASELINE_VAL_PER_NODE_PER_DAY = validationsPerNodeFromNetwork * BASELINE_ADJUSTMENT;
+                // Scale baseline by current network validations vs historical baseline
+                const baselineValidations = 17900;
+                const validationScalingFactor = dailyValidations / baselineValidations;
+                
+                // Network size scaling: more nodes = validations spread thinner
+                // Use square root to model network effects
+                const baselineNetworkNodes = 4339;
+                const networkScalingFactor = Math.sqrt(baselineNetworkNodes / networkNodes);
+                
+                // Combined baseline validations per node per day
+                const BASELINE_VAL_PER_NODE_PER_DAY = HISTORICAL_VAL_PER_NODE_PER_DAY * 
+                                                       validationScalingFactor * 
+                                                       networkScalingFactor;
                 
                 // v5.8: First pass - calculate all configs to find max ROI
                 const calculatedConfigs = [];
                 nodeConfigs.forEach(config => {
                     const vpsYearlyCost = config.nodes <= 100 ? vpsCostPerYear : vpsCostPerYear100Plus;
-                    const evlsFactor = calculateEVLSWeightCap(config.nodes);
-                    const evlsCap = (1 - evlsFactor) * 100;
+                    const evlsFactor = calculateEVLSFactor(config.nodes);
+                    const evlsPenalty = (1 - evlsFactor) * 100;
                     
                     const validationsPerNodePerDay = BASELINE_VAL_PER_NODE_PER_DAY * evlsFactor;
                     const totalValidationsPerDay = validationsPerNodePerDay * config.nodes;
                     const yearlyValidations = totalValidationsPerDay * 365;
                     
-                    const reward12m = 0.10;
-                    const yearlyMNW = yearlyValidations * reward12m;
+                    // v1.2.0: Use historical period reward instead of hardcoded 0.10
+                    const yearlyMNW = yearlyValidations * periodReward;
                     const yearlyUSD = yearlyMNW * currentPrice;
                     
                     const totalCost = vpsYearlyCost * config.vps;
                     const profit = yearlyUSD - totalCost;
                     const totalStakeValue = stakeValueUSD * config.nodes;
                     const multiROI = (profit / totalStakeValue) * 100;
-                    const multiTokenYield = (yearlyMNW / (stakePerNode * config.nodes)) * 100;
-                    
-                    // Round to 1 decimal for display AND comparison
-                    const multiROIRounded = Math.round(multiROI * 10) / 10;
-                    const multiTokenYieldRounded = Math.round(multiTokenYield * 10) / 10;
                     
                     calculatedConfigs.push({
                         config: config,
                         vpsYearlyCost: vpsYearlyCost,
                         evlsFactor: evlsFactor,
-                        evlsCap: evlsCap,
+                        evlsPenalty: evlsPenalty,
+                        validationsPerNodePerDay: validationsPerNodePerDay,
                         totalValidationsPerDay: totalValidationsPerDay,
                         yearlyValidations: yearlyValidations,
                         yearlyMNW: yearlyMNW,
+                        dailyMNW: totalValidationsPerDay * periodReward,
                         profit: profit,
-                        multiROI: multiROIRounded,  // Store rounded value
-                        multiTokenYield: multiTokenYieldRounded  // Store rounded value
+                        multiROI: multiROI,
+                        multiTokenYield: (yearlyMNW / (stakePerNode * config.nodes)) * 100
                     });
                 });
                 
-                // Find maximum ROI from rounded values
+                // Find maximum ROI
                 const maxROI = Math.max(...calculatedConfigs.map(c => c.multiROI));
-                
-                // Check if ROI equals max (both already rounded to 1 decimal)
-                const isOptimalROI = (roi) => roi === maxROI;
                 
                 let multiNodeHTML = '';
                 let showEVLS = false;
                 calculatedConfigs.forEach(calc => {
                     const config = calc.config;
-                    const costPerNodePerYear = calc.vpsYearlyCost / config.nodes;
-                    
-                    // EVLS loss calculation (compared to no weight cap)
-                    const yearlyValidationsNoCap = BASELINE_VAL_PER_NODE_PER_DAY * config.nodes * 365;
-                    const evlsLossValidations = yearlyValidationsNoCap - calc.yearlyValidations;
-                    const reward12m = 0.10;
-                    const evlsLoss = evlsLossValidations * reward12m * currentPrice;
                     
                     if (config.nodes >= 100) showEVLS = true;
                     
                     // Color coding for profit: green for positive, red for negative
                     const profitColor = calc.profit >= 0 ? '#28a745' : '#dc3545';
                     
-                    // Highlight ALL configurations with maximum ROI (handles floating point precision)
-                    const isOptimal = isOptimalROI(calc.multiROI);
+                    // Only highlight the exact maximum ROI (no tolerance)
+                    const isOptimal = calc.multiROI === maxROI;
                     let rowStyle = '';
                     let nodeLabel = `${config.nodes} Node${config.nodes > 1 ? 's' : ''} / ${config.vps} VPS`;
                     
@@ -2207,17 +2359,17 @@ async function loadLatestData(event) {
                         rowStyle = 'background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%); border: 2px solid #28a745;';
                         nodeLabel = `⭐ ${nodeLabel} (OPTIMAL - Max ROI)`;
                     } else if (config.nodes === 100) {
-                        // 100 nodes: EVLS weight cap starts here (10.26% cap)
+                        // 100 nodes: EVLS starts here (10.26% impact)
                         rowStyle = 'background: #fff3cd;';
                         nodeLabel = `${nodeLabel}`;
                     } else if (config.nodes > 100 && config.nodes <= 150) {
                         // Yellow zone: EVLS active but manageable
                         rowStyle = 'background: #fff3cd;';
                     } else if (config.nodes > 150 && config.nodes < 500) {
-                        // Orange zone: higher weight cap
+                        // Orange zone: higher EVLS impact
                         rowStyle = 'background: linear-gradient(135deg, #ffe8cc 0%, #ffd9a8 100%);';
                     } else if (config.nodes >= 500) {
-                        // Red zone: severe weight cap
+                        // Red zone: severe EVLS impact
                         rowStyle = 'background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%); border: 2px solid #dc3545;';
                         nodeLabel = `🚨 ${nodeLabel} (HIGH PENALTY)`;
                     } else if (calc.profit < 0) {
@@ -2225,65 +2377,60 @@ async function loadLatestData(event) {
                         rowStyle = 'background: #f8d7da;';
                     }
                     
-                    // EVLS weight cap display
-                    const evlsCapDisplay = calc.evlsCap > 0 ? `${calc.evlsCap.toFixed(2)}%` : '—';
-                    const evlsLossDisplay = evlsLoss > 0 ? `$${formatNumber(Math.round(evlsLoss))}` : '—';
-                    const evlsFactorColor = calc.evlsCap > 0 ? '#dc3545' : '#28a745';
+                    // EVLS impact display
+                    const evlsPenaltyDisplay = calc.evlsPenalty > 0 ? `${calc.evlsPenalty.toFixed(2)}%` : '—';
                     
                     multiNodeHTML += `
                         <tr style="${rowStyle}">
                             <td style="font-weight: ${isOptimal ? 'bold' : 'normal'};">${nodeLabel}</td>
                             <td style="text-align: right;">${formatNumber(config.nodes)}</td>
-                            <td style="text-align: right; color: ${calc.evlsCap > 0 ? '#dc3545' : '#28a745'};">${formatNumber(Math.round(calc.totalValidationsPerDay))}</td>
+                            <td style="text-align: right; color: ${calc.evlsPenalty > 0 ? '#dc3545' : '#28a745'};">${calc.validationsPerNodePerDay.toFixed(2)}</td>
+                            <td style="text-align: right;">${calc.dailyMNW.toFixed(1)}</td>
                             <td style="text-align: right;">${formatNumber(Math.round(calc.yearlyValidations))}</td>
                             <td style="text-align: right;">${formatNumber(Math.round(calc.yearlyMNW))}</td>
-                            <td style="text-align: right;">$${costPerNodePerYear.toFixed(2)}</td>
-                            <td style="text-align: right; color: ${evlsFactorColor};">${calc.evlsFactor.toFixed(2)}x</td>
-                            <td style="text-align: right; color: ${calc.evlsCap > 0 ? '#dc3545' : '#6c757d'};">${evlsCapDisplay}</td>
-                            <td style="text-align: right; color: ${evlsLoss > 0 ? '#dc3545' : '#6c757d'};">${evlsLossDisplay}</td>
+                            <td style="text-align: right;">$${formatNumber(Math.round(calc.vpsYearlyCost))}</td>
+                            <td style="text-align: right; color: ${calc.evlsPenalty > 0 ? '#dc3545' : '#6c757d'};">${evlsPenaltyDisplay}</td>
                             <td style="text-align: right; color: ${profitColor}; font-weight: bold;">${calc.profit >= 0 ? '$' + formatNumber(Math.round(calc.profit)) : '-$' + formatNumber(Math.round(Math.abs(calc.profit)))}</td>
-                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiTokenYield.toFixed(1)}%</td>
-                            <td style="text-align: right; font-weight: ${isOptimal ? 'bold' : 'normal'}; color: ${isOptimal ? '#28a745' : 'inherit'};">${calc.multiROI.toFixed(1)}%</td>
                         </tr>
                     `;
                 });
                 document.getElementById('multiNodeTable').innerHTML = multiNodeHTML;
                 
-                // Update optimal nodes text dynamically (shows ALL with maximum ROI)
-                const optimalConfigs = calculatedConfigs.filter(c => isOptimalROI(c.multiROI));
+                // Update optimal nodes text dynamically (only exact maximum ROI)
+                const optimalConfigs = calculatedConfigs.filter(c => c.multiROI === maxROI);
                 const optimalNodeCounts = optimalConfigs.map(c => c.config.nodes).sort((a, b) => a - b);
                 let optimalText = '';
                 if (optimalNodeCounts.length === 1) {
-                    optimalText = `✅ ${optimalNodeCounts[0]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts[0]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
                 } else if (optimalNodeCounts.length === 2) {
-                    optimalText = `✅ ${optimalNodeCounts[0]} & ${optimalNodeCounts[1]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts[0]} & ${optimalNodeCounts[1]} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
                 } else if (optimalNodeCounts.length <= 4) {
                     const lastNode = optimalNodeCounts.pop();
-                    optimalText = `✅ ${optimalNodeCounts.join(', ')} & ${lastNode} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts.join(', ')} & ${lastNode} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
                 } else {
-                    optimalText = `✅ ${optimalNodeCounts.join(', ')} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(1)}%)`;
+                    optimalText = `✅ ${optimalNodeCounts.join(', ')} Nodes = OPTIMAL (Max ROI: ${maxROI.toFixed(2)}%)`;
                 }
                 document.getElementById('optimalNodesText').textContent = optimalText;
                 
-                // Calculate key profitability metrics with CORRECTED baseline (4.97)
-                const validationsPerNode75 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSWeightCap(75) * 365;
-                const validationsPerNode100 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSWeightCap(100) * 365;
-                const validationsPerNode200 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSWeightCap(200) * 365;
+                // v1.2.0: Calculate key profitability metrics using historical period reward
+                const validationsPerNode75 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(75) * 365;
+                const validationsPerNode100 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(100) * 365;
+                const validationsPerNode200 = BASELINE_VAL_PER_NODE_PER_DAY * calculateEVLSFactor(200) * 365;
                 
-                const profitAt75 = (validationsPerNode75 * 75 * 0.10 * currentPrice) - vpsCostPerYear;
-                const profitAt100 = (validationsPerNode100 * 100 * 0.10 * currentPrice) - vpsCostPerYear;
-                const profitAt200 = (validationsPerNode200 * 200 * 0.10 * currentPrice) - vpsCostPerYear100Plus;
+                const profitAt75 = (validationsPerNode75 * 75 * periodReward * currentPrice) - vpsCostPerYear;
+                const profitAt100 = (validationsPerNode100 * 100 * periodReward * currentPrice) - vpsCostPerYear;
+                const profitAt200 = (validationsPerNode200 * 200 * periodReward * currentPrice) - vpsCostPerYear100Plus;
                 
                 const roi75 = (profitAt75 / (stakeValueUSD * 75)) * 100;
                 const roi100 = (profitAt100 / (stakeValueUSD * 100)) * 100;
                 const roi200 = (profitAt200 / (stakeValueUSD * 200)) * 100;
                 
-                const evlsCap100 = ((1 - calculateEVLSWeightCap(100)) * 100).toFixed(2);
-                const evlsCap200 = ((1 - calculateEVLSWeightCap(200)) * 100).toFixed(1);
-                const evlsLoss200 = (200 * BASELINE_VAL_PER_NODE_PER_DAY * 365 * (1 - calculateEVLSWeightCap(200)) * 0.10 * currentPrice);
+                const evlsPenalty100 = ((1 - calculateEVLSFactor(100)) * 100).toFixed(2);
+                const evlsPenalty200 = ((1 - calculateEVLSFactor(200)) * 100).toFixed(1);
+                const evlsLoss200 = (200 * BASELINE_VAL_PER_NODE_PER_DAY * 365 * (1 - calculateEVLSFactor(200)) * periodReward * currentPrice);
                 
                 document.getElementById('multiNodeInsight').innerHTML = 
-                    `<strong>💡 Optimal Strategy:</strong> <strong style="color: #28a745;">75-99 nodes = SWEET SPOT</strong> with cheap $6/month VPS and no weight cap. 75 nodes: <strong>$${formatNumber(Math.round(profitAt75))}/year (${roi75.toFixed(2)}% ROI)</strong>. 100 nodes: <strong>$${formatNumber(Math.round(profitAt100))}/year (${roi100.toFixed(2)}% ROI)</strong> but ${evlsCap100}% weight cap starts. At 101+ nodes, VPS jumps 4x ($72→$288/year). At 200 nodes: ${evlsCap200}% weight cap costs <strong style="color: #dc3545;">$${formatNumber(Math.round(evlsLoss200))}/year</strong>, ROI drops to ${roi200.toFixed(2)}%. <em>Do not extrapolate beyond 200 nodes - insufficient data.</em>`;
+                    `<strong>💡 Optimal Strategy:</strong> <strong style="color: #28a745;">75-99 nodes = SWEET SPOT</strong> with cheap $6/month VPS and no EVLS. 75 nodes: <strong>$${formatNumber(Math.round(profitAt75))}/year (${roi75.toFixed(2)}% ROI)</strong>. 100 nodes: <strong>$${formatNumber(Math.round(profitAt100))}/year (${roi100.toFixed(2)}% ROI)</strong> but ${evlsPenalty100}% EVLS starts. At 101+ nodes, VPS jumps 4x ($72→$288/year). At 200 nodes: ${evlsPenalty200}% EVLS impact costs <strong style="color: #dc3545;">$${formatNumber(Math.round(evlsLoss200))}/year</strong>, ROI drops to ${roi200.toFixed(2)}%. <em>Do not extrapolate beyond 200 nodes - insufficient data.</em>`;
                 
                 document.getElementById('evlsWarning').style.display = showEVLS ? 'block' : 'none';
                 
@@ -2625,16 +2772,11 @@ async function loadLatestData(event) {
             
             calculate();
             
-            // Initialize My Nodes calculator and network validators
+            // Initialize My Nodes calculator
             setTimeout(function() {
-                updateMyNetworkValidators();
                 calculateMyNodes();
             }, 100);
         });
     </script>
-    
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "fe2607fdb16d42968b8c6915aa8fa4ba"}'></script>
-    <!-- End Cloudflare Web Analytics -->
 </body>
 </html>
