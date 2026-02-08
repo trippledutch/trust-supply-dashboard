@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Unofficial Trust.Supply Economic Dashboard v1.2.3</title>
+    <title>Unofficial Trust.Supply Economic Dashboard v1.2.4</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
     <style>
@@ -278,7 +278,7 @@
             <a href="index.html">← Back to Tools</a>
         </div>
         <header>
-            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.3</h1>
+            <h1>Unofficial Trust.Supply Economic Dashboard v1.2.4</h1>
             <p>Advanced validator economics, treasury modeling & EVLS analysis</p>
             <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">📅 Last Update: 29 January 2026</p>
             <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.85em; line-height: 1.6; text-align: left; max-width: 900px; margin-left: auto; margin-right: auto; backdrop-filter: blur(10px);">
@@ -318,13 +318,8 @@
                 </div>
                 <div class="control-group">
                     <label>Active Nodes</label>
-                    <input type="text" id="totalNodes" value="4,509" oninput="updateCalculatedFields(); calculate()">
+                    <input type="text" id="totalNodes" value="4,325" oninput="updateCalculatedFields(); calculate()">
                     <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #28a745;">Effective active nodes (earning rewards)</small>
-                </div>
-                <div class="control-group">
-                    <label>Early Unstakes</label>
-                    <input type="number" id="earlyUnstakes" value="1" min="0" oninput="updateCalculatedFields(); calculate()">
-                    <small style="display: block; margin-top: 5px; font-size: 0.8em; color: #856404;">Nodes in unstake waiting period (not earning)</small>
                 </div>
                 <div class="control-group">
                     <label>Active Validators</label>
@@ -799,9 +794,6 @@
                         <div style="font-size: 0.85em; margin-top: 8px; opacity: 0.9;">
                             💡 Model different network sizes to see how your profitability changes as the network grows
                         </div>
-                        <div style="margin-top: 10px; padding: 8px; background: rgba(255,255,255,0.15); border-radius: 5px; font-size: 0.9em;">
-                            <span style="opacity: 0.85;">Early Unstakes (not earning):</span> <span id="myEarlyUnstakes" style="font-weight: bold; color: #fbbf24;">1</span> node
-                        </div>
                     </div>
                     
                     <!-- VPS Configuration -->
@@ -1168,8 +1160,8 @@
         </div>
 
         <footer style="text-align: center; padding: 20px; color: #6c757d; border-top: 2px solid #e9ecef;">
-            <p>Unofficial Trust.Supply Economic Dashboard v1.2.2 | Updated 27 January 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.3: Removed runtime adjustment, -1 node for unstakes, improved button layout</p>
+            <p>Unofficial Trust.Supply Economic Dashboard v1.2.4 | Updated 30 January 2026</p>
+            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | v1.2.4: Removed Early Unstakes field, Active Nodes now set via JSON/manual (default 4,325)</p>
         </footer>
     </div>
 
@@ -1293,19 +1285,8 @@
         }
 
         function updateActiveNodesFromStaked() {
-            // Legacy function - kept for compatibility but not used in main flow
-            const totalStaked = parseFormattedNumber(document.getElementById('totalStaked').value);
-            const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
-            const stakePerNode = 1800; // Fixed at 1,800 MNW per node
-            
-            // Active Nodes = (Total Staked / 1800) - Early Unstakes
-            const activeNodes = Math.floor(totalStaked / stakePerNode) - earlyUnstakes;
-            
-            document.getElementById('totalNodes').value = formatNumber(activeNodes);
-            document.getElementById('stakePerNode').value = formatNumber(stakePerNode);
-            
-            // Update My Nodes calculator with new active nodes
-            updateMyNodesActiveNodes();
+            // Legacy function - no longer used
+            // Active Nodes are now set directly via JSON update or manual input
         }
 
         function updateYearlyValidations() {
@@ -1342,10 +1323,6 @@
             document.getElementById('myNetworkNodes').value = totalNodes;
             document.getElementById('myNetworkSlider').value = totalNodes;
             document.getElementById('myNetworkSliderValue').textContent = formatNumber(totalNodes) + ' nodes';
-            
-            // Update Early Unstakes display in My Nodes Calculator
-            const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
-            document.getElementById('myEarlyUnstakes').textContent = earlyUnstakes;
             
             calculateMyNodes(); // Recalculate with new network size
         }
@@ -1578,20 +1555,9 @@ async function loadLatestData(event) {
             document.getElementById('totalStaked').value = formatNumber(data.totalStaked);
         }
         
-        // Load ACTIVE NODES from JSON
-        let effectiveActiveNodes = data.activeNodes || 4510;
-        
-        // Load EARLY UNSTAKES from JSON
-        let earlyUnstakes = data.earlyUnstakes || 0;
-        
-        if (data.earlyUnstakes !== undefined) {
-            document.getElementById('earlyUnstakes').value = earlyUnstakes;
-        }
-        
-        // Display EFFECTIVE Active Nodes (activeNodes - earlyUnstakes)
+        // Load ACTIVE NODES from JSON (default: 4325)
         if (data.activeNodes !== undefined) {
-            effectiveActiveNodes = data.activeNodes - earlyUnstakes;
-            document.getElementById('totalNodes').value = formatNumber(effectiveActiveNodes);
+            document.getElementById('totalNodes').value = formatNumber(data.activeNodes);
         }
 
         // 🔹 Live TOTAL STAKED override (from wallet via Alchemy)
@@ -2271,9 +2237,8 @@ async function loadLatestData(event) {
                 // v1.2.1: Calculate per-node validations using ACTUAL real-world baseline
                 // Analysis of 25 validators (today's data): baseline = 4.9 vals/node/day
                 // This ensures consistency with My Nodes Calculator
-                // v1.2.3: Subtract earlyUnstakes for nodes in unstake waiting period
-                const earlyUnstakes = parseInt(document.getElementById('earlyUnstakes').value) || 0;
-                const networkNodes = (parseFormattedNumber(document.getElementById('totalNodes').value) || 4510) - earlyUnstakes;
+                // v1.2.4: Active Nodes now directly set via JSON or manual input
+                const networkNodes = parseFormattedNumber(document.getElementById('totalNodes').value) || 4325;
                 
                 // v1.2.1: Use real-world baseline for ALL periods
                 // Validation work distribution is independent of staking period
