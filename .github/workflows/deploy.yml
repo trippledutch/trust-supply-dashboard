@@ -18,6 +18,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "*.html,favicon.ico"
+          source: "*.html,*.json,favicon.ico"
           target: "/var/www/trustnodes.nl/"
           strip_components: 0
