@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leer Nederlands — Dutch for Thai Speakers</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', 'Sarabun', -apple-system, sans-serif;
+    background: #FAFAF8;
+    color: #333;
+    min-height: 100vh;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 16px 60px; }
+  .serif { font-family: 'Source Serif 4', Georgia, serif; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1B3A5C 0%, #21468B 50%, #2E5DA8 100%);
+    margin: 0 -16px; padding: 40px 24px 32px;
+    border-radius: 0 0 20px 20px; color: #fff; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .flag {
+    width: 48px; height: 32px; border-radius: 4px; overflow: hidden;
+    margin: 0 auto 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+  }
+  .flag div:nth-child(1) { background: #AE1C28; height: 33.3%; }
+  .flag div:nth-child(2) { background: #FFFFFF; height: 33.3%; }
+  .flag div:nth-child(3) { background: #21468B; height: 33.3%; }
+  .header h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .header .sub { font-size: 15px; opacity: 0.9; margin-bottom: 4px; }
+  .header .sub2 { font-size: 14px; opacity: 0.7; }
+
+  /* Cards */
+  .card {
+    background: #fff; border-radius: 12px; padding: 16px 20px;
+    margin: 20px 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .card-accent {
+    background: #FFF8F0; border: 1px solid #F5DEC0;
+    border-radius: 12px; padding: 18px 20px; margin: 0 0 24px;
+  }
+  .card-blue {
+    background: #F0F7FF; border: 1px solid #D0E3F5;
+    border-radius: 12px; padding: 20px 24px; margin: 0 0 24px;
+  }
+
+  /* Progress */
+  .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, #E85D26, #F39C12);
+    transition: width 0.5s ease;
+  }
+
+  /* Module Grid */
+  .module-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px; margin-bottom: 24px;
+  }
+  .module-card {
+    background: #fff; border: 1px solid #e8e8e8; border-radius: 12px;
+    padding: 20px 16px; cursor: pointer; text-align: left;
+    transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: block; width: 100%; font-family: inherit;
+  }
+  .module-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .module-card .icon { font-size: 36px; margin-bottom: 8px; }
+  .module-card h3 { color: #222; font-size: 17px; margin-bottom: 2px; }
+  .module-card .en { color: #666; font-size: 13px; margin-bottom: 8px; }
+  .module-card .meta { font-size: 12px; font-weight: 600; }
+
+  /* Search */
+  .search-toggle {
+    width: 100%; padding: 12px; background: #fff; border: 1px solid #e0e0e0;
+    border-radius: 10px; font-size: 14px; cursor: pointer; color: #555;
+    font-family: inherit; margin-bottom: 20px;
+  }
+  .search-input {
+    width: 100%; padding: 12px 16px; border: 2px solid #21468B;
+    border-radius: 10px; font-size: 15px; outline: none; font-family: inherit;
+    margin-bottom: 4px;
+  }
+  .search-results {
+    background: #fff; border: 1px solid #e0e0e0; border-radius: 10px;
+    max-height: 300px; overflow: auto; margin-bottom: 20px;
+  }
+  .search-results .item {
+    padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px;
+  }
+  .search-results .item .detail { font-size: 12px; color: #999; }
+
+  /* Lesson list */
+  .lesson-list { display: flex; flex-direction: column; gap: 10px; }
+  .lesson-card {
+    background: #fff; border: 1px solid #e8e8e8; border-radius: 12px;
+    padding: 16px 20px; cursor: pointer; display: flex;
+    justify-content: space-between; align-items: center;
+    font-family: inherit; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    width: 100%;
+  }
+  .lesson-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+  .lesson-card .num {
+    width: 40px; height: 40px; border-radius: 50%;
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
+  }
+
+  /* Back button */
+  .back-btn {
+    background: none; border: none; color: #21468B; font-weight: 600;
+    cursor: pointer; font-size: 15px; padding: 20px 0 12px; font-family: inherit;
+  }
+  .back-btn:hover { text-decoration: underline; }
+
+  /* Module header */
+  .module-header {
+    background: #fff; border-radius: 12px; padding: 24px;
+    margin-bottom: 20px; text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .module-header .icon { font-size: 48px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0; overflow-x: auto; padding-bottom: 4px; }
+  .tab {
+    padding: 10px 16px; border-radius: 20px; border: 1px solid #ddd;
+    background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+    white-space: nowrap; font-family: inherit; color: #555; transition: all 0.2s;
+  }
+  .tab:hover { background: #f0f0f0; }
+  .tab.active { color: #fff; font-weight: 600; border-color: transparent; }
+
+  /* Vocab */
+  .vocab-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;
+  }
+  .vocab-card {
+    background: #fff; border: 1px solid #eee; border-radius: 10px;
+    padding: 14px 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    transition: transform 0.15s;
+  }
+  .vocab-card:hover { transform: scale(1.02); }
+  .vocab-card .nl { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .vocab-card .phonetic { font-size: 13px; color: #888; margin-bottom: 6px; }
+  .vocab-card .en { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 4px; }
+  .vocab-card .thai { font-size: 14px; color: #999; }
+  .vocab-card .note { font-size: 12px; color: #aaa; margin-top: 6px; font-style: italic; line-height: 1.4; }
+
+  /* Dialogue */
+  .dialogue-box {
+    background: #fff; border-radius: 12px; padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .dialogue-line {
+    padding: 12px 16px; border-radius: 10px; max-width: 85%;
+  }
+  .dialogue-line.you { align-self: flex-end; background: #E8F4FD; border-left: 3px solid var(--mod-color); }
+  .dialogue-line.other { align-self: flex-start; background: #F5F5F5; border-left: 3px solid #ddd; }
+  .dialogue-line .speaker {
+    font-size: 11px; font-weight: 700; margin-bottom: 4px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .dialogue-line .nl-text { font-size: 16px; font-weight: 600; color: #222; margin-bottom: 4px; }
+  .dialogue-line .en-text { font-size: 14px; color: #666; }
+
+  /* Grammar */
+  .grammar-box {
+    background: #fff; border-radius: 12px; padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .grammar-example {
+    background: #F8F9FA; border-radius: 8px; padding: 12px 16px;
+    border-left: 3px solid #21468B; margin-top: 10px;
+  }
+  .grammar-example .nl { font-weight: 600; color: #222; font-size: 15px; }
+  .grammar-example .en { color: #666; font-size: 14px; }
+
+  /* Exercises */
+  .exercise-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border-left: 4px solid #ddd;
+  }
+  .exercise-card.correct { border-left-color: #5E9B4E; }
+  .exercise-card.wrong { border-left-color: #E74C3C; }
+  .exercise-card .question { font-weight: 600; color: #333; margin-bottom: 12px; font-size: 15px; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .option-btn {
+    padding: 12px 14px; border-radius: 8px; border: 2px solid #e0e0e0;
+    background: #FAFAFA; cursor: pointer; font-size: 14px; font-family: inherit;
+    text-align: center; transition: all 0.15s; font-weight: 500;
+  }
+  .option-btn:hover:not(:disabled) { background: #f0f0f0; border-color: #bbb; }
+  .option-btn.selected { border-color: var(--mod-color); background: color-mix(in srgb, var(--mod-color) 12%, white); color: var(--mod-color); }
+  .option-btn.opt-correct { background: #E8F8E8; border-color: #5E9B4E; color: #2E7D32; }
+  .option-btn.opt-wrong { background: #FFEBEE; border-color: #E74C3C; color: #C62828; }
+  .option-btn:disabled { cursor: default; }
+
+  .check-btn {
+    width: 100%; padding: 16px; border-radius: 12px; border: none;
+    color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
+    margin-top: 12px; font-family: inherit; transition: all 0.2s;
+  }
+  .check-btn:disabled { background: #ccc !important; cursor: default; }
+
+  .score-card {
+    border-radius: 12px; padding: 24px; text-align: center;
+    margin-bottom: 20px; border: 2px solid;
+  }
+  .score-card.pass { background: #E8F8E8; border-color: #5E9B4E; }
+  .score-card.fail { background: #FFF3E0; border-color: #F39C12; }
+  .score-card .score { font-size: 32px; font-weight: 800; }
+  .score-card .msg { font-size: 15px; color: #555; margin-top: 4px; }
+
+  .retry-btn {
+    margin-top: 12px; padding: 10px 24px; border-radius: 8px;
+    border: none; color: #fff; font-size: 14px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  /* Tips */
+  .tip { margin-bottom: 8px; font-size: 14px; line-height: 1.7; color: #555; }
+  .tip:last-child { margin-bottom: 0; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 500px) {
+    .module-grid { grid-template-columns: 1fr; }
+    .vocab-grid { grid-template-columns: 1fr; }
+    .options-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================
+// COURSE DATA
+// ============================================================
+const COURSE_DATA = {
+  modules: [
+    {
+      id: 1, title: "Jezelf Voorstellen", titleEn: "Introducing Yourself", icon: "👋", color: "#E85D26",
+      lessons: [
+        {
+          id: "1a", title: "Begroetingen", titleEn: "Greetings",
+          vocab: [
+            { nl: "Hallo", en: "Hello", phonetic: "hah-LOH", thai: "สวัสดี", note: "Common greeting, any time of day" },
+            { nl: "Goedemorgen", en: "Good morning", phonetic: "KHOO-duh-MOR-khun", thai: "สวัสดีตอนเช้า", note: "Used until about noon" },
+            { nl: "Goedemiddag", en: "Good afternoon", phonetic: "KHOO-duh-MID-dakh", thai: "สวัสดีตอนบ่าย", note: "Used from noon to about 6pm" },
+            { nl: "Goedenavond", en: "Good evening", phonetic: "KHOO-dun-AH-vont", thai: "สวัสดีตอนเย็น", note: "Used from about 6pm" },
+            { nl: "Dag", en: "Goodbye / Hi", phonetic: "dakh", thai: "ลาก่อน / สวัสดี", note: "Informal, used for both hello and goodbye" },
+            { nl: "Tot ziens", en: "Goodbye", phonetic: "tot ZEENS", thai: "ลาก่อน", note: "More formal goodbye" },
+            { nl: "Doei", en: "Bye (informal)", phonetic: "DOO-ee", thai: "บ๊ายบาย", note: "Very casual, like 'bye-bye'" },
+            { nl: "Hoe gaat het?", en: "How are you?", phonetic: "hoo KHAHT ut", thai: "เป็นอย่างไรบ้าง?", note: "Standard 'how are you'" },
+            { nl: "Goed, dank je", en: "Good, thank you", phonetic: "khoot, DAHNK yuh", thai: "ดี ขอบคุณ", note: "Standard polite reply" },
+            { nl: "Alsjeblieft", en: "Please (informal)", phonetic: "AHL-shuh-BLEEFT", thai: "ได้โปรด", note: "Also means 'here you go'" },
+            { nl: "Dank je wel", en: "Thank you", phonetic: "DAHNK yuh vel", thai: "ขอบคุณ", note: "Informal thank you" },
+            { nl: "Dank u wel", en: "Thank you (formal)", phonetic: "DAHNK oo vel", thai: "ขอบคุณครับ/ค่ะ", note: "Formal, use with strangers/officials" },
+          ],
+          dialogues: [
+            { situation: "Meeting someone for the first time", lines: [
+              { speaker: "A", nl: "Hallo! Hoe gaat het?", en: "Hello! How are you?" },
+              { speaker: "B", nl: "Goed, dank je. En met jou?", en: "Good, thank you. And with you?" },
+              { speaker: "A", nl: "Ook goed, dank je!", en: "Also good, thank you!" },
+            ]}
+          ],
+          grammar: {
+            title: "Formal vs Informal 'You'",
+            explanation: "Dutch has two forms of 'you': <strong>jij/je</strong> (informal, for friends/family) and <strong>u</strong> (formal, for strangers/officials). For the Inburgering exam, you'll mostly use 'u' in formal situations. Think of it like Thai's คุณ vs เธอ.",
+            examples: [
+              { nl: "Hoe gaat het met jou?", en: "How are you? (informal)" },
+              { nl: "Hoe gaat het met u?", en: "How are you? (formal)" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "How do you say 'Good morning' in Dutch?", answer: "Goedemorgen", options: ["Goedemorgen", "Goedemiddag", "Goedenavond", "Hallo"] },
+            { type: "mc", question: "What does 'Tot ziens' mean?", answer: "Goodbye", options: ["Hello", "Goodbye", "Thank you", "Please"] },
+            { type: "mc", question: "Fill in: Goed, ___ je wel", answer: "dank", options: ["dank", "dag", "hoe", "tot"] },
+            { type: "mc", question: "How do you say 'Thank you' formally?", answer: "Dank u wel", options: ["Dank je wel", "Dank u wel", "Alsjeblieft", "Tot ziens"] },
+            { type: "mc", question: "You meet your neighbor at 3pm. What do you say?", answer: "Goedemiddag", options: ["Goedemorgen", "Goedemiddag", "Goedenavond", "Doei"] },
+          ]
+        },
+        {
+          id: "1b", title: "Wie ben jij?", titleEn: "Who are you?",
+          vocab: [
+            { nl: "Ik ben...", en: "I am...", phonetic: "ik ben", thai: "ฉันเป็น...", note: "Most basic self-introduction" },
+            { nl: "Mijn naam is...", en: "My name is...", phonetic: "meyn NAHM is", thai: "ชื่อของฉันคือ...", note: "More formal way to give your name" },
+            { nl: "Ik heet...", en: "I'm called...", phonetic: "ik HAYT", thai: "ฉันชื่อ...", note: "Most common way to give your name" },
+            { nl: "Ik kom uit...", en: "I come from...", phonetic: "ik KOM owt", thai: "ฉันมาจาก...", note: "To say where you're from" },
+            { nl: "Thailand", en: "Thailand", phonetic: "TY-lahnt", thai: "ประเทศไทย", note: "Note: pronounced differently than English" },
+            { nl: "Ik woon in...", en: "I live in...", phonetic: "ik VOHN in", thai: "ฉันอาศัยอยู่ที่...", note: "To say where you live" },
+            { nl: "Nederland", en: "The Netherlands", phonetic: "NAY-dur-lahnt", thai: "ประเทศเนเธอร์แลนด์", note: "The country name" },
+            { nl: "Ik ben getrouwd", en: "I am married", phonetic: "ik ben khuh-TROWT", thai: "ฉันแต่งงานแล้ว", note: "Important for Inburgering!" },
+            { nl: "Mijn man", en: "My husband", phonetic: "meyn MAHN", thai: "สามีของฉัน", note: "" },
+            { nl: "Mijn vrouw", en: "My wife", phonetic: "meyn VROW", thai: "ภรรยาของฉัน", note: "" },
+            { nl: "Ik spreek...", en: "I speak...", phonetic: "ik SPRAYK", thai: "ฉันพูด...", note: "" },
+            { nl: "Een beetje Nederlands", en: "A little Dutch", phonetic: "un BAY-chuh NAY-dur-lahnts", thai: "ภาษาดัตช์นิดหน่อย", note: "Very useful phrase!" },
+          ],
+          dialogues: [
+            { situation: "At the Gemeente (municipality office)", lines: [
+              { speaker: "Official", nl: "Goedemorgen. Hoe heet u?", en: "Good morning. What is your name?" },
+              { speaker: "You", nl: "Goedemorgen. Ik heet... Ik kom uit Thailand.", en: "Good morning. My name is... I come from Thailand." },
+              { speaker: "Official", nl: "Woont u in Nederland?", en: "Do you live in the Netherlands?" },
+              { speaker: "You", nl: "Ja, ik woon in Amsterdam. Ik ben getrouwd.", en: "Yes, I live in Amsterdam. I am married." },
+            ]}
+          ],
+          grammar: {
+            title: "Word Order: Subject-Verb",
+            explanation: "Dutch basic word order is like English: Subject + Verb + Rest. 'Ik woon in Amsterdam' = 'I live in Amsterdam'. This is simpler than Thai word order in many cases!",
+            examples: [
+              { nl: "Ik ben student.", en: "I am a student." },
+              { nl: "Ik woon in Den Haag.", en: "I live in The Hague." },
+              { nl: "Ik kom uit Bangkok.", en: "I come from Bangkok." },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "How do you say 'I come from Thailand'?", answer: "Ik kom uit Thailand", options: ["Ik ben Thailand", "Ik kom uit Thailand", "Ik woon in Thailand", "Ik heet Thailand"] },
+            { type: "mc", question: "What does 'Ik ben getrouwd' mean?", answer: "I am married", options: ["I am happy", "I am married", "I am Dutch", "I am here"] },
+            { type: "mc", question: "Fill in: Ik ___ in Amsterdam", answer: "woon", options: ["woon", "heet", "kom", "ben"] },
+            { type: "mc", question: "How do you say 'A little Dutch'?", answer: "Een beetje Nederlands", options: ["Veel Nederlands", "Een beetje Nederlands", "Goed Nederlands", "Geen Nederlands"] },
+            { type: "mc", question: "An official asks 'Hoe heet u?' — what are they asking?", answer: "What is your name?", options: ["Where do you live?", "What is your name?", "Are you married?", "Where are you from?"] },
+          ]
+        }
+      ]
+    },
+    {
+      id: 2, title: "Getallen & Tijd", titleEn: "Numbers & Time", icon: "🔢", color: "#2E86AB",
+      lessons: [
+        {
+          id: "2a", title: "Getallen 0-20", titleEn: "Numbers 0-20",
+          vocab: [
+            { nl: "nul", en: "0", phonetic: "nul", thai: "ศูนย์", note: "" },
+            { nl: "een", en: "1", phonetic: "ayn", thai: "หนึ่ง", note: "Also means 'a/an'" },
+            { nl: "twee", en: "2", phonetic: "tvay", thai: "สอง", note: "" },
+            { nl: "drie", en: "3", phonetic: "dree", thai: "สาม", note: "" },
+            { nl: "vier", en: "4", phonetic: "feer", thai: "สี่", note: "" },
+            { nl: "vijf", en: "5", phonetic: "feyf", thai: "ห้า", note: "" },
+            { nl: "zes", en: "6", phonetic: "zes", thai: "หก", note: "" },
+            { nl: "zeven", en: "7", phonetic: "ZAY-vun", thai: "เจ็ด", note: "" },
+            { nl: "acht", en: "8", phonetic: "akht", thai: "แปด", note: "The 'ch' is like Thai ค" },
+            { nl: "negen", en: "9", phonetic: "NAY-khun", thai: "เก้า", note: "" },
+            { nl: "tien", en: "10", phonetic: "teen", thai: "สิบ", note: "" },
+            { nl: "elf", en: "11", phonetic: "elf", thai: "สิบเอ็ด", note: "" },
+            { nl: "twaalf", en: "12", phonetic: "tvahf", thai: "สิบสอง", note: "" },
+            { nl: "dertien", en: "13", phonetic: "DAIR-teen", thai: "สิบสาม", note: "Pattern: number + tien" },
+            { nl: "veertien", en: "14", phonetic: "FAYR-teen", thai: "สิบสี่", note: "" },
+            { nl: "vijftien", en: "15", phonetic: "FEYF-teen", thai: "สิบห้า", note: "" },
+            { nl: "twintig", en: "20", phonetic: "TVIN-tikh", thai: "ยี่สิบ", note: "" },
+          ],
+          dialogues: [
+            { situation: "At a store", lines: [
+              { speaker: "Cashier", nl: "Dat is veertien euro vijftig.", en: "That is fourteen euros fifty." },
+              { speaker: "You", nl: "Alstublieft.", en: "Here you go. (formal)" },
+              { speaker: "Cashier", nl: "Dank u wel. Vijf euro vijftig terug.", en: "Thank you. Five euros fifty back." },
+            ]}
+          ],
+          grammar: {
+            title: "Dutch Number Patterns",
+            explanation: "Numbers 13-19 follow the pattern: unit + 'tien' (like English '-teen'). But 11 and 12 are irregular (elf, twaalf). From 21 onward, Dutch reverses the order: 'eenentwintig' (one-and-twenty) = 21. This is like saying the ones digit first!",
+            examples: [
+              { nl: "dertien = der + tien", en: "13 = three + ten" },
+              { nl: "eenentwintig", en: "21 (one-and-twenty)" },
+              { nl: "drieëntwintig", en: "23 (three-and-twenty)" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "What number is 'vijftien'?", answer: "15", options: ["5", "14", "15", "50"] },
+            { type: "mc", question: "How do you say '8' in Dutch?", answer: "acht", options: ["acht", "zes", "negen", "tien"] },
+            { type: "mc", question: "What number is 'twaalf'?", answer: "12", options: ["2", "12", "20", "22"] },
+            { type: "mc", question: "What comes next: dertien, veertien, ___", answer: "vijftien", options: ["vijftien", "zestien", "elf", "twintig"] },
+            { type: "mc", question: "How do you say '20'?", answer: "twintig", options: ["twee", "twintig", "twaalf", "tweehonderd"] },
+          ]
+        },
+        {
+          id: "2b", title: "Hoe laat is het?", titleEn: "What time is it?",
+          vocab: [
+            { nl: "Hoe laat is het?", en: "What time is it?", phonetic: "hoo LAHT is ut", thai: "กี่โมงแล้ว?", note: "" },
+            { nl: "Het is ... uur", en: "It is ... o'clock", phonetic: "ut is ... oor", thai: "...โมง", note: "For whole hours" },
+            { nl: "kwart over", en: "quarter past", phonetic: "kvart OH-vur", thai: "สิบห้านาที", note: "" },
+            { nl: "half", en: "half (before!)", phonetic: "hahf", thai: "ครึ่ง", note: "⚠️ Dutch 'half drie' = 2:30, NOT 3:30!" },
+            { nl: "kwart voor", en: "quarter to", phonetic: "kvart FOHR", thai: "อีกสิบห้านาทีก่อนถึง", note: "" },
+            { nl: "'s ochtends", en: "in the morning", phonetic: "SOKH-tunts", thai: "ตอนเช้า", note: "" },
+            { nl: "'s middags", en: "in the afternoon", phonetic: "SMID-dakhs", thai: "ตอนบ่าย", note: "" },
+            { nl: "'s avonds", en: "in the evening", phonetic: "SAH-vonts", thai: "ตอนเย็น", note: "" },
+            { nl: "vandaag", en: "today", phonetic: "van-DAHKH", thai: "วันนี้", note: "" },
+            { nl: "morgen", en: "tomorrow", phonetic: "MOR-khun", thai: "พรุ่งนี้", note: "Same word as 'morning'!" },
+            { nl: "gisteren", en: "yesterday", phonetic: "KHIS-tuh-run", thai: "เมื่อวาน", note: "" },
+          ],
+          dialogues: [
+            { situation: "Making an appointment", lines: [
+              { speaker: "Receptionist", nl: "Wanneer wilt u komen?", en: "When do you want to come?" },
+              { speaker: "You", nl: "Morgen, alstublieft.", en: "Tomorrow, please." },
+              { speaker: "Receptionist", nl: "Om half drie?", en: "At half past two?" },
+              { speaker: "You", nl: "Ja, dat is goed. Dank u wel.", en: "Yes, that is good. Thank you." },
+            ]}
+          ],
+          grammar: {
+            title: "⚠️ Dutch 'Half' Time — Tricky!",
+            explanation: "This is the #1 time mistake foreigners make! In Dutch, 'half drie' means 2:30 (half TO three), NOT 3:30. Think of it as 'halfway to three'. This is the opposite of English 'half past two'. Always remember: the number after 'half' is the NEXT hour.",
+            examples: [
+              { nl: "half twee = 1:30", en: "halfway to two" },
+              { nl: "half vijf = 4:30", en: "halfway to five" },
+              { nl: "kwart over drie = 3:15", en: "quarter past three" },
+              { nl: "kwart voor zes = 5:45", en: "quarter to six" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "What time is 'half drie'?", answer: "2:30", options: ["2:30", "3:30", "3:00", "2:00"] },
+            { type: "mc", question: "How do you say 'What time is it?'", answer: "Hoe laat is het?", options: ["Hoe heet u?", "Hoe laat is het?", "Hoe gaat het?", "Waar is het?"] },
+            { type: "mc", question: "What does 'kwart voor vijf' mean?", answer: "4:45", options: ["5:15", "4:45", "5:45", "4:15"] },
+            { type: "mc", question: "Fill in: Het is tien ___", answer: "uur", options: ["uur", "laat", "half", "over"] },
+            { type: "mc", question: "Your appointment is at 'half elf'. When should you arrive?", answer: "10:30", options: ["10:30", "11:30", "10:00", "11:00"] },
+          ]
+        }
+      ]
+    },
+    {
+      id: 3, title: "Dagelijks Leven", titleEn: "Daily Life", icon: "🏠", color: "#5E9B4E",
+      lessons: [
+        {
+          id: "3a", title: "Boodschappen Doen", titleEn: "Shopping / Groceries",
+          vocab: [
+            { nl: "de supermarkt", en: "the supermarket", phonetic: "duh SOO-pur-markt", thai: "ซุปเปอร์มาร์เก็ต", note: "Albert Heijn, Jumbo are common ones" },
+            { nl: "de winkel", en: "the shop/store", phonetic: "duh VIN-kul", thai: "ร้าน", note: "" },
+            { nl: "Ik wil graag...", en: "I would like...", phonetic: "ik vil KHRAHKH", thai: "ฉันอยากจะ...", note: "Polite way to ask for something" },
+            { nl: "Hoeveel kost het?", en: "How much does it cost?", phonetic: "HOO-fayl KOST ut", thai: "ราคาเท่าไหร่?", note: "" },
+            { nl: "brood", en: "bread", phonetic: "broht", thai: "ขนมปัง", note: "Dutch LOVE bread" },
+            { nl: "kaas", en: "cheese", phonetic: "kahs", thai: "ชีส", note: "The Netherlands is famous for it!" },
+            { nl: "melk", en: "milk", phonetic: "melk", thai: "นม", note: "" },
+            { nl: "water", en: "water", phonetic: "VAH-tur", thai: "น้ำ", note: "Note: W sounds like V!" },
+            { nl: "koffie", en: "coffee", phonetic: "KOF-fee", thai: "กาแฟ", note: "Dutch drink a LOT of coffee" },
+            { nl: "groente", en: "vegetables", phonetic: "KHROON-tuh", thai: "ผัก", note: "" },
+            { nl: "fruit", en: "fruit", phonetic: "frewt", thai: "ผลไม้", note: "" },
+            { nl: "de rekening", en: "the bill", phonetic: "duh RAY-kuh-ning", thai: "บิล/เช็คบิล", note: "Also 'the check' at restaurant" },
+          ],
+          dialogues: [
+            { situation: "At the Albert Heijn supermarket", lines: [
+              { speaker: "You", nl: "Goedemiddag. Hoeveel kost deze kaas?", en: "Good afternoon. How much does this cheese cost?" },
+              { speaker: "Employee", nl: "Die kost vier euro vijftig.", en: "That costs four euros fifty." },
+              { speaker: "You", nl: "Ik wil graag deze kaas en een brood.", en: "I would like this cheese and a bread." },
+              { speaker: "Cashier", nl: "Dat is zeven euro twintig. Wilt u een tasje?", en: "That is seven euros twenty. Would you like a bag?" },
+              { speaker: "You", nl: "Nee, dank u. Alstublieft.", en: "No, thank you. Here you go." },
+            ]}
+          ],
+          grammar: {
+            title: "De & Het — Dutch Articles",
+            explanation: "Dutch has two types of 'the': <strong>de</strong> (for common gender) and <strong>het</strong> (for neuter gender). About 2/3 of Dutch words use 'de'. There's no rule — you have to memorize them! 'A/an' is always just 'een'. This is one of the hardest parts of Dutch, but for A1 don't worry too much — just learn the article with each new noun.",
+            examples: [
+              { nl: "de winkel (the shop)", en: "common gender — uses 'de'" },
+              { nl: "het brood (the bread)", en: "neuter gender — uses 'het'" },
+              { nl: "een winkel (a shop)", en: "'a/an' is always 'een'" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "How do you say 'How much does it cost?'", answer: "Hoeveel kost het?", options: ["Hoe laat is het?", "Hoeveel kost het?", "Hoe gaat het?", "Waar is het?"] },
+            { type: "mc", question: "What does 'Ik wil graag' mean?", answer: "I would like", options: ["I want", "I would like", "I need", "I have"] },
+            { type: "mc", question: "Fill in: ___ supermarkt is open", answer: "De", options: ["De", "Het", "Een", "Geen"] },
+            { type: "mc", question: "What is 'kaas' in English?", answer: "cheese", options: ["bread", "milk", "cheese", "coffee"] },
+            { type: "mc", question: "You want to ask the price. What do you say?", answer: "Hoeveel kost het?", options: ["Hoe laat is het?", "Hoeveel kost het?", "Wat is dat?", "Waar is het?"] },
+          ]
+        },
+        {
+          id: "3b", title: "Bij de Dokter", titleEn: "At the Doctor",
+          vocab: [
+            { nl: "de dokter / huisarts", en: "the doctor / GP", phonetic: "duh DOK-tur / HOWS-arts", thai: "หมอ", note: "Huisarts = family doctor (very important in NL!)" },
+            { nl: "Ik ben ziek", en: "I am sick", phonetic: "ik ben zeek", thai: "ฉันไม่สบาย", note: "" },
+            { nl: "Ik heb pijn", en: "I have pain", phonetic: "ik hep PEYN", thai: "ฉันเจ็บ", note: "" },
+            { nl: "hoofd", en: "head", phonetic: "hohft", thai: "หัว", note: "hoofdpijn = headache" },
+            { nl: "buik", en: "stomach/belly", phonetic: "bowk", thai: "ท้อง", note: "buikpijn = stomachache" },
+            { nl: "rug", en: "back", phonetic: "rukh", thai: "หลัง", note: "" },
+            { nl: "koorts", en: "fever", phonetic: "kohrts", thai: "ไข้", note: "" },
+            { nl: "een afspraak maken", en: "to make an appointment", phonetic: "un AF-sprahk MAH-kun", thai: "นัดหมาย", note: "Essential for Dutch healthcare!" },
+            { nl: "de apotheek", en: "the pharmacy", phonetic: "duh ah-poh-TAYK", thai: "ร้านขายยา", note: "" },
+            { nl: "het recept", en: "the prescription", phonetic: "ut ruh-SEPT", thai: "ใบสั่งยา", note: "" },
+            { nl: "de verzekering", en: "the insurance", phonetic: "duh fur-ZAY-kuh-ring", thai: "ประกัน", note: "Health insurance is mandatory in NL!" },
+          ],
+          dialogues: [
+            { situation: "Calling the doctor's office", lines: [
+              { speaker: "Assistant", nl: "Huisartsenpraktijk, goedemorgen.", en: "Doctor's practice, good morning." },
+              { speaker: "You", nl: "Goedemorgen. Ik wil graag een afspraak maken.", en: "Good morning. I would like to make an appointment." },
+              { speaker: "Assistant", nl: "Wat zijn uw klachten?", en: "What are your complaints/symptoms?" },
+              { speaker: "You", nl: "Ik heb hoofdpijn en koorts.", en: "I have a headache and fever." },
+              { speaker: "Assistant", nl: "Kunt u morgen om tien uur komen?", en: "Can you come tomorrow at ten o'clock?" },
+              { speaker: "You", nl: "Ja, dat kan. Dank u wel.", en: "Yes, that's possible. Thank you." },
+            ]}
+          ],
+          grammar: {
+            title: "Compound Words",
+            explanation: "Dutch LOVES making compound words by sticking words together. Once you know the parts, you can understand long words! 'hoofd' (head) + 'pijn' (pain) = 'hoofdpijn' (headache). 'huis' (house) + 'arts' (doctor) = 'huisarts' (family doctor). This is similar to Thai compound words!",
+            examples: [
+              { nl: "hoofd + pijn = hoofdpijn", en: "head + pain = headache" },
+              { nl: "buik + pijn = buikpijn", en: "belly + pain = stomachache" },
+              { nl: "huis + arts = huisarts", en: "house + doctor = family doctor" },
+              { nl: "ziekenhuis = zieken + huis", en: "sick-people + house = hospital" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "What does 'Ik ben ziek' mean?", answer: "I am sick", options: ["I am tired", "I am sick", "I have pain", "I am cold"] },
+            { type: "mc", question: "How do you say 'to make an appointment'?", answer: "Een afspraak maken", options: ["Een recept maken", "Een afspraak maken", "Een dokter bellen", "Een verzekering nemen"] },
+            { type: "mc", question: "Fill in: Ik heb hoofd___", answer: "pijn", options: ["pijn", "koorts", "ziek", "arts"] },
+            { type: "mc", question: "What is 'de apotheek'?", answer: "the pharmacy", options: ["the hospital", "the pharmacy", "the doctor", "the insurance"] },
+            { type: "mc", question: "You have a fever and headache. What do you say?", answer: "Ik heb koorts en hoofdpijn", options: ["Ik ben moe", "Ik heb koorts en hoofdpijn", "Ik heb buikpijn", "Ik ben ziek in mijn rug"] },
+          ]
+        }
+      ]
+    },
+    {
+      id: 4, title: "Vervoer & Wegen", titleEn: "Transport & Directions", icon: "🚲", color: "#9B59B6",
+      lessons: [
+        {
+          id: "4a", title: "Reizen in Nederland", titleEn: "Traveling in NL",
+          vocab: [
+            { nl: "de trein", en: "the train", phonetic: "duh treyn", thai: "รถไฟ", note: "Main transport between cities" },
+            { nl: "de bus", en: "the bus", phonetic: "duh bus", thai: "รถบัส", note: "" },
+            { nl: "de fiets", en: "the bicycle", phonetic: "duh feets", thai: "จักรยาน", note: "THE Dutch transport! You'll need one!" },
+            { nl: "de tram", en: "the tram", phonetic: "duh tram", thai: "รถราง", note: "In Amsterdam, Den Haag, Rotterdam" },
+            { nl: "het station", en: "the station", phonetic: "ut stah-SHON", thai: "สถานี", note: "" },
+            { nl: "een kaartje", en: "a ticket", phonetic: "un KAHR-chuh", thai: "ตั๋ว", note: "" },
+            { nl: "de OV-chipkaart", en: "the public transport card", phonetic: "duh oh-vay-CHIP-kahrt", thai: "บัตรโดยสาร", note: "Like BTS Rabbit card!" },
+            { nl: "links", en: "left", phonetic: "links", thai: "ซ้าย", note: "" },
+            { nl: "rechts", en: "right", phonetic: "rekhts", thai: "ขวา", note: "" },
+            { nl: "rechtdoor", en: "straight ahead", phonetic: "REKHT-dohr", thai: "ตรงไป", note: "" },
+            { nl: "Waar is...?", en: "Where is...?", phonetic: "vahr is", thai: "...อยู่ที่ไหน?", note: "" },
+            { nl: "de halte", en: "the stop", phonetic: "duh HAHL-tuh", thai: "ป้าย(รถ)", note: "Bus stop / tram stop" },
+          ],
+          dialogues: [
+            { situation: "At the train station", lines: [
+              { speaker: "You", nl: "Goedemorgen. Een kaartje naar Utrecht, alstublieft.", en: "Good morning. A ticket to Utrecht, please." },
+              { speaker: "Agent", nl: "Enkele reis of retour?", en: "One way or return?" },
+              { speaker: "You", nl: "Retour, alstublieft.", en: "Return, please." },
+              { speaker: "Agent", nl: "Dat is achttien euro. Spoor vier.", en: "That is eighteen euros. Platform four." },
+              { speaker: "You", nl: "Dank u wel. Hoe laat vertrekt de trein?", en: "Thank you. What time does the train leave?" },
+              { speaker: "Agent", nl: "Om kwart over tien.", en: "At quarter past ten." },
+            ]}
+          ],
+          grammar: {
+            title: "Asking Questions — Question Words",
+            explanation: "Dutch question words mostly start with 'W' (like English!). These are essential for daily life: Wie (who), Wat (what), Waar (where), Wanneer (when), Waarom (why), Hoe (how), Welk/Welke (which), Hoeveel (how much/many).",
+            examples: [
+              { nl: "Waar is het station?", en: "Where is the station?" },
+              { nl: "Wanneer vertrekt de trein?", en: "When does the train leave?" },
+              { nl: "Hoeveel kost een kaartje?", en: "How much does a ticket cost?" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "How do you say 'Where is the station?'", answer: "Waar is het station?", options: ["Wat is het station?", "Waar is het station?", "Wie is het station?", "Hoe is het station?"] },
+            { type: "mc", question: "What is 'de fiets'?", answer: "the bicycle", options: ["the car", "the bus", "the bicycle", "the train"] },
+            { type: "mc", question: "Fill in: Een kaartje naar Amsterdam, ___", answer: "alstublieft", options: ["alstublieft", "dank u wel", "goedemorgen", "tot ziens"] },
+            { type: "mc", question: "What does 'rechtdoor' mean?", answer: "straight ahead", options: ["turn left", "turn right", "straight ahead", "go back"] },
+            { type: "mc", question: "You need a return ticket. What word do you use?", answer: "retour", options: ["enkele reis", "retour", "kaartje", "halte"] },
+          ]
+        }
+      ]
+    },
+    {
+      id: 5, title: "Uitspraak", titleEn: "Pronunciation Guide", icon: "🗣️", color: "#E74C3C",
+      lessons: [
+        {
+          id: "5a", title: "Nederlandse Klanken", titleEn: "Dutch Sounds",
+          vocab: [
+            { nl: "g / ch", en: "Throat sound", phonetic: "Like Thai ค but longer", thai: "เสียง ค ในคอ", note: "THE Dutch sound! Practice: goed, gracht, acht" },
+            { nl: "sch", en: "s + throat sound", phonetic: "Like 's' then 'kh'", thai: "ส + ค", note: "school = skhohl, schrijven = skhrey-vun" },
+            { nl: "ui", en: "Difficult vowel", phonetic: "Like 'ow' with round lips", thai: "เสียงผสม เอา", note: "huis, uit, buiten" },
+            { nl: "eu", en: "Rounded vowel", phonetic: "Say 'ay' with round lips", thai: "คล้าย เออ", note: "deur, neus, leuk" },
+            { nl: "oe", en: "Like English 'oo'", phonetic: "oo", thai: "อู", note: "boek, goed, moeder" },
+            { nl: "ee", en: "Like English 'ay'", phonetic: "ay", thai: "เอ ยาว", note: "twee, been, meer" },
+            { nl: "aa", en: "Long 'ah'", phonetic: "ahh", thai: "อา ยาว", note: "naam, straat, kaas" },
+            { nl: "oo", en: "Like English 'oh'", phonetic: "oh", thai: "โอ ยาว", note: "groot, dood, boot" },
+            { nl: "ij / ei", en: "Same sound!", phonetic: "Like 'ay' in 'say'", thai: "เอย", note: "zij = zei, both sound the same" },
+            { nl: "w", en: "Between V and W", phonetic: "Like English 'v'", thai: "ว แต่ใกล้ วี", note: "water = VAH-ter, NOT wah-ter" },
+            { nl: "r", en: "Varies by region", phonetic: "Rolled or guttural", thai: "ร กระดกลิ้น", note: "Can be tongue-rolled or throat" },
+            { nl: "v", en: "Like English 'v' or 'f'", phonetic: "v or f", thai: "ว", note: "Often sounds like 'f' in some dialects" },
+          ],
+          dialogues: [
+            { situation: "Pronunciation practice sentences", lines: [
+              { speaker: "Practice", nl: "Scheveningen is een mooie plek.", en: "Scheveningen is a beautiful place." },
+              { speaker: "Practice", nl: "De gracht is groot en groen.", en: "The canal is big and green." },
+              { speaker: "Practice", nl: "Mijn huis is in de buurt.", en: "My house is in the neighborhood." },
+              { speaker: "Practice", nl: "Ik eet graag kaas bij het ontbijt.", en: "I like to eat cheese at breakfast." },
+            ]}
+          ],
+          grammar: {
+            title: "Thai Speaker Advantages!",
+            explanation: "Good news! Thai speakers have some advantages learning Dutch pronunciation: (1) The Dutch 'g/ch' throat sound is similar to Thai ค — you already make sounds in the back of your throat! (2) Thai is tonal, so your ear is trained for subtle sound differences. (3) Dutch 'r' can be similar to Thai ร. The hardest sounds will be 'ui', 'eu', and the combination 'sch'.",
+            examples: [
+              { nl: "Thai ค → Dutch g/ch", en: "You already know the throat position!" },
+              { nl: "Thai ร → Dutch r", en: "Similar tongue/throat position" },
+              { nl: "Practice: goedemorgen", en: "KHOO-duh-MOR-khun (use your Thai ค!)" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "Which two letter combinations sound the same?", answer: "ij and ei", options: ["ij and ei", "ee and ie", "aa and oo", "oe and eu"] },
+            { type: "mc", question: "The Dutch 'g' is similar to which Thai consonant?", answer: "ค (kh)", options: ["ก (k)", "ค (kh)", "ง (ng)", "จ (j)"] },
+            { type: "mc", question: "How is Dutch 'w' pronounced?", answer: "Like English 'v'", options: ["Like English 'w'", "Like English 'v'", "Like English 'f'", "Like English 'b'"] },
+            { type: "mc", question: "Dutch 'oe' sounds like English '___'", answer: "oo", options: ["oo", "oh", "uh", "ee"] },
+            { type: "mc", question: "What is the hardest Dutch vowel for most learners?", answer: "ui", options: ["aa", "ee", "ui", "oe"] },
+          ]
+        }
+      ]
+    },
+    {
+      id: 6, title: "KNS - Samenleving", titleEn: "Dutch Society (Exam)", icon: "🇳🇱", color: "#F39C12",
+      lessons: [
+        {
+          id: "6a", title: "Nederland Kennen", titleEn: "Know the Netherlands",
+          vocab: [
+            { nl: "de Koning", en: "the King", phonetic: "duh KOH-ning", thai: "กษัตริย์", note: "Willem-Alexander is the current King" },
+            { nl: "de Koningin", en: "the Queen", phonetic: "duh koh-NIN-ghin", thai: "ราชินี", note: "Máxima is the Queen" },
+            { nl: "de gemeente", en: "the municipality", phonetic: "duh ghuh-MAYN-tuh", thai: "เทศบาล", note: "Where you register when arriving!" },
+            { nl: "het paspoort", en: "the passport", phonetic: "ut PAS-pohrt", thai: "หนังสือเดินทาง", note: "" },
+            { nl: "de verblijfsvergunning", en: "residence permit", phonetic: "duh fur-BLEYFS-fur-khun-ning", thai: "ใบอนุญาตพำนัก", note: "What you're studying for!" },
+            { nl: "de zorgverzekering", en: "health insurance", phonetic: "duh ZORKH-fur-zay-kuh-ring", thai: "ประกันสุขภาพ", note: "Mandatory for everyone in NL!" },
+            { nl: "de huisarts", en: "the family doctor/GP", phonetic: "duh HOWS-arts", thai: "แพทย์ประจำครอบครัว", note: "First point of contact for health" },
+            { nl: "het BSN-nummer", en: "citizen service number", phonetic: "ut bay-es-EN NUH-mur", thai: "เลขประจำตัวพลเมือง", note: "Like Thai ID number, needed for everything" },
+            { nl: "de belasting", en: "tax", phonetic: "duh buh-LAS-ting", thai: "ภาษี", note: "" },
+            { nl: "het inburgeringsexamen", en: "civic integration exam", phonetic: "ut IN-bur-khuh-rings-ek-SAH-mun", thai: "สอบบูรณาการพลเมือง", note: "The exam you're preparing for!" },
+            { nl: "de grondwet", en: "the constitution", phonetic: "duh KHRONT-vet", thai: "รัฐธรรมนูญ", note: "" },
+            { nl: "gelijkheid", en: "equality", phonetic: "khuh-LEYK-heyt", thai: "ความเท่าเทียม", note: "Core Dutch value" },
+          ],
+          dialogues: [
+            { situation: "At the Gemeente (registering)", lines: [
+              { speaker: "Official", nl: "Goedemorgen. Heeft u uw paspoort bij u?", en: "Good morning. Do you have your passport with you?" },
+              { speaker: "You", nl: "Ja, alstublieft. Hier is mijn paspoort.", en: "Yes, here you go. Here is my passport." },
+              { speaker: "Official", nl: "Dank u. U krijgt een BSN-nummer.", en: "Thank you. You will receive a BSN number." },
+              { speaker: "You", nl: "Wat is een BSN-nummer?", en: "What is a BSN number?" },
+              { speaker: "Official", nl: "Dat is uw persoonlijk nummer voor in Nederland.", en: "That is your personal number for the Netherlands." },
+            ]}
+          ],
+          grammar: {
+            title: "KNS Exam Topics",
+            explanation: "The Kennis van de Nederlandse Samenleving (KNS) exam tests your knowledge of Dutch society. You need to know about: the government system (constitutional monarchy + parliament), healthcare (mandatory insurance, huisarts as gatekeeper), education system, working in NL, Dutch values (equality, freedom, tolerance), and practical matters (registering, BSN, taxes).",
+            examples: [
+              { nl: "Nederland is een constitutionele monarchie", en: "The Netherlands is a constitutional monarchy" },
+              { nl: "Zorgverzekering is verplicht", en: "Health insurance is mandatory" },
+              { nl: "Bij de gemeente moet je je inschrijven", en: "At the municipality you must register" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "What is the BSN-nummer?", answer: "Citizen service number", options: ["Phone number", "Bank number", "Citizen service number", "House number"] },
+            { type: "mc", question: "Is health insurance mandatory in the Netherlands?", answer: "Yes, for everyone", options: ["No, it's optional", "Yes, for everyone", "Only for Dutch citizens", "Only for workers"] },
+            { type: "mc", question: "Fill in: De ___ is het eerste contact voor gezondheid", answer: "huisarts", options: ["huisarts", "ziekenhuis", "apotheek", "tandarts"] },
+            { type: "mc", question: "What type of government does the Netherlands have?", answer: "Constitutional monarchy", options: ["Republic", "Constitutional monarchy", "Direct democracy", "Federation"] },
+            { type: "mc", question: "You just arrived in NL. Where do you register first?", answer: "De gemeente", options: ["De politie", "De gemeente", "De huisarts", "De belastingdienst"] },
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ============================================================
+// APP STATE & RENDERING
+// ============================================================
+let state = {
+  view: 'home', // home | module | lesson
+  currentModule: null,
+  currentLesson: null,
+  activeTab: 'vocab',
+  exerciseAnswers: {},
+  showResults: false,
+  completedLessons: JSON.parse(localStorage.getItem('dutchCompleted') || '{}'),
+  showSearch: false,
+  searchTerm: '',
+};
+
+function setState(updates) {
+  Object.assign(state, updates);
+  render();
+}
+
+function saveCompleted() {
+  localStorage.setItem('dutchCompleted', JSON.stringify(state.completedLessons));
+}
+
+function getAllVocab() {
+  const all = [];
+  COURSE_DATA.modules.forEach(m => m.lessons.forEach(l => l.vocab.forEach(v => all.push({...v, module: m.title, lesson: l.title}))));
+  return all;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+function render() {
+  const app = document.getElementById('app');
+  if (state.view === 'home') app.innerHTML = renderHome();
+  else if (state.view === 'module') app.innerHTML = renderModule();
+  else if (state.view === 'lesson') app.innerHTML = renderLesson();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderHome() {
+  const totalLessons = COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0);
+  const completedCount = Object.keys(state.completedLessons).length;
+  const pct = totalLessons > 0 ? (completedCount / totalLessons * 100) : 0;
+
+  let searchHtml = '';
+  if (state.showSearch) {
+    const filtered = state.searchTerm.length > 1
+      ? getAllVocab().filter(v => v.nl.toLowerCase().includes(state.searchTerm.toLowerCase()) || v.en.toLowerCase().includes(state.searchTerm.toLowerCase()) || (v.thai && v.thai.includes(state.searchTerm)))
+      : [];
+    searchHtml = `
+      <input type="text" class="search-input" placeholder="Search in Dutch, English, or Thai..." value="${escHtml(state.searchTerm)}" oninput="setState({searchTerm: this.value})">
+      ${filtered.length > 0 ? `<div class="search-results">${filtered.slice(0,15).map(v => `
+        <div class="item"><strong>${escHtml(v.nl)}</strong> — ${escHtml(v.en)} ${v.thai ? `<span style="color:#888">(${v.thai})</span>` : ''}
+        <div class="detail">/${escHtml(v.phonetic)}/ · ${escHtml(v.module)}</div></div>
+      `).join('')}</div>` : ''}
+    `;
+  }
+
+  return `
+    <div class="header">
+      <div class="flag"><div></div><div></div><div></div></div>
+      <h1 class="serif">Leer Nederlands</h1>
+      <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
+      <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-weight:600;color:#333" class="serif">Your Progress</span>
+        <span style="color:#666;font-size:14px">${completedCount}/${totalLessons} lessons</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <button class="search-toggle" onclick="setState({showSearch:!state.showSearch})">
+      🔍 ${state.showSearch ? 'Hide' : 'Search'} Dictionary (${getAllVocab().length} words)
+    </button>
+    ${searchHtml}
+
+    <div class="card-accent">
+      <h3 style="margin:0 0 8px;color:#E85D26" class="serif">📋 About the Inburgering Exam</h3>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#555">
+        The <strong>Basisexamen Inburgering Buitenland</strong> is required for the verblijfsvergunning. 
+        You'll take it at the Dutch embassy in Bangkok. It tests <strong>speaking</strong>, <strong>reading</strong>, 
+        and <strong>listening</strong> at A1 level, plus <strong>KNS</strong> (knowledge of Dutch society).
+      </p>
+      <p style="margin:8px 0 0;font-size:13px;color:#888">
+        สอบ Inburgering จำเป็นสำหรับใบอนุญาตพำนัก สอบที่สถานทูตเนเธอร์แลนด์ กรุงเทพฯ
+      </p>
+    </div>
+
+    <div class="module-grid">
+      ${COURSE_DATA.modules.map(mod => {
+        const done = mod.lessons.filter(l => state.completedLessons[l.id]).length;
+        const words = mod.lessons.reduce((s,l) => s + l.vocab.length, 0);
+        return `<button class="module-card" style="border-left:5px solid ${mod.color}" onclick="setState({view:'module',currentModule:COURSE_DATA.modules[${COURSE_DATA.modules.indexOf(mod)}]})">
+          <div class="icon">${mod.icon}</div>
+          <h3 class="serif">${escHtml(mod.title)}</h3>
+          <div class="en">${escHtml(mod.titleEn)}</div>
+          <div class="meta" style="color:${mod.color}">${done}/${mod.lessons.length} lessons · ${words} words</div>
+        </button>`;
+      }).join('')}
+    </div>
+
+    <div class="card-blue">
+      <h3 style="margin:0 0 10px" class="serif">💡 Study Tips for Thai Speakers</h3>
+      <p class="tip"><strong>1. Use your Thai throat sounds!</strong> Dutch 'g' and 'ch' are similar to Thai ค — you have a head start.</p>
+      <p class="tip"><strong>2. Watch Dutch TV with subtitles.</strong> Try NPO Start (npostart.nl) — it's free Dutch public TV.</p>
+      <p class="tip"><strong>3. Practice compound words.</strong> Both Thai and Dutch love compound words — break long words into parts!</p>
+      <p class="tip"><strong>4. Focus on 'de' and 'het'.</strong> Always learn the article with the noun. There's no shortcut — memorize them!</p>
+      <p class="tip"><strong>5. Use the "Naar Nederland" app</strong> — it's the official preparation tool for the exam.</p>
+    </div>
+  `;
+}
+
+function renderModule() {
+  const mod = state.currentModule;
+  return `
+    <button class="back-btn" onclick="setState({view:'home',currentModule:null})">← Back to Modules</button>
+    <div class="module-header" style="border-left:5px solid ${mod.color}">
+      <div class="icon">${mod.icon}</div>
+      <h2 class="serif" style="margin:8px 0 2px">${escHtml(mod.title)}</h2>
+      <p style="color:#666">${escHtml(mod.titleEn)}</p>
+    </div>
+    <div class="lesson-list">
+      ${mod.lessons.map((lesson, idx) => {
+        const done = state.completedLessons[lesson.id];
+        return `<button class="lesson-card" onclick="setState({view:'lesson',currentLesson:state.currentModule.lessons[${idx}],activeTab:'vocab',exerciseAnswers:{},showResults:false})">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:${done ? '#5E9B4E' : mod.color}">${done ? '✓' : idx+1}</div>
+            <div style="text-align:left">
+              <div style="font-weight:600;color:#222;font-size:16px" class="serif">${escHtml(lesson.title)}</div>
+              <div style="color:#666;font-size:13px">${escHtml(lesson.titleEn)} · ${lesson.vocab.length} words</div>
+            </div>
+          </div>
+          <span style="color:#bbb;font-size:20px">→</span>
+        </button>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderLesson() {
+  const mod = state.currentModule;
+  const lesson = state.currentLesson;
+  const tab = state.activeTab;
+
+  const tabs = [
+    { key: 'vocab', label: '📚 Vocabulary' },
+    { key: 'dialogue', label: '💬 Dialogue' },
+    { key: 'grammar', label: '📐 Grammar' },
+    { key: 'practice', label: '✏️ Practice' },
+  ];
+
+  let content = '';
+  if (tab === 'vocab') content = renderVocab(mod, lesson);
+  else if (tab === 'dialogue') content = renderDialogue(mod, lesson);
+  else if (tab === 'grammar') content = renderGrammar(mod, lesson);
+  else if (tab === 'practice') content = renderPractice(mod, lesson);
+
+  return `
+    <button class="back-btn" onclick="setState({view:'module',currentLesson:null})">← Back to ${escHtml(mod.title)}</button>
+    <div style="padding:16px 0 12px;border-bottom:3px solid ${mod.color}">
+      <h2 class="serif" style="margin:0 0 2px">${escHtml(lesson.title)}</h2>
+      <p style="color:#666;margin:0">${escHtml(lesson.titleEn)}</p>
+    </div>
+    <div class="tabs">
+      ${tabs.map(t => `<button class="tab ${tab === t.key ? 'active' : ''}" style="${tab === t.key ? 'background:'+mod.color+';border-color:transparent' : ''}" onclick="setState({activeTab:'${t.key}'${t.key !== 'practice' ? ',showResults:false,exerciseAnswers:{}' : ''}})">${t.label}</button>`).join('')}
+    </div>
+    <div>${content}</div>
+  `;
+}
+
+function renderVocab(mod, lesson) {
+  return `
+    <p style="color:#666;font-size:14px;margin:0 0 16px">Learn these words. Thai translations included for reference.</p>
+    <div class="vocab-grid">
+      ${lesson.vocab.map(v => `
+        <div class="vocab-card">
+          <div class="nl serif" style="color:${mod.color}">${escHtml(v.nl)}</div>
+          <div class="phonetic">/${escHtml(v.phonetic)}/</div>
+          <div class="en">${escHtml(v.en)}</div>
+          ${v.thai ? `<div class="thai">${v.thai}</div>` : ''}
+          ${v.note ? `<div class="note">${escHtml(v.note)}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderDialogue(mod, lesson) {
+  return lesson.dialogues.map(d => `
+    <div class="dialogue-box" style="--mod-color:${mod.color}">
+      <h3 style="margin:0 0 16px;color:${mod.color}" class="serif">🎭 ${escHtml(d.situation)}</h3>
+      ${d.lines.map(l => {
+        const isYou = l.speaker === 'You';
+        return `<div class="dialogue-line ${isYou ? 'you' : 'other'}" style="${isYou ? '--mod-color:'+mod.color+';border-left-color:'+mod.color : ''}">
+          <div class="speaker" style="color:${isYou ? mod.color : '#888'}">${escHtml(l.speaker)}</div>
+          <div class="nl-text serif">${escHtml(l.nl)}</div>
+          <div class="en-text">${escHtml(l.en)}</div>
+        </div>`;
+      }).join('')}
+      <p style="font-size:13px;color:#999;margin:16px 0 0;font-style:italic">💡 Try reading the Dutch lines out loud before looking at the English!</p>
+    </div>
+  `).join('');
+}
+
+function renderGrammar(mod, lesson) {
+  const g = lesson.grammar;
+  if (!g) return '<p>No grammar notes for this lesson.</p>';
+  return `
+    <div class="grammar-box">
+      <h3 style="margin:0 0 12px;color:${mod.color}" class="serif">${escHtml(g.title)}</h3>
+      <p style="font-size:15px;line-height:1.7;color:#444;margin:0 0 20px">${g.explanation}</p>
+      ${g.examples.map(ex => `
+        <div class="grammar-example">
+          <div class="nl serif">${escHtml(ex.nl)}</div>
+          <div class="en">${escHtml(ex.en)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderPractice(mod, lesson) {
+  const answers = state.exerciseAnswers;
+  const show = state.showResults;
+  const allAnswered = Object.keys(answers).length >= lesson.exercises.length;
+
+  let scoreHtml = '';
+  if (show) {
+    const correct = lesson.exercises.filter((ex,i) => answers[i] === ex.answer).length;
+    const total = lesson.exercises.length;
+    const passed = correct >= total * 0.6;
+    scoreHtml = `
+      <div class="score-card ${passed ? 'pass' : 'fail'}">
+        <div class="score serif">${correct}/${total}</div>
+        <div class="msg">${correct === total ? '🎉 Perfect! Uitstekend!' : passed ? '✅ Good job! Goed gedaan! Lesson completed.' : '📖 Keep practicing! Probeer het nog een keer!'}</div>
+        ${correct < total ? `<button class="retry-btn" style="background:${mod.color}" onclick="setState({exerciseAnswers:{},showResults:false})">Try Again</button>` : ''}
+      </div>
+    `;
+  }
+
+  return `
+    ${scoreHtml}
+    ${lesson.exercises.map((ex, idx) => {
+      const selected = answers[idx];
+      const isCorrect = show && selected === ex.answer;
+      const isWrong = show && selected && selected !== ex.answer;
+      return `
+        <div class="exercise-card ${show ? (isCorrect ? 'correct' : isWrong ? 'wrong' : '') : ''}">
+          <div class="question serif">${idx+1}. ${escHtml(ex.question)}</div>
+          <div class="options-grid" style="--mod-color:${mod.color}">
+            ${ex.options.map(opt => {
+              const isSel = selected === opt;
+              const optCorrect = show && opt === ex.answer;
+              const optWrong = show && isSel && opt !== ex.answer;
+              let cls = 'option-btn';
+              if (isSel && !show) cls += ' selected';
+              if (optCorrect) cls += ' opt-correct';
+              if (optWrong) cls += ' opt-wrong';
+              return `<button class="${cls}" style="--mod-color:${mod.color}" ${show ? 'disabled' : ''} onclick="selectAnswer(${idx},'${escHtml(opt).replace(/'/g,"\\'")}')">
+                ${escHtml(opt)}${optCorrect ? ' ✓' : ''}${optWrong ? ' ✗' : ''}
+              </button>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }).join('')}
+    ${!show ? `<button class="check-btn" style="background:${allAnswered ? mod.color : '#ccc'}" ${allAnswered ? '' : 'disabled'} onclick="checkAnswers()">Check Answers · Controleer</button>` : ''}
+  `;
+}
+
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+function selectAnswer(idx, answer) {
+  if (state.showResults) return;
+  state.exerciseAnswers = {...state.exerciseAnswers, [idx]: answer};
+  render();
+}
+
+function checkAnswers() {
+  state.showResults = true;
+  const lesson = state.currentLesson;
+  const correct = lesson.exercises.filter((ex,i) => state.exerciseAnswers[i] === ex.answer).length;
+  if (correct >= lesson.exercises.length * 0.6) {
+    state.completedLessons = {...state.completedLessons, [lesson.id]: true};
+    saveCompleted();
+  }
+  render();
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>
