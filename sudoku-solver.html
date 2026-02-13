@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver - 6×6 & 9×9</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .credits {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .credits a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .credits a:hover {
+            color: #90EE90;
+            text-decoration: underline;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .size-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 10px;
+            background: rgba(100, 120, 150, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .size-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .size-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .helper-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: rgba(100, 120, 150, 0.3);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #sudoku-grid {
+            background: rgba(30, 50, 80, 0.8);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .grid-container {
+            display: grid;
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .grid-container.size-6 {
+            grid-template-columns: repeat(6, 1fr);
+        }
+
+        .grid-container.size-9 {
+            grid-template-columns: repeat(9, 1fr);
+        }
+
+        .cell {
+            background: rgba(60, 80, 110, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .grid-container.size-6 .cell {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+        }
+
+        .grid-container.size-9 .cell {
+            width: 42px;
+            height: 42px;
+            font-size: 20px;
+        }
+
+        .cell:hover {
+            background: rgba(80, 100, 130, 0.8);
+        }
+
+        .cell.selected {
+            background: rgba(100, 150, 200, 0.9);
+            outline: 3px solid rgba(255, 255, 255, 0.8);
+            outline-offset: -3px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .cell.highlighted {
+            background: rgba(80, 120, 160, 0.5);
+        }
+
+        .cell.same-number {
+            background: rgba(150, 100, 200, 0.6);
+            border: 2px solid rgba(200, 150, 255, 0.8);
+        }
+
+        .cell.conflict {
+            background: rgba(220, 50, 50, 0.7);
+            color: #ffcccc;
+            font-weight: 700;
+        }
+
+        .cell.error {
+            background: rgba(200, 50, 50, 0.6);
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .cell.solved {
+            background: rgba(100, 180, 100, 0.4);
+            color: #90EE90;
+        }
+
+        /* 6x6 Box borders - 2x3 regions */
+        .grid-container.size-6 .cell:nth-child(3), .grid-container.size-6 .cell:nth-child(6),
+        .grid-container.size-6 .cell:nth-child(9), .grid-container.size-6 .cell:nth-child(12),
+        .grid-container.size-6 .cell:nth-child(15), .grid-container.size-6 .cell:nth-child(18),
+        .grid-container.size-6 .cell:nth-child(21), .grid-container.size-6 .cell:nth-child(24),
+        .grid-container.size-6 .cell:nth-child(27), .grid-container.size-6 .cell:nth-child(30),
+        .grid-container.size-6 .cell:nth-child(33), .grid-container.size-6 .cell:nth-child(36) {
+            border-right: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .grid-container.size-6 .cell:nth-child(n+7):nth-child(-n+12),
+        .grid-container.size-6 .cell:nth-child(n+19):nth-child(-n+24) {
+            border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* 9x9 Box borders - 3x3 regions */
+        /* Remove any default borders first */
+        .grid-container.size-9 .cell {
+            border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Right border after column 3 */
+        .grid-container.size-9 .cell:nth-child(3),
+        .grid-container.size-9 .cell:nth-child(12),
+        .grid-container.size-9 .cell:nth-child(21),
+        .grid-container.size-9 .cell:nth-child(30),
+        .grid-container.size-9 .cell:nth-child(39),
+        .grid-container.size-9 .cell:nth-child(48),
+        .grid-container.size-9 .cell:nth-child(57),
+        .grid-container.size-9 .cell:nth-child(66),
+        .grid-container.size-9 .cell:nth-child(75) {
+            border-right: 3px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Right border after column 6 */
+        .grid-container.size-9 .cell:nth-child(6),
+        .grid-container.size-9 .cell:nth-child(15),
+        .grid-container.size-9 .cell:nth-child(24),
+        .grid-container.size-9 .cell:nth-child(33),
+        .grid-container.size-9 .cell:nth-child(42),
+        .grid-container.size-9 .cell:nth-child(51),
+        .grid-container.size-9 .cell:nth-child(60),
+        .grid-container.size-9 .cell:nth-child(69),
+        .grid-container.size-9 .cell:nth-child(78) {
+            border-right: 3px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Bottom border after row 3 */
+        .grid-container.size-9 .cell:nth-child(19),
+        .grid-container.size-9 .cell:nth-child(20),
+        .grid-container.size-9 .cell:nth-child(21),
+        .grid-container.size-9 .cell:nth-child(22),
+        .grid-container.size-9 .cell:nth-child(23),
+        .grid-container.size-9 .cell:nth-child(24),
+        .grid-container.size-9 .cell:nth-child(25),
+        .grid-container.size-9 .cell:nth-child(26),
+        .grid-container.size-9 .cell:nth-child(27) {
+            border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Bottom border after row 6 */
+        .grid-container.size-9 .cell:nth-child(46),
+        .grid-container.size-9 .cell:nth-child(47),
+        .grid-container.size-9 .cell:nth-child(48),
+        .grid-container.size-9 .cell:nth-child(49),
+        .grid-container.size-9 .cell:nth-child(50),
+        .grid-container.size-9 .cell:nth-child(51),
+        .grid-container.size-9 .cell:nth-child(52),
+        .grid-container.size-9 .cell:nth-child(53),
+        .grid-container.size-9 .cell:nth-child(54) {
+            border-bottom: 3px solid rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .number-picker {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .number-picker.size-6 {
+            grid-template-columns: repeat(6, 1fr);
+        }
+
+        .number-picker.size-9 {
+            grid-template-columns: repeat(9, 1fr);
+        }
+
+        .number-btn {
+            padding: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            border-radius: 10px;
+            background: rgba(100, 120, 150, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .number-btn:hover {
+            background: rgba(120, 140, 170, 0.7);
+            transform: scale(1.05);
+        }
+
+        .number-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .number-btn.disabled:hover {
+            transform: none;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .grid-container.size-6 .cell {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .grid-container.size-9 .cell {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            button {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            .number-btn {
+                padding: 8px;
+                font-size: 16px;
+            }
+
+            #sudoku-grid {
+                padding: 10px;
+            }
+
+            .grid-container {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sudoku Solver</h1>
+        <div class="credits">
+            by <a href="https://twitter.com/trippledutch" target="_blank">@trippledutch</a> • Built with Claude<br>
+            February 2026 • v1.02
+        </div>
+        
+        <div class="controls">
+            <div class="size-selector">
+                <button class="size-btn active" data-size="6">6×6</button>
+                <button class="size-btn" data-size="9">9×9</button>
+            </div>
+            
+            <div class="button-group">
+                <button id="solve-btn">Solve</button>
+                <button id="clear-btn">Clear</button>
+                <button id="example-btn">Generate</button>
+            </div>
+        </div>
+
+        <div id="sudoku-grid">
+            <div class="grid-container size-6" id="grid"></div>
+            <div class="helper-toggle">
+                <span>Number Helper</span>
+                <div class="toggle-switch" id="helper-toggle">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <div class="number-picker size-6" id="picker"></div>
+        </div>
+
+        <div id="status">Select grid size, then click a cell and choose a number</div>
+
+        <div class="info">
+            <strong>How to use:</strong><br>
+            • Choose grid size (6×6 or 9×9)<br>
+            • Click an empty cell to select it<br>
+            • Click a number to fill the cell<br>
+            • Duplicate numbers in same row/column/box are prevented<br>
+            • Click "Solve" to get the solution<br>
+            <br>
+            <strong>6×6:</strong> Each 2×3 box, row, and column must have 1-6<br>
+            <strong>9×9:</strong> Each 3×3 box, row, and column must have 1-9
+        </div>
+    </div>
+
+    <script>
+        let gridSize = 6;
+        let cells = [];
+        let originalValues = [];
+        let selectedCell = null;
+        let helperEnabled = false;
+        let lastSolvedState = null;
+        let currentSolutionIndex = 0;
+
+        // Helper toggle
+        document.getElementById('helper-toggle').addEventListener('click', function() {
+            helperEnabled = !helperEnabled;
+            this.classList.toggle('active');
+            updateNumberPicker();
+            
+            if (helperEnabled) {
+                document.getElementById('status').textContent = 'Helper enabled - invalid numbers are grayed out';
+            } else {
+                document.getElementById('status').textContent = 'Helper disabled - all numbers available';
+            }
+        });
+
+        // Initialize grid
+        function createGrid(size) {
+            gridSize = size;
+            const totalCells = size * size;
+            originalValues = new Array(totalCells).fill(0);
+            cells = [];
+            selectedCell = null;
+
+            const grid = document.getElementById('grid');
+            const picker = document.getElementById('picker');
+            
+            // Update grid class
+            grid.className = `grid-container size-${size}`;
+            picker.className = `number-picker size-${size}`;
+            
+            // Clear existing
+            grid.innerHTML = '';
+            picker.innerHTML = '';
+
+            // Create cells
+            for (let i = 0; i < totalCells; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.textContent = '';
+                
+                cell.addEventListener('click', () => {
+                    // Deselect previous and remove all highlights
+                    if (selectedCell !== null) {
+                        cells[selectedCell].classList.remove('selected');
+                    }
+                    cells.forEach(c => {
+                        c.classList.remove('highlighted');
+                        c.classList.remove('same-number');
+                    });
+                    
+                    // Select this cell
+                    selectedCell = i;
+                    cell.classList.add('selected');
+                    
+                    // Get the number in the selected cell
+                    const selectedNumber = originalValues[i];
+                    
+                    // Highlight related cells (same row, column, and box)
+                    const row = Math.floor(i / gridSize);
+                    const col = i % gridSize;
+                    
+                    // Highlight row
+                    for (let c = 0; c < gridSize; c++) {
+                        const idx = row * gridSize + c;
+                        if (idx !== i) cells[idx].classList.add('highlighted');
+                    }
+                    
+                    // Highlight column
+                    for (let r = 0; r < gridSize; r++) {
+                        const idx = r * gridSize + col;
+                        if (idx !== i) cells[idx].classList.add('highlighted');
+                    }
+                    
+                    // Highlight box
+                    let boxRows, boxCols;
+                    if (gridSize === 6) {
+                        boxRows = 2;
+                        boxCols = 3;
+                    } else {
+                        boxRows = 3;
+                        boxCols = 3;
+                    }
+                    
+                    const boxRow = Math.floor(row / boxRows) * boxRows;
+                    const boxCol = Math.floor(col / boxCols) * boxCols;
+                    
+                    for (let r = boxRow; r < boxRow + boxRows; r++) {
+                        for (let c = boxCol; c < boxCol + boxCols; c++) {
+                            const idx = r * gridSize + c;
+                            if (idx !== i) cells[idx].classList.add('highlighted');
+                        }
+                    }
+                    
+                    // Highlight all cells with the same number (if cell has a number)
+                    if (selectedNumber !== 0) {
+                        for (let idx = 0; idx < originalValues.length; idx++) {
+                            if (idx !== i && originalValues[idx] === selectedNumber) {
+                                cells[idx].classList.remove('highlighted');
+                                cells[idx].classList.add('same-number');
+                            }
+                        }
+                    }
+                    
+                    updateNumberPicker();
+                    document.getElementById('status').textContent = `Cell selected - choose a number`;
+                });
+                
+                grid.appendChild(cell);
+                cells.push(cell);
+            }
+
+            // Create number picker
+            for (let num = 1; num <= size; num++) {
+                const btn = document.createElement('button');
+                btn.className = 'number-btn';
+                btn.dataset.num = num;
+                btn.textContent = num;
+                
+                btn.addEventListener('click', () => {
+                    if (selectedCell === null) return;
+                    if (btn.classList.contains('disabled')) {
+                        cells[selectedCell].classList.add('error');
+                        setTimeout(() => cells[selectedCell].classList.remove('error'), 300);
+                        document.getElementById('status').textContent = '❌ This number creates a duplicate!';
+                        return;
+                    }
+                    
+                    originalValues[selectedCell] = num;
+                    cells[selectedCell].textContent = num;
+                    cells[selectedCell].classList.remove('solved');
+                    
+                    // Reset solution tracking when user adds a number
+                    lastSolvedState = null;
+                    currentSolutionIndex = 0;
+                    window.allSolutions = null;
+                    
+                    document.getElementById('status').textContent = `✓ Placed ${num}`;
+                    
+                    // Clear selection and highlights
+                    cells[selectedCell].classList.remove('selected');
+                    cells.forEach(c => {
+                        c.classList.remove('highlighted');
+                        c.classList.remove('same-number');
+                    });
+                    selectedCell = null;
+                    updateNumberPicker();
+                });
+                
+                picker.appendChild(btn);
+            }
+
+            updateNumberPicker();
+            document.getElementById('status').textContent = `${size}×${size} grid created - click a cell to start`;
+        }
+
+        // Validation
+        function isValidPlacement(index, num) {
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+            
+            // Check row
+            for (let c = 0; c < gridSize; c++) {
+                const checkIndex = row * gridSize + c;
+                if (checkIndex !== index && originalValues[checkIndex] === num) {
+                    return false;
+                }
+            }
+            
+            // Check column
+            for (let r = 0; r < gridSize; r++) {
+                const checkIndex = r * gridSize + col;
+                if (checkIndex !== index && originalValues[checkIndex] === num) {
+                    return false;
+                }
+            }
+            
+            // Check box
+            let boxRows, boxCols;
+            if (gridSize === 6) {
+                boxRows = 2;
+                boxCols = 3;
+            } else {
+                boxRows = 3;
+                boxCols = 3;
+            }
+            
+            const boxRow = Math.floor(row / boxRows) * boxRows;
+            const boxCol = Math.floor(col / boxCols) * boxCols;
+            
+            for (let r = boxRow; r < boxRow + boxRows; r++) {
+                for (let c = boxCol; c < boxCol + boxCols; c++) {
+                    const checkIndex = r * gridSize + c;
+                    if (checkIndex !== index && originalValues[checkIndex] === num) {
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+        function highlightConflicts() {
+            // Clear all conflict highlights
+            cells.forEach(c => c.classList.remove('conflict'));
+            
+            const conflicts = new Set();
+            
+            // Check all filled cells for conflicts
+            for (let i = 0; i < originalValues.length; i++) {
+                if (originalValues[i] === 0) continue;
+                
+                const num = originalValues[i];
+                const row = Math.floor(i / gridSize);
+                const col = i % gridSize;
+                
+                // Check row for duplicates
+                for (let c = 0; c < gridSize; c++) {
+                    const checkIndex = row * gridSize + c;
+                    if (checkIndex !== i && originalValues[checkIndex] === num) {
+                        conflicts.add(i);
+                        conflicts.add(checkIndex);
+                    }
+                }
+                
+                // Check column for duplicates
+                for (let r = 0; r < gridSize; r++) {
+                    const checkIndex = r * gridSize + col;
+                    if (checkIndex !== i && originalValues[checkIndex] === num) {
+                        conflicts.add(i);
+                        conflicts.add(checkIndex);
+                    }
+                }
+                
+                // Check box for duplicates
+                let boxRows, boxCols;
+                if (gridSize === 6) {
+                    boxRows = 2;
+                    boxCols = 3;
+                } else {
+                    boxRows = 3;
+                    boxCols = 3;
+                }
+                
+                const boxRow = Math.floor(row / boxRows) * boxRows;
+                const boxCol = Math.floor(col / boxCols) * boxCols;
+                
+                for (let r = boxRow; r < boxRow + boxRows; r++) {
+                    for (let c = boxCol; c < boxCol + boxCols; c++) {
+                        const checkIndex = r * gridSize + c;
+                        if (checkIndex !== i && originalValues[checkIndex] === num) {
+                            conflicts.add(i);
+                            conflicts.add(checkIndex);
+                        }
+                    }
+                }
+            }
+            
+            // Highlight all conflicting cells
+            conflicts.forEach(index => {
+                cells[index].classList.add('conflict');
+            });
+            
+            return conflicts.size > 0;
+        }
+
+        function updateNumberPicker() {
+            const numberBtns = document.querySelectorAll('.number-btn');
+            
+            if (selectedCell === null) {
+                numberBtns.forEach(btn => btn.classList.add('disabled'));
+                return;
+            }
+            
+            numberBtns.forEach(btn => {
+                const num = parseInt(btn.dataset.num);
+                
+                // Only disable invalid numbers if helper is enabled
+                if (helperEnabled) {
+                    if (isValidPlacement(selectedCell, num)) {
+                        btn.classList.remove('disabled');
+                    } else {
+                        btn.classList.add('disabled');
+                    }
+                } else {
+                    // Helper disabled - show all numbers
+                    btn.classList.remove('disabled');
+                }
+            });
+        }
+
+        // Solver
+        function isValid(board, row, col, num, size) {
+            const index = row * size + col;
+            
+            for (let c = 0; c < size; c++) {
+                const checkIndex = row * size + c;
+                if (checkIndex !== index && board[checkIndex] === num) {
+                    return false;
+                }
+            }
+            
+            for (let r = 0; r < size; r++) {
+                const checkIndex = r * size + col;
+                if (checkIndex !== index && board[checkIndex] === num) {
+                    return false;
+                }
+            }
+            
+            let boxRows, boxCols;
+            if (size === 6) {
+                boxRows = 2;
+                boxCols = 3;
+            } else {
+                boxRows = 3;
+                boxCols = 3;
+            }
+            
+            const boxRow = Math.floor(row / boxRows) * boxRows;
+            const boxCol = Math.floor(col / boxCols) * boxCols;
+            
+            for (let r = boxRow; r < boxRow + boxRows; r++) {
+                for (let c = boxCol; c < boxCol + boxCols; c++) {
+                    const checkIndex = r * size + c;
+                    if (checkIndex !== index && board[checkIndex] === num) {
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+        function findAllSolutions(board, size) {
+            const solutions = [];
+            const startTime = Date.now();
+            let searching = true;
+            
+            function solve(board) {
+                // Safety timeout after 10 seconds
+                if (Date.now() - startTime > 10000) {
+                    searching = false;
+                    return;
+                }
+                
+                if (!searching) return;
+                
+                const totalCells = size * size;
+                for (let i = 0; i < totalCells; i++) {
+                    if (board[i] === 0) {
+                        const row = Math.floor(i / size);
+                        const col = i % size;
+                        
+                        for (let num = 1; num <= size; num++) {
+                            if (isValid(board, row, col, num, size)) {
+                                board[i] = num;
+                                solve(board);
+                                board[i] = 0;
+                            }
+                        }
+                        return;
+                    }
+                }
+                // Found a complete solution
+                solutions.push([...board]);
+            }
+            
+            solve(board);
+            return { solutions, timedOut: !searching };
+        }
+
+        function solveSudoku(board, size) {
+            const totalCells = size * size;
+            for (let i = 0; i < totalCells; i++) {
+                if (board[i] === 0) {
+                    const row = Math.floor(i / size);
+                    const col = i % size;
+                    
+                    for (let num = 1; num <= size; num++) {
+                        if (isValid(board, row, col, num, size)) {
+                            board[i] = num;
+                            if (solveSudoku(board, size)) {
+                                return true;
+                            }
+                            board[i] = 0;
+                        }
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function generateCompletePuzzle(size) {
+            const board = new Array(size * size).fill(0);
+            const firstRow = Array.from({length: size}, (_, i) => i + 1);
+            for (let i = firstRow.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [firstRow[i], firstRow[j]] = [firstRow[j], firstRow[i]];
+            }
+            for (let i = 0; i < size; i++) {
+                board[i] = firstRow[i];
+            }
+            solveSudoku(board, size);
+            return board;
+        }
+
+        function generatePuzzle(size, difficulty) {
+            // Calculate given numbers per box based on difficulty
+            let givensPerBox;
+            if (size === 6) {
+                // 6 boxes total
+                switch(difficulty) {
+                    case 'expert': givensPerBox = 1; break;     // 6 total
+                    case 'hard': givensPerBox = 2; break;       // 12 total
+                    case 'medium': givensPerBox = 3; break;     // 18 total
+                    case 'easy': givensPerBox = 4; break;       // 24 total
+                    case 'beginner': givensPerBox = 5; break;   // 30 total
+                    default: givensPerBox = 3;
+                }
+            } else {
+                // 9 boxes total
+                switch(difficulty) {
+                    case 'expert': givensPerBox = 2; break;     // 18 total
+                    case 'hard': givensPerBox = 3; break;       // 27 total
+                    case 'medium': givensPerBox = 4; break;     // 36 total
+                    case 'easy': givensPerBox = 5; break;       // 45 total
+                    case 'beginner': givensPerBox = 6; break;   // 54 total
+                    default: givensPerBox = 4;
+                }
+            }
+            
+            const complete = generateCompletePuzzle(size);
+            const puzzle = [...complete];
+            
+            // Determine box dimensions
+            let boxRows, boxCols, numBoxes;
+            if (size === 6) {
+                boxRows = 2;
+                boxCols = 3;
+                numBoxes = 6;
+            } else {
+                boxRows = 3;
+                boxCols = 3;
+                numBoxes = 9;
+            }
+            
+            // For each box, randomly select cells to keep
+            for (let boxIdx = 0; boxIdx < numBoxes; boxIdx++) {
+                const boxRow = Math.floor(boxIdx / (size / boxCols)) * boxRows;
+                const boxCol = (boxIdx % (size / boxCols)) * boxCols;
+                
+                // Get all cell indices in this box
+                const boxCells = [];
+                for (let r = boxRow; r < boxRow + boxRows; r++) {
+                    for (let c = boxCol; c < boxCol + boxCols; c++) {
+                        boxCells.push(r * size + c);
+                    }
+                }
+                
+                // Shuffle box cells
+                for (let i = boxCells.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [boxCells[i], boxCells[j]] = [boxCells[j], boxCells[i]];
+                }
+                
+                // Clear all but givensPerBox cells in this box
+                for (let i = givensPerBox; i < boxCells.length; i++) {
+                    puzzle[boxCells[i]] = 0;
+                }
+            }
+            
+            return puzzle;
+        }
+
+        // Size selector
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const size = parseInt(btn.dataset.size);
+                createGrid(size);
+            });
+        });
+
+        // Solve button
+        document.getElementById('solve-btn').addEventListener('click', () => {
+            const status = document.getElementById('status');
+            
+            // First check for conflicts in current grid
+            const hasConflicts = highlightConflicts();
+            if (hasConflicts) {
+                status.textContent = '❌ Puzzle has conflicts! Fix the red numbers first.';
+                return;
+            }
+            
+            // Check if user has added new numbers since last solve
+            let gridChanged = false;
+            if (lastSolvedState) {
+                for (let i = 0; i < originalValues.length; i++) {
+                    if (originalValues[i] !== lastSolvedState[i]) {
+                        gridChanged = true;
+                        break;
+                    }
+                }
+            }
+            
+            // If grid changed or first solve, find all solutions
+            if (gridChanged || lastSolvedState === null) {
+                const board = [...originalValues];
+                
+                status.textContent = '🔍 Finding all solutions...';
+                
+                // Use setTimeout to allow UI to update
+                setTimeout(() => {
+                    const startTime = Date.now();
+                    const result = findAllSolutions(board, gridSize);
+                    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                    const solutions = result.solutions;
+                    
+                    if (solutions.length === 0) {
+                        status.textContent = '❌ No solution exists for this puzzle';
+                        return;
+                    }
+                    
+                    // Store solutions and reset index
+                    window.allSolutions = solutions;
+                    currentSolutionIndex = 0;
+                    lastSolvedState = [...originalValues];
+                    
+                    // Show first solution
+                    const solution = solutions[0];
+                    for (let i = 0; i < solution.length; i++) {
+                        cells[i].textContent = solution[i];
+                        if (originalValues[i] === 0) {
+                            cells[i].classList.add('solved');
+                        }
+                    }
+                    
+                    if (result.timedOut) {
+                        status.textContent = `⏱️ Found ${solutions.length}+ solutions in ${elapsed}s (stopped at 10s limit) - Solution 1/${solutions.length}`;
+                    } else if (solutions.length === 1) {
+                        status.textContent = `✅ Unique solution! (found in ${elapsed}s)`;
+                    } else {
+                        status.textContent = `✅ Found ${solutions.length} solutions in ${elapsed}s - Solution 1/${solutions.length}`;
+                    }
+                }, 100);
+            } else {
+                // Cycle to next solution
+                if (window.allSolutions && window.allSolutions.length > 1) {
+                    currentSolutionIndex = (currentSolutionIndex + 1) % window.allSolutions.length;
+                    const solution = window.allSolutions[currentSolutionIndex];
+                    
+                    for (let i = 0; i < solution.length; i++) {
+                        cells[i].textContent = solution[i];
+                        if (originalValues[i] === 0) {
+                            cells[i].classList.add('solved');
+                        }
+                    }
+                    
+                    status.textContent = `✅ Solution ${currentSolutionIndex + 1}/${window.allSolutions.length}`;
+                }
+            }
+        });
+
+        // Clear button
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            originalValues = new Array(gridSize * gridSize).fill(0);
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('solved', 'selected', 'highlighted', 'same-number');
+            });
+            selectedCell = null;
+            lastSolvedState = null;
+            currentSolutionIndex = 0;
+            window.allSolutions = null;
+            updateNumberPicker();
+            document.getElementById('status').textContent = 'Grid cleared';
+        });
+
+        // Generate button
+        document.getElementById('example-btn').addEventListener('click', () => {
+            // Pick random difficulty
+            const difficulties = ['expert', 'hard', 'medium', 'easy', 'beginner'];
+            const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+            
+            const puzzle = generatePuzzle(gridSize, randomDifficulty);
+            originalValues = [...puzzle];
+            cells.forEach((cell, i) => {
+                if (puzzle[i] !== 0) {
+                    cell.textContent = puzzle[i];
+                    cell.classList.remove('solved');
+                } else {
+                    cell.textContent = '';
+                }
+                cell.classList.remove('selected', 'highlighted', 'same-number');
+            });
+            selectedCell = null;
+            lastSolvedState = null;
+            currentSolutionIndex = 0;
+            window.allSolutions = null;
+            updateNumberPicker();
+            
+            const difficultyName = randomDifficulty.charAt(0).toUpperCase() + randomDifficulty.slice(1);
+            document.getElementById('status').textContent = `${gridSize}×${gridSize} ${difficultyName} puzzle generated!`;
+        });
+
+        // Initialize with 6x6
+        createGrid(6);
+    </script>
+</body>
+</html>
