@@ -224,6 +224,47 @@
     cursor: pointer; font-family: inherit;
   }
 
+  /* Audio buttons */
+  .speak-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ddd;
+    background: #FAFAFA; cursor: pointer; font-size: 16px;
+    transition: all 0.2s; flex-shrink: 0; padding: 0;
+  }
+  .speak-btn:hover { background: #E8F4FD; border-color: #2E86AB; transform: scale(1.1); }
+  .speak-btn.speaking { background: #E8F4FD; border-color: #2E86AB; animation: pulse-speak 1s infinite; }
+  @keyframes pulse-speak { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+  .speak-btn-sm { width: 26px; height: 26px; font-size: 13px; }
+  .vocab-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .dialogue-line-header { display: flex; justify-content: space-between; align-items: center; }
+
+  /* Listen tab */
+  .listen-card {
+    background: #fff; border: 1px solid #eee; border-radius: 10px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .listen-card:hover { background: #F8FBFF; border-color: #ccc; }
+  .listen-card.active-word { background: #E8F4FD; border-color: #2E86AB; }
+  .listen-controls {
+    background: #fff; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; flex-wrap: wrap;
+    gap: 10px; align-items: center;
+  }
+  .listen-btn {
+    padding: 10px 20px; border-radius: 8px; border: 2px solid; cursor: pointer;
+    font-size: 14px; font-weight: 600; font-family: inherit; transition: all 0.2s;
+  }
+  .listen-btn:hover { transform: translateY(-1px); }
+  .speed-control { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .speed-btn {
+    padding: 6px 12px; border-radius: 6px; border: 1px solid #ddd;
+    background: #f5f5f5; cursor: pointer; font-size: 13px; font-family: inherit;
+    font-weight: 600; transition: all 0.15s;
+  }
+  .speed-btn.active-speed { background: #21468B; color: #fff; border-color: #21468B; }
+  .listen-list { display: flex; flex-direction: column; gap: 6px; }
+
   /* Tips */
   .tip { margin-bottom: 8px; font-size: 14px; line-height: 1.7; color: #555; }
   .tip:last-child { margin-bottom: 0; }
@@ -671,9 +712,157 @@ let state = {
   completedLessons: JSON.parse(localStorage.getItem('dutchCompleted') || '{}'),
   showSearch: false,
   searchTerm: '',
+  speechRate: 0.8,
+  isPlaying: false,
+  activeWordIdx: -1,
 };
 
+// ============================================================
+// SPEECH SYNTHESIS
+// ============================================================
+let dutchVoice = null;
+let speechQueue = [];
+let speechAbortController = null;
+
+function initVoices() {
+  const voices = speechSynthesis.getVoices();
+  // Try to find a Dutch voice, preferring female voices
+  dutchVoice = voices.find(v => v.lang === 'nl-NL' && v.name.toLowerCase().includes('female'))
+    || voices.find(v => v.lang === 'nl-NL')
+    || voices.find(v => v.lang.startsWith('nl'))
+    || null;
+}
+speechSynthesis.onvoiceschanged = initVoices;
+initVoices();
+
+function speakDutch(text, rate) {
+  speechSynthesis.cancel();
+  state.isPlaying = false;
+  const r = rate || state.speechRate;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'nl-NL';
+  utter.rate = r;
+  if (dutchVoice) utter.voice = dutchVoice;
+  utter.onstart = () => {
+    document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  };
+  utter.onend = () => {
+    document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  };
+  speechSynthesis.speak(utter);
+}
+
+function speakAndHighlight(btn, text) {
+  speechSynthesis.cancel();
+  stopPlayAll();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'nl-NL';
+  utter.rate = state.speechRate;
+  if (dutchVoice) utter.voice = dutchVoice;
+  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  if (btn) btn.classList.add('speaking');
+  utter.onend = () => { if (btn) btn.classList.remove('speaking'); };
+  speechSynthesis.speak(utter);
+}
+
+function stopPlayAll() {
+  speechSynthesis.cancel();
+  state.isPlaying = false;
+  state.activeWordIdx = -1;
+  speechQueue = [];
+  // Update UI without full re-render
+  document.querySelectorAll('.listen-card').forEach(c => c.classList.remove('active-word'));
+  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  const playBtn = document.getElementById('play-all-btn');
+  if (playBtn) { playBtn.textContent = '▶ Play All'; playBtn.style.background = '#fff'; }
+}
+
+function playAllWords() {
+  if (state.isPlaying) { stopPlayAll(); return; }
+  if (!state.currentLesson) return;
+
+  const words = state.currentLesson.vocab;
+  state.isPlaying = true;
+  state.activeWordIdx = 0;
+
+  const playBtn = document.getElementById('play-all-btn');
+  if (playBtn) { playBtn.textContent = '⏹ Stop'; playBtn.style.background = '#FFEBEE'; }
+
+  function playNext(idx) {
+    if (!state.isPlaying || idx >= words.length) {
+      stopPlayAll();
+      return;
+    }
+    state.activeWordIdx = idx;
+    // Highlight current word
+    document.querySelectorAll('.listen-card').forEach((c,i) => {
+      c.classList.toggle('active-word', i === idx);
+    });
+    // Scroll into view
+    const activeCard = document.querySelectorAll('.listen-card')[idx];
+    if (activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const utter = new SpeechSynthesisUtterance(words[idx].nl);
+    utter.lang = 'nl-NL';
+    utter.rate = state.speechRate;
+    if (dutchVoice) utter.voice = dutchVoice;
+    utter.onend = () => {
+      setTimeout(() => playNext(idx + 1), 800);
+    };
+    speechSynthesis.speak(utter);
+  }
+  playNext(0);
+}
+
+function playDialogue() {
+  if (state.isPlaying) { stopPlayAll(); return; }
+  if (!state.currentLesson) return;
+
+  const allLines = [];
+  state.currentLesson.dialogues.forEach(d => d.lines.forEach(l => allLines.push(l.nl)));
+  state.isPlaying = true;
+
+  const playBtn = document.getElementById('play-dialogue-btn');
+  if (playBtn) { playBtn.textContent = '⏹ Stop'; playBtn.style.background = '#FFEBEE'; }
+
+  function playNext(idx) {
+    if (!state.isPlaying || idx >= allLines.length) {
+      stopPlayAll();
+      const btn = document.getElementById('play-dialogue-btn');
+      if (btn) { btn.textContent = '▶ Play Full Dialogue'; btn.style.background = '#fff'; }
+      return;
+    }
+    document.querySelectorAll('.dialogue-line').forEach((c,i) => {
+      c.style.outline = i === idx ? '2px solid #2E86AB' : 'none';
+      c.style.outlineOffset = i === idx ? '2px' : '0';
+    });
+    const activeEl = document.querySelectorAll('.dialogue-line')[idx];
+    if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    const utter = new SpeechSynthesisUtterance(allLines[idx]);
+    utter.lang = 'nl-NL';
+    utter.rate = state.speechRate;
+    if (dutchVoice) utter.voice = dutchVoice;
+    utter.onend = () => { setTimeout(() => playNext(idx + 1), 600); };
+    speechSynthesis.speak(utter);
+  }
+  playNext(0);
+}
+
+function setSpeed(rate) {
+  state.speechRate = rate;
+  document.querySelectorAll('.speed-btn').forEach(b => {
+    b.classList.toggle('active-speed', parseFloat(b.dataset.rate) === rate);
+  });
+}
+
 function setState(updates) {
+  // Stop speech when navigating
+  if (updates.view || updates.currentLesson !== undefined || updates.activeTab) {
+    speechSynthesis.cancel();
+    state.isPlaying = false;
+    state.activeWordIdx = -1;
+  }
   Object.assign(state, updates);
   render();
 }
@@ -815,6 +1004,7 @@ function renderLesson() {
 
   const tabs = [
     { key: 'vocab', label: '📚 Vocabulary' },
+    { key: 'listen', label: '🔊 Listen' },
     { key: 'dialogue', label: '💬 Dialogue' },
     { key: 'grammar', label: '📐 Grammar' },
     { key: 'practice', label: '✏️ Practice' },
@@ -822,6 +1012,7 @@ function renderLesson() {
 
   let content = '';
   if (tab === 'vocab') content = renderVocab(mod, lesson);
+  else if (tab === 'listen') content = renderListen(mod, lesson);
   else if (tab === 'dialogue') content = renderDialogue(mod, lesson);
   else if (tab === 'grammar') content = renderGrammar(mod, lesson);
   else if (tab === 'practice') content = renderPractice(mod, lesson);
@@ -841,11 +1032,14 @@ function renderLesson() {
 
 function renderVocab(mod, lesson) {
   return `
-    <p style="color:#666;font-size:14px;margin:0 0 16px">Learn these words. Thai translations included for reference.</p>
+    <p style="color:#666;font-size:14px;margin:0 0 16px">Learn these words. Click 🔊 to hear pronunciation.</p>
     <div class="vocab-grid">
       ${lesson.vocab.map(v => `
         <div class="vocab-card">
-          <div class="nl serif" style="color:${mod.color}">${escHtml(v.nl)}</div>
+          <div class="vocab-card-header">
+            <div class="nl serif" style="color:${mod.color}">${escHtml(v.nl)}</div>
+            <button class="speak-btn speak-btn-sm" onclick="speakAndHighlight(this,'${escHtml(v.nl).replace(/'/g,"\\'")}')">🔊</button>
+          </div>
           <div class="phonetic">/${escHtml(v.phonetic)}/</div>
           <div class="en">${escHtml(v.en)}</div>
           ${v.thai ? `<div class="thai">${v.thai}</div>` : ''}
@@ -856,19 +1050,85 @@ function renderVocab(mod, lesson) {
   `;
 }
 
+function renderListen(mod, lesson) {
+  const hasSpeech = 'speechSynthesis' in window;
+  if (!hasSpeech) {
+    return `<div class="card" style="text-align:center;padding:40px">
+      <p style="font-size:18px;margin-bottom:8px">⚠️ Speech not supported</p>
+      <p style="color:#666">Your browser doesn't support text-to-speech. Try Chrome or Edge for the best experience.</p>
+    </div>`;
+  }
+
+  return `
+    <div class="listen-controls">
+      <button id="play-all-btn" class="listen-btn" style="border-color:${mod.color};color:${mod.color};background:#fff" onclick="playAllWords()">▶ Play All</button>
+      <button class="listen-btn" style="border-color:#888;color:#555;background:#fff" onclick="stopPlayAll()">⏹ Stop</button>
+      <div class="speed-control">
+        <span style="font-size:13px;color:#666;font-weight:600">Speed:</span>
+        ${[0.5, 0.7, 0.85, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.5 ? '🐌 Slow' : r === 0.7 ? '🐢 Learn' : r === 0.85 ? '🚶 Normal' : '🏃 Fast'}</button>`).join('')}
+      </div>
+    </div>
+    <p style="color:#666;font-size:14px;margin:0 0 12px">Click any word to hear it, or use "Play All" to listen to the entire vocabulary list.</p>
+    <div class="listen-list">
+      ${lesson.vocab.map((v, i) => `
+        <div class="listen-card" onclick="speakAndHighlight(this.querySelector('.speak-btn'),'${escHtml(v.nl).replace(/'/g,"\\'")}')">
+          <button class="speak-btn" onclick="event.stopPropagation();speakAndHighlight(this,'${escHtml(v.nl).replace(/'/g,"\\'")}')">🔊</button>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+              <span class="serif" style="font-size:18px;font-weight:700;color:${mod.color}">${escHtml(v.nl)}</span>
+              <span style="font-size:13px;color:#888">/${escHtml(v.phonetic)}/</span>
+            </div>
+            <div style="font-size:14px;color:#555;margin-top:2px">${escHtml(v.en)} ${v.thai ? `<span style="color:#999">· ${v.thai}</span>` : ''}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:20px">
+      <h4 class="serif" style="color:${mod.color};margin:0 0 12px">🎭 Listen to the Dialogue</h4>
+      ${lesson.dialogues.map(d => `
+        <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-weight:600;color:#555">${escHtml(d.situation)}</span>
+            <button id="play-dialogue-btn" class="listen-btn" style="border-color:${mod.color};color:${mod.color};background:#fff;padding:8px 14px;font-size:13px" onclick="playDialogue()">▶ Play Dialogue</button>
+          </div>
+          ${d.lines.map(l => `
+            <div class="dialogue-line ${l.speaker === 'You' ? 'you' : 'other'}" style="${l.speaker === 'You' ? 'border-left-color:'+mod.color : ''};cursor:pointer" onclick="speakDutch('${escHtml(l.nl).replace(/'/g,"\\'")}')">
+              <div class="speaker" style="color:${l.speaker === 'You' ? mod.color : '#888'}">${escHtml(l.speaker)}</div>
+              <div class="nl-text serif">${escHtml(l.nl)}</div>
+              <div class="en-text">${escHtml(l.en)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
 function renderDialogue(mod, lesson) {
   return lesson.dialogues.map(d => `
     <div class="dialogue-box" style="--mod-color:${mod.color}">
-      <h3 style="margin:0 0 16px;color:${mod.color}" class="serif">🎭 ${escHtml(d.situation)}</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;color:${mod.color}" class="serif">🎭 ${escHtml(d.situation)}</h3>
+        <button id="play-dialogue-btn" class="listen-btn" style="border-color:${mod.color};color:${mod.color};background:#fff;padding:8px 14px;font-size:13px" onclick="playDialogue()">▶ Play Full Dialogue</button>
+      </div>
       ${d.lines.map(l => {
         const isYou = l.speaker === 'You';
         return `<div class="dialogue-line ${isYou ? 'you' : 'other'}" style="${isYou ? '--mod-color:'+mod.color+';border-left-color:'+mod.color : ''}">
-          <div class="speaker" style="color:${isYou ? mod.color : '#888'}">${escHtml(l.speaker)}</div>
+          <div class="dialogue-line-header">
+            <div class="speaker" style="color:${isYou ? mod.color : '#888'}">${escHtml(l.speaker)}</div>
+            <button class="speak-btn speak-btn-sm" onclick="speakAndHighlight(this,'${escHtml(l.nl).replace(/'/g,"\\'")}')">🔊</button>
+          </div>
           <div class="nl-text serif">${escHtml(l.nl)}</div>
           <div class="en-text">${escHtml(l.en)}</div>
         </div>`;
       }).join('')}
-      <p style="font-size:13px;color:#999;margin:16px 0 0;font-style:italic">💡 Try reading the Dutch lines out loud before looking at the English!</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <p style="font-size:13px;color:#999;margin:0;font-style:italic">💡 Try reading the Dutch lines out loud before looking at the English!</p>
+        <div class="speed-control">
+          <span style="font-size:12px;color:#888">Speed:</span>
+          ${[0.6, 0.8, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐢' : r === 0.8 ? '🚶' : '🏃'}</button>`).join('')}
+        </div>
+      </div>
     </div>
   `).join('');
 }
@@ -881,8 +1141,11 @@ function renderGrammar(mod, lesson) {
       <h3 style="margin:0 0 12px;color:${mod.color}" class="serif">${escHtml(g.title)}</h3>
       <p style="font-size:15px;line-height:1.7;color:#444;margin:0 0 20px">${g.explanation}</p>
       ${g.examples.map(ex => `
-        <div class="grammar-example">
-          <div class="nl serif">${escHtml(ex.nl)}</div>
+        <div class="grammar-example" style="cursor:pointer" onclick="speakDutch('${escHtml(ex.nl).replace(/'/g,"\\'")}')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="nl serif">${escHtml(ex.nl)}</div>
+            <button class="speak-btn speak-btn-sm" onclick="event.stopPropagation();speakAndHighlight(this,'${escHtml(ex.nl).replace(/'/g,"\\'")}')">🔊</button>
+          </div>
           <div class="en">${escHtml(ex.en)}</div>
         </div>
       `).join('')}
