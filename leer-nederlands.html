@@ -265,6 +265,30 @@
   .speed-btn.active-speed { background: #21468B; color: #fff; border-color: #21468B; }
   .listen-list { display: flex; flex-direction: column; gap: 6px; }
 
+  /* Voice selector */
+  .voice-selector {
+    background: #fff; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e8e8e8;
+  }
+  .voice-selector label { font-weight: 600; font-size: 14px; color: #333; display: block; margin-bottom: 8px; }
+  .voice-select {
+    width: 100%; padding: 10px 14px; border-radius: 8px; border: 2px solid #ddd;
+    font-size: 14px; font-family: inherit; background: #FAFAFA;
+    cursor: pointer; appearance: auto; color: #333;
+  }
+  .voice-select:focus { border-color: #21468B; outline: none; }
+  .voice-info { font-size: 12px; color: #888; margin-top: 8px; line-height: 1.5; }
+  .voice-test-btn {
+    margin-top: 8px; padding: 6px 14px; border-radius: 6px; border: 1px solid #ddd;
+    background: #f8f8f8; cursor: pointer; font-size: 13px; font-family: inherit;
+    transition: all 0.15s;
+  }
+  .voice-test-btn:hover { background: #E8F4FD; border-color: #2E86AB; }
+  .no-voices-warning {
+    background: #FFF3E0; border: 1px solid #F5DEC0; border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 16px; font-size: 14px; color: #555; line-height: 1.6;
+  }
+
   /* Tips */
   .tip { margin-bottom: 8px; font-size: 14px; line-height: 1.7; color: #555; }
   .tip:last-child { margin-bottom: 0; }
@@ -290,10 +314,10 @@
 const COURSE_DATA = {
   modules: [
     {
-      id: 1, title: "Jezelf Voorstellen", titleEn: "Introducing Yourself", icon: "👋", color: "#E85D26",
+      id: 1, title: "Jezelf Voorstellen", titleEn: "Introducing Yourself", titleTh: "แนะนำตัวเอง", icon: "👋", color: "#E85D26",
       lessons: [
         {
-          id: "1a", title: "Begroetingen", titleEn: "Greetings",
+          id: "1a", title: "Begroetingen", titleEn: "Greetings", titleTh: "การทักทาย",
           vocab: [
             { nl: "Hallo", en: "Hello", phonetic: "hah-LOH", thai: "สวัสดี", note: "Common greeting, any time of day" },
             { nl: "Goedemorgen", en: "Good morning", phonetic: "KHOO-duh-MOR-khun", thai: "สวัสดีตอนเช้า", note: "Used until about noon" },
@@ -332,7 +356,7 @@ const COURSE_DATA = {
           ]
         },
         {
-          id: "1b", title: "Wie ben jij?", titleEn: "Who are you?",
+          id: "1b", title: "Wie ben jij?", titleEn: "Who are you?", titleTh: "คุณเป็นใคร?",
           vocab: [
             { nl: "Ik ben...", en: "I am...", phonetic: "ik ben", thai: "ฉันเป็น...", note: "Most basic self-introduction" },
             { nl: "Mijn naam is...", en: "My name is...", phonetic: "meyn NAHM is", thai: "ชื่อของฉันคือ...", note: "More formal way to give your name" },
@@ -375,10 +399,10 @@ const COURSE_DATA = {
       ]
     },
     {
-      id: 2, title: "Getallen & Tijd", titleEn: "Numbers & Time", icon: "🔢", color: "#2E86AB",
+      id: 2, title: "Getallen & Tijd", titleEn: "Numbers & Time", titleTh: "ตัวเลขและเวลา", icon: "🔢", color: "#2E86AB",
       lessons: [
         {
-          id: "2a", title: "Getallen 0-20", titleEn: "Numbers 0-20",
+          id: "2a", title: "Getallen 0-20", titleEn: "Numbers 0-20", titleTh: "ตัวเลข 0-20",
           vocab: [
             { nl: "nul", en: "0", phonetic: "nul", thai: "ศูนย์", note: "" },
             { nl: "een", en: "1", phonetic: "ayn", thai: "หนึ่ง", note: "Also means 'a/an'" },
@@ -423,7 +447,7 @@ const COURSE_DATA = {
           ]
         },
         {
-          id: "2b", title: "Hoe laat is het?", titleEn: "What time is it?",
+          id: "2b", title: "Hoe laat is het?", titleEn: "What time is it?", titleTh: "กี่โมงแล้ว?",
           vocab: [
             { nl: "Hoe laat is het?", en: "What time is it?", phonetic: "hoo LAHT is ut", thai: "กี่โมงแล้ว?", note: "" },
             { nl: "Het is ... uur", en: "It is ... o'clock", phonetic: "ut is ... oor", thai: "...โมง", note: "For whole hours" },
@@ -466,10 +490,10 @@ const COURSE_DATA = {
       ]
     },
     {
-      id: 3, title: "Dagelijks Leven", titleEn: "Daily Life", icon: "🏠", color: "#5E9B4E",
+      id: 3, title: "Dagelijks Leven", titleEn: "Daily Life", titleTh: "ชีวิตประจำวัน", icon: "🏠", color: "#5E9B4E",
       lessons: [
         {
-          id: "3a", title: "Boodschappen Doen", titleEn: "Shopping / Groceries",
+          id: "3a", title: "Boodschappen Doen", titleEn: "Shopping / Groceries", titleTh: "ซื้อของ / จ่ายตลาด",
           vocab: [
             { nl: "de supermarkt", en: "the supermarket", phonetic: "duh SOO-pur-markt", thai: "ซุปเปอร์มาร์เก็ต", note: "Albert Heijn, Jumbo are common ones" },
             { nl: "de winkel", en: "the shop/store", phonetic: "duh VIN-kul", thai: "ร้าน", note: "" },
@@ -511,7 +535,7 @@ const COURSE_DATA = {
           ]
         },
         {
-          id: "3b", title: "Bij de Dokter", titleEn: "At the Doctor",
+          id: "3b", title: "Bij de Dokter", titleEn: "At the Doctor", titleTh: "ที่หมอ",
           vocab: [
             { nl: "de dokter / huisarts", en: "the doctor / GP", phonetic: "duh DOK-tur / HOWS-arts", thai: "หมอ", note: "Huisarts = family doctor (very important in NL!)" },
             { nl: "Ik ben ziek", en: "I am sick", phonetic: "ik ben zeek", thai: "ฉันไม่สบาย", note: "" },
@@ -556,10 +580,10 @@ const COURSE_DATA = {
       ]
     },
     {
-      id: 4, title: "Vervoer & Wegen", titleEn: "Transport & Directions", icon: "🚲", color: "#9B59B6",
+      id: 4, title: "Vervoer & Wegen", titleEn: "Transport & Directions", titleTh: "การเดินทางและทิศทาง", icon: "🚲", color: "#9B59B6",
       lessons: [
         {
-          id: "4a", title: "Reizen in Nederland", titleEn: "Traveling in NL",
+          id: "4a", title: "Reizen in Nederland", titleEn: "Traveling in NL", titleTh: "เดินทางในเนเธอร์แลนด์",
           vocab: [
             { nl: "de trein", en: "the train", phonetic: "duh treyn", thai: "รถไฟ", note: "Main transport between cities" },
             { nl: "de bus", en: "the bus", phonetic: "duh bus", thai: "รถบัส", note: "" },
@@ -604,23 +628,23 @@ const COURSE_DATA = {
       ]
     },
     {
-      id: 5, title: "Uitspraak", titleEn: "Pronunciation Guide", icon: "🗣️", color: "#E74C3C",
+      id: 5, title: "Uitspraak", titleEn: "Pronunciation Guide", titleTh: "คู่มือการออกเสียง", icon: "🗣️", color: "#E74C3C",
       lessons: [
         {
-          id: "5a", title: "Nederlandse Klanken", titleEn: "Dutch Sounds",
+          id: "5a", title: "Nederlandse Klanken", titleEn: "Dutch Sounds", titleTh: "เสียงภาษาดัตช์",
           vocab: [
-            { nl: "g / ch", en: "Throat sound", phonetic: "Like Thai ค but longer", thai: "เสียง ค ในคอ", note: "THE Dutch sound! Practice: goed, gracht, acht" },
-            { nl: "sch", en: "s + throat sound", phonetic: "Like 's' then 'kh'", thai: "ส + ค", note: "school = skhohl, schrijven = skhrey-vun" },
-            { nl: "ui", en: "Difficult vowel", phonetic: "Like 'ow' with round lips", thai: "เสียงผสม เอา", note: "huis, uit, buiten" },
-            { nl: "eu", en: "Rounded vowel", phonetic: "Say 'ay' with round lips", thai: "คล้าย เออ", note: "deur, neus, leuk" },
-            { nl: "oe", en: "Like English 'oo'", phonetic: "oo", thai: "อู", note: "boek, goed, moeder" },
-            { nl: "ee", en: "Like English 'ay'", phonetic: "ay", thai: "เอ ยาว", note: "twee, been, meer" },
-            { nl: "aa", en: "Long 'ah'", phonetic: "ahh", thai: "อา ยาว", note: "naam, straat, kaas" },
-            { nl: "oo", en: "Like English 'oh'", phonetic: "oh", thai: "โอ ยาว", note: "groot, dood, boot" },
-            { nl: "ij / ei", en: "Same sound!", phonetic: "Like 'ay' in 'say'", thai: "เอย", note: "zij = zei, both sound the same" },
-            { nl: "w", en: "Between V and W", phonetic: "Like English 'v'", thai: "ว แต่ใกล้ วี", note: "water = VAH-ter, NOT wah-ter" },
-            { nl: "r", en: "Varies by region", phonetic: "Rolled or guttural", thai: "ร กระดกลิ้น", note: "Can be tongue-rolled or throat" },
-            { nl: "v", en: "Like English 'v' or 'f'", phonetic: "v or f", thai: "ว", note: "Often sounds like 'f' in some dialects" },
+            { nl: "gracht", en: "Throat sound (g/ch)", phonetic: "Like Thai ค but longer", thai: "เสียง ค ในคอ", note: "THE Dutch sound! The 'g' and 'ch' use the same throat sound. Practice: goed, gracht, acht" },
+            { nl: "school", en: "s + throat sound (sch)", phonetic: "Like 's' then 'kh'", thai: "ส + ค", note: "The 'sch' combo: school = skhohl, schrijven = skhrey-vun, Scheveningen" },
+            { nl: "huis", en: "Difficult vowel (ui)", phonetic: "Like 'ow' with round lips", thai: "เสียงผสม เอา", note: "The 'ui' sound: huis, uit, buiten, kruiden" },
+            { nl: "deur", en: "Rounded vowel (eu)", phonetic: "Say 'ay' with round lips", thai: "คล้าย เออ", note: "The 'eu' sound: deur, neus, leuk" },
+            { nl: "boek", en: "Like English 'oo' (oe)", phonetic: "oo", thai: "อู", note: "The 'oe' sound: boek, goed, moeder" },
+            { nl: "twee", en: "Like English 'ay' (ee)", phonetic: "ay", thai: "เอ ยาว", note: "The 'ee' sound: twee, been, meer" },
+            { nl: "naam", en: "Long 'ah' (aa)", phonetic: "ahh", thai: "อา ยาว", note: "The 'aa' sound: naam, straat, kaas" },
+            { nl: "groot", en: "Like English 'oh' (oo)", phonetic: "oh", thai: "โอ ยาว", note: "The 'oo' sound: groot, dood, boot" },
+            { nl: "trein", en: "Same sound! (ij/ei)", phonetic: "Like 'ay' in 'say'", thai: "เอย", note: "The 'ij' and 'ei' sound identical: zij = zei, trein,ijn" },
+            { nl: "water", en: "Between V and W (w)", phonetic: "Like English 'v'", thai: "ว แต่ใกล้ วี", note: "Dutch 'w' sounds like 'v': water = VAH-ter, NOT wah-ter" },
+            { nl: "rood", en: "Varies by region (r)", phonetic: "Rolled or guttural", thai: "ร กระดกลิ้น", note: "The Dutch 'r' can be tongue-rolled or throat, both are correct" },
+            { nl: "vader", en: "Like English 'v' or 'f' (v)", phonetic: "v or f", thai: "ว", note: "Dutch 'v' often sounds like 'f' in some dialects" },
           ],
           dialogues: [
             { situation: "Pronunciation practice sentences", lines: [
@@ -650,10 +674,10 @@ const COURSE_DATA = {
       ]
     },
     {
-      id: 6, title: "KNS - Samenleving", titleEn: "Dutch Society (Exam)", icon: "🇳🇱", color: "#F39C12",
+      id: 6, title: "KNS - Samenleving", titleEn: "Dutch Society (Exam)", titleTh: "สังคมเนเธอร์แลนด์ (สอบ)", icon: "🇳🇱", color: "#F39C12",
       lessons: [
         {
-          id: "6a", title: "Nederland Kennen", titleEn: "Know the Netherlands",
+          id: "6a", title: "Nederland Kennen", titleEn: "Know the Netherlands", titleTh: "รู้จักเนเธอร์แลนด์",
           vocab: [
             { nl: "de Koning", en: "the King", phonetic: "duh KOH-ning", thai: "กษัตริย์", note: "Willem-Alexander is the current King" },
             { nl: "de Koningin", en: "the Queen", phonetic: "duh koh-NIN-ghin", thai: "ราชินี", note: "Máxima is the Queen" },
@@ -712,104 +736,200 @@ let state = {
   completedLessons: JSON.parse(localStorage.getItem('dutchCompleted') || '{}'),
   showSearch: false,
   searchTerm: '',
-  speechRate: 0.8,
+  speechRate: 1.0,
   isPlaying: false,
   activeWordIdx: -1,
+  ttsEngine: localStorage.getItem('dutchTTS') || 'auto', // 'auto', 'browser', or browser voice index
 };
 
 // ============================================================
-// SPEECH SYNTHESIS
+// TTS ENGINE — Using HTML5 Audio with Google TTS + Browser fallback
 // ============================================================
-let dutchVoice = null;
-let speechQueue = [];
-let speechAbortController = null;
+let currentAudio = null;
+let dutchBrowserVoices = [];
+let playAborted = false;
 
-function initVoices() {
+// Discover browser Dutch voices
+function initBrowserVoices() {
+  if (!('speechSynthesis' in window)) return;
   const voices = speechSynthesis.getVoices();
-  // Try to find a Dutch voice, preferring female voices
-  dutchVoice = voices.find(v => v.lang === 'nl-NL' && v.name.toLowerCase().includes('female'))
-    || voices.find(v => v.lang === 'nl-NL')
-    || voices.find(v => v.lang.startsWith('nl'))
-    || null;
+  dutchBrowserVoices = voices.filter(v => v.lang === 'nl-NL' || v.lang === 'nl-BE' || v.lang.startsWith('nl'));
 }
-speechSynthesis.onvoiceschanged = initVoices;
-initVoices();
+if ('speechSynthesis' in window) {
+  speechSynthesis.onvoiceschanged = initBrowserVoices;
+  initBrowserVoices();
+  setTimeout(initBrowserVoices, 500);
+  setTimeout(initBrowserVoices, 1500);
+}
 
-function speakDutch(text, rate) {
-  speechSynthesis.cancel();
+function getBrowserVoiceLabel(v) {
+  let name = v.name.replace('Microsoft ', '').replace('Google ', '');
+  const nl = v.lang === 'nl-BE' ? ' 🇧🇪' : ' 🇳🇱';
+  const cloud = v.localService ? '' : ' ☁️';
+  const lo = v.name.toLowerCase();
+  const fem = ['anna','fenna','lotte','sophie','ellen','colette','sara','maria','fleur','merel'];
+  const mal = ['maarten','frank','willem','ruben','jan','joost','piet','bram','bas','daan'];
+  let g = '';
+  if (fem.some(n => lo.includes(n))) g = ' 👩';
+  else if (mal.some(n => lo.includes(n))) g = ' 👨';
+  return name + g + nl + cloud;
+}
+
+// Google Translate TTS — produces real native Dutch speech
+function googleTtsUrl(text, slow) {
+  const speed = slow ? '0.24' : '1';
+  // Google Translate TTS endpoint (publicly accessible, used by the translate widget)
+  return `https://translate.google.com/translate_tts?ie=UTF-8&tl=nl&client=tw-ob&q=${encodeURIComponent(text)}&ttsspeed=${speed}`;
+}
+
+function stopAllAudio() {
+  playAborted = true;
+  if (currentAudio) {
+    currentAudio.onended = null;
+    currentAudio.onerror = null;
+    currentAudio.ontimeupdate = null;
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
   state.isPlaying = false;
-  const r = rate || state.speechRate;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'nl-NL';
-  utter.rate = r;
-  if (dutchVoice) utter.voice = dutchVoice;
-  utter.onstart = () => {
-    document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
-  };
-  utter.onend = () => {
-    document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
-  };
-  speechSynthesis.speak(utter);
+  state.activeWordIdx = -1;
+  document.querySelectorAll('.listen-card').forEach(c => c.classList.remove('active-word'));
+  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  document.querySelectorAll('.dialogue-line').forEach(c => { c.style.outline = 'none'; });
+  const pb = document.getElementById('play-all-btn');
+  if (pb) { pb.textContent = '▶ Play All'; pb.style.background = '#fff'; }
+  const db = document.getElementById('play-dialogue-btn');
+  if (db) { db.textContent = '▶ Play Dialogue'; db.style.background = '#fff'; }
 }
 
-function speakAndHighlight(btn, text) {
+// Low-level play function — plays one text, calls onDone when finished
+// Does NOT call stopAllAudio — safe to call in a sequence
+function playOneTTS(text, onDone) {
+  // Clean up previous audio without aborting the sequence
+  if (currentAudio) {
+    currentAudio.onended = null;
+    currentAudio.onerror = null;
+    currentAudio.ontimeupdate = null;
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+
+  const engine = state.ttsEngine;
+
+  // Browser voice path
+  if (engine === 'browser-auto' || (engine !== 'auto' && typeof engine === 'string' && engine.startsWith('browser-'))) {
+    const voiceIdx = engine === 'browser-auto' ? -1 : parseInt(engine.replace('browser-',''), 10);
+    return playOneBrowser(text, voiceIdx, onDone);
+  }
+
+  // Google TTS path (default)
+  const slow = state.speechRate < 0.7;
+  const url = googleTtsUrl(text, slow);
+  const audio = new Audio(url);
+  currentAudio = audio;
+
+  // Track if this audio has already fired its completion
+  let done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    currentAudio = null;
+    if (onDone && !playAborted) onDone();
+  }
+
+  audio.onended = finish;
+
+  // Fallback: if onended doesn't fire, detect end via timeupdate
+  let lastTime = 0;
+  let stuckCount = 0;
+  audio.ontimeupdate = () => {
+    if (audio.currentTime === lastTime) {
+      stuckCount++;
+    } else {
+      stuckCount = 0;
+      lastTime = audio.currentTime;
+    }
+  };
+
+  // Safety timeout: if audio doesn't end within 10s, move on
+  const safetyTimer = setTimeout(() => {
+    if (!done && currentAudio === audio) {
+      audio.pause();
+      finish();
+    }
+  }, 10000);
+
+  audio.onended = () => { clearTimeout(safetyTimer); finish(); };
+
+  audio.onerror = () => {
+    clearTimeout(safetyTimer);
+    currentAudio = null;
+    // Fall back to browser voice
+    playOneBrowser(text, -1, onDone);
+  };
+
+  audio.play().catch(() => {
+    clearTimeout(safetyTimer);
+    currentAudio = null;
+    playOneBrowser(text, -1, onDone);
+  });
+}
+
+function playOneBrowser(text, voiceIdx, onDone) {
+  if (!('speechSynthesis' in window)) { if (onDone) onDone(); return; }
   speechSynthesis.cancel();
-  stopPlayAll();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'nl-NL';
   utter.rate = state.speechRate;
-  if (dutchVoice) utter.voice = dutchVoice;
-  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
-  if (btn) btn.classList.add('speaking');
-  utter.onend = () => { if (btn) btn.classList.remove('speaking'); };
+  if (voiceIdx >= 0 && voiceIdx < dutchBrowserVoices.length) {
+    utter.voice = dutchBrowserVoices[voiceIdx];
+  } else if (dutchBrowserVoices.length > 0) {
+    const best = dutchBrowserVoices.find(v => v.lang === 'nl-NL' && !v.localService)
+      || dutchBrowserVoices.find(v => v.lang === 'nl-NL')
+      || dutchBrowserVoices[0];
+    if (best) utter.voice = best;
+  }
+  let done = false;
+  const safetyTimer = setTimeout(() => { if (!done) { done = true; if (onDone && !playAborted) onDone(); } }, 10000);
+  utter.onend = () => { clearTimeout(safetyTimer); if (!done) { done = true; if (onDone && !playAborted) onDone(); } };
   speechSynthesis.speak(utter);
 }
 
-function stopPlayAll() {
-  speechSynthesis.cancel();
-  state.isPlaying = false;
-  state.activeWordIdx = -1;
-  speechQueue = [];
-  // Update UI without full re-render
-  document.querySelectorAll('.listen-card').forEach(c => c.classList.remove('active-word'));
-  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
-  const playBtn = document.getElementById('play-all-btn');
-  if (playBtn) { playBtn.textContent = '▶ Play All'; playBtn.style.background = '#fff'; }
+// High-level speak — for single word clicks (stops everything first)
+function speakDutch(text) {
+  stopAllAudio();
+  playAborted = false;
+  playOneTTS(text, null);
 }
+
+function speakAndHighlight(btn, text) {
+  stopAllAudio();
+  playAborted = false;
+  document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
+  if (btn) btn.classList.add('speaking');
+  playOneTTS(text, () => { if (btn) btn.classList.remove('speaking'); });
+}
+
+function stopPlayAll() { stopAllAudio(); }
 
 function playAllWords() {
   if (state.isPlaying) { stopPlayAll(); return; }
   if (!state.currentLesson) return;
-
   const words = state.currentLesson.vocab;
   state.isPlaying = true;
-  state.activeWordIdx = 0;
-
-  const playBtn = document.getElementById('play-all-btn');
-  if (playBtn) { playBtn.textContent = '⏹ Stop'; playBtn.style.background = '#FFEBEE'; }
+  playAborted = false;
+  const pb = document.getElementById('play-all-btn');
+  if (pb) { pb.textContent = '⏹ Stop'; pb.style.background = '#FFEBEE'; }
 
   function playNext(idx) {
-    if (!state.isPlaying || idx >= words.length) {
-      stopPlayAll();
-      return;
-    }
+    if (playAborted || !state.isPlaying || idx >= words.length) { stopPlayAll(); return; }
     state.activeWordIdx = idx;
-    // Highlight current word
-    document.querySelectorAll('.listen-card').forEach((c,i) => {
-      c.classList.toggle('active-word', i === idx);
-    });
-    // Scroll into view
-    const activeCard = document.querySelectorAll('.listen-card')[idx];
-    if (activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    const utter = new SpeechSynthesisUtterance(words[idx].nl);
-    utter.lang = 'nl-NL';
-    utter.rate = state.speechRate;
-    if (dutchVoice) utter.voice = dutchVoice;
-    utter.onend = () => {
-      setTimeout(() => playNext(idx + 1), 800);
-    };
-    speechSynthesis.speak(utter);
+    document.querySelectorAll('.listen-card').forEach((c,i) => c.classList.toggle('active-word', i === idx));
+    const ac = document.querySelectorAll('.listen-card')[idx];
+    if (ac) ac.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    playOneTTS(words[idx].nl, () => { setTimeout(() => playNext(idx+1), 600); });
   }
   playNext(0);
 }
@@ -817,34 +937,22 @@ function playAllWords() {
 function playDialogue() {
   if (state.isPlaying) { stopPlayAll(); return; }
   if (!state.currentLesson) return;
-
   const allLines = [];
   state.currentLesson.dialogues.forEach(d => d.lines.forEach(l => allLines.push(l.nl)));
   state.isPlaying = true;
-
-  const playBtn = document.getElementById('play-dialogue-btn');
-  if (playBtn) { playBtn.textContent = '⏹ Stop'; playBtn.style.background = '#FFEBEE'; }
+  playAborted = false;
+  const db = document.getElementById('play-dialogue-btn');
+  if (db) { db.textContent = '⏹ Stop'; db.style.background = '#FFEBEE'; }
 
   function playNext(idx) {
-    if (!state.isPlaying || idx >= allLines.length) {
-      stopPlayAll();
-      const btn = document.getElementById('play-dialogue-btn');
-      if (btn) { btn.textContent = '▶ Play Full Dialogue'; btn.style.background = '#fff'; }
-      return;
-    }
+    if (playAborted || !state.isPlaying || idx >= allLines.length) { stopPlayAll(); return; }
     document.querySelectorAll('.dialogue-line').forEach((c,i) => {
       c.style.outline = i === idx ? '2px solid #2E86AB' : 'none';
       c.style.outlineOffset = i === idx ? '2px' : '0';
     });
-    const activeEl = document.querySelectorAll('.dialogue-line')[idx];
-    if (activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    const utter = new SpeechSynthesisUtterance(allLines[idx]);
-    utter.lang = 'nl-NL';
-    utter.rate = state.speechRate;
-    if (dutchVoice) utter.voice = dutchVoice;
-    utter.onend = () => { setTimeout(() => playNext(idx + 1), 600); };
-    speechSynthesis.speak(utter);
+    const ae = document.querySelectorAll('.dialogue-line')[idx];
+    if (ae) ae.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    playOneTTS(allLines[idx], () => { setTimeout(() => playNext(idx+1), 500); });
   }
   playNext(0);
 }
@@ -856,12 +964,25 @@ function setSpeed(rate) {
   });
 }
 
+function setTtsEngine(val) {
+  state.ttsEngine = val;
+  localStorage.setItem('dutchTTS', val);
+  // Play test so user hears the difference
+  speakDutch('Hallo, dit is uw nieuwe Nederlandse stem.');
+}
+
+function resetProgress() {
+  if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?')) {
+    state.completedLessons = {};
+    localStorage.removeItem('dutchCompleted');
+    render();
+  }
+}
+
 function setState(updates) {
   // Stop speech when navigating
   if (updates.view || updates.currentLesson !== undefined || updates.activeTab) {
-    speechSynthesis.cancel();
-    state.isPlaying = false;
-    state.activeWordIdx = -1;
+    stopAllAudio();
   }
   Object.assign(state, updates);
   render();
@@ -923,8 +1044,11 @@ function renderHome() {
 
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="font-weight:600;color:#333" class="serif">Your Progress</span>
-        <span style="color:#666;font-size:14px">${completedCount}/${totalLessons} lessons</span>
+        <span style="font-weight:600;color:#333" class="serif">Your Progress · ความก้าวหน้า</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="color:#666;font-size:14px">${completedCount}/${totalLessons} lessons</span>
+          ${completedCount > 0 ? `<button onclick="resetProgress()" style="background:none;border:1px solid #ddd;border-radius:6px;padding:4px 10px;font-size:12px;color:#999;cursor:pointer;font-family:inherit" title="Reset all progress">🔄 Reset</button>` : ''}
+        </div>
       </div>
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
     </div>
@@ -954,6 +1078,7 @@ function renderHome() {
           <div class="icon">${mod.icon}</div>
           <h3 class="serif">${escHtml(mod.title)}</h3>
           <div class="en">${escHtml(mod.titleEn)}</div>
+          ${mod.titleTh ? `<div style="font-size:12px;color:#999;margin-bottom:6px">${mod.titleTh}</div>` : ''}
           <div class="meta" style="color:${mod.color}">${done}/${mod.lessons.length} lessons · ${words} words</div>
         </button>`;
       }).join('')}
@@ -978,6 +1103,7 @@ function renderModule() {
       <div class="icon">${mod.icon}</div>
       <h2 class="serif" style="margin:8px 0 2px">${escHtml(mod.title)}</h2>
       <p style="color:#666">${escHtml(mod.titleEn)}</p>
+      ${mod.titleTh ? `<p style="color:#999;font-size:14px;margin-top:2px">${mod.titleTh}</p>` : ''}
     </div>
     <div class="lesson-list">
       ${mod.lessons.map((lesson, idx) => {
@@ -987,7 +1113,7 @@ function renderModule() {
             <div class="num" style="background:${done ? '#5E9B4E' : mod.color}">${done ? '✓' : idx+1}</div>
             <div style="text-align:left">
               <div style="font-weight:600;color:#222;font-size:16px" class="serif">${escHtml(lesson.title)}</div>
-              <div style="color:#666;font-size:13px">${escHtml(lesson.titleEn)} · ${lesson.vocab.length} words</div>
+              <div style="color:#666;font-size:13px">${escHtml(lesson.titleEn)} ${lesson.titleTh ? `· ${lesson.titleTh}` : ''} · ${lesson.vocab.length} words</div>
             </div>
           </div>
           <span style="color:#bbb;font-size:20px">→</span>
@@ -1021,7 +1147,7 @@ function renderLesson() {
     <button class="back-btn" onclick="setState({view:'module',currentLesson:null})">← Back to ${escHtml(mod.title)}</button>
     <div style="padding:16px 0 12px;border-bottom:3px solid ${mod.color}">
       <h2 class="serif" style="margin:0 0 2px">${escHtml(lesson.title)}</h2>
-      <p style="color:#666;margin:0">${escHtml(lesson.titleEn)}</p>
+      <p style="color:#666;margin:0">${escHtml(lesson.titleEn)} ${lesson.titleTh ? `· <span style="color:#999">${lesson.titleTh}</span>` : ''}</p>
     </div>
     <div class="tabs">
       ${tabs.map(t => `<button class="tab ${tab === t.key ? 'active' : ''}" style="${tab === t.key ? 'background:'+mod.color+';border-color:transparent' : ''}" onclick="setState({activeTab:'${t.key}'${t.key !== 'practice' ? ',showResults:false,exerciseAnswers:{}' : ''}})">${t.label}</button>`).join('')}
@@ -1051,24 +1177,42 @@ function renderVocab(mod, lesson) {
 }
 
 function renderListen(mod, lesson) {
-  const hasSpeech = 'speechSynthesis' in window;
-  if (!hasSpeech) {
-    return `<div class="card" style="text-align:center;padding:40px">
-      <p style="font-size:18px;margin-bottom:8px">⚠️ Speech not supported</p>
-      <p style="color:#666">Your browser doesn't support text-to-speech. Try Chrome or Edge for the best experience.</p>
-    </div>`;
-  }
+  const browserVoiceOptions = dutchBrowserVoices.map((v, i) =>
+    `<option value="browser-${i}" ${state.ttsEngine === 'browser-'+i ? 'selected' : ''}>${escHtml(getBrowserVoiceLabel(v))}</option>`
+  ).join('');
 
   return `
+    <div class="voice-selector">
+      <label class="serif">🎙️ Choose Dutch Voice</label>
+      <select id="voice-select" class="voice-select" onchange="setTtsEngine(this.value)">
+        <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>🌐 Google Dutch (Recommended) — native speaker quality</option>
+        ${dutchBrowserVoices.length > 0 ? `<optgroup label="── Browser Voices (${dutchBrowserVoices.length} found) ──">
+          <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>🖥️ Browser Auto-select (best available)</option>
+          ${browserVoiceOptions}
+        </optgroup>` : ''}
+      </select>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">🔊 Test Greeting</button>
+        <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">🔊 Test Sentence</button>
+        <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">🔊 Test Hard Sounds</button>
+        <button class="voice-test-btn" onclick="stopAllAudio()">⏹ Stop</button>
+      </div>
+      <div class="voice-info">
+        🌐 <strong>Google Dutch</strong> uses a real native Dutch speaker voice (requires internet).<br>
+        🖥️ <strong>Browser voices</strong> vary by OS — Edge has the best ones. Works offline.<br>
+        👩 = female · 👨 = male · 🇳🇱 = Netherlands · 🇧🇪 = Flemish · ☁️ = cloud voice
+      </div>
+    </div>
+
     <div class="listen-controls">
       <button id="play-all-btn" class="listen-btn" style="border-color:${mod.color};color:${mod.color};background:#fff" onclick="playAllWords()">▶ Play All</button>
       <button class="listen-btn" style="border-color:#888;color:#555;background:#fff" onclick="stopPlayAll()">⏹ Stop</button>
       <div class="speed-control">
         <span style="font-size:13px;color:#666;font-weight:600">Speed:</span>
-        ${[0.5, 0.7, 0.85, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.5 ? '🐌 Slow' : r === 0.7 ? '🐢 Learn' : r === 0.85 ? '🚶 Normal' : '🏃 Fast'}</button>`).join('')}
+        ${[0.6, 0.8, 1.0, 1.2].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐌 Slow' : r === 0.8 ? '🐢 Learn' : r === 1.0 ? '🚶 Normal' : '🏃 Fast'}</button>`).join('')}
       </div>
     </div>
-    <p style="color:#666;font-size:14px;margin:0 0 12px">Click any word to hear it, or use "Play All" to listen to the entire vocabulary list.</p>
+    <p style="color:#666;font-size:14px;margin:0 0 12px">Click any word to hear it, or use "Play All" to listen through the entire list. คลิกคำเพื่อฟังการออกเสียง</p>
     <div class="listen-list">
       ${lesson.vocab.map((v, i) => `
         <div class="listen-card" onclick="speakAndHighlight(this.querySelector('.speak-btn'),'${escHtml(v.nl).replace(/'/g,"\\'")}')">
@@ -1084,7 +1228,7 @@ function renderListen(mod, lesson) {
       `).join('')}
     </div>
     <div style="margin-top:20px">
-      <h4 class="serif" style="color:${mod.color};margin:0 0 12px">🎭 Listen to the Dialogue</h4>
+      <h4 class="serif" style="color:${mod.color};margin:0 0 12px">🎭 Listen to the Dialogue · ฟังบทสนทนา</h4>
       ${lesson.dialogues.map(d => `
         <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
