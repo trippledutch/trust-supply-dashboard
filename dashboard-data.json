@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-02-11",
+  "lastUpdated": "2026-02-14",
   "data": {   
-    "activeNodes": 4223,
-    "activeValidators": 106,
+    "activeNodes": 4002,
+    "activeValidators": 105,
     "dailyValidations": 18076,
     
     "dexLiquidity": 1322343,
@@ -14,7 +14,7 @@
     
     "nodes3m": 337,
     "nodes6m": 330,
-    "nodes12m": 3560,
+    "nodes12m": 3319,
     
     "reward3m": 0.06,
     "reward6m": 0.08,
