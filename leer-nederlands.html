@@ -2373,15 +2373,170 @@ const COURSE_DATA = {
       ]
     },
 
-    // ===== SECTION C: UITSPRAAK — Placeholder =====
+    // ===== SECTION C: UITSPRAAK — POPULATED =====
+    // Uitspraak 1: Nederlandse Klanken
     {
       id: 29, section: "uitspraak", title: "Nederlandse Klanken", titleEn: "Dutch Sounds", titleTh: "เสียงภาษาดัตช์", icon: "🔊", color: "#5E9B4E",
-      comingSoon: true, lessons: []
+      source: "Uitspraak",
+      lessons: [
+        {
+          id: "u1a", title: "Moeilijke Klanken", titleEn: "Difficult Sounds", titleTh: "เสียงที่ยาก",
+          vocab: [
+            { nl: "ui", en: "onion (sound: ow-ee)", phonetic: "OW-ee", thai: "เสียง อาว-อี", note: "🔊 Unique Dutch sound! Round lips → spread. Like saying 'ow' then 'ee' fast. Examples: huis, muis, uit" },
+            { nl: "eu", en: "sound: uh (rounded)", phonetic: "UH (rounded)", thai: "เสียง เออ (ห่อริมฝีปาก)", note: "🔊 Like French 'eu'. Lips rounded, say 'uh'. Examples: deur, neus, leuk" },
+            { nl: "oe", en: "sound: oo", phonetic: "OO", thai: "เสียง อู", note: "🔊 Like English 'oo' in 'boot'. Examples: boek, goed, moe" },
+            { nl: "uu", en: "sound: ew (rounded)", phonetic: "EW", thai: "เสียง อือ (ห่อริมฝีปาก)", note: "🔊 Say 'ee' with rounded lips. Examples: duur, muur, vuur" },
+            { nl: "g / ch", en: "sound: throat rasp", phonetic: "CH (guttural)", thai: "เสียงกระแทกจากลำคอ", note: "🔊 THE Dutch sound! Like clearing your throat. Thai speakers: like ค but from deeper. Examples: goed, acht, lachen" },
+            { nl: "sch", en: "sound: s + ch", phonetic: "S-CH", thai: "เสียง ซ+ค (จากลำคอ)", note: "🔊 's' then 'ch' combined. Examples: school, schoon, schrijven" },
+            { nl: "r", en: "sound: rolled or uvular r", phonetic: "R (varies)", thai: "เสียง ร (หลายแบบ)", note: "🔊 Dutch 'r' varies by region! Rolling, uvular, or soft. Examples: rood, water, deur" },
+            { nl: "w", en: "sound: between v and w", phonetic: "W (v-ish)", thai: "เสียง ระหว่าง ว กับ ฟ", note: "🔊 Not English 'w'! Lips touch slightly, like soft 'v'. Examples: water, weer, wij" },
+            { nl: "v", en: "sound: soft v/f", phonetic: "V (soft)", thai: "เสียง ฟ อ่อน", note: "🔊 Softer than English 'v', almost 'f' in some dialects. Examples: van, veel, vader" },
+            { nl: "ij / ei", en: "sound: ay (like 'eye')", phonetic: "AY", thai: "เสียง อาย", note: "🔊 Both sound the SAME! Like 'ay' or 'eye'. Examples: wijn/fijn, trein/klein" },
+            { nl: "aa", en: "sound: long ah", phonetic: "AH (long)", thai: "เสียง อา ยาว", note: "🔊 Long 'ah' like 'father'. Examples: naam, straat, kaas" },
+            { nl: "ee", en: "sound: long ay", phonetic: "AY (long)", thai: "เสียง เอ ยาว", note: "🔊 Long 'ay' like 'say'. Examples: twee, zee, been" },
+            { nl: "oo", en: "sound: long oh", phonetic: "OH (long)", thai: "เสียง โอ ยาว", note: "🔊 Long 'oh' like 'go'. Examples: rood, groot, brood" },
+            { nl: "ie", en: "sound: ee", phonetic: "EE", thai: "เสียง อี", note: "🔊 Like English 'ee' in 'see'. Examples: drie, ziek, fiets" },
+          ],
+          dialogues: [
+            {
+              situation: "Pronunciation practice — ฝึกออกเสียง",
+              lines: [
+                { speaker: "Teacher", nl: "Zeg maar na: huis, muis, uit.", en: "Repeat after me: huis, muis, uit." },
+                { speaker: "You", nl: "Huis... muis... uit...", en: "Huis... muis... uit..." },
+                { speaker: "Teacher", nl: "Goed! Nu de 'g': goed, gracht, geel.", en: "Good! Now the 'g': goed, gracht, geel." },
+                { speaker: "You", nl: "Goed... gracht... geel...", en: "Goed... gracht... geel..." },
+                { speaker: "Teacher", nl: "De 'g' komt van diep in je keel. Nog een keer!", en: "The 'g' comes from deep in your throat. One more time!" },
+                { speaker: "You", nl: "Gggoed! Is dat beter?", en: "Gggood! Is that better?" },
+                { speaker: "Teacher", nl: "Ja! Nu: schrijven, school, schoon.", en: "Yes! Now: schrijven, school, schoon." },
+                { speaker: "You", nl: "Schrijven, school, schoon. De 'sch' is moeilijk!", en: "Schrijven, school, schoon. The 'sch' is hard!" },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🔊 Pronunciation Guide: Key Sounds",
+            explanation: "<strong>Hardest sounds for Thai speakers:</strong><br>• <strong>g/ch</strong> = throat rasp (like clearing throat) — ไม่มีในภาษาไทย!<br>• <strong>ui</strong> = round lips then spread (ow-ee) — ไม่มีในภาษาไทย!<br>• <strong>uu</strong> = say 'ee' with rounded lips — คล้าย อือ<br>• <strong>r</strong> = rolled or uvular, varies by region<br>• <strong>w</strong> = between Thai ว and ฟ<br><br><strong>Easier sounds:</strong><br>• <strong>oe</strong> = อู (like Thai!)<br>• <strong>ie</strong> = อี (like Thai!)<br>• <strong>aa</strong> = อา ยาว<br>• <strong>ij/ei</strong> = อาย (both same sound!)<br><br>💡 <strong>Tip:</strong> Press 🔊 on any word to hear it! ลองกดฟังเสียงทุกคำ!",
+            examples: [
+              { nl: "goed — gracht — geel", en: "🔊 Practice the 'g' sound (throat)" },
+              { nl: "huis — muis — uit", en: "🔊 Practice the 'ui' sound (ow-ee)" },
+              { nl: "deur — neus — leuk", en: "🔊 Practice the 'eu' sound (rounded uh)" },
+              { nl: "school — schrijven — schoon", en: "🔊 Practice the 'sch' sound (s + throat)" },
+            ]
+          },
+          exercises: [
+            { question: "'ui' sounds like:", options: ["ow-ee (unique Dutch!)", "oo-ee", "you", "oy"], th: "เสียง ui", answer: "ow-ee (unique Dutch!)" },
+            { question: "The Dutch 'g' comes from:", options: ["the throat", "the lips", "the nose", "the tongue tip"], th: "เสียง g มาจาก", answer: "the throat" },
+            { question: "'ij' and 'ei' sound:", options: ["the same (ay)", "different", "like 'ee'", "like 'oy'"], th: "ij และ ei ออกเสียง", answer: "the same (ay)" },
+            { question: "Dutch 'w' is:", options: ["between v and w", "same as English w", "silent", "like Thai ว exactly"], th: "เสียง w คือ", answer: "between v and w" },
+            { question: "Which sound is easy for Thai speakers?", options: ["oe (= อู)", "ui", "g/ch", "sch"], th: "เสียงไหนง่ายสำหรับคนไทย", answer: "oe (= อู)" },
+            { question: "'sch' is a combination of:", options: ["s + ch (throat)", "s + h", "sh (like English)", "s + k"], th: "sch คือเสียงรวมของ", answer: "s + ch (throat)" },
+          ]
+        }
+      ]
     },
+    // Uitspraak 2: Klinkers & Medeklinkers
     {
       id: 30, section: "uitspraak", title: "Klinkers & Medeklinkers", titleEn: "Vowels & Consonants", titleTh: "สระและพยัญชนะ", icon: "🔤", color: "#5E9B4E",
-      comingSoon: true, lessons: []
+      source: "Uitspraak",
+      lessons: [
+        {
+          id: "u2a", title: "Korte & Lange Klinkers", titleEn: "Short & Long Vowels", titleTh: "สระสั้นและสระยาว",
+          vocab: [
+            { nl: "man", en: "man (short 'a')", phonetic: "MAN", thai: "ผู้ชาย — สระสั้น อะ", note: "🔊 Short a: like 'ah' but short. man, kat, kan, bad" },
+            { nl: "maan", en: "moon (long 'aa')", phonetic: "MAHN", thai: "พระจันทร์ — สระยาว อา", note: "🔊 Long aa: open 'ah'. maan, naam, straat" },
+            { nl: "bed", en: "bed (short 'e')", phonetic: "BET", thai: "เตียง — สระสั้น เอะ", note: "🔊 Short e: like 'eh'. bed, vet, leg, met" },
+            { nl: "been", en: "leg (long 'ee')", phonetic: "BAYN", thai: "ขา — สระยาว เอ", note: "🔊 Long ee: like 'ay'. been, twee, steen" },
+            { nl: "bos", en: "forest (short 'o')", phonetic: "BOS", thai: "ป่า — สระสั้น โอะ", note: "🔊 Short o: like 'o' in 'hot'. bos, pot, rok, op" },
+            { nl: "boon", en: "bean (long 'oo')", phonetic: "BOHN", thai: "ถั่ว — สระยาว โอ", note: "🔊 Long oo: like 'oh'. boon, rood, groot" },
+            { nl: "bus", en: "bus (short 'u')", phonetic: "BUS", thai: "รถเมล์ — สระสั้น เออะ", note: "🔊 Short u: like 'uh'. bus, mus, kus,put" },
+            { nl: "buur", en: "neighbor (long 'uu')", phonetic: "BEWR", thai: "เพื่อนบ้าน — สระยาว อือ", note: "🔊 Long uu: 'ee' with rounded lips. buur, duur, muur" },
+            { nl: "pit", en: "pit (short 'i')", phonetic: "PIT", thai: "เมล็ด — สระสั้น อิ", note: "🔊 Short i: like 'ih'. pit, wit, ik, dit" },
+            { nl: "piet", en: "Pete (long 'ie')", phonetic: "PEET", thai: "ชื่อคน — สระยาว อี", note: "🔊 Long ie: like 'ee'. Piet, drie, ziek" },
+          ],
+          dialogues: [
+            {
+              situation: "Short vs long vowels — สระสั้นกับสระยาว",
+              lines: [
+                { speaker: "Teacher", nl: "Luister goed: 'man' en 'maan'. Hoor je het verschil?", en: "Listen carefully: 'man' and 'maan'. Do you hear the difference?" },
+                { speaker: "You", nl: "Ja! 'Man' is kort en 'maan' is lang.", en: "Yes! 'Man' is short and 'maan' is long." },
+                { speaker: "Teacher", nl: "Precies! Nu: 'bos' en 'boon'.", en: "Exactly! Now: 'bos' and 'boon'." },
+                { speaker: "You", nl: "Bos — kort. Boon — lang.", en: "Bos — short. Boon — long." },
+                { speaker: "Teacher", nl: "Heel goed! Let op: de lengte verandert de betekenis!", en: "Very good! Pay attention: the length changes the meaning!" },
+                { speaker: "You", nl: "Dus 'man' is niet hetzelfde als 'maan'?", en: "So 'man' is not the same as 'maan'?" },
+                { speaker: "Teacher", nl: "Nee! 'Man' is een persoon, 'maan' is aan de hemel!", en: "No! 'Man' is a person, 'maan' is in the sky!" },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🔤 Short vs Long Vowels — The Key Rule",
+            explanation: "<strong>THE most important Dutch spelling rule:</strong><br><br>In a <strong>closed syllable</strong> (ends with consonant): vowel is SHORT → written ONCE<br>• m<strong>a</strong>n, b<strong>e</strong>d, b<strong>o</strong>s, b<strong>u</strong>s, p<strong>i</strong>t<br><br>In an <strong>open syllable</strong> (ends with vowel): vowel is LONG → written ONCE<br>• m<strong>a</strong>-nen (men), b<strong>o</strong>-nen (beans), b<strong>u</strong>-ren (neighbors)<br><br>To keep long vowel in closed syllable: write DOUBLE<br>• m<strong>aa</strong>n, b<strong>oo</strong>n, b<strong>uu</strong>r, b<strong>ee</strong>n<br><br>🇹🇭 กฎสำคัญ: พยางค์ปิด (ลงท้ายพยัญชนะ) = สระสั้น, พยางค์เปิด = สระยาว. ต้องเขียนสระซ้ำเพื่อให้เป็นสระยาวในพยางค์ปิด",
+            examples: [
+              { nl: "man (short) → manen (long, open syllable)", en: "man → men (a becomes long in open syllable)" },
+              { nl: "maan (long, closed) → manen (long, open)", en: "moon → moons (aa becomes a in open syllable)" },
+              { nl: "bos (short) → bossen (stays short, doubled s)", en: "forest → forests (consonant doubles to keep vowel short)" },
+              { nl: "boon (long) → bonen (long, open syllable)", en: "bean → beans (oo becomes o in open syllable)" },
+            ]
+          },
+          exercises: [
+            { question: "'Man' has a ___ vowel:", options: ["short a", "long aa", "long a", "silent a"], th: "สระแบบไหน", answer: "short a" },
+            { question: "'Maan' has a ___ vowel:", options: ["long aa", "short a", "silent a", "double a sound"], th: "สระแบบไหน", answer: "long aa" },
+            { question: "In open syllables, vowels are:", options: ["long (written once)", "short (written once)", "always doubled", "silent"], th: "ในพยางค์เปิด สระเป็น", answer: "long (written once)" },
+            { question: "'Boon' → 'bonen': why does 'oo' become 'o'?", options: ["open syllable makes it long", "it becomes short", "spelling mistake", "dialect difference"], th: "ทำไม oo เป็น o", answer: "open syllable makes it long" },
+            { question: "Which pair shows short vs long?", options: ["man / maan", "huis / muis", "goed / goed", "en / en"], th: "คู่ไหนเป็นสั้น/ยาว", answer: "man / maan" },
+            { question: "To keep a vowel SHORT in plurals, you:", options: ["double the consonant (bos→bossen)", "double the vowel", "add -en", "change the vowel"], th: "ให้สระสั้นอยู่ ต้อง", answer: "double the consonant (bos→bossen)" },
+          ]
+        },
+        {
+          id: "u2b", title: "Medeklinkers & Combinaties", titleEn: "Consonants & Combos", titleTh: "พยัญชนะและเสียงรวม",
+          vocab: [
+            { nl: "d → t", en: "d becomes t at end", phonetic: "T (at end)", thai: "d กลายเป็น t ท้ายคำ", note: "🔊 'hond' sounds like 'hont'. 'goed' sounds like 'goet'. Final d = always t sound!" },
+            { nl: "b → p", en: "b becomes p at end", phonetic: "P (at end)", thai: "b กลายเป็น p ท้ายคำ", note: "🔊 'heb' sounds like 'hep'. 'web' sounds like 'wep'" },
+            { nl: "nk", en: "nk sound (like English)", phonetic: "NK", thai: "เสียง งค", note: "🔊 Like English 'nk' in 'think'. Examples: dank, bank, denk" },
+            { nl: "ng", en: "ng sound (like English)", phonetic: "NG", thai: "เสียง ง", note: "🔊 Like English 'ng' in 'sing'. Examples: lang, jong, zingen" },
+            { nl: "tion", en: "-tion ending (tsee)", phonetic: "TSEE", thai: "เสียง ซี", note: "🔊 NOT like English 'shun'! Dutch: 'informatie' = in-for-MAH-tsee" },
+            { nl: "th", en: "th sound (just t!)", phonetic: "T", thai: "เสียง ท (ไม่ใช่ TH อังกฤษ)", note: "🔊 Dutch 'th' = just 't'. 'thee' = TAY, 'thuis' = TOYS" },
+            { nl: "sch-", en: "sch at start (s+ch)", phonetic: "S-CH", thai: "ซ+คจากลำคอ (ต้นคำ)", note: "🔊 At start of word: school, schrijven, schoon" },
+            { nl: "-isch", en: "-isch ending (soft -ies)", phonetic: "-EES", thai: "เสียง -อีซ (ท้ายคำ)", note: "🔊 At end: '-isch' sounds like '-ies'. 'praktisch' = prak-TEES" },
+            { nl: "tj", en: "tj sound (ch like cheese)", phonetic: "CH", thai: "เสียง ช", note: "🔊 Like English 'ch'. 'koekje' = KOOK-chuh, 'meisje' = MAY-shuh" },
+            { nl: "kn", en: "kn (both pronounced!)", phonetic: "KN", thai: "ออกเสียงทั้ง ค และ น", note: "🔊 Unlike English, pronounce BOTH! 'knie' = kNEE, 'knap' = kNAP" },
+            { nl: "-en", en: "-en ending (reduced)", phonetic: "-un", thai: "เสียง -เอิน (ลดเสียง)", note: "🔊 The 'e' in -en is almost silent. 'lopen' = LOH-pun, 'eten' = AY-tun" },
+            { nl: "z → s", en: "z weakens in some regions", phonetic: "Z/S", thai: "z อ่อนลงในบางภาค", note: "🔊 Some Dutch say 'z' like soft 's'. Both accepted!" },
+          ],
+          dialogues: [
+            {
+              situation: "Consonant traps — กับดักพยัญชนะ",
+              lines: [
+                { speaker: "Teacher", nl: "Let op! 'Hond' schrijf je met een d, maar je zegt een t.", en: "Pay attention! 'Hond' is written with d, but you say t." },
+                { speaker: "You", nl: "Dus: h-o-n-d maar ik zeg 'hont'?", en: "So: h-o-n-d but I say 'hont'?" },
+                { speaker: "Teacher", nl: "Precies! Maar 'honden' — daar hoor je de d weer!", en: "Exactly! But 'honden' — there you hear the d again!" },
+                { speaker: "You", nl: "Ah! Omdat de d niet meer aan het einde staat!", en: "Ah! Because the d is no longer at the end!" },
+                { speaker: "Teacher", nl: "Heel goed! En 'thee' — hoe zeg je 'th'?", en: "Very good! And 'thee' — how do you say 'th'?" },
+                { speaker: "You", nl: "Gewoon als een t! Niet zoals in het Engels.", en: "Just as a t! Not like in English." },
+                { speaker: "Teacher", nl: "Perfect! Je uitspraak wordt steeds beter!", en: "Perfect! Your pronunciation is getting better and better!" },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🔤 Final Devoicing & Spelling Rules",
+            explanation: "<strong>Final devoicing</strong> (Eindklankverscherping):<br>At the end of a word: <strong>d → t</strong>, <strong>b → p</strong>, <strong>g → ch</strong><br>• 'hon<strong>d</strong>' sounds like 'hont' BUT plural 'hon<strong>d</strong>en' → d returns<br>• 'he<strong>b</strong>' sounds like 'hep' BUT 'he<strong>bb</strong>en' → b returns<br><br><strong>Dutch 'th'</strong> = just a <strong>t</strong> sound (never like English 'th'!)<br><strong>Dutch 'kn'</strong> = pronounce BOTH letters (unlike English 'knife')<br><strong>Dutch '-en'</strong> ending = the 'e' is barely pronounced (เสียง -เอิน เกือบไม่ออก)<br><br>🇹🇭 ท้ายคำ: d ออกเสียง t, b ออกเสียง p. แต่พอเติมพหูพจน์ เสียงเดิมกลับมา!",
+            examples: [
+              { nl: "hond → honden (d returns in plural)", en: "dog → dogs (d sound comes back)" },
+              { nl: "heb → hebben (b returns)", en: "have → to have (b sound comes back)" },
+              { nl: "thee = TAY (th = just t!)", en: "tea (not 'thee' with English th)" },
+              { nl: "knie = kNEE (pronounce the k!)", en: "knee (unlike English, say the k)" },
+            ]
+          },
+          exercises: [
+            { question: "'Hond' is pronounced as:", options: ["hont (d→t at end)", "hond (d stays)", "hon (d is silent)", "hoont"], th: "ออกเสียงอย่างไร", answer: "hont (d→t at end)" },
+            { question: "In 'honden', the d sound:", options: ["comes back (no longer at end)", "stays as t", "disappears", "becomes s"], th: "เสียง d ใน honden", answer: "comes back (no longer at end)" },
+            { question: "Dutch 'th' sounds like:", options: ["just t", "English th", "s", "f"], th: "เสียง th ในภาษาดัตช์", answer: "just t" },
+            { question: "In 'knie', you pronounce:", options: ["both k and n", "only n (like English)", "only k", "neither"], th: "ใน knie ออกเสียง", answer: "both k and n" },
+            { question: "The '-en' ending sounds like:", options: ["-un (reduced e)", "-en (full sound)", "-een (long)", "-enne"], th: "เสียง -en ท้ายคำ", answer: "-un (reduced e)" },
+            { question: "'Praktisch' ends with the sound:", options: ["-tees (not -tish)", "-tish (like English)", "-tick", "-tik"], th: "เสียงท้ายของ praktisch", answer: "-tees (not -tish)" },
+          ]
+        }
+      ]
     }
+
   ]
 };
 
@@ -2804,7 +2959,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.4 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.5 · February 2026</p>
     </div>
 
     <div class="card">
