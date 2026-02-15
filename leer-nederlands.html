@@ -312,413 +312,641 @@
 // COURSE DATA
 // ============================================================
 const COURSE_DATA = {
-  modules: [
+  sections: [
     {
-      id: 1, title: "Jezelf Voorstellen", titleEn: "Introducing Yourself", titleTh: "แนะนำตัวเอง", icon: "👋", color: "#E85D26",
+      id: "taal", title: "Taal · ภาษา", titleEn: "Language A1", icon: "🇳🇱", color: "#21468B",
+      description: "Dutch language lessons based on the official Naar Nederland curriculum (Les 21-65)",
+      descriptionTh: "บทเรียนภาษาดัตช์จากหลักสูตร Naar Nederland (บทที่ 21-65)"
+    },
+    {
+      id: "kns", title: "KNS · สังคม", titleEn: "Dutch Society", icon: "🏛️", color: "#E85D26",
+      description: "Kennis van de Nederlandse Samenleving — 100 questions about Dutch society",
+      descriptionTh: "ความรู้เกี่ยวกับสังคมดัตช์ — 100 คำถามเกี่ยวกับสังคมดัตช์"
+    },
+    {
+      id: "uitspraak", title: "Uitspraak · การออกเสียง", titleEn: "Pronunciation", icon: "🗣️", color: "#5E9B4E",
+      description: "Dutch sounds and pronunciation for Thai speakers (based on Les 1-4 & 20)",
+      descriptionTh: "เสียงและการออกเสียงภาษาดัตช์สำหรับคนไทย (จากบทที่ 1-4 และ 20)"
+    }
+  ],
+  modules: [
+    // ===== SECTION A: TAAL — Theme 1: Kennismaken (Les 21-22) =====
+    {
+      id: 1, section: "taal", title: "Kennismaken", titleEn: "Getting Acquainted", titleTh: "การทำความรู้จัก", icon: "👋", color: "#E85D26",
+      source: "Les 21-22",
       lessons: [
         {
-          id: "1a", title: "Begroetingen", titleEn: "Greetings", titleTh: "การทักทาย",
+          id: "t1a", title: "Jezelf Voorstellen", titleEn: "Introducing Yourself", titleTh: "แนะนำตัวเอง",
           vocab: [
-            { nl: "Hallo", en: "Hello", phonetic: "hah-LOH", thai: "สวัสดี", note: "Common greeting, any time of day" },
-            { nl: "Goedemorgen", en: "Good morning", phonetic: "KHOO-duh-MOR-khun", thai: "สวัสดีตอนเช้า", note: "Used until about noon" },
-            { nl: "Goedemiddag", en: "Good afternoon", phonetic: "KHOO-duh-MID-dakh", thai: "สวัสดีตอนบ่าย", note: "Used from noon to about 6pm" },
-            { nl: "Goedenavond", en: "Good evening", phonetic: "KHOO-dun-AH-vont", thai: "สวัสดีตอนเย็น", note: "Used from about 6pm" },
-            { nl: "Dag", en: "Goodbye / Hi", phonetic: "dakh", thai: "ลาก่อน / สวัสดี", note: "Informal, used for both hello and goodbye" },
-            { nl: "Tot ziens", en: "Goodbye", phonetic: "tot ZEENS", thai: "ลาก่อน", note: "More formal goodbye" },
-            { nl: "Doei", en: "Bye (informal)", phonetic: "DOO-ee", thai: "บ๊ายบาย", note: "Very casual, like 'bye-bye'" },
-            { nl: "Hoe gaat het?", en: "How are you?", phonetic: "hoo KHAHT ut", thai: "เป็นอย่างไรบ้าง?", note: "Standard 'how are you'" },
-            { nl: "Goed, dank je", en: "Good, thank you", phonetic: "khoot, DAHNK yuh", thai: "ดี ขอบคุณ", note: "Standard polite reply" },
-            { nl: "Alsjeblieft", en: "Please (informal)", phonetic: "AHL-shuh-BLEEFT", thai: "ได้โปรด", note: "Also means 'here you go'" },
-            { nl: "Dank je wel", en: "Thank you", phonetic: "DAHNK yuh vel", thai: "ขอบคุณ", note: "Informal thank you" },
-            { nl: "Dank u wel", en: "Thank you (formal)", phonetic: "DAHNK oo vel", thai: "ขอบคุณครับ/ค่ะ", note: "Formal, use with strangers/officials" },
+            { nl: "wat", en: "what", phonetic: "vat", thai: "อะไร" },
+            { nl: "is", en: "is", phonetic: "is", thai: "คือ" },
+            { nl: "uw", en: "your (formal)", phonetic: "uw", thai: "ของท่าน, ของคุณ (ทางการ)" },
+            { nl: "naam", en: "name", phonetic: "nahm", thai: "ชื่อและนามสกุล", note: "de naam" },
+            { nl: "dag", en: "hello / goodbye", phonetic: "dakh", thai: "สวัสดี", note: "Informal, used for both" },
+            { nl: "mevrouw", en: "Mrs / madam", phonetic: "muh-VROW", thai: "คุณ(ผู้หญิง)", note: "de mevrouw" },
+            { nl: "goedemiddag", en: "good afternoon", phonetic: "KHOO-duh-MID-dakh", thai: "สวัสดี (ตอนบ่าย)" },
+            { nl: "kan", en: "can", phonetic: "kan", thai: "ได้", note: "from: kunnen" },
+            { nl: "ik", en: "I", phonetic: "ik", thai: "ผม, ฉัน" },
+            { nl: "u", en: "you (formal)", phonetic: "uw", thai: "ท่าน, คุณ (ทางการ)" },
+            { nl: "helpen", en: "to help", phonetic: "HEL-pun", thai: "ช่วยเหลือ" },
+            { nl: "wil", en: "want", phonetic: "vil", thai: "ต้องการ", note: "from: willen" },
+            { nl: "mij", en: "me", phonetic: "mey", thai: "ผมเอง, ฉันเอง" },
+            { nl: "graag", en: "gladly / please", phonetic: "khrahkh", thai: "อยากจะ" },
+            { nl: "inschrijven", en: "to register", phonetic: "IN-skhrey-vun", thai: "ลงทะเบียน" },
+            { nl: "goed", en: "good", phonetic: "khoot", thai: "ได้" },
+            { nl: "mijn", en: "my", phonetic: "meyn", thai: "ของผม, ของฉัน" },
+            { nl: "waar", en: "where", phonetic: "vahr", thai: "ที่ไหน" },
+            { nl: "woont", en: "live (conjugated)", phonetic: "vohnt", thai: "อยู่", note: "from: wonen" },
+            { nl: "in", en: "in", phonetic: "in", thai: "ใน" },
+            { nl: "en", en: "and", phonetic: "en", thai: "และ" },
+            { nl: "adres", en: "address", phonetic: "ah-DRES", thai: "ที่อยู่", note: "het adres" },
+            { nl: "postcode", en: "postal code", phonetic: "POST-koh-duh", thai: "รหัสไปรษณีย์", note: "de postcode" },
+            { nl: "telefoon", en: "telephone", phonetic: "tay-luh-FOHN", thai: "โทรศัพท์", note: "de telefoon" },
+            { nl: "nummer", en: "number", phonetic: "NUM-mur", thai: "หมายเลข", note: "het nummer" },
+            { nl: "mobiel", en: "mobile phone", phonetic: "moh-BEEL", thai: "มือถือ" },
+            { nl: "makkelijk", en: "easy", phonetic: "MAK-kuh-luk", thai: "ง่าย" },
+            { nl: "moeilijk", en: "difficult", phonetic: "MOO-ee-luk", thai: "ยาก" },
           ],
           dialogues: [
-            { situation: "Meeting someone for the first time", lines: [
-              { speaker: "A", nl: "Hallo! Hoe gaat het?", en: "Hello! How are you?" },
-              { speaker: "B", nl: "Goed, dank je. En met jou?", en: "Good, thank you. And with you?" },
-              { speaker: "A", nl: "Ook goed, dank je!", en: "Also good, thank you!" },
+            { situation: "At the registration desk (Les 21)", lines: [
+              { speaker: "A", nl: "Goedemiddag mevrouw, kan ik u helpen?", en: "Good afternoon madam, can I help you?" },
+              { speaker: "B", nl: "Ja, ik wil mij graag inschrijven.", en: "Yes, I would like to register." },
+              { speaker: "A", nl: "Goed. Wat is uw naam?", en: "Good. What is your name?" },
+              { speaker: "B", nl: "Mijn naam is Siriporn Jansen.", en: "My name is Siriporn Jansen." },
+              { speaker: "A", nl: "En waar woont u?", en: "And where do you live?" },
+              { speaker: "B", nl: "Ik woon in Rotterdam.", en: "I live in Rotterdam." },
             ]}
           ],
           grammar: {
             title: "Formal vs Informal 'You'",
-            explanation: "Dutch has two forms of 'you': <strong>jij/je</strong> (informal, for friends/family) and <strong>u</strong> (formal, for strangers/officials). For the Inburgering exam, you'll mostly use 'u' in formal situations. Think of it like Thai's คุณ vs เธอ.",
+            explanation: "Dutch has two forms of 'you': <strong>jij/je</strong> (informal, for friends/family) and <strong>u</strong> (formal, for strangers/officials). In Les 21, everyone uses <em>u</em> because it's a registration desk. Think of it like Thai's คุณ — always use <em>u</em> when you're not sure.",
             examples: [
-              { nl: "Hoe gaat het met jou?", en: "How are you? (informal)" },
-              { nl: "Hoe gaat het met u?", en: "How are you? (formal)" },
+              { nl: "Wat is uw naam?", en: "What is your name? (formal)" },
+              { nl: "Waar woont u?", en: "Where do you live? (formal)" },
+              { nl: "Kan ik u helpen?", en: "Can I help you? (formal)" },
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'Good morning' in Dutch?", answer: "Goedemorgen", options: ["Goedemorgen", "Goedemiddag", "Goedenavond", "Hallo"] },
-            { type: "mc", question: "What does 'Tot ziens' mean?", answer: "Goodbye", options: ["Hello", "Goodbye", "Thank you", "Please"] },
-            { type: "mc", question: "Fill in: Goed, ___ je wel", answer: "dank", options: ["dank", "dag", "hoe", "tot"] },
-            { type: "mc", question: "How do you say 'Thank you' formally?", answer: "Dank u wel", options: ["Dank je wel", "Dank u wel", "Alsjeblieft", "Tot ziens"] },
-            { type: "mc", question: "You meet your neighbor at 3pm. What do you say?", answer: "Goedemiddag", options: ["Goedemorgen", "Goedemiddag", "Goedenavond", "Doei"] },
+            { type: "mc", question: "How do you say 'I would like to register'?", answer: "Ik wil mij graag inschrijven", options: ["Ik wil mij graag inschrijven", "Ik woon in Rotterdam", "Wat is uw naam?", "Kan ik u helpen?"] },
+            { type: "mc", question: "What does 'waar' mean?", answer: "where", options: ["what", "where", "who", "when"] },
+            { type: "mc", question: "Fill in: Wat is ___ naam?", answer: "uw", options: ["uw", "mijn", "je", "de"] },
+            { type: "mc", question: "'Makkelijk' is the opposite of...?", answer: "moeilijk", options: ["goed", "graag", "moeilijk", "waar"] },
+            { type: "mc", question: "What is 'de postcode' in English?", answer: "postal code", options: ["post office", "postal code", "postcard", "phone number"] },
           ]
         },
         {
-          id: "1b", title: "Wie ben jij?", titleEn: "Who are you?", titleTh: "คุณเป็นใคร?",
+          id: "t1b", title: "Nummers & Vragen", titleEn: "Numbers & Questions", titleTh: "ตัวเลขและคำถาม",
           vocab: [
-            { nl: "Ik ben...", en: "I am...", phonetic: "ik ben", thai: "ฉันเป็น...", note: "Most basic self-introduction" },
-            { nl: "Mijn naam is...", en: "My name is...", phonetic: "meyn NAHM is", thai: "ชื่อของฉันคือ...", note: "More formal way to give your name" },
-            { nl: "Ik heet...", en: "I'm called...", phonetic: "ik HAYT", thai: "ฉันชื่อ...", note: "Most common way to give your name" },
-            { nl: "Ik kom uit...", en: "I come from...", phonetic: "ik KOM owt", thai: "ฉันมาจาก...", note: "To say where you're from" },
-            { nl: "Thailand", en: "Thailand", phonetic: "TY-lahnt", thai: "ประเทศไทย", note: "Note: pronounced differently than English" },
-            { nl: "Ik woon in...", en: "I live in...", phonetic: "ik VOHN in", thai: "ฉันอาศัยอยู่ที่...", note: "To say where you live" },
-            { nl: "Nederland", en: "The Netherlands", phonetic: "NAY-dur-lahnt", thai: "ประเทศเนเธอร์แลนด์", note: "The country name" },
-            { nl: "Ik ben getrouwd", en: "I am married", phonetic: "ik ben khuh-TROWT", thai: "ฉันแต่งงานแล้ว", note: "Important for Inburgering!" },
-            { nl: "Mijn man", en: "My husband", phonetic: "meyn MAHN", thai: "สามีของฉัน", note: "" },
-            { nl: "Mijn vrouw", en: "My wife", phonetic: "meyn VROW", thai: "ภรรยาของฉัน", note: "" },
-            { nl: "Ik spreek...", en: "I speak...", phonetic: "ik SPRAYK", thai: "ฉันพูด...", note: "" },
-            { nl: "Een beetje Nederlands", en: "A little Dutch", phonetic: "un BAY-chuh NAY-dur-lahnts", thai: "ภาษาดัตช์นิดหน่อย", note: "Very useful phrase!" },
+            { nl: "nul", en: "zero", phonetic: "nul", thai: "ศูนย์" },
+            { nl: "één", en: "one", phonetic: "ayn", thai: "หนึ่ง" },
+            { nl: "twee", en: "two", phonetic: "tvay", thai: "สอง" },
+            { nl: "drie", en: "three", phonetic: "dree", thai: "สาม" },
+            { nl: "vier", en: "four", phonetic: "veer", thai: "สี่" },
+            { nl: "vijf", en: "five", phonetic: "veyf", thai: "ห้า" },
+            { nl: "zes", en: "six", phonetic: "zes", thai: "หก" },
+            { nl: "zeven", en: "seven", phonetic: "ZAY-vun", thai: "เจ็ด" },
+            { nl: "acht", en: "eight", phonetic: "akht", thai: "แปด" },
+            { nl: "negen", en: "nine", phonetic: "NAY-khun", thai: "เก้า" },
+            { nl: "tien", en: "ten", phonetic: "teen", thai: "สิบ" },
+            { nl: "hoe", en: "how", phonetic: "hoo", thai: "อะไร" },
+            { nl: "heet", en: "am called", phonetic: "hayt", thai: "ชื่อ", note: "from: heten" },
+            { nl: "ben", en: "am", phonetic: "ben", thai: "อยู่", note: "from: zijn" },
+            { nl: "vragen", en: "questions", phonetic: "VRAH-khun", thai: "ถาม", note: "de vragen" },
+            { nl: "kennen", en: "to know (someone)", phonetic: "KEN-nun", thai: "รู้จัก" },
+            { nl: "wij", en: "we", phonetic: "vey", thai: "พวกเรา" },
+            { nl: "elkaar", en: "each other", phonetic: "el-KAHR", thai: "กัน" },
+            { nl: "niet", en: "not", phonetic: "neet", thai: "ไม่" },
+            { nl: "jij", en: "you (informal)", phonetic: "yey", thai: "คุณ (ไม่ทางการ), เธอ" },
+            { nl: "je", en: "you (informal short)", phonetic: "yuh", thai: "คุณ (ไม่ทางการ), เธอ" },
+            { nl: "nee", en: "no", phonetic: "nay", thai: "ไม่ใช่" },
+            { nl: "ja", en: "yes", phonetic: "yah", thai: "ใช่" },
+            { nl: "vriend", en: "friend", phonetic: "vreent", thai: "เพื่อน", note: "de vriend" },
+            { nl: "hij", en: "he", phonetic: "hey", thai: "เขา(ผู้ชาย)" },
+            { nl: "alleen", en: "alone", phonetic: "ah-LAYN", thai: "คนเดียว" },
+            { nl: "vaak", en: "often", phonetic: "vahk", thai: "บ่อย" },
+            { nl: "fietsen", en: "to cycle", phonetic: "FEET-sun", thai: "ขี่จักรยาน", note: "Very Dutch! 🚲" },
+            { nl: "met", en: "with", phonetic: "met", thai: "กับ" },
           ],
           dialogues: [
-            { situation: "At the Gemeente (municipality office)", lines: [
-              { speaker: "Official", nl: "Goedemorgen. Hoe heet u?", en: "Good morning. What is your name?" },
-              { speaker: "You", nl: "Goedemorgen. Ik heet... Ik kom uit Thailand.", en: "Good morning. My name is... I come from Thailand." },
-              { speaker: "Official", nl: "Woont u in Nederland?", en: "Do you live in the Netherlands?" },
-              { speaker: "You", nl: "Ja, ik woon in Amsterdam. Ik ben getrouwd.", en: "Yes, I live in Amsterdam. I am married." },
+            { situation: "Meeting a neighbor on the street (Les 22)", lines: [
+              { speaker: "A", nl: "Dag! Kennen wij elkaar niet?", en: "Hi! Don't we know each other?" },
+              { speaker: "B", nl: "Ik geloof het niet. Ik ben Siriporn.", en: "I don't think so. I'm Siriporn." },
+              { speaker: "A", nl: "Hoe heet jij?", en: "What's your name?" },
+              { speaker: "B", nl: "Ik heet Siriporn. En jij?", en: "My name is Siriporn. And you?" },
+              { speaker: "A", nl: "Ik ben Maria. Woon je hier in de straat?", en: "I'm Maria. Do you live here on the street?" },
+              { speaker: "B", nl: "Ja, ik woon daar.", en: "Yes, I live there." },
             ]}
           ],
           grammar: {
-            title: "Word Order: Subject-Verb",
-            explanation: "Dutch basic word order is like English: Subject + Verb + Rest. 'Ik woon in Amsterdam' = 'I live in Amsterdam'. This is simpler than Thai word order in many cases!",
+            title: "Numbers 0-10 and Basic Questions",
+            explanation: "Dutch numbers 0-10 are essential for phone numbers, addresses, and time. Notice: <strong>hoe heet je?</strong> (what's your name?), <strong>waar woon je?</strong> (where do you live?). Questions often start with a question word + verb + subject.",
             examples: [
-              { nl: "Ik ben student.", en: "I am a student." },
-              { nl: "Ik woon in Den Haag.", en: "I live in The Hague." },
-              { nl: "Ik kom uit Bangkok.", en: "I come from Bangkok." },
+              { nl: "Hoe heet je?", en: "What's your name?" },
+              { nl: "Waar woon je?", en: "Where do you live?" },
+              { nl: "Ken je Maria?", en: "Do you know Maria?" },
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'I come from Thailand'?", answer: "Ik kom uit Thailand", options: ["Ik ben Thailand", "Ik kom uit Thailand", "Ik woon in Thailand", "Ik heet Thailand"] },
-            { type: "mc", question: "What does 'Ik ben getrouwd' mean?", answer: "I am married", options: ["I am happy", "I am married", "I am Dutch", "I am here"] },
-            { type: "mc", question: "Fill in: Ik ___ in Amsterdam", answer: "woon", options: ["woon", "heet", "kom", "ben"] },
-            { type: "mc", question: "How do you say 'A little Dutch'?", answer: "Een beetje Nederlands", options: ["Veel Nederlands", "Een beetje Nederlands", "Goed Nederlands", "Geen Nederlands"] },
-            { type: "mc", question: "An official asks 'Hoe heet u?' — what are they asking?", answer: "What is your name?", options: ["Where do you live?", "What is your name?", "Are you married?", "Where are you from?"] },
+            { type: "mc", question: "What number is 'zeven'?", answer: "7", options: ["5", "6", "7", "8"] },
+            { type: "mc", question: "How do you ask someone's name informally?", answer: "Hoe heet je?", options: ["Wat is uw naam?", "Hoe heet je?", "Wie ben jij?", "Kennen wij elkaar?"] },
+            { type: "mc", question: "What does 'fietsen' mean?", answer: "to cycle", options: ["to walk", "to drive", "to cycle", "to run"] },
+            { type: "mc", question: "Fill in: Kennen wij ___ niet?", answer: "elkaar", options: ["alleen", "niet", "elkaar", "samen"] },
+            { type: "mc", question: "What is 'drie' + 'vijf'?", answer: "acht", options: ["zeven", "acht", "negen", "zes"] },
           ]
         }
       ]
     },
+    // ===== Theme 2: Huis & Wonen (Les 23) =====
     {
-      id: 2, title: "Getallen & Tijd", titleEn: "Numbers & Time", titleTh: "ตัวเลขและเวลา", icon: "🔢", color: "#2E86AB",
+      id: 2, section: "taal", title: "Huis & Wonen", titleEn: "House & Living", titleTh: "บ้านและการอยู่อาศัย", icon: "🏠", color: "#2E86AB",
+      source: "Les 23",
       lessons: [
         {
-          id: "2a", title: "Getallen 0-20", titleEn: "Numbers 0-20", titleTh: "ตัวเลข 0-20",
+          id: "t2a", title: "Ons Huis", titleEn: "Our House", titleTh: "บ้านของเรา",
           vocab: [
-            { nl: "nul", en: "0", phonetic: "nul", thai: "ศูนย์", note: "" },
-            { nl: "een", en: "1", phonetic: "ayn", thai: "หนึ่ง", note: "Also means 'a/an'" },
-            { nl: "twee", en: "2", phonetic: "tvay", thai: "สอง", note: "" },
-            { nl: "drie", en: "3", phonetic: "dree", thai: "สาม", note: "" },
-            { nl: "vier", en: "4", phonetic: "feer", thai: "สี่", note: "" },
-            { nl: "vijf", en: "5", phonetic: "feyf", thai: "ห้า", note: "" },
-            { nl: "zes", en: "6", phonetic: "zes", thai: "หก", note: "" },
-            { nl: "zeven", en: "7", phonetic: "ZAY-vun", thai: "เจ็ด", note: "" },
-            { nl: "acht", en: "8", phonetic: "akht", thai: "แปด", note: "The 'ch' is like Thai ค" },
-            { nl: "negen", en: "9", phonetic: "NAY-khun", thai: "เก้า", note: "" },
-            { nl: "tien", en: "10", phonetic: "teen", thai: "สิบ", note: "" },
-            { nl: "elf", en: "11", phonetic: "elf", thai: "สิบเอ็ด", note: "" },
-            { nl: "twaalf", en: "12", phonetic: "tvahf", thai: "สิบสอง", note: "" },
-            { nl: "dertien", en: "13", phonetic: "DAIR-teen", thai: "สิบสาม", note: "Pattern: number + tien" },
-            { nl: "veertien", en: "14", phonetic: "FAYR-teen", thai: "สิบสี่", note: "" },
-            { nl: "vijftien", en: "15", phonetic: "FEYF-teen", thai: "สิบห้า", note: "" },
-            { nl: "twintig", en: "20", phonetic: "TVIN-tikh", thai: "ยี่สิบ", note: "" },
+            { nl: "huis", en: "house", phonetic: "hows", thai: "บ้าน", note: "het huis" },
+            { nl: "deur", en: "door", phonetic: "duhr", thai: "ประตู", note: "de deur" },
+            { nl: "kom binnen", en: "come in", phonetic: "kom BIN-nun", thai: "เข้ามาข้างใน" },
+            { nl: "welkom", en: "welcome", phonetic: "VEL-kom", thai: "ยินดีต้อนรับ" },
+            { nl: "woonkamer", en: "living room", phonetic: "VOHN-kah-mur", thai: "ห้องรับแขก", note: "de woonkamer" },
+            { nl: "keuken", en: "kitchen", phonetic: "KUH-kun", thai: "ห้องครัว", note: "de keuken" },
+            { nl: "achter", en: "behind / at the back", phonetic: "AKH-tur", thai: "ข้างหลัง" },
+            { nl: "trap", en: "stairs", phonetic: "trap", thai: "บันได", note: "de trap" },
+            { nl: "boven", en: "upstairs / above", phonetic: "BOH-vun", thai: "ข้างบน" },
+            { nl: "beneden", en: "downstairs / below", phonetic: "buh-NAY-dun", thai: "ข้างล่าง" },
+            { nl: "verdieping", en: "floor / storey", phonetic: "vur-DEE-ping", thai: "ชั้น", note: "de verdieping" },
+            { nl: "badkamer", en: "bathroom", phonetic: "BAT-kah-mur", thai: "ห้องน้ำ", note: "de badkamer" },
+            { nl: "slaapkamer", en: "bedroom", phonetic: "SLAHP-kah-mur", thai: "ห้องนอน", note: "de slaapkamer" },
+            { nl: "kamer", en: "room", phonetic: "KAH-mur", thai: "ห้อง", note: "de kamer" },
+            { nl: "toilet", en: "toilet", phonetic: "twah-LET", thai: "สุขา", note: "het toilet" },
+            { nl: "gang", en: "hallway", phonetic: "khang", thai: "ห้องโถงตรงทางเข้า", note: "de gang" },
+            { nl: "links", en: "left", phonetic: "links", thai: "ซ้าย" },
+            { nl: "rechts", en: "right", phonetic: "rekhts", thai: "ขวา" },
+            { nl: "licht", en: "light", phonetic: "likht", thai: "แสงไฟ", note: "het licht" },
+            { nl: "klein", en: "small", phonetic: "kleyn", thai: "เล็ก" },
+            { nl: "eigen", en: "own", phonetic: "EY-khun", thai: "ตนเอง" },
+            { nl: "woning", en: "dwelling / home", phonetic: "VOH-ning", thai: "บ้านอาศัย", note: "de woning" },
+            { nl: "ruimte", en: "space / room", phonetic: "ROWM-tuh", thai: "พื้นที่", note: "de ruimte" },
+            { nl: "spullen", en: "stuff / belongings", phonetic: "SPUL-lun", thai: "ข้าวของเครื่องใช้", note: "de spullen" },
           ],
           dialogues: [
-            { situation: "At a store", lines: [
-              { speaker: "Cashier", nl: "Dat is veertien euro vijftig.", en: "That is fourteen euros fifty." },
-              { speaker: "You", nl: "Alstublieft.", en: "Here you go. (formal)" },
-              { speaker: "Cashier", nl: "Dank u wel. Vijf euro vijftig terug.", en: "Thank you. Five euros fifty back." },
+            { situation: "Showing your house to a visitor (Les 23)", lines: [
+              { speaker: "A", nl: "Dit is ons huis. Kom binnen!", en: "This is our house. Come in!" },
+              { speaker: "B", nl: "Wat een mooie woonkamer!", en: "What a beautiful living room!" },
+              { speaker: "A", nl: "De keuken is achter. Ga maar mee naar boven.", en: "The kitchen is at the back. Come upstairs with me." },
+              { speaker: "B", nl: "Hoeveel slaapkamers hebben jullie?", en: "How many bedrooms do you have?" },
+              { speaker: "A", nl: "Drie. De kinderen hebben hun eigen kamer.", en: "Three. The children have their own room." },
             ]}
           ],
           grammar: {
-            title: "Dutch Number Patterns",
-            explanation: "Numbers 13-19 follow the pattern: unit + 'tien' (like English '-teen'). But 11 and 12 are irregular (elf, twaalf). From 21 onward, Dutch reverses the order: 'eenentwintig' (one-and-twenty) = 21. This is like saying the ones digit first!",
+            title: "Position Words & het/de Articles",
+            explanation: "Dutch uses <strong>de</strong> for most nouns and <strong>het</strong> for neuter nouns. There's no easy rule — you must memorize them. Position words are important for giving directions: <strong>boven</strong> (upstairs), <strong>beneden</strong> (downstairs), <strong>links</strong> (left), <strong>rechts</strong> (right), <strong>achter</strong> (behind).",
             examples: [
-              { nl: "dertien = der + tien", en: "13 = three + ten" },
-              { nl: "eenentwintig", en: "21 (one-and-twenty)" },
-              { nl: "drieëntwintig", en: "23 (three-and-twenty)" },
+              { nl: "De keuken is achter", en: "The kitchen is at the back" },
+              { nl: "Het toilet is beneden", en: "The toilet is downstairs" },
+              { nl: "De badkamer is boven, links", en: "The bathroom is upstairs, on the left" },
             ]
           },
           exercises: [
-            { type: "mc", question: "What number is 'vijftien'?", answer: "15", options: ["5", "14", "15", "50"] },
-            { type: "mc", question: "How do you say '8' in Dutch?", answer: "acht", options: ["acht", "zes", "negen", "tien"] },
-            { type: "mc", question: "What number is 'twaalf'?", answer: "12", options: ["2", "12", "20", "22"] },
-            { type: "mc", question: "What comes next: dertien, veertien, ___", answer: "vijftien", options: ["vijftien", "zestien", "elf", "twintig"] },
-            { type: "mc", question: "How do you say '20'?", answer: "twintig", options: ["twee", "twintig", "twaalf", "tweehonderd"] },
+            { type: "mc", question: "What is 'de keuken'?", answer: "kitchen", options: ["bedroom", "kitchen", "bathroom", "living room"] },
+            { type: "mc", question: "'Boven' is the opposite of...?", answer: "beneden", options: ["links", "rechts", "beneden", "achter"] },
+            { type: "mc", question: "Which article: ___ huis?", answer: "het", options: ["de", "het", "een", "die"] },
+            { type: "mc", question: "What does 'slaapkamer' literally mean?", answer: "sleep room", options: ["living room", "sleep room", "wash room", "sitting room"] },
+            { type: "mc", question: "Fill in: De badkamer is boven, ___", answer: "links", options: ["boven", "beneden", "links", "buiten"] },
+          ]
+        }
+      ]
+    },
+    // ===== Theme 3: Seizoenen & Kalender (Les 24) =====
+    {
+      id: 3, section: "taal", title: "Seizoenen & Kalender", titleEn: "Seasons & Calendar", titleTh: "ฤดูกาลและปฏิทิน", icon: "🍂", color: "#D4A574",
+      source: "Les 24",
+      lessons: [
+        {
+          id: "t3a", title: "De Vier Seizoenen", titleEn: "The Four Seasons", titleTh: "สี่ฤดู",
+          vocab: [
+            { nl: "seizoen", en: "season", phonetic: "say-ZOON", thai: "ฤดู", note: "het seizoen" },
+            { nl: "winter", en: "winter", phonetic: "VIN-tur", thai: "ฤดูหนาว", note: "de winter" },
+            { nl: "lente", en: "spring", phonetic: "LEN-tuh", thai: "ฤดูใบไม้ผลิ", note: "de lente" },
+            { nl: "voorjaar", en: "spring", phonetic: "VOHR-yahr", thai: "ต้นปี", note: "het voorjaar — another word for spring" },
+            { nl: "zomer", en: "summer", phonetic: "ZOH-mur", thai: "ฤดูร้อน", note: "de zomer" },
+            { nl: "najaar", en: "autumn", phonetic: "NAH-yahr", thai: "ปลายปี", note: "het najaar" },
+            { nl: "koud", en: "cold", phonetic: "kowt", thai: "หนาว" },
+            { nl: "warm", en: "warm", phonetic: "varm", thai: "อุ่น" },
+            { nl: "erg", en: "very", phonetic: "erkh", thai: "มาก" },
+            { nl: "vandaag", en: "today", phonetic: "van-DAHKH", thai: "วันนี้" },
+            { nl: "buiten", en: "outside", phonetic: "BOW-tun", thai: "ข้างนอก" },
+            { nl: "binnen", en: "inside", phonetic: "BIN-nun", thai: "ข้างใน" },
+            { nl: "jas", en: "coat", phonetic: "yas", thai: "เสื้อโค้ต", note: "de jas" },
+            { nl: "weer", en: "weather", phonetic: "vayr", thai: "อากาศ", note: "het weer" },
+            { nl: "regenen", en: "to rain", phonetic: "RAY-khuh-nun", thai: "ฝนตก" },
+            { nl: "nat", en: "wet", phonetic: "nat", thai: "เปียกชื้น" },
+            { nl: "droog", en: "dry", phonetic: "drohkh", thai: "ฝนไม่ตก" },
+            { nl: "donker", en: "dark", phonetic: "DON-kur", thai: "มืด" },
+            { nl: "mooi", en: "beautiful", phonetic: "moy", thai: "สวย" },
+            { nl: "bloemen", en: "flowers", phonetic: "BLOOM-un", thai: "ดอกไม้", note: "de bloemen" },
+            { nl: "heerlijk", en: "wonderful / delightful", phonetic: "HAYR-luk", thai: "สบายดีจริงๆ" },
+            { nl: "rood", en: "red", phonetic: "roht", thai: "สีแดง" },
+            { nl: "geel", en: "yellow", phonetic: "khayl", thai: "สีเหลือง" },
+            { nl: "bladeren", en: "leaves", phonetic: "BLAH-duh-run", thai: "ใบไม้", note: "het blad (singular)" },
+            { nl: "hond", en: "dog", phonetic: "hont", thai: "หมา", note: "de hond" },
+            { nl: "gezellig", en: "cozy / convivial", phonetic: "khuh-ZEL-likh", thai: "รื่นรมย์", note: "Untranslatable Dutch concept! 🇳🇱" },
+          ],
+          dialogues: [
+            { situation: "Talking about the weather (Les 24)", lines: [
+              { speaker: "A", nl: "Het is vandaag erg koud buiten!", en: "It's very cold outside today!" },
+              { speaker: "B", nl: "Ja, het is winter. Doe je jas aan!", en: "Yes, it's winter. Put your coat on!" },
+              { speaker: "A", nl: "In de lente wordt het warmer.", en: "In spring it gets warmer." },
+              { speaker: "B", nl: "Ja, en dan komen de bloemen. Wat mooi!", en: "Yes, and then the flowers come. How beautiful!" },
+            ]}
+          ],
+          grammar: {
+            title: "Weather Expressions & 'het'",
+            explanation: "Dutch uses <strong>het</strong> as an impersonal subject for weather: <em>Het regent</em> (it rains), <em>Het is koud</em> (it's cold). The word <strong>worden</strong> means 'to become': <em>Het wordt warmer</em> (it's getting warmer). Note: Thai doesn't have this — ฝนตก is literally 'rain falls' while Dutch says 'het regent' (it rains).",
+            examples: [
+              { nl: "Het is koud", en: "It is cold" },
+              { nl: "Het regent", en: "It's raining" },
+              { nl: "Het wordt warmer", en: "It's getting warmer" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "Which season has falling red and yellow leaves?", answer: "najaar", options: ["winter", "lente", "zomer", "najaar"] },
+            { type: "mc", question: "What does 'gezellig' mean?", answer: "cozy / convivial", options: ["beautiful", "cold", "cozy / convivial", "dark"] },
+            { type: "mc", question: "Fill in: Het ___ vandaag erg koud.", answer: "is", options: ["is", "ben", "zijn", "heeft"] },
+            { type: "mc", question: "'Nat' is the opposite of...?", answer: "droog", options: ["warm", "koud", "droog", "donker"] },
+            { type: "mc", question: "What does 'het weer' mean?", answer: "the weather", options: ["the wind", "the weather", "the rain", "the sun"] },
           ]
         },
         {
-          id: "2b", title: "Hoe laat is het?", titleEn: "What time is it?", titleTh: "กี่โมงแล้ว?",
+          id: "t3b", title: "De Maanden", titleEn: "The Months", titleTh: "เดือนต่างๆ",
           vocab: [
-            { nl: "Hoe laat is het?", en: "What time is it?", phonetic: "hoo LAHT is ut", thai: "กี่โมงแล้ว?", note: "" },
-            { nl: "Het is ... uur", en: "It is ... o'clock", phonetic: "ut is ... oor", thai: "...โมง", note: "For whole hours" },
-            { nl: "kwart over", en: "quarter past", phonetic: "kvart OH-vur", thai: "สิบห้านาที", note: "" },
-            { nl: "half", en: "half (before!)", phonetic: "hahf", thai: "ครึ่ง", note: "⚠️ Dutch 'half drie' = 2:30, NOT 3:30!" },
-            { nl: "kwart voor", en: "quarter to", phonetic: "kvart FOHR", thai: "อีกสิบห้านาทีก่อนถึง", note: "" },
-            { nl: "'s ochtends", en: "in the morning", phonetic: "SOKH-tunts", thai: "ตอนเช้า", note: "" },
-            { nl: "'s middags", en: "in the afternoon", phonetic: "SMID-dakhs", thai: "ตอนบ่าย", note: "" },
-            { nl: "'s avonds", en: "in the evening", phonetic: "SAH-vonts", thai: "ตอนเย็น", note: "" },
-            { nl: "vandaag", en: "today", phonetic: "van-DAHKH", thai: "วันนี้", note: "" },
-            { nl: "morgen", en: "tomorrow", phonetic: "MOR-khun", thai: "พรุ่งนี้", note: "Same word as 'morning'!" },
-            { nl: "gisteren", en: "yesterday", phonetic: "KHIS-tuh-run", thai: "เมื่อวาน", note: "" },
+            { nl: "kalender", en: "calendar", phonetic: "kah-LEN-dur", thai: "ปฏิทิน", note: "de kalender" },
+            { nl: "januari", en: "January", phonetic: "YAN-oo-ah-ree", thai: "มกราคม" },
+            { nl: "februari", en: "February", phonetic: "FAY-broo-ah-ree", thai: "กุมภาพันธ์" },
+            { nl: "maart", en: "March", phonetic: "mahrt", thai: "มีนาคม" },
+            { nl: "april", en: "April", phonetic: "ah-PRIL", thai: "เมษายน" },
+            { nl: "mei", en: "May", phonetic: "mey", thai: "พฤษภาคม" },
+            { nl: "juni", en: "June", phonetic: "YOO-nee", thai: "มิถุนายน" },
+            { nl: "juli", en: "July", phonetic: "YOO-lee", thai: "กรกฎาคม" },
+            { nl: "augustus", en: "August", phonetic: "ow-KHUS-tus", thai: "สิงหาคม" },
+            { nl: "september", en: "September", phonetic: "sep-TEM-bur", thai: "กันยายน" },
+            { nl: "oktober", en: "October", phonetic: "ok-TOH-bur", thai: "ตุลาคม" },
+            { nl: "november", en: "November", phonetic: "noh-VEM-bur", thai: "พฤศจิกายน" },
+            { nl: "december", en: "December", phonetic: "day-SEM-bur", thai: "ธันวาคม" },
+            { nl: "school", en: "school", phonetic: "skhohl", thai: "โรงเรียน", note: "de school" },
+            { nl: "dicht", en: "closed", phonetic: "dikht", thai: "ปิด" },
+            { nl: "vrij", en: "free / off", phonetic: "vrey", thai: "ไม่มีเรียน" },
           ],
           dialogues: [
-            { situation: "Making an appointment", lines: [
-              { speaker: "Receptionist", nl: "Wanneer wilt u komen?", en: "When do you want to come?" },
-              { speaker: "You", nl: "Morgen, alstublieft.", en: "Tomorrow, please." },
-              { speaker: "Receptionist", nl: "Om half drie?", en: "At half past two?" },
-              { speaker: "You", nl: "Ja, dat is goed. Dank u wel.", en: "Yes, that is good. Thank you." },
+            { situation: "Talking about the school calendar", lines: [
+              { speaker: "A", nl: "Wanneer zijn de scholen dicht?", en: "When are the schools closed?" },
+              { speaker: "B", nl: "In juli en augustus. Dan is het zomer.", en: "In July and August. That's summer." },
+              { speaker: "A", nl: "En wanneer begint de school weer?", en: "And when does school start again?" },
+              { speaker: "B", nl: "In september.", en: "In September." },
             ]}
           ],
           grammar: {
-            title: "⚠️ Dutch 'Half' Time — Tricky!",
-            explanation: "This is the #1 time mistake foreigners make! In Dutch, 'half drie' means 2:30 (half TO three), NOT 3:30. Think of it as 'halfway to three'. This is the opposite of English 'half past two'. Always remember: the number after 'half' is the NEXT hour.",
+            title: "Months & Seasons without Articles",
+            explanation: "Months and seasons in Dutch are used without articles in most cases: <em>In januari is het koud</em> (In January it's cold). Unlike English, Dutch months are <strong>not capitalized</strong>. They all have <em>de</em> as their article if you need one.",
             examples: [
-              { nl: "half twee = 1:30", en: "halfway to two" },
-              { nl: "half vijf = 4:30", en: "halfway to five" },
-              { nl: "kwart over drie = 3:15", en: "quarter past three" },
-              { nl: "kwart voor zes = 5:45", en: "quarter to six" },
+              { nl: "In januari is het koud", en: "In January it's cold" },
+              { nl: "De zomer begint in juni", en: "Summer starts in June" },
+              { nl: "In december is het donker", en: "In December it's dark" },
             ]
           },
           exercises: [
-            { type: "mc", question: "What time is 'half drie'?", answer: "2:30", options: ["2:30", "3:30", "3:00", "2:00"] },
-            { type: "mc", question: "How do you say 'What time is it?'", answer: "Hoe laat is het?", options: ["Hoe heet u?", "Hoe laat is het?", "Hoe gaat het?", "Waar is het?"] },
-            { type: "mc", question: "What does 'kwart voor vijf' mean?", answer: "4:45", options: ["5:15", "4:45", "5:45", "4:15"] },
-            { type: "mc", question: "Fill in: Het is tien ___", answer: "uur", options: ["uur", "laat", "half", "over"] },
-            { type: "mc", question: "Your appointment is at 'half elf'. When should you arrive?", answer: "10:30", options: ["10:30", "11:30", "10:00", "11:00"] },
+            { type: "mc", question: "Which month comes after 'maart'?", answer: "april", options: ["februari", "april", "mei", "januari"] },
+            { type: "mc", question: "Schools are closed (dicht) in...?", answer: "juli en augustus", options: ["januari en februari", "maart en april", "juli en augustus", "november en december"] },
+            { type: "mc", question: "How many months are there?", answer: "twaalf", options: ["tien", "elf", "twaalf", "dertien"] },
+            { type: "mc", question: "'Dicht' means...?", answer: "closed", options: ["open", "closed", "far", "near"] },
+            { type: "mc", question: "When does winter start in the Netherlands?", answer: "december", options: ["oktober", "november", "december", "januari"] },
           ]
         }
       ]
     },
+    // ===== Theme 4: Dagen & Tijd (Les 25) =====
     {
-      id: 3, title: "Dagelijks Leven", titleEn: "Daily Life", titleTh: "ชีวิตประจำวัน", icon: "🏠", color: "#5E9B4E",
+      id: 4, section: "taal", title: "Dagen & Tijd", titleEn: "Days & Time", titleTh: "วันและเวลา", icon: "⏰", color: "#6B4C9A",
+      source: "Les 25",
       lessons: [
         {
-          id: "3a", title: "Boodschappen Doen", titleEn: "Shopping / Groceries", titleTh: "ซื้อของ / จ่ายตลาด",
+          id: "t4a", title: "De Dagen van de Week", titleEn: "Days of the Week", titleTh: "วันในสัปดาห์",
           vocab: [
-            { nl: "de supermarkt", en: "the supermarket", phonetic: "duh SOO-pur-markt", thai: "ซุปเปอร์มาร์เก็ต", note: "Albert Heijn, Jumbo are common ones" },
-            { nl: "de winkel", en: "the shop/store", phonetic: "duh VIN-kul", thai: "ร้าน", note: "" },
-            { nl: "Ik wil graag...", en: "I would like...", phonetic: "ik vil KHRAHKH", thai: "ฉันอยากจะ...", note: "Polite way to ask for something" },
-            { nl: "Hoeveel kost het?", en: "How much does it cost?", phonetic: "HOO-fayl KOST ut", thai: "ราคาเท่าไหร่?", note: "" },
-            { nl: "brood", en: "bread", phonetic: "broht", thai: "ขนมปัง", note: "Dutch LOVE bread" },
-            { nl: "kaas", en: "cheese", phonetic: "kahs", thai: "ชีส", note: "The Netherlands is famous for it!" },
-            { nl: "melk", en: "milk", phonetic: "melk", thai: "นม", note: "" },
-            { nl: "water", en: "water", phonetic: "VAH-tur", thai: "น้ำ", note: "Note: W sounds like V!" },
-            { nl: "koffie", en: "coffee", phonetic: "KOF-fee", thai: "กาแฟ", note: "Dutch drink a LOT of coffee" },
-            { nl: "groente", en: "vegetables", phonetic: "KHROON-tuh", thai: "ผัก", note: "" },
-            { nl: "fruit", en: "fruit", phonetic: "frewt", thai: "ผลไม้", note: "" },
-            { nl: "de rekening", en: "the bill", phonetic: "duh RAY-kuh-ning", thai: "บิล/เช็คบิล", note: "Also 'the check' at restaurant" },
+            { nl: "maandag", en: "Monday", phonetic: "MAHN-dakh", thai: "วันจันทร์" },
+            { nl: "dinsdag", en: "Tuesday", phonetic: "DINS-dakh", thai: "วันอังคาร" },
+            { nl: "woensdag", en: "Wednesday", phonetic: "VOONS-dakh", thai: "วันพุธ" },
+            { nl: "donderdag", en: "Thursday", phonetic: "DON-dur-dakh", thai: "วันพฤหัสบดี" },
+            { nl: "vrijdag", en: "Friday", phonetic: "VREY-dakh", thai: "วันศุกร์" },
+            { nl: "zaterdag", en: "Saturday", phonetic: "ZAH-tur-dakh", thai: "วันเสาร์" },
+            { nl: "zondag", en: "Sunday", phonetic: "ZON-dakh", thai: "วันอาทิตย์" },
+            { nl: "werk", en: "work", phonetic: "verk", thai: "ทำงาน", note: "het werk" },
+            { nl: "lerares", en: "teacher (female)", phonetic: "lay-RAH-res", thai: "ครู(ผู้หญิง)", note: "de lerares" },
+            { nl: "weekend", en: "weekend", phonetic: "WEEK-ent", thai: "สุดสัปดาห์", note: "het weekend" },
+            { nl: "soms", en: "sometimes", phonetic: "soms", thai: "บางครั้ง" },
+            { nl: "druk", en: "busy", phonetic: "druk", thai: "ยุ่ง" },
+            { nl: "nooit", en: "never", phonetic: "noyt", thai: "ไม่เคย" },
+            { nl: "werken", en: "to work", phonetic: "VER-kun", thai: "ทำงาน" },
+            { nl: "'s ochtends", en: "in the morning", phonetic: "SOKH-tunts", thai: "ตอนเช้า" },
+            { nl: "'s middags", en: "in the afternoon", phonetic: "SMID-dakhs", thai: "ตอนบ่าย" },
+            { nl: "'s avonds", en: "in the evening", phonetic: "SAH-vonts", thai: "ตอนหกโมงเย็นถึงเที่ยงคืน" },
+            { nl: "'s nachts", en: "at night", phonetic: "SNAKHTS", thai: "ตอนเที่ยงคืนถึงหกโมงเช้า" },
+            { nl: "agenda", en: "diary / planner", phonetic: "ah-KHEN-dah", thai: "ปฏิทินพก", note: "de agenda" },
           ],
           dialogues: [
-            { situation: "At the Albert Heijn supermarket", lines: [
-              { speaker: "You", nl: "Goedemiddag. Hoeveel kost deze kaas?", en: "Good afternoon. How much does this cheese cost?" },
-              { speaker: "Employee", nl: "Die kost vier euro vijftig.", en: "That costs four euros fifty." },
-              { speaker: "You", nl: "Ik wil graag deze kaas en een brood.", en: "I would like this cheese and a bread." },
-              { speaker: "Cashier", nl: "Dat is zeven euro twintig. Wilt u een tasje?", en: "That is seven euros twenty. Would you like a bag?" },
-              { speaker: "You", nl: "Nee, dank u. Alstublieft.", en: "No, thank you. Here you go." },
+            { situation: "Talking about a work schedule (Les 25)", lines: [
+              { speaker: "A", nl: "Wanneer werk je?", en: "When do you work?" },
+              { speaker: "B", nl: "Ik werk maandag tot en met vrijdag.", en: "I work Monday through Friday." },
+              { speaker: "A", nl: "En in het weekend?", en: "And on the weekend?" },
+              { speaker: "B", nl: "In het weekend hoef ik nooit te werken!", en: "On the weekend I never have to work!" },
             ]}
           ],
           grammar: {
-            title: "De & Het — Dutch Articles",
-            explanation: "Dutch has two types of 'the': <strong>de</strong> (for common gender) and <strong>het</strong> (for neuter gender). About 2/3 of Dutch words use 'de'. There's no rule — you have to memorize them! 'A/an' is always just 'een'. This is one of the hardest parts of Dutch, but for A1 don't worry too much — just learn the article with each new noun.",
+            title: "Days of the Week & Time of Day",
+            explanation: "Like months, Dutch days are <strong>not capitalized</strong>. Time of day uses a special construction: <strong>'s ochtends</strong> (in the morning), <strong>'s middags</strong> (in the afternoon), <strong>'s avonds</strong> (in the evening). The <em>'s</em> is an old genitive form. All days end in <em>-dag</em> (day).",
             examples: [
-              { nl: "de winkel (the shop)", en: "common gender — uses 'de'" },
-              { nl: "het brood (the bread)", en: "neuter gender — uses 'het'" },
-              { nl: "een winkel (a shop)", en: "'a/an' is always 'een'" },
+              { nl: "Op maandag werk ik", en: "On Monday I work" },
+              { nl: "'s Ochtends ga ik naar school", en: "In the morning I go to school" },
+              { nl: "Ik ben 's avonds thuis", en: "I'm home in the evening" },
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'How much does it cost?'", answer: "Hoeveel kost het?", options: ["Hoe laat is het?", "Hoeveel kost het?", "Hoe gaat het?", "Waar is het?"] },
-            { type: "mc", question: "What does 'Ik wil graag' mean?", answer: "I would like", options: ["I want", "I would like", "I need", "I have"] },
-            { type: "mc", question: "Fill in: ___ supermarkt is open", answer: "De", options: ["De", "Het", "Een", "Geen"] },
-            { type: "mc", question: "What is 'kaas' in English?", answer: "cheese", options: ["bread", "milk", "cheese", "coffee"] },
-            { type: "mc", question: "You want to ask the price. What do you say?", answer: "Hoeveel kost het?", options: ["Hoe laat is het?", "Hoeveel kost het?", "Wat is dat?", "Waar is het?"] },
+            { type: "mc", question: "Which day comes after 'woensdag'?", answer: "donderdag", options: ["dinsdag", "donderdag", "vrijdag", "maandag"] },
+            { type: "mc", question: "What does ''s avonds' mean?", answer: "in the evening", options: ["in the morning", "in the afternoon", "in the evening", "at night"] },
+            { type: "mc", question: "'Nooit' means...?", answer: "never", options: ["always", "sometimes", "never", "often"] },
+            { type: "mc", question: "The weekend is...?", answer: "zaterdag en zondag", options: ["vrijdag en zaterdag", "zaterdag en zondag", "zondag en maandag", "donderdag en vrijdag"] },
+            { type: "mc", question: "Fill in: Ik ___ maandag tot vrijdag.", answer: "werk", options: ["ga", "werk", "ben", "heb"] },
           ]
         },
         {
-          id: "3b", title: "Bij de Dokter", titleEn: "At the Doctor", titleTh: "ที่หมอ",
+          id: "t4b", title: "Hoe Laat Is Het?", titleEn: "What Time Is It?", titleTh: "กี่โมงแล้ว?",
           vocab: [
-            { nl: "de dokter / huisarts", en: "the doctor / GP", phonetic: "duh DOK-tur / HOWS-arts", thai: "หมอ", note: "Huisarts = family doctor (very important in NL!)" },
-            { nl: "Ik ben ziek", en: "I am sick", phonetic: "ik ben zeek", thai: "ฉันไม่สบาย", note: "" },
-            { nl: "Ik heb pijn", en: "I have pain", phonetic: "ik hep PEYN", thai: "ฉันเจ็บ", note: "" },
-            { nl: "hoofd", en: "head", phonetic: "hohft", thai: "หัว", note: "hoofdpijn = headache" },
-            { nl: "buik", en: "stomach/belly", phonetic: "bowk", thai: "ท้อง", note: "buikpijn = stomachache" },
-            { nl: "rug", en: "back", phonetic: "rukh", thai: "หลัง", note: "" },
-            { nl: "koorts", en: "fever", phonetic: "kohrts", thai: "ไข้", note: "" },
-            { nl: "een afspraak maken", en: "to make an appointment", phonetic: "un AF-sprahk MAH-kun", thai: "นัดหมาย", note: "Essential for Dutch healthcare!" },
-            { nl: "de apotheek", en: "the pharmacy", phonetic: "duh ah-poh-TAYK", thai: "ร้านขายยา", note: "" },
-            { nl: "het recept", en: "the prescription", phonetic: "ut ruh-SEPT", thai: "ใบสั่งยา", note: "" },
-            { nl: "de verzekering", en: "the insurance", phonetic: "duh fur-ZAY-kuh-ring", thai: "ประกัน", note: "Health insurance is mandatory in NL!" },
+            { nl: "hoe laat", en: "what time", phonetic: "hoo LAHT", thai: "กี่โมง" },
+            { nl: "uur", en: "hour / o'clock", phonetic: "uhr", thai: "ชั่วโมง", note: "het uur" },
+            { nl: "half", en: "half", phonetic: "half", thai: "ครึ่ง" },
+            { nl: "kwart", en: "quarter", phonetic: "kvart", thai: "สิบห้านาที" },
+            { nl: "voor", en: "before / to", phonetic: "vohr", thai: "ก่อน" },
+            { nl: "over", en: "past / after", phonetic: "OH-vur", thai: "หลัง" },
+            { nl: "begint", en: "starts", phonetic: "buh-KHINT", thai: "เริ่ม", note: "from: beginnen" },
+            { nl: "klaar", en: "finished / ready", phonetic: "klahr", thai: "เสร็จ" },
+            { nl: "laat", en: "late", phonetic: "laht", thai: "สาย" },
+            { nl: "minuut", en: "minute", phonetic: "mee-NUWT", thai: "นาที", note: "de minuut" },
+            { nl: "klok", en: "clock", phonetic: "klok", thai: "นาฬิกา", note: "de klok" },
+            { nl: "wanneer", en: "when", phonetic: "van-NAYR", thai: "เมื่อไร" },
+            { nl: "tussen", en: "between", phonetic: "TUS-sun", thai: "ระหว่าง" },
+            { nl: "middag", en: "afternoon / noon", phonetic: "MID-dakh", thai: "บ่าย", note: "de middag" },
+            { nl: "tot", en: "until", phonetic: "tot", thai: "ถึง" },
           ],
           dialogues: [
-            { situation: "Calling the doctor's office", lines: [
-              { speaker: "Assistant", nl: "Huisartsenpraktijk, goedemorgen.", en: "Doctor's practice, good morning." },
-              { speaker: "You", nl: "Goedemorgen. Ik wil graag een afspraak maken.", en: "Good morning. I would like to make an appointment." },
-              { speaker: "Assistant", nl: "Wat zijn uw klachten?", en: "What are your complaints/symptoms?" },
-              { speaker: "You", nl: "Ik heb hoofdpijn en koorts.", en: "I have a headache and fever." },
-              { speaker: "Assistant", nl: "Kunt u morgen om tien uur komen?", en: "Can you come tomorrow at ten o'clock?" },
-              { speaker: "You", nl: "Ja, dat kan. Dank u wel.", en: "Yes, that's possible. Thank you." },
+            { situation: "Asking about time at school", lines: [
+              { speaker: "A", nl: "Hoe laat begint de les?", en: "What time does the lesson start?" },
+              { speaker: "B", nl: "Om half negen.", en: "At half past eight." },
+              { speaker: "A", nl: "En wanneer zijn we klaar?", en: "And when are we finished?" },
+              { speaker: "B", nl: "Om kwart voor een.", en: "At a quarter to one." },
             ]}
           ],
           grammar: {
-            title: "Compound Words",
-            explanation: "Dutch LOVES making compound words by sticking words together. Once you know the parts, you can understand long words! 'hoofd' (head) + 'pijn' (pain) = 'hoofdpijn' (headache). 'huis' (house) + 'arts' (doctor) = 'huisarts' (family doctor). This is similar to Thai compound words!",
+            title: "Telling Time in Dutch — ⚠️ Different from English!",
+            explanation: "<strong>Half</strong> in Dutch refers to the NEXT hour, not the current one! <em>Half negen</em> = 8:30 (half of the way to nine). <em>Kwart over een</em> = 1:15. <em>Kwart voor twee</em> = 1:45. This is the #1 mistake for learners!",
             examples: [
-              { nl: "hoofd + pijn = hoofdpijn", en: "head + pain = headache" },
-              { nl: "buik + pijn = buikpijn", en: "belly + pain = stomachache" },
-              { nl: "huis + arts = huisarts", en: "house + doctor = family doctor" },
-              { nl: "ziekenhuis = zieken + huis", en: "sick-people + house = hospital" },
+              { nl: "Het is drie uur", en: "It's 3:00" },
+              { nl: "Het is kwart over drie", en: "It's 3:15" },
+              { nl: "Het is half vier", en: "It's 3:30 (NOT 4:30!)" },
+              { nl: "Het is kwart voor vier", en: "It's 3:45" },
             ]
           },
           exercises: [
-            { type: "mc", question: "What does 'Ik ben ziek' mean?", answer: "I am sick", options: ["I am tired", "I am sick", "I have pain", "I am cold"] },
-            { type: "mc", question: "How do you say 'to make an appointment'?", answer: "Een afspraak maken", options: ["Een recept maken", "Een afspraak maken", "Een dokter bellen", "Een verzekering nemen"] },
-            { type: "mc", question: "Fill in: Ik heb hoofd___", answer: "pijn", options: ["pijn", "koorts", "ziek", "arts"] },
-            { type: "mc", question: "What is 'de apotheek'?", answer: "the pharmacy", options: ["the hospital", "the pharmacy", "the doctor", "the insurance"] },
-            { type: "mc", question: "You have a fever and headache. What do you say?", answer: "Ik heb koorts en hoofdpijn", options: ["Ik ben moe", "Ik heb koorts en hoofdpijn", "Ik heb buikpijn", "Ik ben ziek in mijn rug"] },
+            { type: "mc", question: "What time is 'half zes'?", answer: "5:30", options: ["6:30", "5:30", "5:00", "6:00"] },
+            { type: "mc", question: "'Kwart over twee' means...?", answer: "2:15", options: ["1:45", "2:00", "2:15", "2:45"] },
+            { type: "mc", question: "What does 'klaar' mean?", answer: "finished / ready", options: ["late", "clear", "finished / ready", "early"] },
+            { type: "mc", question: "'Kwart voor drie' is...?", answer: "2:45", options: ["3:15", "2:45", "3:45", "2:15"] },
+            { type: "mc", question: "How do you say 7:30?", answer: "half acht", options: ["half zeven", "half acht", "zeven uur", "kwart over zeven"] },
           ]
         }
       ]
     },
+    // ===== Theme 5: Eten & Drinken (Les 26) =====
     {
-      id: 4, title: "Vervoer & Wegen", titleEn: "Transport & Directions", titleTh: "การเดินทางและทิศทาง", icon: "🚲", color: "#9B59B6",
+      id: 5, section: "taal", title: "Eten & Drinken", titleEn: "Food & Drinks", titleTh: "อาหารและเครื่องดื่ม", icon: "🍽️", color: "#C73E1D",
+      source: "Les 26",
       lessons: [
         {
-          id: "4a", title: "Reizen in Nederland", titleEn: "Traveling in NL", titleTh: "เดินทางในเนเธอร์แลนด์",
+          id: "t5a", title: "Aan Tafel", titleEn: "At the Table", titleTh: "ที่โต๊ะอาหาร",
           vocab: [
-            { nl: "de trein", en: "the train", phonetic: "duh treyn", thai: "รถไฟ", note: "Main transport between cities" },
-            { nl: "de bus", en: "the bus", phonetic: "duh bus", thai: "รถบัส", note: "" },
-            { nl: "de fiets", en: "the bicycle", phonetic: "duh feets", thai: "จักรยาน", note: "THE Dutch transport! You'll need one!" },
-            { nl: "de tram", en: "the tram", phonetic: "duh tram", thai: "รถราง", note: "In Amsterdam, Den Haag, Rotterdam" },
-            { nl: "het station", en: "the station", phonetic: "ut stah-SHON", thai: "สถานี", note: "" },
-            { nl: "een kaartje", en: "a ticket", phonetic: "un KAHR-chuh", thai: "ตั๋ว", note: "" },
-            { nl: "de OV-chipkaart", en: "the public transport card", phonetic: "duh oh-vay-CHIP-kahrt", thai: "บัตรโดยสาร", note: "Like BTS Rabbit card!" },
-            { nl: "links", en: "left", phonetic: "links", thai: "ซ้าย", note: "" },
-            { nl: "rechts", en: "right", phonetic: "rekhts", thai: "ขวา", note: "" },
-            { nl: "rechtdoor", en: "straight ahead", phonetic: "REKHT-dohr", thai: "ตรงไป", note: "" },
-            { nl: "Waar is...?", en: "Where is...?", phonetic: "vahr is", thai: "...อยู่ที่ไหน?", note: "" },
-            { nl: "de halte", en: "the stop", phonetic: "duh HAHL-tuh", thai: "ป้าย(รถ)", note: "Bus stop / tram stop" },
+            { nl: "eten", en: "food / to eat", phonetic: "AY-tun", thai: "อาหาร / กิน", note: "het eten (noun)" },
+            { nl: "drinken", en: "drinks / to drink", phonetic: "DRING-kun", thai: "เครื่องดื่ม / ดื่ม" },
+            { nl: "tafel", en: "table", phonetic: "TAH-ful", thai: "โต๊ะ", note: "de tafel" },
+            { nl: "stoel", en: "chair", phonetic: "stool", thai: "เก้าอี้", note: "de stoel" },
+            { nl: "raam", en: "window", phonetic: "rahm", thai: "หน้าต่าง", note: "het raam" },
+            { nl: "broodje", en: "bread roll / sandwich", phonetic: "BROHT-yuh", thai: "ขนมปังเล็กๆ", note: "het broodje" },
+            { nl: "kaas", en: "cheese", phonetic: "kahs", thai: "ชีส", note: "de kaas — very Dutch! 🧀" },
+            { nl: "honger", en: "hunger", phonetic: "HONG-ur", thai: "หิว" },
+            { nl: "lekker", en: "tasty / delicious", phonetic: "LEK-kur", thai: "อร่อย" },
+            { nl: "soep", en: "soup", phonetic: "soop", thai: "ซุป", note: "de soep" },
+            { nl: "vlees", en: "meat", phonetic: "vlays", thai: "เนื้อ", note: "het vlees" },
+            { nl: "melk", en: "milk", phonetic: "melk", thai: "นม", note: "de melk" },
+            { nl: "glas", en: "glass", phonetic: "khlas", thai: "แก้ว", note: "het glas" },
+            { nl: "water", en: "water", phonetic: "VAH-tur", thai: "น้ำ", note: "het water" },
+            { nl: "koffie", en: "coffee", phonetic: "KOF-fee", thai: "กาแฟ", note: "de koffie" },
+            { nl: "thee", en: "tea", phonetic: "tay", thai: "ชา", note: "de thee" },
+            { nl: "nemen", en: "to take / have", phonetic: "NAY-mun", thai: "เอา" },
+            { nl: "geld", en: "money", phonetic: "khelt", thai: "เงิน", note: "het geld" },
+            { nl: "betalen", en: "to pay", phonetic: "buh-TAH-lun", thai: "จ่าย" },
+            { nl: "samen", en: "together", phonetic: "SAH-mun", thai: "ด้วยกัน" },
+            { nl: "zoveel", en: "so much", phonetic: "zoh-VAYL", thai: "มาก" },
+            { nl: "anders", en: "otherwise / different", phonetic: "AN-durs", thai: "อย่างอื่น" },
+            { nl: "niets", en: "nothing", phonetic: "neets", thai: "ไม่มีอะไร" },
+            { nl: "iets", en: "something", phonetic: "eets", thai: "อะไร" },
           ],
           dialogues: [
-            { situation: "At the train station", lines: [
-              { speaker: "You", nl: "Goedemorgen. Een kaartje naar Utrecht, alstublieft.", en: "Good morning. A ticket to Utrecht, please." },
-              { speaker: "Agent", nl: "Enkele reis of retour?", en: "One way or return?" },
-              { speaker: "You", nl: "Retour, alstublieft.", en: "Return, please." },
-              { speaker: "Agent", nl: "Dat is achttien euro. Spoor vier.", en: "That is eighteen euros. Platform four." },
-              { speaker: "You", nl: "Dank u wel. Hoe laat vertrekt de trein?", en: "Thank you. What time does the train leave?" },
-              { speaker: "Agent", nl: "Om kwart over tien.", en: "At quarter past ten." },
+            { situation: "At a café ordering food (Les 26)", lines: [
+              { speaker: "A", nl: "Zullen we iets eten? Laten we aan die tafel zitten.", en: "Shall we eat something? Let's sit at that table." },
+              { speaker: "B", nl: "Goed. Ik neem een broodje kaas.", en: "Good. I'll have a cheese sandwich." },
+              { speaker: "A", nl: "En ik heb zin in een kop soep.", en: "And I feel like a cup of soup." },
+              { speaker: "B", nl: "Wil je ook iets drinken? Een glas melk?", en: "Do you want something to drink too? A glass of milk?" },
+              { speaker: "A", nl: "Nee, een kopje koffie graag.", en: "No, a cup of coffee please." },
             ]}
           ],
           grammar: {
-            title: "Asking Questions — Question Words",
-            explanation: "Dutch question words mostly start with 'W' (like English!). These are essential for daily life: Wie (who), Wat (what), Waar (where), Wanneer (when), Waarom (why), Hoe (how), Welk/Welke (which), Hoeveel (how much/many).",
+            title: "'Zin hebben in' & Food Ordering",
+            explanation: "<strong>Zin hebben in</strong> means 'to feel like' / 'to want': <em>Ik heb zin in soep</em> (I feel like soup). For ordering: <strong>Ik neem...</strong> (I'll have...) or <strong>Mag ik...</strong> (May I have...). Note: <em>een kop soep</em> (a cup of soup) vs <em>een kopje koffie</em> (a small cup of coffee). The '-je' suffix makes things small (diminutive).",
             examples: [
-              { nl: "Waar is het station?", en: "Where is the station?" },
-              { nl: "Wanneer vertrekt de trein?", en: "When does the train leave?" },
-              { nl: "Hoeveel kost een kaartje?", en: "How much does a ticket cost?" },
+              { nl: "Ik heb zin in een broodje", en: "I feel like a sandwich" },
+              { nl: "Ik neem een glas water", en: "I'll have a glass of water" },
+              { nl: "Wil je iets drinken?", en: "Do you want something to drink?" },
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'Where is the station?'", answer: "Waar is het station?", options: ["Wat is het station?", "Waar is het station?", "Wie is het station?", "Hoe is het station?"] },
-            { type: "mc", question: "What is 'de fiets'?", answer: "the bicycle", options: ["the car", "the bus", "the bicycle", "the train"] },
-            { type: "mc", question: "Fill in: Een kaartje naar Amsterdam, ___", answer: "alstublieft", options: ["alstublieft", "dank u wel", "goedemorgen", "tot ziens"] },
-            { type: "mc", question: "What does 'rechtdoor' mean?", answer: "straight ahead", options: ["turn left", "turn right", "straight ahead", "go back"] },
-            { type: "mc", question: "You need a return ticket. What word do you use?", answer: "retour", options: ["enkele reis", "retour", "kaartje", "halte"] },
+            { type: "mc", question: "How do you say 'I feel like soup'?", answer: "Ik heb zin in soep", options: ["Ik wil soep", "Ik heb zin in soep", "Ik neem soep", "Ik eet soep"] },
+            { type: "mc", question: "What is 'het broodje'?", answer: "bread roll / sandwich", options: ["bread roll / sandwich", "croissant", "cake", "biscuit"] },
+            { type: "mc", question: "'Lekker' means...?", answer: "tasty", options: ["hungry", "tasty", "expensive", "hot"] },
+            { type: "mc", question: "Fill in: Ik neem een ___ water.", answer: "glas", options: ["kop", "glas", "kopje", "fles"] },
+            { type: "mc", question: "How do you ask for the bill?", answer: "Mag ik betalen?", options: ["Mag ik geld?", "Ik wil geld", "Mag ik betalen?", "Geld alsjeblieft?"] },
+          ]
+        },
+        {
+          id: "t5b", title: "Maaltijden", titleEn: "Meals of the Day", titleTh: "มื้ออาหาร",
+          vocab: [
+            { nl: "ontbijt", en: "breakfast", phonetic: "ont-BEYT", thai: "อาหารเช้า", note: "het ontbijt" },
+            { nl: "lunch", en: "lunch", phonetic: "lunch", thai: "อาหารกลางวัน", note: "de lunch" },
+            { nl: "brood", en: "bread", phonetic: "broht", thai: "ขนมปัง", note: "het brood" },
+            { nl: "boter", en: "butter", phonetic: "BOH-tur", thai: "เนยทา", note: "de boter" },
+            { nl: "ei", en: "egg", phonetic: "ey", thai: "ไข่", note: "het ei" },
+            { nl: "gebakken", en: "fried / baked", phonetic: "khuh-BAK-kun", thai: "ทอด" },
+            { nl: "vis", en: "fish", phonetic: "vis", thai: "ปลา", note: "de vis" },
+            { nl: "kip", en: "chicken", phonetic: "kip", thai: "ไก่", note: "de kip" },
+            { nl: "groente", en: "vegetables", phonetic: "KHROON-tuh", thai: "ผัก", note: "de groente" },
+            { nl: "aardappelen", en: "potatoes", phonetic: "AHR-dah-puh-lun", thai: "มันฝรั่ง", note: "de aardappel — Dutch staple!" },
+            { nl: "thuis", en: "at home", phonetic: "tows", thai: "ที่บ้าน" },
+            { nl: "gezin", en: "family (nuclear)", phonetic: "khuh-ZIN", thai: "ครอบครัว", note: "het gezin" },
+            { nl: "meestal", en: "usually", phonetic: "MAYS-tal", thai: "ส่วนมาก" },
+            { nl: "collega's", en: "colleagues", phonetic: "kol-LAY-khahs", thai: "เพื่อนร่วมงาน" },
+            { nl: "kopje", en: "small cup", phonetic: "KOP-yuh", thai: "ถ้วยเล็ก", note: "het kopje — diminutive of kop" },
+          ],
+          dialogues: [
+            { situation: "Describing daily meals (Les 26)", lines: [
+              { speaker: "A", nl: "Wat eet je voor ontbijt?", en: "What do you eat for breakfast?" },
+              { speaker: "B", nl: "Brood met boter en kaas, en een kopje thee.", en: "Bread with butter and cheese, and a cup of tea." },
+              { speaker: "A", nl: "En 's avonds? Eet je thuis met het gezin?", en: "And in the evening? Do you eat at home with the family?" },
+              { speaker: "B", nl: "Ja, meestal vis of kip met groente en aardappelen.", en: "Yes, usually fish or chicken with vegetables and potatoes." },
+            ]}
+          ],
+          grammar: {
+            title: "Dutch Meal Structure & Diminutives (-je)",
+            explanation: "Dutch meals: <strong>ontbijt</strong> (breakfast) is bread-based. <strong>Lunch</strong> is also bread! <strong>Het avondeten</strong> (dinner) is the warm meal. The <strong>-je</strong> suffix makes things small/cute: <em>kop → kopje</em>, <em>brood → broodje</em>. This is one of the most-used features of Dutch!",
+            examples: [
+              { nl: "een kopje koffie", en: "a small cup of coffee" },
+              { nl: "een broodje kaas", en: "a cheese sandwich (small bread)" },
+              { nl: "vis met aardappelen en groente", en: "fish with potatoes and vegetables" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "What is a typical Dutch breakfast?", answer: "Brood met kaas", options: ["Rijst met vis", "Brood met kaas", "Soep met vlees", "Gebakken ei met kip"] },
+            { type: "mc", question: "'Aardappelen' are...?", answer: "potatoes", options: ["apples", "oranges", "potatoes", "pears"] },
+            { type: "mc", question: "The diminutive of 'kop' is...?", answer: "kopje", options: ["koppen", "kopje", "kopje's", "kleine kop"] },
+            { type: "mc", question: "Where does a Dutch family usually eat dinner?", answer: "thuis", options: ["in een restaurant", "thuis", "op school", "bij collega's"] },
+            { type: "mc", question: "What does 'meestal' mean?", answer: "usually", options: ["always", "never", "usually", "sometimes"] },
           ]
         }
       ]
     },
+    // ===== Themes 6-21: PLACEHOLDERS =====
     {
-      id: 5, title: "Uitspraak", titleEn: "Pronunciation Guide", titleTh: "คู่มือการออกเสียง", icon: "🗣️", color: "#E74C3C",
-      lessons: [
-        {
-          id: "5a", title: "Nederlandse Klanken", titleEn: "Dutch Sounds", titleTh: "เสียงภาษาดัตช์",
-          vocab: [
-            { nl: "gracht", en: "Throat sound (g/ch)", phonetic: "Like Thai ค but longer", thai: "เสียง ค ในคอ", note: "THE Dutch sound! The 'g' and 'ch' use the same throat sound. Practice: goed, gracht, acht" },
-            { nl: "school", en: "s + throat sound (sch)", phonetic: "Like 's' then 'kh'", thai: "ส + ค", note: "The 'sch' combo: school = skhohl, schrijven = skhrey-vun, Scheveningen" },
-            { nl: "huis", en: "Difficult vowel (ui)", phonetic: "Like 'ow' with round lips", thai: "เสียงผสม เอา", note: "The 'ui' sound: huis, uit, buiten, kruiden" },
-            { nl: "deur", en: "Rounded vowel (eu)", phonetic: "Say 'ay' with round lips", thai: "คล้าย เออ", note: "The 'eu' sound: deur, neus, leuk" },
-            { nl: "boek", en: "Like English 'oo' (oe)", phonetic: "oo", thai: "อู", note: "The 'oe' sound: boek, goed, moeder" },
-            { nl: "twee", en: "Like English 'ay' (ee)", phonetic: "ay", thai: "เอ ยาว", note: "The 'ee' sound: twee, been, meer" },
-            { nl: "naam", en: "Long 'ah' (aa)", phonetic: "ahh", thai: "อา ยาว", note: "The 'aa' sound: naam, straat, kaas" },
-            { nl: "groot", en: "Like English 'oh' (oo)", phonetic: "oh", thai: "โอ ยาว", note: "The 'oo' sound: groot, dood, boot" },
-            { nl: "trein", en: "Same sound! (ij/ei)", phonetic: "Like 'ay' in 'say'", thai: "เอย", note: "The 'ij' and 'ei' sound identical: zij = zei, trein,ijn" },
-            { nl: "water", en: "Between V and W (w)", phonetic: "Like English 'v'", thai: "ว แต่ใกล้ วี", note: "Dutch 'w' sounds like 'v': water = VAH-ter, NOT wah-ter" },
-            { nl: "rood", en: "Varies by region (r)", phonetic: "Rolled or guttural", thai: "ร กระดกลิ้น", note: "The Dutch 'r' can be tongue-rolled or throat, both are correct" },
-            { nl: "vader", en: "Like English 'v' or 'f' (v)", phonetic: "v or f", thai: "ว", note: "Dutch 'v' often sounds like 'f' in some dialects" },
-          ],
-          dialogues: [
-            { situation: "Pronunciation practice sentences", lines: [
-              { speaker: "Practice", nl: "Scheveningen is een mooie plek.", en: "Scheveningen is a beautiful place." },
-              { speaker: "Practice", nl: "De gracht is groot en groen.", en: "The canal is big and green." },
-              { speaker: "Practice", nl: "Mijn huis is in de buurt.", en: "My house is in the neighborhood." },
-              { speaker: "Practice", nl: "Ik eet graag kaas bij het ontbijt.", en: "I like to eat cheese at breakfast." },
-            ]}
-          ],
-          grammar: {
-            title: "Thai Speaker Advantages!",
-            explanation: "Good news! Thai speakers have some advantages learning Dutch pronunciation: (1) The Dutch 'g/ch' throat sound is similar to Thai ค — you already make sounds in the back of your throat! (2) Thai is tonal, so your ear is trained for subtle sound differences. (3) Dutch 'r' can be similar to Thai ร. The hardest sounds will be 'ui', 'eu', and the combination 'sch'.",
-            examples: [
-              { nl: "Thai ค → Dutch g/ch", en: "You already know the throat position!" },
-              { nl: "Thai ร → Dutch r", en: "Similar tongue/throat position" },
-              { nl: "Practice: goedemorgen", en: "KHOO-duh-MOR-khun (use your Thai ค!)" },
-            ]
-          },
-          exercises: [
-            { type: "mc", question: "Which two letter combinations sound the same?", answer: "ij and ei", options: ["ij and ei", "ee and ie", "aa and oo", "oe and eu"] },
-            { type: "mc", question: "The Dutch 'g' is similar to which Thai consonant?", answer: "ค (kh)", options: ["ก (k)", "ค (kh)", "ง (ng)", "จ (j)"] },
-            { type: "mc", question: "How is Dutch 'w' pronounced?", answer: "Like English 'v'", options: ["Like English 'w'", "Like English 'v'", "Like English 'f'", "Like English 'b'"] },
-            { type: "mc", question: "Dutch 'oe' sounds like English '___'", answer: "oo", options: ["oo", "oh", "uh", "ee"] },
-            { type: "mc", question: "What is the hardest Dutch vowel for most learners?", answer: "ui", options: ["aa", "ee", "ui", "oe"] },
-          ]
-        }
-      ]
+      id: 6, section: "taal", title: "De Dag", titleEn: "The Day", titleTh: "กิจวัตรประจำวัน", icon: "🌅", color: "#888",
+      source: "Les 27", comingSoon: true,
+      lessons: []
     },
     {
-      id: 6, title: "KNS - Samenleving", titleEn: "Dutch Society (Exam)", titleTh: "สังคมเนเธอร์แลนด์ (สอบ)", icon: "🇳🇱", color: "#F39C12",
-      lessons: [
-        {
-          id: "6a", title: "Nederland Kennen", titleEn: "Know the Netherlands", titleTh: "รู้จักเนเธอร์แลนด์",
-          vocab: [
-            { nl: "de Koning", en: "the King", phonetic: "duh KOH-ning", thai: "กษัตริย์", note: "Willem-Alexander is the current King" },
-            { nl: "de Koningin", en: "the Queen", phonetic: "duh koh-NIN-ghin", thai: "ราชินี", note: "Máxima is the Queen" },
-            { nl: "de gemeente", en: "the municipality", phonetic: "duh ghuh-MAYN-tuh", thai: "เทศบาล", note: "Where you register when arriving!" },
-            { nl: "het paspoort", en: "the passport", phonetic: "ut PAS-pohrt", thai: "หนังสือเดินทาง", note: "" },
-            { nl: "de verblijfsvergunning", en: "residence permit", phonetic: "duh fur-BLEYFS-fur-khun-ning", thai: "ใบอนุญาตพำนัก", note: "What you're studying for!" },
-            { nl: "de zorgverzekering", en: "health insurance", phonetic: "duh ZORKH-fur-zay-kuh-ring", thai: "ประกันสุขภาพ", note: "Mandatory for everyone in NL!" },
-            { nl: "de huisarts", en: "the family doctor/GP", phonetic: "duh HOWS-arts", thai: "แพทย์ประจำครอบครัว", note: "First point of contact for health" },
-            { nl: "het BSN-nummer", en: "citizen service number", phonetic: "ut bay-es-EN NUH-mur", thai: "เลขประจำตัวพลเมือง", note: "Like Thai ID number, needed for everything" },
-            { nl: "de belasting", en: "tax", phonetic: "duh buh-LAS-ting", thai: "ภาษี", note: "" },
-            { nl: "het inburgeringsexamen", en: "civic integration exam", phonetic: "ut IN-bur-khuh-rings-ek-SAH-mun", thai: "สอบบูรณาการพลเมือง", note: "The exam you're preparing for!" },
-            { nl: "de grondwet", en: "the constitution", phonetic: "duh KHRONT-vet", thai: "รัฐธรรมนูญ", note: "" },
-            { nl: "gelijkheid", en: "equality", phonetic: "khuh-LEYK-heyt", thai: "ความเท่าเทียม", note: "Core Dutch value" },
-          ],
-          dialogues: [
-            { situation: "At the Gemeente (registering)", lines: [
-              { speaker: "Official", nl: "Goedemorgen. Heeft u uw paspoort bij u?", en: "Good morning. Do you have your passport with you?" },
-              { speaker: "You", nl: "Ja, alstublieft. Hier is mijn paspoort.", en: "Yes, here you go. Here is my passport." },
-              { speaker: "Official", nl: "Dank u. U krijgt een BSN-nummer.", en: "Thank you. You will receive a BSN number." },
-              { speaker: "You", nl: "Wat is een BSN-nummer?", en: "What is a BSN number?" },
-              { speaker: "Official", nl: "Dat is uw persoonlijk nummer voor in Nederland.", en: "That is your personal number for the Netherlands." },
-            ]}
-          ],
-          grammar: {
-            title: "KNS Exam Topics",
-            explanation: "The Kennis van de Nederlandse Samenleving (KNS) exam tests your knowledge of Dutch society. You need to know about: the government system (constitutional monarchy + parliament), healthcare (mandatory insurance, huisarts as gatekeeper), education system, working in NL, Dutch values (equality, freedom, tolerance), and practical matters (registering, BSN, taxes).",
-            examples: [
-              { nl: "Nederland is een constitutionele monarchie", en: "The Netherlands is a constitutional monarchy" },
-              { nl: "Zorgverzekering is verplicht", en: "Health insurance is mandatory" },
-              { nl: "Bij de gemeente moet je je inschrijven", en: "At the municipality you must register" },
-            ]
-          },
-          exercises: [
-            { type: "mc", question: "What is the BSN-nummer?", answer: "Citizen service number", options: ["Phone number", "Bank number", "Citizen service number", "House number"] },
-            { type: "mc", question: "Is health insurance mandatory in the Netherlands?", answer: "Yes, for everyone", options: ["No, it's optional", "Yes, for everyone", "Only for Dutch citizens", "Only for workers"] },
-            { type: "mc", question: "Fill in: De ___ is het eerste contact voor gezondheid", answer: "huisarts", options: ["huisarts", "ziekenhuis", "apotheek", "tandarts"] },
-            { type: "mc", question: "What type of government does the Netherlands have?", answer: "Constitutional monarchy", options: ["Republic", "Constitutional monarchy", "Direct democracy", "Federation"] },
-            { type: "mc", question: "You just arrived in NL. Where do you register first?", answer: "De gemeente", options: ["De politie", "De gemeente", "De huisarts", "De belastingdienst"] },
-          ]
-        }
-      ]
+      id: 7, section: "taal", title: "Familie & Buren", titleEn: "Family & Neighbors", titleTh: "ครอบครัวและเพื่อนบ้าน", icon: "👨‍👩‍👧‍👦", color: "#888",
+      source: "Les 28", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 8, section: "taal", title: "Gezondheid", titleEn: "Health", titleTh: "สุขภาพ", icon: "🏥", color: "#888",
+      source: "Les 29, 35", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 9, section: "taal", title: "Vervoer", titleEn: "Transport", titleTh: "การขนส่ง", icon: "🚲", color: "#888",
+      source: "Les 30, 49-51", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 10, section: "taal", title: "Op Reis", titleEn: "Travelling", titleTh: "การเดินทาง", icon: "✈️", color: "#888",
+      source: "Les 31, 62", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 11, section: "taal", title: "Weekend & Feest", titleEn: "Weekend & Celebrations", titleTh: "สุดสัปดาห์และงานเฉลิมฉลอง", icon: "🎉", color: "#888",
+      source: "Les 32, 55", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 12, section: "taal", title: "Taal Leren", titleEn: "Learning Dutch", titleTh: "การเรียนภาษาดัตช์", icon: "📚", color: "#888",
+      source: "Les 33, 45-46", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 13, section: "taal", title: "Boodschappen", titleEn: "Shopping", titleTh: "การซื้อของ", icon: "🛒", color: "#888",
+      source: "Les 34, 53, 59", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 14, section: "taal", title: "Gezin & Opvoeding", titleEn: "Family & Parenting", titleTh: "ครอบครัวและการเลี้ยงดู", icon: "👶", color: "#888",
+      source: "Les 36-38", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 15, section: "taal", title: "Sport & Vrije Tijd", titleEn: "Sports & Leisure", titleTh: "กีฬาและเวลาว่าง", icon: "⚽", color: "#888",
+      source: "Les 39-40, 56", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 16, section: "taal", title: "Communicatie", titleEn: "Communication", titleTh: "การสื่อสาร", icon: "📱", color: "#888",
+      source: "Les 41, 48", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 17, section: "taal", title: "Op Bezoek", titleEn: "Visiting", titleTh: "การไปเยี่ยม", icon: "🏡", color: "#888",
+      source: "Les 42-44", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 18, section: "taal", title: "Werk", titleEn: "Work & Jobs", titleTh: "งานและอาชีพ", icon: "💼", color: "#888",
+      source: "Les 47, 52", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 19, section: "taal", title: "Nederland Ontdekken", titleEn: "Discovering NL", titleTh: "สำรวจเนเธอร์แลนด์", icon: "🗺️", color: "#888",
+      source: "Les 54, 57, 60-61", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 20, section: "taal", title: "Gewoontes & Regels", titleEn: "Customs & Rules", titleTh: "ธรรมเนียมปฏิบัติและกฎ", icon: "📋", color: "#888",
+      source: "Les 58, 63-64", comingSoon: true,
+      lessons: []
+    },
+    {
+      id: 21, section: "taal", title: "Afscheid", titleEn: "Farewell", titleTh: "การอำลา", icon: "👋", color: "#888",
+      source: "Les 65", comingSoon: true,
+      lessons: []
+    },
+    // ===== SECTION B: KNS — Placeholders =====
+    {
+      id: 22, section: "kns", title: "Geografie, Vervoer & Wonen", titleEn: "Geography, Transport & Housing", titleTh: "ภูมิศาสตร์ การสัญจร และการอยู่อาศัย", icon: "🗺️", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 23, section: "kns", title: "Geschiedenis", titleEn: "History", titleTh: "ประวัติศาสตร์", icon: "📜", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 24, section: "kns", title: "Staatsinrichting & Grondwet", titleEn: "Government & Constitution", titleTh: "รัฐบาลและรัฐธรรมนูญ", icon: "🏛️", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 25, section: "kns", title: "Nederlandse Taal", titleEn: "Dutch Language", titleTh: "ภาษาดัตช์", icon: "🗣️", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 26, section: "kns", title: "Opvoeding & Onderwijs", titleEn: "Parenting & Education", titleTh: "การเลี้ยงดูและการศึกษา", icon: "🎓", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 27, section: "kns", title: "Gezondheidszorg", titleEn: "Healthcare", titleTh: "การดูแลสุขภาพ", icon: "⚕️", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 28, section: "kns", title: "Werk & Inkomen", titleEn: "Work & Income", titleTh: "การทำงานและรายได้", icon: "💶", color: "#E85D26",
+      comingSoon: true, lessons: []
+    },
+    // ===== SECTION C: UITSPRAAK — Placeholder =====
+    {
+      id: 29, section: "uitspraak", title: "Nederlandse Klanken", titleEn: "Dutch Sounds", titleTh: "เสียงภาษาดัตช์", icon: "🔊", color: "#5E9B4E",
+      comingSoon: true, lessons: []
+    },
+    {
+      id: 30, section: "uitspraak", title: "Klinkers & Medeklinkers", titleEn: "Vowels & Consonants", titleTh: "สระและพยัญชนะ", icon: "🔤", color: "#5E9B4E",
+      comingSoon: true, lessons: []
     }
   ]
 };
@@ -885,7 +1113,11 @@ function playOneBrowser(text, voiceIdx, onDone) {
   if (voiceIdx >= 0 && voiceIdx < dutchBrowserVoices.length) {
     utter.voice = dutchBrowserVoices[voiceIdx];
   } else if (dutchBrowserVoices.length > 0) {
-    const best = dutchBrowserVoices.find(v => v.lang === 'nl-NL' && !v.localService)
+    // Auto-select: prefer female nl-NL voice, then any nl-NL, then first available
+    const femaleNames = ['ellen','fenna','lotte','sophie','colette','sara','maria','fleur','merel','anna','claire'];
+    const best = dutchBrowserVoices.find(v => v.lang === 'nl-NL' && femaleNames.some(f => v.name.toLowerCase().includes(f)))
+      || dutchBrowserVoices.find(v => v.lang === 'nl-NL' && !v.localService)
+      || dutchBrowserVoices.find(v => femaleNames.some(f => v.name.toLowerCase().includes(f)))
       || dutchBrowserVoices.find(v => v.lang === 'nl-NL')
       || dutchBrowserVoices[0];
     if (best) utter.voice = best;
@@ -1055,13 +1287,15 @@ function escHtml(s) {
 function render() {
   const app = document.getElementById('app');
   if (state.view === 'home') app.innerHTML = renderHome();
+  else if (state.view === 'settings') app.innerHTML = renderSettings();
   else if (state.view === 'module') app.innerHTML = renderModule();
   else if (state.view === 'lesson') app.innerHTML = renderLesson();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderHome() {
-  const totalLessons = COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0);
+  const activeMods = COURSE_DATA.modules.filter(m => !m.comingSoon);
+  const totalLessons = activeMods.reduce((s,m) => s + m.lessons.length, 0);
   const completedCount = Object.keys(state.completedLessons).length;
   const pct = totalLessons > 0 ? (completedCount / totalLessons * 100) : 0;
 
@@ -1079,12 +1313,60 @@ function renderHome() {
     `;
   }
 
+  // Render sections
+  function renderSection(section) {
+    const mods = COURSE_DATA.modules.filter(m => m.section === section.id);
+    const sectionActive = mods.filter(m => !m.comingSoon);
+    const sectionDone = sectionActive.reduce((s,m) => s + m.lessons.filter(l => state.completedLessons[l.id]).length, 0);
+    const sectionTotal = sectionActive.reduce((s,m) => s + m.lessons.length, 0);
+    const sectionWords = sectionActive.reduce((s,m) => s + m.lessons.reduce((s2,l) => s2 + l.vocab.length, 0), 0);
+
+    return `
+      <div class="section-block" style="margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin:20px 0 10px;padding-bottom:8px;border-bottom:3px solid ${section.color}">
+          <span style="font-size:24px">${section.icon}</span>
+          <div>
+            <h2 class="serif" style="margin:0;font-size:20px;color:${section.color}">${section.title}</h2>
+            <p style="margin:2px 0 0;font-size:13px;color:#888">${section.titleEn}${sectionWords > 0 ? ` · ${sectionWords} words` : ''}${sectionTotal > 0 ? ` · ${sectionDone}/${sectionTotal} lessons` : ''}</p>
+          </div>
+        </div>
+        <p style="margin:0 0 12px;font-size:13px;color:#999">${section.descriptionTh || ''}</p>
+        <div class="module-grid">
+          ${mods.map(mod => {
+            const idx = COURSE_DATA.modules.indexOf(mod);
+            if (mod.comingSoon) {
+              return `<div class="module-card" style="border-left:5px solid #ccc;opacity:0.55;cursor:default">
+                <div class="icon" style="filter:grayscale(1)">${mod.icon}</div>
+                <h3 class="serif" style="color:#999">${escHtml(mod.title)}</h3>
+                <div class="en" style="color:#bbb">${escHtml(mod.titleEn)}</div>
+                ${mod.source ? `<div style="font-size:11px;color:#ccc;margin-top:4px">${mod.source}</div>` : ''}
+                <div class="meta" style="color:#ccc">Coming soon</div>
+              </div>`;
+            }
+            const done = mod.lessons.filter(l => state.completedLessons[l.id]).length;
+            const words = mod.lessons.reduce((s,l) => s + l.vocab.length, 0);
+            return `<button class="module-card" style="border-left:5px solid ${mod.color}" onclick="setState({view:'module',currentModule:COURSE_DATA.modules[${idx}]})">
+              <div class="icon">${mod.icon}</div>
+              <h3 class="serif">${escHtml(mod.title)}</h3>
+              <div class="en">${escHtml(mod.titleEn)}</div>
+              ${mod.titleTh ? `<div style="font-size:12px;color:#999;margin-bottom:6px">${mod.titleTh}</div>` : ''}
+              ${mod.source ? `<div style="font-size:11px;color:#bbb;margin-bottom:4px">${mod.source}</div>` : ''}
+              <div class="meta" style="color:${mod.color}">${done}/${mod.lessons.length} lessons · ${words} words</div>
+            </button>`;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <div class="header">
+      <button onclick="setState({view:'settings'})" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.2);border:none;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:18px;color:#fff;z-index:2" title="Settings">⚙️</button>
       <div class="flag"><div></div><div></div><div></div></div>
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
+      <p style="margin:6px 0 0;font-size:11px;color:rgba(255,255,255,0.5)">v0.2</p>
     </div>
 
     <div class="card">
@@ -1106,28 +1388,16 @@ function renderHome() {
     <div class="card-accent">
       <h3 style="margin:0 0 8px;color:#E85D26" class="serif">📋 About the Inburgering Exam</h3>
       <p style="margin:0;font-size:14px;line-height:1.6;color:#555">
-        The <strong>Basisexamen Inburgering Buitenland</strong> is required for the verblijfsvergunning. 
-        You'll take it at the Dutch embassy in Bangkok. It tests <strong>speaking</strong>, <strong>reading</strong>, 
-        and <strong>listening</strong> at A1 level, plus <strong>KNS</strong> (knowledge of Dutch society).
+        The <strong>Basisexamen Inburgering Buitenland</strong> has 3 parts: <strong>Leesvaardigheid</strong> (reading A1), 
+        <strong>Spreekvaardigheid</strong> (speaking A1), and <strong>KNS</strong> (knowledge of Dutch society). 
+        Based on the official <em>Naar Nederland</em> curriculum with 65 lessons.
       </p>
       <p style="margin:8px 0 0;font-size:13px;color:#888">
-        สอบ Inburgering จำเป็นสำหรับใบอนุญาตพำนัก สอบที่สถานทูตเนเธอร์แลนด์ กรุงเทพฯ
+        สอบ Inburgering มี 3 ส่วน: การอ่าน, การพูด, และความรู้เกี่ยวกับสังคมดัตช์ (KNS)
       </p>
     </div>
 
-    <div class="module-grid">
-      ${COURSE_DATA.modules.map(mod => {
-        const done = mod.lessons.filter(l => state.completedLessons[l.id]).length;
-        const words = mod.lessons.reduce((s,l) => s + l.vocab.length, 0);
-        return `<button class="module-card" style="border-left:5px solid ${mod.color}" onclick="setState({view:'module',currentModule:COURSE_DATA.modules[${COURSE_DATA.modules.indexOf(mod)}]})">
-          <div class="icon">${mod.icon}</div>
-          <h3 class="serif">${escHtml(mod.title)}</h3>
-          <div class="en">${escHtml(mod.titleEn)}</div>
-          ${mod.titleTh ? `<div style="font-size:12px;color:#999;margin-bottom:6px">${mod.titleTh}</div>` : ''}
-          <div class="meta" style="color:${mod.color}">${done}/${mod.lessons.length} lessons · ${words} words</div>
-        </button>`;
-      }).join('')}
-    </div>
+    ${COURSE_DATA.sections.map(sec => renderSection(sec)).join('')}
 
     <div class="card-blue">
       <h3 style="margin:0 0 10px" class="serif">💡 Study Tips for Thai Speakers</h3>
@@ -1136,6 +1406,92 @@ function renderHome() {
       <p class="tip"><strong>3. Practice compound words.</strong> Both Thai and Dutch love compound words — break long words into parts!</p>
       <p class="tip"><strong>4. Focus on 'de' and 'het'.</strong> Always learn the article with the noun. There's no shortcut — memorize them!</p>
       <p class="tip"><strong>5. Use the "Naar Nederland" app</strong> — it's the official preparation tool for the exam.</p>
+    </div>
+
+    <div style="text-align:center;padding:24px 0 8px;border-top:1px solid #e8e8e8;margin-top:12px">
+      <p style="margin:0 0 4px;font-size:13px;color:#999">by <strong style="color:#777">@trippledutch</strong> — built with Claude</p>
+      <p style="margin:0;font-size:12px;color:#bbb">v0.2 · February 2026</p>
+    </div>
+  `;
+}
+
+function renderSettings() {
+  const browserVoiceOptions = dutchBrowserVoices.map((v, i) =>
+    `<option value="browser-${i}" ${state.ttsEngine === 'browser-'+i ? 'selected' : ''}>${escHtml(getBrowserVoiceLabel(v))}</option>`
+  ).join('');
+
+  const currentVoiceLabel = state.ttsEngine === 'auto' ? 'Google Dutch 🌐'
+    : state.ttsEngine === 'browser-auto' ? 'Auto-select female 👩'
+    : state.ttsEngine.startsWith('browser-') ? (dutchBrowserVoices[parseInt(state.ttsEngine.replace('browser-',''),10)]?.name || 'Browser voice')
+    : 'Unknown';
+
+  return `
+    <button class="back-btn" onclick="setState({view:'home'})">← Back to Home</button>
+    <div style="padding:16px 0 12px;border-bottom:3px solid #21468B">
+      <h2 class="serif" style="margin:0 0 2px">⚙️ Settings · การตั้งค่า</h2>
+      <p style="color:#666;margin:0">Configure your learning experience</p>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">🎙️ Voice · เสียง</h3>
+
+      <div style="margin-bottom:16px">
+        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Dutch Voice Engine</label>
+        <select id="voice-select" class="voice-select" onchange="setTtsEngine(this.value)">
+          <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>🌐 Google Dutch — native speaker (desktop recommended)</option>
+          ${dutchBrowserVoices.length > 0 ? `<optgroup label="── Browser Voices (${dutchBrowserVoices.length} found) ──">
+            <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>🖥️ Auto-select best female voice 👩</option>
+            ${browserVoiceOptions}
+          </optgroup>` : ''}
+        </select>
+        <div style="font-size:12px;color:#888;margin-top:6px;line-height:1.5">
+          Current: <strong>${escHtml(currentVoiceLabel)}</strong><br>
+          🌐 Google = native speaker, needs internet · 🖥️ Browser = works offline<br>
+          📱 iPhone/iPad auto-uses browser voice (Google blocked by iOS)
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+        <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">🔊 Test Greeting</button>
+        <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">🔊 Test Sentence</button>
+        <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">🔊 Test Hard Sounds</button>
+        <button class="voice-test-btn" onclick="stopAllAudio()">⏹ Stop</button>
+      </div>
+
+      <div style="margin-bottom:4px">
+        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Speech Speed · ความเร็ว</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${[0.6, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r});render()">${r === 0.6 ? '🐢 Slow — for learning' : '🚶 Normal speed'}</button>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">📊 Progress · ความก้าวหน้า</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-size:14px;color:#555">${Object.keys(state.completedLessons).length} of ${COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0)} lessons completed</span>
+      </div>
+      <div class="progress-bar" style="margin-bottom:16px"><div class="progress-fill" style="width:${(Object.keys(state.completedLessons).length / COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0) * 100)}%"></div></div>
+      ${Object.keys(state.completedLessons).length > 0 ? `
+        <button onclick="resetProgress()" style="background:#fff;border:2px solid #E74C3C;border-radius:8px;padding:10px 20px;font-size:14px;color:#E74C3C;cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.2s">🔄 Reset All Progress</button>
+        <p style="font-size:12px;color:#999;margin:8px 0 0">This will clear all completed lessons. You'll start from scratch.</p>
+      ` : `<p style="font-size:14px;color:#999">No lessons completed yet. Start learning!</p>`}
+    </div>
+
+    <div class="card">
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">ℹ️ About</h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 8px">
+        A Dutch language course designed for Thai speakers preparing for the <strong>Basisexamen Inburgering Buitenland</strong> (A1 level).
+        Covers vocabulary, dialogues, grammar, pronunciation, and Dutch society knowledge (KNS).
+      </p>
+      <p style="font-size:13px;color:#888;line-height:1.6;margin:0 0 12px">
+        หลักสูตรภาษาดัตช์สำหรับคนไทย เตรียมสอบ Inburgering ระดับ A1
+        ครอบคลุมคำศัพท์ บทสนทนา ไวยากรณ์ การออกเสียง และความรู้เกี่ยวกับสังคมดัตช์
+      </p>
+      <div style="border-top:1px solid #eee;padding-top:12px;text-align:center">
+        <p style="margin:0 0 4px;font-size:13px;color:#999">by <strong style="color:#777">@trippledutch</strong> — built with Claude</p>
+        <p style="margin:0;font-size:12px;color:#bbb">v0.2 · February 2026</p>
+      </div>
     </div>
   `;
 }
@@ -1149,6 +1505,7 @@ function renderModule() {
       <h2 class="serif" style="margin:8px 0 2px">${escHtml(mod.title)}</h2>
       <p style="color:#666">${escHtml(mod.titleEn)}</p>
       ${mod.titleTh ? `<p style="color:#999;font-size:14px;margin-top:2px">${mod.titleTh}</p>` : ''}
+      ${mod.source ? `<p style="color:#bbb;font-size:12px;margin-top:4px">📖 ${mod.source}</p>` : ''}
     </div>
     <div class="lesson-list">
       ${mod.lessons.map((lesson, idx) => {
@@ -1222,40 +1579,13 @@ function renderVocab(mod, lesson) {
 }
 
 function renderListen(mod, lesson) {
-  const browserVoiceOptions = dutchBrowserVoices.map((v, i) =>
-    `<option value="browser-${i}" ${state.ttsEngine === 'browser-'+i ? 'selected' : ''}>${escHtml(getBrowserVoiceLabel(v))}</option>`
-  ).join('');
-
   return `
-    <div class="voice-selector">
-      <label class="serif">🎙️ Choose Dutch Voice</label>
-      <select id="voice-select" class="voice-select" onchange="setTtsEngine(this.value)">
-        <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>🌐 Google Dutch (Recommended) — native speaker quality</option>
-        ${dutchBrowserVoices.length > 0 ? `<optgroup label="── Browser Voices (${dutchBrowserVoices.length} found) ──">
-          <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>🖥️ Browser Auto-select (best available)</option>
-          ${browserVoiceOptions}
-        </optgroup>` : ''}
-      </select>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
-        <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">🔊 Test Greeting</button>
-        <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">🔊 Test Sentence</button>
-        <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">🔊 Test Hard Sounds</button>
-        <button class="voice-test-btn" onclick="stopAllAudio()">⏹ Stop</button>
-      </div>
-      <div class="voice-info">
-        🌐 <strong>Google Dutch</strong> uses a real native Dutch speaker voice (requires internet).<br>
-        🖥️ <strong>Browser voices</strong> vary by OS — Edge has the best ones. Works offline.<br>
-        📱 <strong>iPhone/iPad:</strong> Uses browser voice automatically (Google TTS blocked by iOS). The built-in Dutch voice works well!<br>
-        👩 = female · 👨 = male · 🇳🇱 = Netherlands · 🇧🇪 = Flemish · ☁️ = cloud voice
-      </div>
-    </div>
-
     <div class="listen-controls">
       <button id="play-all-btn" class="listen-btn" style="border-color:${mod.color};color:${mod.color};background:#fff" onclick="playAllWords()">▶ Play All</button>
       <button class="listen-btn" style="border-color:#888;color:#555;background:#fff" onclick="stopPlayAll()">⏹ Stop</button>
       <div class="speed-control">
         <span style="font-size:13px;color:#666;font-weight:600">Speed:</span>
-        ${[0.6, 0.8, 1.0, 1.2].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐌 Slow' : r === 0.8 ? '🐢 Learn' : r === 1.0 ? '🚶 Normal' : '🏃 Fast'}</button>`).join('')}
+        ${[0.6, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐢 Slow' : '🚶 Normal'}</button>`).join('')}
       </div>
     </div>
     <p style="color:#666;font-size:14px;margin:0 0 12px">Click any word to hear it, or use "Play All" to listen through the entire list. คลิกคำเพื่อฟังการออกเสียง</p>
@@ -1316,7 +1646,7 @@ function renderDialogue(mod, lesson) {
         <p style="font-size:13px;color:#999;margin:0;font-style:italic">💡 Try reading the Dutch lines out loud before looking at the English!</p>
         <div class="speed-control">
           <span style="font-size:12px;color:#888">Speed:</span>
-          ${[0.6, 0.8, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐢' : r === 0.8 ? '🚶' : '🏃'}</button>`).join('')}
+          ${[0.6, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r})">${r === 0.6 ? '🐢' : '🚶'}</button>`).join('')}
         </div>
       </div>
     </div>
