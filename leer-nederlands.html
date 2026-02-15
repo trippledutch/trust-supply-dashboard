@@ -789,6 +789,10 @@ function stopAllAudio() {
     currentAudio.onerror = null;
     currentAudio.ontimeupdate = null;
     currentAudio.pause();
+    // Don't destroy unlockedAudio — just stop it
+    if (currentAudio === unlockedAudio) {
+      currentAudio.src = '';
+    }
     currentAudio = null;
   }
   if ('speechSynthesis' in window) speechSynthesis.cancel();
@@ -825,35 +829,26 @@ function playOneTTS(text, onDone) {
   }
 
   // Google TTS path (default)
+  // iOS Safari blocks new Audio().play() unless from a direct user gesture.
+  // Strategy: try Google TTS, fall back to browser speech if it fails.
   const slow = state.speechRate < 0.7;
   const url = googleTtsUrl(text, slow);
-  const audio = new Audio(url);
+
+  // Use the pre-unlocked audio element if available (iOS), otherwise create new
+  const audio = unlockedAudio || new Audio();
+  audio.src = url;
   currentAudio = audio;
 
-  // Track if this audio has already fired its completion
   let done = false;
   function finish() {
     if (done) return;
     done = true;
-    currentAudio = null;
+    // Don't null out unlockedAudio — we reuse it
+    if (audio !== unlockedAudio) currentAudio = null;
+    else currentAudio = null;
     if (onDone && !playAborted) onDone();
   }
 
-  audio.onended = finish;
-
-  // Fallback: if onended doesn't fire, detect end via timeupdate
-  let lastTime = 0;
-  let stuckCount = 0;
-  audio.ontimeupdate = () => {
-    if (audio.currentTime === lastTime) {
-      stuckCount++;
-    } else {
-      stuckCount = 0;
-      lastTime = audio.currentTime;
-    }
-  };
-
-  // Safety timeout: if audio doesn't end within 10s, move on
   const safetyTimer = setTimeout(() => {
     if (!done && currentAudio === audio) {
       audio.pause();
@@ -870,11 +865,15 @@ function playOneTTS(text, onDone) {
     playOneBrowser(text, -1, onDone);
   };
 
-  audio.play().catch(() => {
-    clearTimeout(safetyTimer);
-    currentAudio = null;
-    playOneBrowser(text, -1, onDone);
-  });
+  const playPromise = audio.play();
+  if (playPromise && playPromise.catch) {
+    playPromise.catch(() => {
+      clearTimeout(safetyTimer);
+      currentAudio = null;
+      // Google TTS blocked (likely iOS) — fall back to browser speech
+      playOneBrowser(text, -1, onDone);
+    });
+  }
 }
 
 function playOneBrowser(text, voiceIdx, onDone) {
@@ -894,7 +893,53 @@ function playOneBrowser(text, voiceIdx, onDone) {
   let done = false;
   const safetyTimer = setTimeout(() => { if (!done) { done = true; if (onDone && !playAborted) onDone(); } }, 10000);
   utter.onend = () => { clearTimeout(safetyTimer); if (!done) { done = true; if (onDone && !playAborted) onDone(); } };
+  // iOS fix: speechSynthesis can get stuck in paused state
+  if (speechSynthesis.paused) speechSynthesis.resume();
   speechSynthesis.speak(utter);
+}
+
+// =================================================================
+// iOS Audio Unlock
+// =================================================================
+// iOS Safari requires the very first Audio.play() to happen inside
+// a direct user-gesture (touchend/click). We create a single Audio
+// element and "unlock" it on the first tap anywhere on the page.
+// After that, we can reuse it with .src = newUrl and .play() works.
+let unlockedAudio = null;
+let audioUnlocked = false;
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+  audioUnlocked = true;
+
+  // Create and unlock an Audio element with a silent data URI
+  const silentDataUri = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYAAAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYAAAAAAAAAAAAAAAAA';
+  unlockedAudio = new Audio();
+  unlockedAudio.src = silentDataUri;
+  const p = unlockedAudio.play();
+  if (p && p.catch) p.catch(() => {});
+
+  // Also wake up speechSynthesis on iOS
+  if ('speechSynthesis' in window) {
+    const wake = new SpeechSynthesisUtterance('');
+    wake.volume = 0;
+    speechSynthesis.speak(wake);
+  }
+
+  document.removeEventListener('touchend', unlockAudio, true);
+  document.removeEventListener('click', unlockAudio, true);
+}
+
+// Listen for first user interaction
+document.addEventListener('touchend', unlockAudio, true);
+document.addEventListener('click', unlockAudio, true);
+
+// Also detect iOS to auto-switch to browser voices if Google TTS fails
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+if (isIOS && state.ttsEngine === 'auto') {
+  // On iOS, Google TTS often fails due to CORS — default to browser
+  state.ttsEngine = 'browser-auto';
+  localStorage.setItem('dutchTTS', 'browser-auto');
 }
 
 // High-level speak — for single word clicks (stops everything first)
@@ -1200,6 +1245,7 @@ function renderListen(mod, lesson) {
       <div class="voice-info">
         🌐 <strong>Google Dutch</strong> uses a real native Dutch speaker voice (requires internet).<br>
         🖥️ <strong>Browser voices</strong> vary by OS — Edge has the best ones. Works offline.<br>
+        📱 <strong>iPhone/iPad:</strong> Uses browser voice automatically (Google TTS blocked by iOS). The built-in Dutch voice works well!<br>
         👩 = female · 👨 = male · 🇳🇱 = Netherlands · 🇧🇪 = Flemish · ☁️ = cloud voice
       </div>
     </div>
