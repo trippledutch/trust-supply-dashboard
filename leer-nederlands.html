@@ -121,14 +121,16 @@
   .module-header .icon { font-size: 48px; }
 
   /* Tabs */
-  .tabs { display: flex; gap: 6px; margin: 16px 0; overflow-x: auto; padding-bottom: 4px; }
+  .tabs { display: flex; gap: 4px; margin: 16px 0; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab {
-    padding: 10px 16px; border-radius: 20px; border: 1px solid #ddd;
-    background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+    padding: 9px 12px; border-radius: 20px; border: 1px solid #ddd;
+    background: #fff; cursor: pointer; font-size: 12px; font-weight: 600;
     white-space: nowrap; font-family: inherit; color: #555; transition: all 0.2s;
+    flex-shrink: 0;
   }
   .tab:hover { background: #f0f0f0; }
-  .tab.active { color: #fff; font-weight: 600; border-color: transparent; }
+  .tab.active { color: #fff; font-weight: 700; border-color: transparent; }
 
   /* Vocab */
   .vocab-grid {
@@ -1277,37 +1279,380 @@ const COURSE_DATA = {
       ]
     },
 
-    // ===== Themes 11-21: PLACEHOLDERS =====
+    // ===== Themes 11-16: POPULATED =====
+// Theme 11: Weekend & Feest (Les 32)
     {
-      id: 11, section: "taal", title: "Weekend & Feest", titleEn: "Weekend & Celebrations", titleTh: "สุดสัปดาห์และงานเฉลิมฉลอง", icon: "🎉", color: "#888",
-      source: "Les 32, 55", comingSoon: true,
-      lessons: []
+      id: 11, section: "taal", title: "Weekend & Feest", titleEn: "Weekend & Celebrations", titleTh: "สุดสัปดาห์และงานเฉลิมฉลอง", icon: "🎉", color: "#C0392B",
+      source: "📖 Les 32",
+      lessons: [
+        {
+          id: "t11a", title: "Een Feestje Organiseren", titleEn: "Organizing a Party", titleTh: "จัดงานเลี้ยง",
+          vocab: [
+            { nl: "jarig", en: "having a birthday", phonetic: "YAH-ruch", thai: "วันเกิด", note: "'ik ben jarig' = it's my birthday" },
+            { nl: "feestje", en: "party (small)", phonetic: "FAYST-yuh", thai: "งานเลี้ยงเล็กๆ", note: "het feestje — diminutive of 'feest'" },
+            { nl: "feest", en: "party / celebration", phonetic: "FAYST", thai: "งานเฉลิมฉลอง", note: "het feest" },
+            { nl: "idee", en: "idea", phonetic: "ee-DAY", thai: "ความคิด", note: "het idee — 'goed idee!' = good idea!" },
+            { nl: "oplossing", en: "solution", phonetic: "OP-los-sing", thai: "วิธีแก้ปัญหา", note: "de oplossing" },
+            { nl: "uitslapen", en: "to sleep in", phonetic: "OYT-slah-pun", thai: "นอนตื่นสาย", note: "separable: 'ik slaap uit'" },
+            { nl: "kerst", en: "Christmas", phonetic: "KERST", thai: "คริสต์มาส", note: "de kerst — big holiday in NL!" },
+            { nl: "afgesproken", en: "agreed / it's a deal", phonetic: "AF-chuh-sproh-kun", thai: "ตกลง", note: "'afgesproken!' = agreed/deal!" },
+            { nl: "vertellen", en: "to tell", phonetic: "vur-TEL-un", thai: "บอก/เล่า", note: "'vertel eens!' = tell me!" },
+            { nl: "boodschappen", en: "groceries / shopping", phonetic: "BOHT-schah-pun", thai: "ซื้อของ", note: "de boodschappen — 'boodschappen doen' = go shopping" },
+            { nl: "meegaan", en: "to come along", phonetic: "MAY-chahn", thai: "ไปด้วย", note: "separable: 'ga je mee?'" },
+            { nl: "tassen", en: "bags", phonetic: "TAS-un", thai: "กระเป๋า", note: "de tas → de tassen" },
+            { nl: "dragen", en: "to carry", phonetic: "DRAH-chun", thai: "ถือ/แบก" },
+            { nl: "handig", en: "handy / convenient", phonetic: "HAN-duch", thai: "สะดวก" },
+            { nl: "sterk", en: "strong", phonetic: "STERK", thai: "แข็งแรง" },
+            { nl: "ontmoeten", en: "to meet", phonetic: "ont-MOO-tun", thai: "พบปะ", note: "'vrienden ontmoeten' = meet friends" },
+            { nl: "vrienden", en: "friends", phonetic: "VREEN-dun", thai: "เพื่อนๆ", note: "de vriend → de vrienden" },
+            { nl: "natuur", en: "nature", phonetic: "nah-TEWR", thai: "ธรรมชาติ", note: "de natuur — Dutch love nature walks!" },
+            { nl: "zoeken", en: "to search / look for", phonetic: "ZOO-kun", thai: "ค้นหา" },
+            { nl: "aandacht", en: "attention", phonetic: "AHN-dacht", thai: "ความสนใจ", note: "de aandacht — 'aandacht besteden aan' = pay attention to" },
+          ],
+          dialogues: [
+            {
+              situation: "Planning a birthday party — วางแผนงานวันเกิด",
+              lines: [
+                { speaker: "You", nl: "Ik ben volgende week jarig!", en: "It's my birthday next week!" },
+                { speaker: "Friend", nl: "Leuk! Geef je een feestje?", en: "Nice! Are you having a party?" },
+                { speaker: "You", nl: "Ja, op zaterdagavond. Kun je komen?", en: "Yes, on Saturday evening. Can you come?" },
+                { speaker: "Friend", nl: "Zaterdag? Ja, dat kan! Afgesproken!", en: "Saturday? Yes, I can! It's a deal!" },
+                { speaker: "You", nl: "Ik moet nog boodschappen doen. Ga je mee?", en: "I still need to go shopping. Will you come along?" },
+                { speaker: "Friend", nl: "Ja, ik help je de tassen dragen.", en: "Yes, I'll help you carry the bags." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Modal Verbs: kunnen, moeten, willen",
+            explanation: "Modal verbs change meaning: <strong>kunnen</strong> (can/be able), <strong>moeten</strong> (must/have to), <strong>willen</strong> (want to). The main verb goes to the END as infinitive: 'Ik <strong>kan</strong> morgen <strong>komen</strong>'. 'Je <strong>moet</strong> boodschappen <strong>doen</strong>'.<br><br>🇹🇭 กริยาช่วย: kunnen (สามารถ), moeten (ต้อง), willen (อยาก) — กริยาหลักไปท้ายประโยค",
+            examples: [
+              { nl: "Kun je morgen komen?", en: "Can you come tomorrow?" },
+              { nl: "Ik moet boodschappen doen.", en: "I have to go shopping." },
+              { nl: "Wil je een feestje geven?", en: "Do you want to throw a party?" },
+              { nl: "Zij kan goed Nederlands spreken.", en: "She can speak Dutch well." },
+            ]
+          },
+          exercises: [
+            { question: "'Ik ben jarig' means:", options: ["It's my birthday", "I am old", "I am happy", "I am tired"], answer: "It's my birthday" },
+            { question: "'Boodschappen doen' means:", options: ["go shopping", "go walking", "go swimming", "go sleeping"], answer: "go shopping" },
+            { question: "'Afgesproken!' means:", options: ["Agreed/Deal!", "Goodbye!", "Sorry!", "Help!"], answer: "Agreed/Deal!" },
+            { question: "'Ga je mee?' means:", options: ["Will you come along?", "Are you going?", "Are you staying?", "Do you understand?"], answer: "Will you come along?" },
+            { question: "'Ik ___ morgen komen' (can)", options: ["kan", "moet", "wil", "mag"], answer: "kan" },
+            { question: "'Feestje' is a diminutive of:", options: ["feest", "fiets", "feit", "foto"], answer: "feest" },
+          ]
+        }
+      ]
     },
+    // Theme 12: Taal Leren (Les 33)
     {
-      id: 12, section: "taal", title: "Taal Leren", titleEn: "Learning Dutch", titleTh: "การเรียนภาษาดัตช์", icon: "📚", color: "#888",
-      source: "Les 33, 45-46", comingSoon: true,
-      lessons: []
+      id: 12, section: "taal", title: "Taal Leren", titleEn: "Learning Dutch", titleTh: "เรียนภาษาดัตช์", icon: "📚", color: "#16A085",
+      source: "📖 Les 33",
+      lessons: [
+        {
+          id: "t12a", title: "Het Inburgeringsexamen", titleEn: "The Integration Exam", titleTh: "สอบ Inburgering",
+          vocab: [
+            { nl: "waarom", en: "why", phonetic: "WAHR-om", thai: "ทำไม" },
+            { nl: "omdat", en: "because", phonetic: "om-DAT", thai: "เพราะว่า", note: "puts verb at end: 'omdat ik Nederlands leer'" },
+            { nl: "oefenen", en: "to practice", phonetic: "OO-fuh-nun", thai: "ฝึก" },
+            { nl: "vooral", en: "especially", phonetic: "vohr-AHL", thai: "โดยเฉพาะ" },
+            { nl: "verstaan", en: "to understand (hearing)", phonetic: "vur-STAHN", thai: "ฟังเข้าใจ", note: "verstaan = understand speech. begrijpen = understand meaning" },
+            { nl: "spreken", en: "to speak", phonetic: "SPRAY-kun", thai: "พูด", note: "formal. 'praten' is informal" },
+            { nl: "lezen", en: "to read", phonetic: "LAY-zun", thai: "อ่าน" },
+            { nl: "belangrijk", en: "important", phonetic: "buh-LANG-rayk", thai: "สำคัญ" },
+            { nl: "toets", en: "test", phonetic: "TOOTS", thai: "แบบทดสอบ", note: "de toets" },
+            { nl: "examen", en: "exam", phonetic: "ek-SAH-mun", thai: "ข้อสอบ", note: "het examen" },
+            { nl: "onderdeel", en: "part / component", phonetic: "ON-dur-dayl", thai: "ส่วน", note: "het onderdeel" },
+            { nl: "zin", en: "sentence", phonetic: "ZIN", thai: "ประโยค", note: "de zin — also means 'desire' (zin hebben in)" },
+            { nl: "stem", en: "voice", phonetic: "STEM", thai: "เสียง", note: "de stem" },
+            { nl: "nazeggen", en: "to repeat (after someone)", phonetic: "NAH-zeg-un", thai: "พูดตาม", note: "separable: 'zeg mij na'" },
+            { nl: "hoeveel", en: "how many / how much", phonetic: "HOO-vayl", thai: "เท่าไร/กี่" },
+            { nl: "radio", en: "radio", phonetic: "RAH-dee-oh", thai: "วิทยุ", note: "de radio — 'luister naar de radio'" },
+            { nl: "mogelijk", en: "possible", phonetic: "MOH-chuh-luk", thai: "เป็นไปได้" },
+            { nl: "succes", en: "success", phonetic: "suk-SES", thai: "สำเร็จ", note: "het succes — 'veel succes!' = good luck!" },
+            { nl: "website", en: "website", phonetic: "WEB-site", thai: "เว็บไซต์" },
+            { nl: "voorbeeldexamen", en: "practice exam", phonetic: "VOHR-baylt-ek-sah-mun", thai: "ข้อสอบตัวอย่าง" },
+          ],
+          dialogues: [
+            {
+              situation: "Discussing exam preparation — คุยเรื่องเตรียมสอบ",
+              lines: [
+                { speaker: "Teacher", nl: "Waarom leer je Nederlands?", en: "Why are you learning Dutch?" },
+                { speaker: "You", nl: "Omdat ik het inburgeringsexamen moet doen.", en: "Because I have to take the integration exam." },
+                { speaker: "Teacher", nl: "Goed. Het examen heeft drie onderdelen.", en: "Good. The exam has three parts." },
+                { speaker: "You", nl: "Ja, spreken, lezen en KNS.", en: "Yes, speaking, reading and KNS." },
+                { speaker: "Teacher", nl: "Precies. Oefen vooral het spreken.", en: "Exactly. Practice especially the speaking." },
+                { speaker: "You", nl: "Zijn er voorbeeldexamens op de website?", en: "Are there practice exams on the website?" },
+                { speaker: "Teacher", nl: "Ja! Veel succes met oefenen!", en: "Yes! Good luck with practicing!" },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Subordinate Clauses: omdat, dat, als",
+            explanation: "After <strong>omdat</strong> (because), <strong>dat</strong> (that), <strong>als</strong> (if/when), the verb moves to the END: 'Ik leer Nederlands <strong>omdat</strong> ik naar Nederland <strong>ga</strong>'. Compare: 'Ik ga naar Nederland' → 'omdat ik naar Nederland ga'.<br><br>🇹🇭 ประโยคย่อย: หลัง omdat/dat/als กริยาไปท้ายประโยค เช่น 'omdat ik Nederlands leer'",
+            examples: [
+              { nl: "Ik oefen omdat het examen belangrijk is.", en: "I practice because the exam is important." },
+              { nl: "Ik weet dat spreken moeilijk is.", en: "I know that speaking is difficult." },
+              { nl: "Als ik oefen, word ik beter.", en: "If I practice, I get better." },
+              { nl: "Hij zegt dat hij morgen komt.", en: "He says that he comes tomorrow." },
+            ]
+          },
+          exercises: [
+            { question: "'Omdat' means:", options: ["because", "although", "before", "after"], answer: "because" },
+            { question: "After 'omdat', the verb goes to:", options: ["the end", "the beginning", "stays in place", "disappears"], answer: "the end" },
+            { question: "'Veel succes!' means:", options: ["Good luck!", "Well done!", "See you!", "Thank you!"], answer: "Good luck!" },
+            { question: "'Verstaan' specifically means:", options: ["understand speech", "understand meaning", "stand under", "stand up"], answer: "understand speech" },
+            { question: "The exam has ___ onderdelen:", options: ["drie", "twee", "vier", "vijf"], answer: "drie" },
+            { question: "'Ik oefen ___ het examen belangrijk is'", options: ["omdat", "maar", "en", "of"], answer: "omdat" },
+          ]
+        }
+      ]
     },
+    // Theme 13: Boodschappen (Les 34)
     {
-      id: 13, section: "taal", title: "Boodschappen", titleEn: "Shopping", titleTh: "การซื้อของ", icon: "🛒", color: "#888",
-      source: "Les 34, 53, 59", comingSoon: true,
-      lessons: []
+      id: 13, section: "taal", title: "Boodschappen", titleEn: "Shopping", titleTh: "ซื้อของ", icon: "🛒", color: "#E67E22",
+      source: "📖 Les 34",
+      lessons: [
+        {
+          id: "t13a", title: "Op de Markt", titleEn: "At the Market", titleTh: "ที่ตลาด",
+          vocab: [
+            { nl: "vers", en: "fresh", phonetic: "VERS", thai: "สด", note: "'verse groente' = fresh vegetables" },
+            { nl: "bruin", en: "brown", phonetic: "BROYN", thai: "สีน้ำตาล", note: "'bruin brood' = brown/whole wheat bread" },
+            { nl: "wit", en: "white", phonetic: "WIT", thai: "ขาว", note: "'wit brood' = white bread" },
+            { nl: "het liefst", en: "preferably / most of all", phonetic: "hut LEEFST", thai: "ชอบมากที่สุด" },
+            { nl: "gesneden", en: "sliced", phonetic: "chuh-SNAY-dun", thai: "หั่นแล้ว", note: "'gesneden brood' = sliced bread" },
+            { nl: "eieren", en: "eggs", phonetic: "AY-uh-run", thai: "ไข่", note: "het ei → de eieren (irregular plural!)" },
+            { nl: "fruit", en: "fruit", phonetic: "FROYT", thai: "ผลไม้", note: "het fruit" },
+            { nl: "moeten", en: "must / have to", phonetic: "MOO-tun", thai: "ต้อง", note: "modal verb: 'ik moet, jij moet'" },
+            { nl: "cadeautje", en: "small gift", phonetic: "kah-DOH-tyuh", thai: "ของขวัญเล็กๆ", note: "het cadeautje — diminutive of 'cadeau'" },
+            { nl: "kopen", en: "to buy", phonetic: "KOH-pun", thai: "ซื้อ", note: "'ik koop, jij koopt'" },
+            { nl: "vanavond", en: "tonight / this evening", phonetic: "van-AH-vont", thai: "เย็นนี้" },
+            { nl: "fles", en: "bottle", phonetic: "FLES", thai: "ขวด", note: "de fles — 'een fles wijn' = a bottle of wine" },
+            { nl: "wijn", en: "wine", phonetic: "WAYN", thai: "ไวน์", note: "de wijn" },
+            { nl: "chocola", en: "chocolate", phonetic: "shoh-koh-LAH", thai: "ช็อกโกแลต", note: "de chocola" },
+            { nl: "winkelcentrum", en: "shopping center", phonetic: "WIN-kul-sen-trum", thai: "ศูนย์การค้า", note: "het winkelcentrum" },
+            { nl: "rechtdoor", en: "straight ahead", phonetic: "RECHT-dohr", thai: "ตรงไป" },
+            { nl: "rechtsaf", en: "turn right", phonetic: "RECHTS-af", thai: "เลี้ยวขวา" },
+            { nl: "kerk", en: "church", phonetic: "KERK", thai: "โบสถ์", note: "de kerk" },
+            { nl: "langs", en: "past / along", phonetic: "LANGS", thai: "ผ่าน" },
+          ],
+          dialogues: [
+            {
+              situation: "Shopping at the market — ซื้อของที่ตลาด",
+              lines: [
+                { speaker: "You", nl: "Ik moet boodschappen doen. Ik heb verse eieren nodig.", en: "I need to go shopping. I need fresh eggs." },
+                { speaker: "Seller", nl: "Hoeveel eieren? Zes of tien?", en: "How many eggs? Six or ten?" },
+                { speaker: "You", nl: "Tien, alstublieft. En een bruin brood, gesneden.", en: "Ten, please. And a brown bread, sliced." },
+                { speaker: "Seller", nl: "Nog iets anders?", en: "Anything else?" },
+                { speaker: "You", nl: "Ja, ik moet ook fruit kopen. En een fles wijn.", en: "Yes, I also need to buy fruit. And a bottle of wine." },
+                { speaker: "Seller", nl: "Een cadeautje voor vanavond?", en: "A gift for tonight?" },
+                { speaker: "You", nl: "Ja! En chocola. Mijn vriendin is gek op chocola.", en: "Yes! And chocolate. My friend loves chocolate." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Directions: rechtdoor, rechtsaf, linksaf",
+            explanation: "Giving directions: <strong>rechtdoor</strong> (straight ahead), <strong>rechtsaf</strong> (turn right), <strong>linksaf</strong> (turn left), <strong>langs</strong> (past), <strong>voorbij</strong> (beyond). 'Ga rechtdoor en dan rechtsaf bij de kerk.'<br><br>🇹🇭 บอกทิศทาง: rechtdoor (ตรงไป), rechtsaf (เลี้ยวขวา), linksaf (เลี้ยวซ้าย), langs (ผ่าน)",
+            examples: [
+              { nl: "Ga rechtdoor en dan rechtsaf.", en: "Go straight and then turn right." },
+              { nl: "Het winkelcentrum is voorbij de kerk.", en: "The shopping center is past the church." },
+              { nl: "Loop langs het park.", en: "Walk past the park." },
+              { nl: "Bij de hoek linksaf.", en: "Turn left at the corner." },
+            ]
+          },
+          exercises: [
+            { question: "'Vers' means:", options: ["fresh", "far", "fast", "fish"], answer: "fresh" },
+            { question: "The plural of 'ei' is:", options: ["eieren", "eien", "eis", "eiers"], answer: "eieren" },
+            { question: "'Rechtdoor' means:", options: ["straight ahead", "turn right", "turn left", "go back"], answer: "straight ahead" },
+            { question: "'Boodschappen doen' means:", options: ["go shopping", "go working", "go walking", "go sleeping"], answer: "go shopping" },
+            { question: "'Gesneden brood' is:", options: ["sliced bread", "fresh bread", "brown bread", "white bread"], answer: "sliced bread" },
+            { question: "'Een fles wijn' is:", options: ["a bottle of wine", "a glass of wine", "a box of wine", "a can of wine"], answer: "a bottle of wine" },
+          ]
+        }
+      ]
     },
+    // Theme 14: Gezin & Opvoeding (Les 36-38)
     {
-      id: 14, section: "taal", title: "Gezin & Opvoeding", titleEn: "Family & Parenting", titleTh: "ครอบครัวและการเลี้ยงดู", icon: "👶", color: "#888",
-      source: "Les 36-38", comingSoon: true,
-      lessons: []
+      id: 14, section: "taal", title: "Gezin & Opvoeding", titleEn: "Family Life & Education", titleTh: "ครอบครัวและการศึกษา", icon: "👨‍👩‍👧‍👦", color: "#2C3E50",
+      source: "📖 Les 36-38",
+      lessons: [
+        {
+          id: "t14a", title: "Het Gezin", titleEn: "Family Life", titleTh: "ชีวิตครอบครัว",
+          vocab: [
+            { nl: "kind", en: "child", phonetic: "KINT", thai: "ลูก/เด็ก", note: "het kind → de kinderen" },
+            { nl: "broer", en: "brother", phonetic: "BROOR", thai: "พี่ชาย/น้องชาย", note: "de broer → de broers" },
+            { nl: "zus", en: "sister", phonetic: "ZUS", thai: "พี่สาว/น้องสาว", note: "de zus → de zussen" },
+            { nl: "getrouwd", en: "married", phonetic: "chuh-TROUT", thai: "แต่งงานแล้ว", note: "'getrouwd zijn' = to be married" },
+            { nl: "leven", en: "life", phonetic: "LAY-vun", thai: "ชีวิต", note: "het leven" },
+            { nl: "veranderen", en: "to change", phonetic: "vur-AN-duh-run", thai: "เปลี่ยน" },
+            { nl: "organiseren", en: "to organize", phonetic: "or-chah-nee-ZAY-run", thai: "จัดการ" },
+            { nl: "spelen", en: "to play", phonetic: "SPAY-lun", thai: "เล่น" },
+            { nl: "piano", en: "piano", phonetic: "pee-AH-noh", thai: "เปียโน", note: "de piano" },
+            { nl: "houden van", en: "to love", phonetic: "HOW-dun van", thai: "รัก", note: "'ik hou van muziek' = I love music" },
+            { nl: "muziek", en: "music", phonetic: "mew-ZEEK", thai: "ดนตรี", note: "de muziek" },
+            { nl: "voetbal", en: "football/soccer", phonetic: "FOOT-bal", thai: "ฟุตบอล", note: "het voetbal" },
+            { nl: "trainen", en: "to train / practice", phonetic: "TRAY-nun", thai: "ฝึกซ้อม" },
+            { nl: "ver", en: "far", phonetic: "VER", thai: "ไกล", note: "opposite: dichtbij (nearby)" },
+            { nl: "taken", en: "tasks / chores", phonetic: "TAH-kun", thai: "หน้าที่", note: "de taak → de taken" },
+            { nl: "begrijpen", en: "to understand", phonetic: "buh-GRAY-pun", thai: "เข้าใจ", note: "begrijpen = understand meaning (vs verstaan = understand speech)" },
+          ],
+          dialogues: [
+            {
+              situation: "Talking about family — คุยเรื่องครอบครัว",
+              lines: [
+                { speaker: "Friend", nl: "Hoe groot is jouw gezin?", en: "How big is your family?" },
+                { speaker: "You", nl: "Ik heb twee broers en een zus.", en: "I have two brothers and a sister." },
+                { speaker: "Friend", nl: "Zijn ze getrouwd?", en: "Are they married?" },
+                { speaker: "You", nl: "Ja, mijn oudste broer is getrouwd. Hij heeft twee kinderen.", en: "Yes, my oldest brother is married. He has two children." },
+                { speaker: "Friend", nl: "Wat doen de kinderen?", en: "What do the children do?" },
+                { speaker: "You", nl: "De oudste speelt piano en de jongste houdt van voetbal.", en: "The oldest plays piano and the youngest loves football." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Houden van & Hobbies",
+            explanation: "Use <strong>houden van</strong> (to love/like) for hobbies and preferences: 'Ik hou van muziek'. Use <strong>graag</strong> + verb for 'like doing': 'Ik voetbal graag'. Use <strong>leuk vinden</strong> for 'find nice': 'Ik vind voetbal leuk'.<br><br>🇹🇭 การบอกความชอบ: houden van (รัก/ชอบ), graag + กริยา (ชอบทำ), leuk vinden (คิดว่าสนุก)",
+            examples: [
+              { nl: "Ik hou van Nederlandse muziek.", en: "I love Dutch music." },
+              { nl: "Zij voetbalt graag.", en: "She likes playing football." },
+              { nl: "Wij vinden fietsen leuk.", en: "We think cycling is fun." },
+              { nl: "Hij houdt van zijn kinderen.", en: "He loves his children." },
+            ]
+          },
+          exercises: [
+            { question: "The plural of 'kind' is:", options: ["kinderen", "kinden", "kinds", "kindjes"], answer: "kinderen" },
+            { question: "'Getrouwd' means:", options: ["married", "divorced", "engaged", "single"], answer: "married" },
+            { question: "'Ik hou van muziek' means:", options: ["I love music", "I hear music", "I play music", "I hate music"], answer: "I love music" },
+            { question: "'Broer' means:", options: ["brother", "bread", "bridge", "brown"], answer: "brother" },
+            { question: "'Begrijpen' means:", options: ["to understand", "to grab", "to greet", "to grow"], answer: "to understand" },
+            { question: "'Ver' is the opposite of:", options: ["dichtbij", "groot", "snel", "mooi"], answer: "dichtbij" },
+          ]
+        }
+      ]
     },
+    // Theme 15: Sport & Vrije Tijd (Les 39-40)
     {
-      id: 15, section: "taal", title: "Sport & Vrije Tijd", titleEn: "Sports & Leisure", titleTh: "กีฬาและเวลาว่าง", icon: "⚽", color: "#888",
-      source: "Les 39-40, 56", comingSoon: true,
-      lessons: []
+      id: 15, section: "taal", title: "Sport & Vrije Tijd", titleEn: "Sports & Free Time", titleTh: "กีฬาและเวลาว่าง", icon: "⚽", color: "#27AE60",
+      source: "📖 Les 39-40",
+      lessons: [
+        {
+          id: "t15a", title: "De Wedstrijd", titleEn: "The Match", titleTh: "การแข่งขัน",
+          vocab: [
+            { nl: "wedstrijd", en: "match / game", phonetic: "WET-strayt", thai: "การแข่งขัน", note: "de wedstrijd" },
+            { nl: "voetballen", en: "to play football", phonetic: "FOOT-bal-un", thai: "เล่นฟุตบอล" },
+            { nl: "winnen", en: "to win", phonetic: "WIN-un", thai: "ชนะ", note: "opposite: verliezen (to lose)" },
+            { nl: "verliezen", en: "to lose", phonetic: "vur-LEE-zun", thai: "แพ้" },
+            { nl: "ploeg", en: "team", phonetic: "PLOOCH", thai: "ทีม", note: "de ploeg — also 'het team'" },
+            { nl: "doel", en: "goal", phonetic: "DOOL", thai: "ประตู/เป้าหมาย", note: "het doel — both goal (sports) and goal (aim)" },
+            { nl: "bal", en: "ball", phonetic: "BAL", thai: "ลูกบอล", note: "de bal" },
+            { nl: "rennen", en: "to run", phonetic: "REN-un", thai: "วิ่ง" },
+            { nl: "springen", en: "to jump", phonetic: "SPRING-un", thai: "กระโดด" },
+            { nl: "hard", en: "hard / fast", phonetic: "HART", thai: "แรง/เร็ว", note: "'hard lopen' = to run fast" },
+            { nl: "speler", en: "player", phonetic: "SPAY-lur", thai: "นักเล่น", note: "de speler → de spelers" },
+            { nl: "pauze", en: "break / halftime", phonetic: "POW-zuh", thai: "พักครึ่ง", note: "de pauze" },
+            { nl: "energie", en: "energy", phonetic: "ay-ner-CHEE", thai: "พลังงาน", note: "de energie" },
+            { nl: "kans", en: "chance", phonetic: "KANS", thai: "โอกาส", note: "de kans" },
+            { nl: "kracht", en: "strength / power", phonetic: "KRACHT", thai: "พลัง", note: "de kracht" },
+            { nl: "flink", en: "brave / tough", phonetic: "FLINK", thai: "กล้าหาญ", note: "'wees flink!' = be brave!" },
+            { nl: "huilen", en: "to cry", phonetic: "HOY-lun", thai: "ร้องไห้" },
+            { nl: "douche", en: "shower", phonetic: "DOOSH", thai: "ฝักบัว", note: "de douche" },
+          ],
+          dialogues: [
+            {
+              situation: "After the football match — หลังเกมฟุตบอล",
+              lines: [
+                { speaker: "Coach", nl: "Goed gespeeld! We hebben gewonnen!", en: "Well played! We won!" },
+                { speaker: "Player", nl: "Het was een moeilijke wedstrijd.", en: "It was a difficult match." },
+                { speaker: "Coach", nl: "Ja, maar jullie hadden veel energie.", en: "Yes, but you all had a lot of energy." },
+                { speaker: "You", nl: "De spelers renden heel hard!", en: "The players ran very fast!" },
+                { speaker: "Player", nl: "Ik ben moe. Waar is de douche?", en: "I'm tired. Where is the shower?" },
+                { speaker: "Coach", nl: "Eerst water drinken! En dan douchen.", en: "First drink water! And then shower." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Past Tense: Perfect (Voltooid tegenwoordige tijd)",
+            explanation: "Dutch past tense uses <strong>hebben/zijn + past participle</strong>. Regular: ge- + stem + -d/-t. 'gespeeld' (played), 'gewerkt' (worked). The past participle goes to the END: 'Wij <strong>hebben</strong> goed <strong>gespeeld</strong>'.<br><br>🇹🇭 อดีตกาล: ใช้ hebben/zijn + กริยาช่อง 3 เช่น 'Ik heb gespeeld' = ฉันได้เล่นแล้ว",
+            examples: [
+              { nl: "Wij hebben gewonnen!", en: "We won!" },
+              { nl: "Hij heeft hard gewerkt.", en: "He worked hard." },
+              { nl: "Ik heb gisteren gevoetbald.", en: "I played football yesterday." },
+              { nl: "Zij hebben de wedstrijd verloren.", en: "They lost the match." },
+            ]
+          },
+          exercises: [
+            { question: "'Wedstrijd' means:", options: ["match/game", "weather", "wedding", "weekend"], answer: "match/game" },
+            { question: "The opposite of 'winnen' is:", options: ["verliezen", "verdienen", "vertellen", "vertrekken"], answer: "verliezen" },
+            { question: "'Wij hebben gewonnen' — what tense is this?", options: ["past (perfect)", "present", "future", "imperative"], answer: "past (perfect)" },
+            { question: "'Rennen' means:", options: ["to run", "to rain", "to rest", "to read"], answer: "to run" },
+            { question: "'Wees flink!' means:", options: ["Be brave!", "Be quick!", "Be quiet!", "Be careful!"], answer: "Be brave!" },
+            { question: "The past participle of 'spelen' is:", options: ["gespeeld", "gespeel", "gespeelt", "spelen"], answer: "gespeeld" },
+          ]
+        }
+      ]
     },
+    // Theme 16: Communicatie (Les 41, 48)
     {
-      id: 16, section: "taal", title: "Communicatie", titleEn: "Communication", titleTh: "การสื่อสาร", icon: "📱", color: "#888",
-      source: "Les 41, 48", comingSoon: true,
-      lessons: []
+      id: 16, section: "taal", title: "Communicatie", titleEn: "Communication", titleTh: "การสื่อสาร", icon: "✉️", color: "#8E44AD",
+      source: "📖 Les 41",
+      lessons: [
+        {
+          id: "t16a", title: "Schrijven & Bellen", titleEn: "Writing & Calling", titleTh: "เขียนและโทร",
+          vocab: [
+            { nl: "schrijven", en: "to write", phonetic: "SCHRAY-vun", thai: "เขียน" },
+            { nl: "brief", en: "letter", phonetic: "BREEF", thai: "จดหมาย", note: "de brief → de brieven" },
+            { nl: "e-mail", en: "email", phonetic: "EE-mayl", thai: "อีเมล", note: "de e-mail" },
+            { nl: "bellen", en: "to call (phone)", phonetic: "BEL-un", thai: "โทรศัพท์" },
+            { nl: "sturen", en: "to send", phonetic: "STEW-run", thai: "ส่ง", note: "'een brief sturen' = to send a letter" },
+            { nl: "bericht", en: "message", phonetic: "buh-RICHT", thai: "ข้อความ", note: "het bericht" },
+            { nl: "antwoorden", en: "to answer / reply", phonetic: "ANT-wohr-dun", thai: "ตอบ" },
+            { nl: "begint", en: "begins", phonetic: "buh-CHINT", thai: "เริ่ม" },
+            { nl: "geachte", en: "dear (formal)", phonetic: "chuh-ACH-tuh", thai: "เรียน (ทางการ)", note: "'Geachte heer/mevrouw' = Dear sir/madam" },
+            { nl: "beste", en: "dear (informal)", phonetic: "BES-tuh", thai: "ถึง (ไม่ทางการ)", note: "'Beste Anna' = Dear Anna" },
+            { nl: "met vriendelijke groet", en: "kind regards", phonetic: "met VREEN-duh-luh-kuh CHROOT", thai: "ด้วยความนับถือ" },
+            { nl: "uitnodigen", en: "to invite", phonetic: "OYT-noh-dih-chun", thai: "เชิญ", note: "separable: 'ik nodig je uit'" },
+            { nl: "uitnodiging", en: "invitation", phonetic: "OYT-noh-dih-ching", thai: "คำเชิญ", note: "de uitnodiging" },
+            { nl: "afzender", en: "sender", phonetic: "AF-zen-dur", thai: "ผู้ส่ง", note: "de afzender" },
+            { nl: "ontvanger", en: "recipient", phonetic: "ont-FANG-ur", thai: "ผู้รับ", note: "de ontvanger" },
+            { nl: "bedanken", en: "to thank", phonetic: "buh-DANK-un", thai: "ขอบคุณ", note: "'ik wil je bedanken' = I want to thank you" },
+            { nl: "feliciteren", en: "to congratulate", phonetic: "fay-lee-see-TAY-run", thai: "แสดงความยินดี", note: "'Gefeliciteerd!' = Congratulations!" },
+            { nl: "groeten", en: "greetings", phonetic: "CHROO-tun", thai: "ทักทาย", note: "de groet → de groeten" },
+          ],
+          dialogues: [
+            {
+              situation: "Writing a formal email — เขียนอีเมลทางการ",
+              lines: [
+                { speaker: "You", nl: "Ik moet een e-mail schrijven naar de gemeente.", en: "I have to write an email to the municipality." },
+                { speaker: "Friend", nl: "Begin met 'Geachte heer/mevrouw'.", en: "Start with 'Dear sir/madam'." },
+                { speaker: "You", nl: "En hoe eindig ik de brief?", en: "And how do I end the letter?" },
+                { speaker: "Friend", nl: "Schrijf 'Met vriendelijke groet' en dan je naam.", en: "Write 'Kind regards' and then your name." },
+                { speaker: "You", nl: "Dank je wel! Ik stuur de e-mail nu.", en: "Thank you! I'll send the email now." },
+                { speaker: "Friend", nl: "Succes! Ze antwoorden meestal binnen een week.", en: "Good luck! They usually reply within a week." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "Formal vs Informal Writing (Formeel vs informeel)",
+            explanation: "Formal letters/emails: start with <strong>'Geachte heer/mevrouw'</strong>, use <strong>u</strong>, end with <strong>'Met vriendelijke groet'</strong>. Informal: start with <strong>'Beste/Lieve [name]'</strong>, use <strong>je/jij</strong>, end with <strong>'Groetjes'</strong> or <strong>'Liefs'</strong>.<br><br>🇹🇭 ทางการ: เริ่มด้วย 'Geachte', ใช้ u, ลงท้าย 'Met vriendelijke groet' / ไม่ทางการ: เริ่มด้วย 'Beste/Lieve', ใช้ je, ลงท้าย 'Groetjes'",
+            examples: [
+              { nl: "Geachte mevrouw De Vries, ...", en: "Dear Mrs De Vries, ..." },
+              { nl: "Beste Anna, hoe gaat het?", en: "Dear Anna, how are you?" },
+              { nl: "Met vriendelijke groet, ...", en: "Kind regards, ..." },
+              { nl: "Groetjes! Tot snel!", en: "Greetings! See you soon!" },
+            ]
+          },
+          exercises: [
+            { question: "'Geachte heer' is used for:", options: ["formal letters", "informal texts", "phone calls", "shopping"], answer: "formal letters" },
+            { question: "'Sturen' means:", options: ["to send", "to store", "to study", "to stop"], answer: "to send" },
+            { question: "How do you end a formal email?", options: ["Met vriendelijke groet", "Groetjes", "Doei", "Tot zo"], answer: "Met vriendelijke groet" },
+            { question: "'Gefeliciteerd!' means:", options: ["Congratulations!", "Goodbye!", "Welcome!", "Sorry!"], answer: "Congratulations!" },
+            { question: "'Ik nodig je uit' comes from:", options: ["uitnodigen", "uitslapen", "uitleggen", "uitstappen"], answer: "uitnodigen" },
+            { question: "'Brief' means:", options: ["letter", "brief/short", "bread", "bridge"], answer: "letter" },
+          ]
+        }
+      ]
     },
+
+    // ===== Themes 17-21: PLACEHOLDERS =====
     {
       id: 17, section: "taal", title: "Op Bezoek", titleEn: "Visiting", titleTh: "การไปเยี่ยม", icon: "🏡", color: "#888",
       source: "Les 42-44", comingSoon: true,
@@ -1793,7 +2138,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.1 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.2 · February 2026</p>
     </div>
 
     <div class="card">
@@ -1971,12 +2316,12 @@ function renderLesson() {
   const tab = state.activeTab;
 
   const tabs = [
-    { key: 'vocab', label: '📚 Vocab · คำศัพท์' },
-    { key: 'flashcards', label: '🃏 Flashcards · บัตรคำ' },
-    { key: 'listen', label: '🔊 Listen · ฟัง' },
-    { key: 'dialogue', label: '💬 Dialogue · บทสนทนา' },
-    { key: 'grammar', label: '📐 Grammar · ไวยากรณ์' },
-    { key: 'practice', label: '✏️ Practice · ฝึกหัด' },
+    { key: 'vocab', label: 'คำศัพท์ Vocab' },
+    { key: 'flashcards', label: 'บัตรคำ Cards' },
+    { key: 'listen', label: 'ฟัง Listen' },
+    { key: 'dialogue', label: 'สนทนา Dialogue' },
+    { key: 'grammar', label: 'ไวยากรณ์ Grammar' },
+    { key: 'practice', label: 'ฝึกหัด Practice' },
   ];
 
   let content = '';
@@ -2128,6 +2473,40 @@ function getWordEmoji(nl, en) {
     'zwaar':'🏋️','verdienen':'💰','redelijk':'👌','eigenlijk':'🤔',
     'den haag':'🏛️','steden':'🏙️','culturen':'🎭',
     'duitsland':'🇩🇪','frankrijk':'🇫🇷','dichtbij':'📍',
+    // Theme 11: Weekend & Feest
+    'jarig':'🎂','feestje':'🎉','feest':'🥳','idee':'💡',
+    'oplossing':'🔑','uitslapen':'😴','kerst':'🎄','afgesproken':'🤝',
+    'vertellen':'🗣️','boodschappen':'🛒','meegaan':'🚶','tassen':'👜',
+    'dragen':'💪','handig':'👌','sterk':'💪','ontmoeten':'🤝',
+    'vrienden':'👯','natuur':'🌲','zoeken':'🔍','aandacht':'👀',
+    // Theme 12: Taal Leren
+    'waarom':'❓','omdat':'💭','oefenen':'📝','vooral':'⭐',
+    'verstaan':'👂','spreken':'🗣️','lezen':'📖','belangrijk':'❗',
+    'toets':'📝','examen':'📋','onderdeel':'🧩','zin':'📝',
+    'stem':'🎤','nazeggen':'🔁','hoeveel':'🔢','radio':'📻',
+    'mogelijk':'✅','succes':'🏆','website':'🌐','voorbeeldexamen':'📝',
+    // Theme 13: Boodschappen
+    'vers':'🥬','bruin':'🟤','wit':'⬜','het liefst':'❤️',
+    'gesneden':'🔪','eieren':'🥚','fruit':'🍎','moeten':'❗',
+    'cadeautje':'🎁','kopen':'💳','vanavond':'🌙','fles':'🍾',
+    'wijn':'🍷','chocola':'🍫','winkelcentrum':'🏬','rechtdoor':'⬆️',
+    'rechtsaf':'↗️','kerk':'⛪','langs':'➡️',
+    // Theme 14: Gezin
+    'kind':'👶','broer':'👦','zus':'👧','getrouwd':'💍',
+    'leven':'❤️','veranderen':'🔄','organiseren':'📋','spelen':'🎮',
+    'piano':'🎹','houden van':'❤️','muziek':'🎵','voetbal':'⚽',
+    'trainen':'🏋️','ver':'🛤️','taken':'📝','begrijpen':'🧠',
+    // Theme 15: Sport
+    'wedstrijd':'🏆','voetballen':'⚽','winnen':'🥇','verliezen':'😢',
+    'ploeg':'👥','doel':'🥅','bal':'⚽','rennen':'🏃',
+    'springen':'🤸','hard':'💨','speler':'🏃','pauze':'⏸️',
+    'energie':'⚡','kans':'🎯','kracht':'💪','flink':'😤',
+    'huilen':'😢','douche':'🚿',
+    // Theme 16: Communicatie
+    'schrijven':'✍️','brief':'✉️','e-mail':'📧','bellen':'📞',
+    'sturen':'📤','bericht':'💬','antwoorden':'↩️','geachte':'📜',
+    'beste':'📝','uitnodigen':'💌','uitnodiging':'💌','afzender':'📤',
+    'ontvanger':'📥','bedanken':'🙏','feliciteren':'🎊','groeten':'👋',
   };
   const nlLower = nl.toLowerCase().trim();
   if (map[nlLower]) return map[nlLower];
