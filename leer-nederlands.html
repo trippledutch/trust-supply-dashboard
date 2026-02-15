@@ -1959,35 +1959,420 @@ const COURSE_DATA = {
       ]
     },
 
-    // ===== SECTION B: KNS — Placeholders =====
+    // ===== SECTION B: KNS — POPULATED =====
+    // KNS 1: Geografie, Vervoer & Wonen
     {
-      id: 22, section: "kns", title: "Geografie, Vervoer & Wonen", titleEn: "Geography, Transport & Housing", titleTh: "ภูมิศาสตร์ การสัญจร และการอยู่อาศัย", icon: "🗺️", color: "#E85D26",
-      comingSoon: true, lessons: []
+      id: 22, section: "kns", title: "Geografie, Vervoer & Wonen", titleEn: "Geography, Transport & Housing", titleTh: "ภูมิศาสตร์ การสัญจร และที่อยู่อาศัย", icon: "🗺️", color: "#E85D26",
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k1a", title: "Nederland op de Kaart", titleEn: "The Netherlands on the Map", titleTh: "เนเธอร์แลนด์บนแผนที่",
+          vocab: [
+            { nl: "hoofdstad", en: "capital city", phonetic: "HOHFT-stat", thai: "เมืองหลวง", note: "Amsterdam is de hoofdstad" },
+            { nl: "regering", en: "government", phonetic: "ruh-CHAY-ring", thai: "รัฐบาล", note: "de regering zit in Den Haag" },
+            { nl: "provincie", en: "province", phonetic: "proh-VIN-see", thai: "จังหวัด", note: "12 provincies in NL" },
+            { nl: "inwoners", en: "inhabitants", phonetic: "IN-woh-nurs", thai: "ประชากร", note: "~18 miljoen inwoners" },
+            { nl: "dijk", en: "dike", phonetic: "DAYK", thai: "เขื่อน", note: "protection against water" },
+            { nl: "Noordzee", en: "North Sea", phonetic: "NOHRT-zay", thai: "ทะเลเหนือ" },
+            { nl: "Rijksmuseum", en: "National Museum", phonetic: "RAYKS-mew-zay-um", thai: "พิพิธภัณฑ์แห่งชาติ" },
+            { nl: "OV-chipkaart", en: "public transport card", phonetic: "oh-vay-CHIP-kahrt", thai: "บัตรขนส่งสาธารณะ", note: "needed for all public transport" },
+            { nl: "huurwoning", en: "rental home", phonetic: "HEWR-woh-ning", thai: "บ้านเช่า" },
+            { nl: "koopwoning", en: "owned home", phonetic: "KOHP-woh-ning", thai: "บ้านซื้อ" },
+            { nl: "woningcorporatie", en: "housing corporation", phonetic: "WOH-ning-kor-poh-RAH-see", thai: "องค์กรที่อยู่อาศัย", note: "provides social housing" },
+            { nl: "huursubsidie", en: "housing benefit", phonetic: "HEWR-sub-see-dee", thai: "เงินช่วยเหลือค่าเช่า" },
+            { nl: "buurlanden", en: "neighboring countries", phonetic: "BEWR-lan-dun", thai: "ประเทศเพื่อนบ้าน", note: "Duitsland & België" },
+            { nl: "Randstad", en: "Randstad (urban area)", phonetic: "RANT-stat", thai: "แรนด์สตัด", note: "Amsterdam-Rotterdam-Den Haag-Utrecht" },
+            { nl: "waterschap", en: "water board", phonetic: "WAH-tur-schap", thai: "คณะกรรมการน้ำ", note: "manages water & dikes" },
+          ],
+          dialogues: [
+            {
+              situation: "KNS exam practice — ฝึกสอบ KNS",
+              lines: [
+                { speaker: "Teacher", nl: "Wat is de hoofdstad van Nederland?", en: "What is the capital of the Netherlands?" },
+                { speaker: "You", nl: "Amsterdam is de hoofdstad.", en: "Amsterdam is the capital." },
+                { speaker: "Teacher", nl: "Waar zit de regering?", en: "Where is the government?" },
+                { speaker: "You", nl: "De regering zit in Den Haag.", en: "The government is in The Hague." },
+                { speaker: "Teacher", nl: "Hoeveel provincies heeft Nederland?", en: "How many provinces does the Netherlands have?" },
+                { speaker: "You", nl: "Nederland heeft twaalf provincies.", en: "The Netherlands has twelve provinces." },
+                { speaker: "Teacher", nl: "Welke landen liggen naast Nederland?", en: "Which countries are next to the Netherlands?" },
+                { speaker: "You", nl: "Duitsland en België.", en: "Germany and Belgium." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Geografie & Wonen",
+            explanation: "📌 <strong>Amsterdam</strong> = hoofdstad (capital). <strong>Den Haag</strong> = seat of government. <strong>12 provincies</strong>. ~<strong>18 miljoen</strong> inwoners. Neighbors: <strong>Duitsland</strong> (east) & <strong>België</strong> (south). <strong>Noordzee</strong> to the west. Much land is <strong>below sea level</strong> — protected by <strong>dijken</strong>. Transport: <strong>OV-chipkaart</strong> for bus/train/tram. Housing: <strong>huurwoning</strong> (rent) or <strong>koopwoning</strong> (buy).<br><br>🇹🇭 ข้อเท็จจริง: อัมสเตอร์ดัม = เมืองหลวง, เดอะเฮก = ที่ตั้งรัฐบาล, 12 จังหวัด, ประชากร ~18 ล้านคน, ใช้ OV-chipkaart สำหรับรถสาธารณะ",
+            examples: [
+              { nl: "Amsterdam is de hoofdstad van Nederland.", en: "Amsterdam is the capital of the Netherlands." },
+              { nl: "De Randstad is het drukste gebied.", en: "The Randstad is the busiest area." },
+              { nl: "Je hebt een OV-chipkaart nodig.", en: "You need an OV-chipkaart." },
+              { nl: "Nederland ligt aan de Noordzee.", en: "The Netherlands is on the North Sea." },
+            ]
+          },
+          exercises: [
+            { question: "The capital of the Netherlands:", options: ["Amsterdam", "Den Haag", "Rotterdam", "Utrecht"], th: "เมืองหลวง", answer: "Amsterdam" },
+            { question: "The government is located in:", options: ["Den Haag", "Amsterdam", "Groningen", "Maastricht"], th: "รัฐบาลอยู่ที่", answer: "Den Haag" },
+            { question: "How many provinces?", options: ["12", "10", "16", "8"], th: "กี่จังหวัด", answer: "12" },
+            { question: "Neighboring countries:", options: ["Germany & Belgium", "France & UK", "Sweden & Denmark", "Spain & Italy"], th: "ประเทศเพื่อนบ้าน", answer: "Germany & Belgium" },
+            { question: "For public transport you need:", options: ["OV-chipkaart", "passport", "rijbewijs", "creditcard"], th: "สำหรับขนส่งสาธารณะ", answer: "OV-chipkaart" },
+            { question: "A 'huurwoning' is:", options: ["rental home", "owned home", "holiday home", "office"], th: "แปลว่าอะไร", answer: "rental home" },
+          ]
+        }
+      ]
     },
+    // KNS 2: Geschiedenis
     {
       id: 23, section: "kns", title: "Geschiedenis", titleEn: "History", titleTh: "ประวัติศาสตร์", icon: "📜", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k2a", title: "Nederlandse Geschiedenis", titleEn: "Dutch History", titleTh: "ประวัติศาสตร์ดัตช์",
+          vocab: [
+            { nl: "geschiedenis", en: "history", phonetic: "chuh-SCHEE-duh-nis", thai: "ประวัติศาสตร์" },
+            { nl: "koning", en: "king", phonetic: "KOH-ning", thai: "กษัตริย์", note: "de koning — currently Willem-Alexander" },
+            { nl: "koningin", en: "queen", phonetic: "koh-NIN-chin", thai: "ราชินี" },
+            { nl: "Gouden Eeuw", en: "Golden Age", phonetic: "CHOW-dun AYW", thai: "ยุคทอง", note: "17th century — trade, art, science" },
+            { nl: "VOC", en: "Dutch East India Company", phonetic: "vay-oh-say", thai: "บริษัทอินเดียตะวันออก", note: "1602 — first multinational company" },
+            { nl: "Tweede Wereldoorlog", en: "World War II", phonetic: "TWAY-duh WAY-rult-ohr-loch", thai: "สงครามโลกครั้งที่ 2", note: "1940-1945 German occupation" },
+            { nl: "bevrijding", en: "liberation", phonetic: "buh-VRAY-ding", thai: "การปลดปล่อย", note: "5 mei = Bevrijdingsdag" },
+            { nl: "herdenking", en: "commemoration", phonetic: "her-DEN-king", thai: "การรำลึก", note: "4 mei = Dodenherdenking" },
+            { nl: "Koningsdag", en: "King's Day", phonetic: "KOH-nings-dach", thai: "วันกษัตริย์", note: "27 april — national holiday, orange everywhere!" },
+            { nl: "oranje", en: "orange", phonetic: "oh-RAN-yuh", thai: "สีส้ม", note: "national color — from House of Orange" },
+            { nl: "onafhankelijkheid", en: "independence", phonetic: "on-af-HAN-kuh-luk-hayt", thai: "เอกราช" },
+            { nl: "kolonie", en: "colony", phonetic: "koh-LOH-nee", thai: "อาณานิคม" },
+            { nl: "Willem van Oranje", en: "William of Orange", phonetic: "WIL-um van oh-RAN-yuh", thai: "วิลเลียมแห่งออเรนจ์", note: "Father of the nation — 16th century" },
+            { nl: "Anne Frank", en: "Anne Frank", phonetic: "AN-uh FRANK", thai: "แอนน์ แฟรงค์", note: "Jewish girl, famous diary, WWII" },
+            { nl: "democratie", en: "democracy", phonetic: "day-moh-krah-SEE", thai: "ประชาธิปไตย" },
+          ],
+          dialogues: [
+            {
+              situation: "Dutch history quiz — ตอบคำถามประวัติศาสตร์ดัตช์",
+              lines: [
+                { speaker: "Teacher", nl: "Wanneer is Koningsdag?", en: "When is King's Day?" },
+                { speaker: "You", nl: "Op 27 april.", en: "On April 27th." },
+                { speaker: "Teacher", nl: "Wat was de Gouden Eeuw?", en: "What was the Golden Age?" },
+                { speaker: "You", nl: "De zeventiende eeuw. Nederland was heel rijk.", en: "The seventeenth century. The Netherlands was very rich." },
+                { speaker: "Teacher", nl: "Wat herdenken we op 4 mei?", en: "What do we commemorate on May 4th?" },
+                { speaker: "You", nl: "De slachtoffers van de Tweede Wereldoorlog.", en: "The victims of World War II." },
+                { speaker: "Teacher", nl: "En 5 mei?", en: "And May 5th?" },
+                { speaker: "You", nl: "Bevrijdingsdag! Het einde van de oorlog.", en: "Liberation Day! The end of the war." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Geschiedenis",
+            explanation: "📌 <strong>Gouden Eeuw</strong> = 17th century (trade, art, Rembrandt, VOC). <strong>Willem van Oranje</strong> = father of the nation. <strong>WWII</strong>: 1940-1945 German occupation. <strong>4 mei</strong> = Dodenherdenking (remembrance). <strong>5 mei</strong> = Bevrijdingsdag (liberation). <strong>Koningsdag</strong> = 27 april (national holiday, wear orange!). <strong>Anne Frank</strong> = Jewish girl who wrote famous diary during WWII.<br><br>🇹🇭 ข้อเท็จจริง: ยุคทอง = ศตวรรษที่ 17, 4 พ.ค. = วันรำลึก, 5 พ.ค. = วันปลดปล่อย, 27 เม.ย. = วันกษัตริย์",
+            examples: [
+              { nl: "Koningsdag is op 27 april.", en: "King's Day is on April 27th." },
+              { nl: "Op 4 mei herdenken we de oorlog.", en: "On May 4th we remember the war." },
+              { nl: "De VOC was het eerste multinationale bedrijf.", en: "The VOC was the first multinational company." },
+              { nl: "De nationale kleur is oranje.", en: "The national color is orange." },
+            ]
+          },
+          exercises: [
+            { question: "Koningsdag is on:", options: ["27 april", "25 december", "1 januari", "5 mei"], th: "วันกษัตริย์", answer: "27 april" },
+            { question: "The Golden Age was in:", options: ["17th century", "19th century", "20th century", "15th century"], th: "ยุคทองอยู่ในศตวรรษ", answer: "17th century" },
+            { question: "4 mei is:", options: ["Dodenherdenking", "Koningsdag", "Bevrijdingsdag", "Kerst"], th: "4 พฤษภาคม คือ", answer: "Dodenherdenking" },
+            { question: "5 mei is:", options: ["Bevrijdingsdag", "Dodenherdenking", "Koningsdag", "Sinterklaas"], th: "5 พฤษภาคม คือ", answer: "Bevrijdingsdag" },
+            { question: "The national color is:", options: ["oranje (orange)", "rood (red)", "blauw (blue)", "groen (green)"], th: "สีประจำชาติ", answer: "oranje (orange)" },
+            { question: "Anne Frank is known for:", options: ["her diary during WWII", "painting tulips", "building dikes", "inventing the bicycle"], th: "เป็นที่รู้จักจาก", answer: "her diary during WWII" },
+          ]
+        }
+      ]
     },
+    // KNS 3: Staatsinrichting & Grondwet
     {
       id: 24, section: "kns", title: "Staatsinrichting & Grondwet", titleEn: "Government & Constitution", titleTh: "รัฐบาลและรัฐธรรมนูญ", icon: "🏛️", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k3a", title: "De Nederlandse Overheid", titleEn: "The Dutch Government", titleTh: "รัฐบาลดัตช์",
+          vocab: [
+            { nl: "grondwet", en: "constitution", phonetic: "CHRONT-wet", thai: "รัฐธรรมนูญ", note: "de grondwet — highest law" },
+            { nl: "minister-president", en: "prime minister", phonetic: "mih-NIS-tur pray-zee-DENT", thai: "นายกรัฐมนตรี" },
+            { nl: "Tweede Kamer", en: "House of Representatives", phonetic: "TWAY-duh KAH-mur", thai: "สภาผู้แทนราษฎร", note: "150 members, elected by citizens" },
+            { nl: "Eerste Kamer", en: "Senate", phonetic: "AYR-stuh KAH-mur", thai: "วุฒิสภา", note: "75 members" },
+            { nl: "verkiezingen", en: "elections", phonetic: "vur-KEE-zing-un", thai: "การเลือกตั้ง" },
+            { nl: "stemmen", en: "to vote", phonetic: "STEM-un", thai: "ลงคะแนน", note: "right to vote from age 18" },
+            { nl: "partij", en: "political party", phonetic: "par-TAY", thai: "พรรคการเมือง" },
+            { nl: "burgemeester", en: "mayor", phonetic: "BUR-chuh-mays-tur", thai: "นายกเทศมนตรี" },
+            { nl: "gemeente", en: "municipality", phonetic: "chuh-MAYN-tuh", thai: "เทศบาล" },
+            { nl: "belasting", en: "tax", phonetic: "buh-LAS-ting", thai: "ภาษี" },
+            { nl: "recht", en: "right / law", phonetic: "RECHT", thai: "สิทธิ/กฎหมาย" },
+            { nl: "plicht", en: "duty / obligation", phonetic: "PLICHT", thai: "หน้าที่" },
+            { nl: "godsdienstvrijheid", en: "freedom of religion", phonetic: "CHOTS-deenst-vray-hayt", thai: "เสรีภาพทางศาสนา" },
+            { nl: "discriminatie", en: "discrimination", phonetic: "dis-kree-mee-NAH-see", thai: "การเลือกปฏิบัติ", note: "verboden in de grondwet" },
+            { nl: "gelijk", en: "equal", phonetic: "chuh-LAKE", thai: "เท่าเทียม", note: "everyone is equal before the law" },
+          ],
+          dialogues: [
+            {
+              situation: "Learning about Dutch government — เรียนรู้รัฐบาลดัตช์",
+              lines: [
+                { speaker: "Teacher", nl: "Wie is het staatshoofd van Nederland?", en: "Who is the head of state of the Netherlands?" },
+                { speaker: "You", nl: "De koning, Willem-Alexander.", en: "The king, Willem-Alexander." },
+                { speaker: "Teacher", nl: "En wie bestuurt het land?", en: "And who runs the country?" },
+                { speaker: "You", nl: "De minister-president en de ministers.", en: "The prime minister and the ministers." },
+                { speaker: "Teacher", nl: "Wanneer mag je stemmen?", en: "When may you vote?" },
+                { speaker: "You", nl: "Als je achttien jaar bent en Nederlander.", en: "When you are eighteen and Dutch." },
+                { speaker: "Teacher", nl: "Goed! Wat zegt de grondwet over discriminatie?", en: "Good! What does the constitution say about discrimination?" },
+                { speaker: "You", nl: "Discriminatie is verboden. Iedereen is gelijk.", en: "Discrimination is forbidden. Everyone is equal." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Staatsinrichting",
+            explanation: "📌 Head of state: <strong>Koning Willem-Alexander</strong>. Head of government: <strong>minister-president</strong>. Parliament: <strong>Tweede Kamer</strong> (150 elected) + <strong>Eerste Kamer</strong> (75, Senate). Voting: from age <strong>18</strong>. <strong>Grondwet</strong> (constitution) guarantees: freedom of speech, religion, equality. <strong>Discriminatie is verboden</strong>. Local government: <strong>gemeente</strong> led by <strong>burgemeester</strong>.<br><br>🇹🇭 ประมุข: กษัตริย์วิลเลม-อเล็กซานเดอร์ หัวหน้ารัฐบาล: นายกรัฐมนตรี ลงคะแนนได้ตั้งแต่อายุ 18 ปี",
+            examples: [
+              { nl: "De koning is het staatshoofd.", en: "The king is the head of state." },
+              { nl: "Je mag stemmen vanaf 18 jaar.", en: "You may vote from age 18." },
+              { nl: "Discriminatie is verboden.", en: "Discrimination is forbidden." },
+              { nl: "De Tweede Kamer heeft 150 leden.", en: "The House of Representatives has 150 members." },
+            ]
+          },
+          exercises: [
+            { question: "Head of state of NL:", options: ["Koning Willem-Alexander", "Minister-president", "Burgemeester", "President"], th: "ประมุขแห่งรัฐ", answer: "Koning Willem-Alexander" },
+            { question: "Voting age in NL:", options: ["18", "16", "21", "25"], th: "อายุลงคะแนน", answer: "18" },
+            { question: "Tweede Kamer has ___ members:", options: ["150", "100", "200", "75"], th: "จำนวนสมาชิก", answer: "150" },
+            { question: "The constitution is called:", options: ["Grondwet", "Grondslag", "Grundrecht", "Grondwerk"], th: "รัฐธรรมนูญเรียกว่า", answer: "Grondwet" },
+            { question: "Discrimination is:", options: ["verboden (forbidden)", "toegestaan (allowed)", "normaal", "verplicht"], th: "การเลือกปฏิบัติ", answer: "verboden (forbidden)" },
+            { question: "Local government is led by:", options: ["burgemeester (mayor)", "koning (king)", "leraar (teacher)", "dokter (doctor)"], th: "ผู้นำท้องถิ่น", answer: "burgemeester (mayor)" },
+          ]
+        }
+      ]
     },
+    // KNS 4: Nederlandse Taal
     {
       id: 25, section: "kns", title: "Nederlandse Taal", titleEn: "Dutch Language", titleTh: "ภาษาดัตช์", icon: "🗣️", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k4a", title: "Taal in Nederland", titleEn: "Language in NL", titleTh: "ภาษาในเนเธอร์แลนด์",
+          vocab: [
+            { nl: "officiële taal", en: "official language", phonetic: "of-fee-see-AY-luh TAHL", thai: "ภาษาทางการ" },
+            { nl: "Fries", en: "Frisian", phonetic: "FREES", thai: "ภาษาฟรีเชียน", note: "second official language in Friesland" },
+            { nl: "dialect", en: "dialect", phonetic: "dee-ah-LEKT", thai: "ภาษาถิ่น" },
+            { nl: "inburgering", en: "civic integration", phonetic: "IN-bur-chuh-ring", thai: "การปรับตัวเข้าสู่สังคม" },
+            { nl: "taalcursus", en: "language course", phonetic: "TAHL-kur-sus", thai: "คอร์สเรียนภาษา" },
+            { nl: "alfabet", en: "alphabet", phonetic: "al-fah-BET", thai: "ตัวอักษร", note: "26 letters, same as English" },
+            { nl: "ABN", en: "Standard Dutch", phonetic: "ah-bay-EN", thai: "ภาษาดัตช์มาตรฐาน", note: "Algemeen Beschaafd Nederlands" },
+            { nl: "Vlaams", en: "Flemish", phonetic: "VLAHMS", thai: "ภาษาเฟลมิช", note: "Dutch spoken in Belgium" },
+            { nl: "taalles", en: "language lesson", phonetic: "TAHL-les", thai: "บทเรียนภาษา" },
+            { nl: "woordenboek", en: "dictionary", phonetic: "WOHR-dun-book", thai: "พจนานุกรม" },
+            { nl: "uitspraak", en: "pronunciation", phonetic: "OYT-sprahk", thai: "การออกเสียง" },
+            { nl: "schrijven", en: "to write", phonetic: "SCHRAY-vun", thai: "เขียน" },
+            { nl: "basisexamen", en: "basic exam", phonetic: "BAH-sis-ek-sah-mun", thai: "สอบพื้นฐาน", note: "taken at Dutch embassy abroad" },
+          ],
+          dialogues: [
+            {
+              situation: "About Dutch language requirements — เกี่ยวกับข้อกำหนดด้านภาษา",
+              lines: [
+                { speaker: "Officer", nl: "Spreekt u Nederlands?", en: "Do you speak Dutch?" },
+                { speaker: "You", nl: "Een beetje. Ik leer Nederlands voor de inburgering.", en: "A little. I'm learning Dutch for civic integration." },
+                { speaker: "Officer", nl: "Het basisexamen doet u in Thailand, bij de ambassade.", en: "You take the basic exam in Thailand, at the embassy." },
+                { speaker: "You", nl: "Ja, ik oefen met een taalcursus.", en: "Yes, I practice with a language course." },
+                { speaker: "Officer", nl: "Nederlands is de officiële taal. In Friesland spreken ze ook Fries.", en: "Dutch is the official language. In Friesland they also speak Frisian." },
+                { speaker: "You", nl: "Zijn er veel dialecten?", en: "Are there many dialects?" },
+                { speaker: "Officer", nl: "Ja! Maar het ABN begrijpt iedereen.", en: "Yes! But everyone understands Standard Dutch." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Nederlandse Taal",
+            explanation: "📌 Official language: <strong>Nederlands</strong>. Second official: <strong>Fries</strong> (in Friesland). Standard Dutch = <strong>ABN</strong> (Algemeen Beschaafd Nederlands). Many <strong>dialecten</strong> exist (Limburgs, Brabants, etc.). Dutch also spoken in <strong>België</strong> (Vlaams/Flemish) & <strong>Suriname</strong>. <strong>Inburgering</strong> = civic integration — required for immigrants. <strong>Basisexamen</strong> taken at Dutch embassy before coming to NL.<br><br>🇹🇭 ภาษาทางการ: Nederlands, ภาษาที่สอง: Fries ในฟรีสแลนด์ สอบ Basisexamen ที่สถานทูต",
+            examples: [
+              { nl: "Nederlands is de officiële taal.", en: "Dutch is the official language." },
+              { nl: "In Friesland spreken ze ook Fries.", en: "In Friesland they also speak Frisian." },
+              { nl: "Het basisexamen doe je bij de ambassade.", en: "You take the basic exam at the embassy." },
+              { nl: "ABN is Standaardnederlands.", en: "ABN is Standard Dutch." },
+            ]
+          },
+          exercises: [
+            { question: "Official language of NL:", options: ["Nederlands", "Engels", "Fries", "Duits"], th: "ภาษาทางการ", answer: "Nederlands" },
+            { question: "Second official language:", options: ["Fries (in Friesland)", "Engels", "Duits", "Frans"], th: "ภาษาทางการที่สอง", answer: "Fries (in Friesland)" },
+            { question: "ABN stands for:", options: ["Algemeen Beschaafd Nederlands", "Amsterdam Bureau Nederland", "Alleen Basis Nederlands", "Andere Buitenlandse Namen"], th: "ABN ย่อมาจาก", answer: "Algemeen Beschaafd Nederlands" },
+            { question: "Basisexamen is taken at:", options: ["Dutch embassy abroad", "Schiphol airport", "Amsterdam city hall", "online"], th: "สอบที่ไหน", answer: "Dutch embassy abroad" },
+            { question: "Dutch is also spoken in:", options: ["Belgium & Suriname", "France & Spain", "Germany & Poland", "Sweden & Norway"], th: "ภาษาดัตช์ใช้ใน", answer: "Belgium & Suriname" },
+            { question: "'Inburgering' means:", options: ["civic integration", "inner city", "insurance", "internet"], th: "หมายถึง", answer: "civic integration" },
+          ]
+        }
+      ]
     },
+    // KNS 5: Opvoeding & Onderwijs
     {
       id: 26, section: "kns", title: "Opvoeding & Onderwijs", titleEn: "Parenting & Education", titleTh: "การเลี้ยงดูและการศึกษา", icon: "🎓", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k5a", title: "School in Nederland", titleEn: "School in NL", titleTh: "โรงเรียนในเนเธอร์แลนด์",
+          vocab: [
+            { nl: "leerplicht", en: "compulsory education", phonetic: "LAYR-plicht", thai: "การศึกษาภาคบังคับ", note: "ages 5-18 in NL" },
+            { nl: "basisschool", en: "primary school", phonetic: "BAH-sis-school", thai: "โรงเรียนประถม", note: "ages 4-12, groups 1-8" },
+            { nl: "middelbare school", en: "secondary school", phonetic: "MID-ul-bah-ruh SCHOOL", thai: "โรงเรียนมัธยม", note: "ages 12-18" },
+            { nl: "VMBO", en: "pre-vocational", phonetic: "vay-em-bay-oh", thai: "สายอาชีพ", note: "4 years" },
+            { nl: "HAVO", en: "senior general", phonetic: "HAH-voh", thai: "สายสามัญ", note: "5 years" },
+            { nl: "VWO", en: "pre-university", phonetic: "vay-way-oh", thai: "สายวิชาการ", note: "6 years → university" },
+            { nl: "universiteit", en: "university", phonetic: "ew-nee-ver-see-TAYT", thai: "มหาวิทยาลัย" },
+            { nl: "opvang", en: "childcare / daycare", phonetic: "OP-fang", thai: "สถานรับเลี้ยงเด็ก" },
+            { nl: "peuterspeelzaal", en: "playgroup (ages 2-4)", phonetic: "PUH-tur-spayl-zahl", thai: "กลุ่มเล่นสำหรับเด็กเล็ก" },
+            { nl: "ouderavond", en: "parents' evening", phonetic: "OW-dur-ah-vont", thai: "ค่ำคืนผู้ปกครอง", note: "school meetings for parents" },
+            { nl: "rapport", en: "report card", phonetic: "rah-PORT", thai: "สมุดรายงาน" },
+            { nl: "huiswerk", en: "homework", phonetic: "HOYS-werk", thai: "การบ้าน" },
+            { nl: "schoolgeld", en: "tuition", phonetic: "SCHOOL-chelt", thai: "ค่าเล่าเรียน", note: "basisschool is free!" },
+            { nl: "groep", en: "group/class", phonetic: "CHROOP", thai: "ชั้นเรียน", note: "groep 1-8 in basisschool" },
+          ],
+          dialogues: [
+            {
+              situation: "Enrolling child in school — ลงทะเบียนลูกเข้าโรงเรียน",
+              lines: [
+                { speaker: "You", nl: "Mijn kind is vier jaar. Kan hij naar school?", en: "My child is four years old. Can he go to school?" },
+                { speaker: "School", nl: "Ja! Kinderen beginnen in groep 1 van de basisschool.", en: "Yes! Children start in group 1 of primary school." },
+                { speaker: "You", nl: "Is de school gratis?", en: "Is school free?" },
+                { speaker: "School", nl: "Ja, de basisschool is gratis. U betaalt alleen voor schoolreisjes.", en: "Yes, primary school is free. You only pay for school trips." },
+                { speaker: "You", nl: "En hoe lang is de leerplicht?", en: "And how long is compulsory education?" },
+                { speaker: "School", nl: "Van vijf tot achttien jaar.", en: "From five to eighteen years." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Onderwijs",
+            explanation: "📌 <strong>Leerplicht</strong>: ages 5-18. <strong>Basisschool</strong>: ages 4-12 (groep 1-8), FREE. <strong>Middelbare school</strong>: 3 levels — <strong>VMBO</strong> (4yr), <strong>HAVO</strong> (5yr), <strong>VWO</strong> (6yr → university). <strong>Opvang/Kinderopvang</strong> for younger children. Parents attend <strong>ouderavond</strong> at school. Children get <strong>rapport</strong> (report card).<br><br>🇹🇭 การศึกษาภาคบังคับ: อายุ 5-18 ปี ประถม: อายุ 4-12 (ฟรี!) มัธยม: VMBO/HAVO/VWO",
+            examples: [
+              { nl: "De leerplicht begint op vijf jaar.", en: "Compulsory education starts at age five." },
+              { nl: "De basisschool is gratis.", en: "Primary school is free." },
+              { nl: "Na de basisschool ga je naar de middelbare school.", en: "After primary you go to secondary school." },
+              { nl: "VWO is de voorbereiding op de universiteit.", en: "VWO is preparation for university." },
+            ]
+          },
+          exercises: [
+            { question: "Leerplicht is from ages:", options: ["5 to 18", "4 to 12", "6 to 16", "7 to 15"], th: "การศึกษาภาคบังคับ", answer: "5 to 18" },
+            { question: "Basisschool is for ages:", options: ["4 to 12", "6 to 14", "5 to 10", "3 to 8"], th: "ประถมสำหรับอายุ", answer: "4 to 12" },
+            { question: "Which level leads to university?", options: ["VWO", "VMBO", "HAVO", "MBO"], th: "ระดับไหนไปมหาวิทยาลัย", answer: "VWO" },
+            { question: "Basisschool costs:", options: ["free (gratis)", "€5000/year", "€1000/month", "varies"], th: "ค่าเล่าเรียนประถม", answer: "free (gratis)" },
+            { question: "'Ouderavond' is:", options: ["parents' evening at school", "grandparents' day", "old people's night", "birthday party"], th: "แปลว่าอะไร", answer: "parents' evening at school" },
+            { question: "'Huiswerk' means:", options: ["homework", "housework", "house buying", "home cooking"], th: "แปลว่าอะไร", answer: "homework" },
+          ]
+        }
+      ]
     },
+    // KNS 6: Gezondheidszorg
     {
       id: 27, section: "kns", title: "Gezondheidszorg", titleEn: "Healthcare", titleTh: "การดูแลสุขภาพ", icon: "⚕️", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k6a", title: "De Huisarts & Verzekering", titleEn: "GP & Insurance", titleTh: "หมอและประกัน",
+          vocab: [
+            { nl: "zorgverzekering", en: "health insurance", phonetic: "ZORCH-vur-zay-kuh-ring", thai: "ประกันสุขภาพ", note: "VERPLICHT for everyone 18+!" },
+            { nl: "huisarts", en: "family doctor / GP", phonetic: "HOYS-arts", thai: "หมอประจำตัว", note: "first point of contact — always!" },
+            { nl: "specialist", en: "specialist", phonetic: "spay-see-ah-LIST", thai: "แพทย์ผู้เชี่ยวชาญ", note: "need referral from huisarts" },
+            { nl: "verwijzing", en: "referral", phonetic: "vur-WAY-zing", thai: "ใบส่งตัว", note: "de verwijzing — huisarts gives this" },
+            { nl: "spoedeisende hulp", en: "emergency room", phonetic: "SPOOD-ay-sun-duh HULP", thai: "ห้องฉุกเฉิน", note: "SEH — only for real emergencies!" },
+            { nl: "ziekenhuis", en: "hospital", phonetic: "ZEE-kun-hoys", thai: "โรงพยาบาล" },
+            { nl: "apotheek", en: "pharmacy", phonetic: "ah-poh-TAYK", thai: "ร้านขายยา" },
+            { nl: "recept", en: "prescription", phonetic: "ruh-SEPT", thai: "ใบสั่งยา", note: "het recept — from the doctor" },
+            { nl: "eigen risico", en: "deductible", phonetic: "AY-chun REE-see-koh", thai: "ค่าส่วนเกินที่ต้องจ่ายเอง", note: "~€385/year you pay yourself" },
+            { nl: "tandarts", en: "dentist", phonetic: "TANT-arts", thai: "ทันตแพทย์" },
+            { nl: "consultatiebureau", en: "child health clinic", phonetic: "kon-sul-TAH-see-bew-roh", thai: "คลินิกสุขภาพเด็ก", note: "free checkups for children 0-4" },
+            { nl: "vaccinatie", en: "vaccination", phonetic: "vak-see-NAH-see", thai: "การฉีดวัคซีน", note: "free for children via Rijksvaccinatieprogramma" },
+            { nl: "112", en: "emergency number", phonetic: "ayn-ayn-tway", thai: "เบอร์ฉุกเฉิน", note: "like 191 in Thailand" },
+            { nl: "premie", en: "insurance premium", phonetic: "PRAY-mee", thai: "เบี้ยประกัน", note: "de premie — monthly payment" },
+          ],
+          dialogues: [
+            {
+              situation: "Registering with a GP — ลงทะเบียนกับหมอประจำตัว",
+              lines: [
+                { speaker: "Receptionist", nl: "Welkom. Wilt u zich inschrijven bij de huisarts?", en: "Welcome. Would you like to register with the GP?" },
+                { speaker: "You", nl: "Ja, ik ben nieuw in de buurt.", en: "Yes, I am new in the neighborhood." },
+                { speaker: "Receptionist", nl: "Heeft u een zorgverzekering?", en: "Do you have health insurance?" },
+                { speaker: "You", nl: "Ja, die is verplicht toch?", en: "Yes, it's mandatory right?" },
+                { speaker: "Receptionist", nl: "Klopt! Als u een specialist nodig heeft, krijgt u een verwijzing.", en: "Correct! If you need a specialist, you'll get a referral." },
+                { speaker: "You", nl: "En voor noodgevallen?", en: "And for emergencies?" },
+                { speaker: "Receptionist", nl: "Bel 112. Maar ga altijd eerst naar de huisarts.", en: "Call 112. But always go to the GP first." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Gezondheidszorg",
+            explanation: "📌 <strong>Zorgverzekering</strong> = health insurance — MANDATORY for everyone 18+. <strong>Huisarts</strong> = GP, FIRST point of contact (not hospital!). Need <strong>verwijzing</strong> (referral) for specialist. <strong>Eigen risico</strong> = ~€385 deductible/year. Emergency: call <strong>112</strong>. <strong>Apotheek</strong> for medicine with <strong>recept</strong>. Free child health: <strong>consultatiebureau</strong> (ages 0-4). Free <strong>vaccinaties</strong> for children.<br><br>🇹🇭 ประกันสุขภาพบังคับ! หมอประจำตัว (huisarts) คือจุดแรกเสมอ เบอร์ฉุกเฉิน: 112",
+            examples: [
+              { nl: "De zorgverzekering is verplicht.", en: "Health insurance is mandatory." },
+              { nl: "Ga altijd eerst naar de huisarts.", en: "Always go to the GP first." },
+              { nl: "Voor noodgevallen bel je 112.", en: "For emergencies you call 112." },
+              { nl: "De apotheek geeft medicijnen met een recept.", en: "The pharmacy gives medicine with a prescription." },
+            ]
+          },
+          exercises: [
+            { question: "Health insurance in NL is:", options: ["mandatory (verplicht)", "optional", "only for elderly", "free for all"], th: "ประกันสุขภาพ", answer: "mandatory (verplicht)" },
+            { question: "First point of contact for health:", options: ["huisarts (GP)", "ziekenhuis (hospital)", "apotheek (pharmacy)", "112"], th: "จุดแรกในการรักษา", answer: "huisarts (GP)" },
+            { question: "Emergency number in NL:", options: ["112", "911", "999", "191"], th: "เบอร์ฉุกเฉิน", answer: "112" },
+            { question: "To see a specialist you need:", options: ["verwijzing from huisarts", "money", "passport", "nothing"], th: "เพื่อพบผู้เชี่ยวชาญ", answer: "verwijzing from huisarts" },
+            { question: "'Eigen risico' is approximately:", options: ["€385/year", "€10/month", "€5000/year", "€0"], th: "ค่าส่วนเกิน", answer: "€385/year" },
+            { question: "Child health checkups (0-4) are:", options: ["free at consultatiebureau", "very expensive", "only at hospital", "not available"], th: "ตรวจสุขภาพเด็ก", answer: "free at consultatiebureau" },
+          ]
+        }
+      ]
     },
+    // KNS 7: Werk & Inkomen
     {
       id: 28, section: "kns", title: "Werk & Inkomen", titleEn: "Work & Income", titleTh: "การทำงานและรายได้", icon: "💶", color: "#E85D26",
-      comingSoon: true, lessons: []
+      source: "KNS Exam",
+      lessons: [
+        {
+          id: "k7a", title: "Werken in Nederland", titleEn: "Working in NL", titleTh: "ทำงานในเนเธอร์แลนด์",
+          vocab: [
+            { nl: "arbeidscontract", en: "employment contract", phonetic: "AR-bayts-kon-trakt", thai: "สัญญาจ้างงาน" },
+            { nl: "minimumloon", en: "minimum wage", phonetic: "mee-NEE-mum-lohn", thai: "ค่าแรงขั้นต่ำ" },
+            { nl: "uitkering", en: "benefit / welfare", phonetic: "OYT-kay-ring", thai: "เงินสวัสดิการ", note: "government financial support" },
+            { nl: "belasting", en: "tax", phonetic: "buh-LAS-ting", thai: "ภาษี" },
+            { nl: "loonstrook", en: "payslip", phonetic: "LOHN-strohk", thai: "สลิปเงินเดือน" },
+            { nl: "BSN", en: "citizen service number", phonetic: "bay-es-EN", thai: "เลขประจำตัวประชาชน", note: "Burgerservicenummer — needed for everything!" },
+            { nl: "UWV", en: "Employee Insurance Agency", phonetic: "ew-way-vay", thai: "สำนักงานประกันลูกจ้าง" },
+            { nl: "sollicitatiebrief", en: "cover letter", phonetic: "sol-lee-see-TAH-see-breef", thai: "จดหมายสมัครงาน" },
+            { nl: "CV", en: "resume / CV", phonetic: "say-vay", thai: "ประวัติย่อ" },
+            { nl: "vakbond", en: "labor union", phonetic: "VAK-bont", thai: "สหภาพแรงงาน" },
+            { nl: "zwart werken", en: "working illegally", phonetic: "ZWART WER-kun", thai: "ทำงานเถื่อน", note: "illegal — no tax, no insurance" },
+            { nl: "netto", en: "net (after tax)", phonetic: "NET-oh", thai: "สุทธิ (หลังหักภาษี)" },
+            { nl: "bruto", en: "gross (before tax)", phonetic: "BREW-toh", thai: "รวม (ก่อนหักภาษี)" },
+            { nl: "pensioen", en: "pension", phonetic: "pen-SYOON", thai: "บำนาญ" },
+            { nl: "AOW", en: "state pension", phonetic: "ah-oh-WAY", thai: "บำนาญแห่งรัฐ", note: "Algemene Ouderdomswet — from age ~67" },
+            { nl: "vrijwilligerswerk", en: "volunteer work", phonetic: "VRAY-wil-ih-churs-werk", thai: "งานอาสาสมัคร", note: "good way to learn Dutch & integrate!" },
+          ],
+          dialogues: [
+            {
+              situation: "At the gemeente — registration — ที่เทศบาล ลงทะเบียน",
+              lines: [
+                { speaker: "Officer", nl: "Welkom in Nederland. U krijgt nu een BSN-nummer.", en: "Welcome to the Netherlands. You'll now receive a BSN number." },
+                { speaker: "You", nl: "Waarvoor heb ik dat nodig?", en: "What do I need that for?" },
+                { speaker: "Officer", nl: "Voor alles! Werk, belasting, zorgverzekering.", en: "For everything! Work, taxes, health insurance." },
+                { speaker: "You", nl: "Mag ik meteen werken?", en: "May I work immediately?" },
+                { speaker: "Officer", nl: "Met een werkvergunning, ja. Zwart werken is verboden.", en: "With a work permit, yes. Working illegally is forbidden." },
+                { speaker: "You", nl: "En als ik geen werk kan vinden?", en: "And if I can't find work?" },
+                { speaker: "Officer", nl: "Dan kunt u misschien een uitkering aanvragen bij het UWV.", en: "Then you can possibly apply for benefits at the UWV." },
+              ]
+            }
+          ],
+          grammar: {
+            title: "🏛️ Key Facts: Werk & Inkomen",
+            explanation: "📌 <strong>BSN</strong> (Burgerservicenummer) = citizen number — needed for EVERYTHING. <strong>Minimumloon</strong> = minimum wage by law. <strong>Zwart werken</strong> = working without paying tax — ILLEGAL. Salary: <strong>bruto</strong> (gross) → <strong>netto</strong> (net, after tax). <strong>AOW</strong> = state pension from age ~67. <strong>UWV</strong> handles unemployment benefits. <strong>Vrijwilligerswerk</strong> = volunteering — great for integration!<br><br>🇹🇭 BSN = เลขประจำตัว ต้องใช้ทุกอย่าง! ห้ามทำงานเถื่อน (zwart werken) AOW = บำนาญจากอายุ ~67 ปี",
+            examples: [
+              { nl: "Iedereen heeft een BSN-nummer nodig.", en: "Everyone needs a BSN number." },
+              { nl: "Zwart werken is verboden.", en: "Working illegally is forbidden." },
+              { nl: "De AOW begint rond 67 jaar.", en: "The state pension starts around age 67." },
+              { nl: "Vrijwilligerswerk helpt bij de inburgering.", en: "Volunteer work helps with integration." },
+            ]
+          },
+          exercises: [
+            { question: "BSN stands for:", options: ["Burgerservicenummer", "Bank Saving Number", "Belasting Service Naam", "Bus Station Nummer"], th: "BSN ย่อมาจาก", answer: "Burgerservicenummer" },
+            { question: "'Zwart werken' is:", options: ["illegal (working without tax)", "working at night", "heavy physical work", "working in a restaurant"], th: "ทำงานเถื่อนคือ", answer: "illegal (working without tax)" },
+            { question: "State pension (AOW) starts at age:", options: ["~67", "~55", "~60", "~70"], th: "บำนาญเริ่มอายุ", answer: "~67" },
+            { question: "'Bruto' means:", options: ["gross (before tax)", "net (after tax)", "broken", "brown"], th: "หมายถึง", answer: "gross (before tax)" },
+            { question: "Good way to integrate in NL:", options: ["vrijwilligerswerk (volunteering)", "staying home", "only speaking Thai", "watching TV"], th: "วิธีปรับตัวที่ดี", answer: "vrijwilligerswerk (volunteering)" },
+            { question: "For unemployment benefits go to:", options: ["UWV", "huisarts", "school", "apotheek"], th: "สวัสดิการว่างงาน", answer: "UWV" },
+          ]
+        }
+      ]
     },
+
     // ===== SECTION C: UITSPRAAK — Placeholder =====
     {
       id: 29, section: "uitspraak", title: "Nederlandse Klanken", titleEn: "Dutch Sounds", titleTh: "เสียงภาษาดัตช์", icon: "🔊", color: "#5E9B4E",
@@ -2419,7 +2804,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.3 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.4 · February 2026</p>
     </div>
 
     <div class="card">
@@ -2816,6 +3201,37 @@ function getWordEmoji(nl, en) {
     'pas goed op jezelf':'🛡️','blijf in contact':'📱','vergeten':'❌',
     'herinneren':'💭','trots':'🏆','klaar':'✅','avontuur':'🗺️',
     'hopen':'🤞','terugkomen':'↩️',
+    // KNS modules
+    'hoofdstad':'🏙️','regering':'🏛️','inwoners':'👥','noordzee':'🌊',
+    'rijksmuseum':'🖼️','ov-chipkaart':'💳','huurwoning':'🏠','koopwoning':'🏡',
+    'woningcorporatie':'🏢','huursubsidie':'💰','buurlanden':'🌍',
+    'randstad':'🏙️','waterschap':'💧',
+    'geschiedenis':'📜','koning':'👑','koningin':'👸','gouden eeuw':'🌟',
+    'voc':'⛵','tweede wereldoorlog':'⚔️','bevrijding':'🕊️',
+    'herdenking':'🕯️','koningsdag':'🧡','oranje':'🟠',
+    'onafhankelijkheid':'🗽','kolonie':'🌐','willem van oranje':'👑',
+    'anne frank':'📔','democratie':'🗳️',
+    'grondwet':'📜','minister-president':'👔','tweede kamer':'🏛️',
+    'eerste kamer':'🏛️','verkiezingen':'🗳️','stemmen':'✅',
+    'partij':'🏳️','burgemeester':'🎖️','belasting':'💰',
+    'recht':'⚖️','plicht':'📋','godsdienstvrijheid':'🙏',
+    'discriminatie':'🚫','officiële taal':'🗣️','fries':'🇳🇱',
+    'dialect':'🗣️','inburgering':'📚','taalcursus':'📖',
+    'alfabet':'🔤','abn':'📢','vlaams':'🇧🇪','taalles':'📝',
+    'woordenboek':'📕','uitspraak':'🔊','basisexamen':'📋',
+    'leerplicht':'📚','basisschool':'🏫','middelbare school':'🎒',
+    'vmbo':'📘','havo':'📗','vwo':'📕','universiteit':'🎓',
+    'opvang':'👶','peuterspeelzaal':'🧒','ouderavond':'👨‍👩‍👧',
+    'rapport':'📊','huiswerk':'📝','schoolgeld':'💰','groep':'👥',
+    'zorgverzekering':'🏥','specialist':'👨‍⚕️','verwijzing':'📄',
+    'spoedeisende hulp':'🚑','recept':'📋','eigen risico':'💳',
+    'tandarts':'🦷','consultatiebureau':'👶','vaccinatie':'💉',
+    '112':'🚨','premie':'💰',
+    'arbeidscontract':'📄','minimumloon':'💰','uitkering':'💶',
+    'loonstrook':'📃','bsn':'🔢','uwv':'🏢',
+    'sollicitatiebrief':'✉️','cv':'📄','vakbond':'🤝',
+    'zwart werken':'🚫','netto':'💵','bruto':'💰',
+    'aow':'👴','vrijwilligerswerk':'🤝',
   };
   const nlLower = nl.toLowerCase().trim();
   if (map[nlLower]) return map[nlLower];
