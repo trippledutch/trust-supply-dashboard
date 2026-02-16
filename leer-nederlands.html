@@ -2382,20 +2382,21 @@ const COURSE_DATA = {
         {
           id: "u1a", title: "Moeilijke Klanken", titleEn: "Difficult Sounds", titleTh: "เสียงที่ยาก",
           vocab: [
-            { nl: "ui", en: "onion (sound: ow-ee)", phonetic: "OW-ee", thai: "เสียง อาว-อี", note: "🔊 Unique Dutch sound! Round lips → spread. Like saying 'ow' then 'ee' fast. Examples: huis, muis, uit" },
-            { nl: "eu", en: "sound: uh (rounded)", phonetic: "UH (rounded)", thai: "เสียง เออ (ห่อริมฝีปาก)", note: "🔊 Like French 'eu'. Lips rounded, say 'uh'. Examples: deur, neus, leuk" },
-            { nl: "oe", en: "sound: oo", phonetic: "OO", thai: "เสียง อู", note: "🔊 Like English 'oo' in 'boot'. Examples: boek, goed, moe" },
-            { nl: "uu", en: "sound: ew (rounded)", phonetic: "EW", thai: "เสียง อือ (ห่อริมฝีปาก)", note: "🔊 Say 'ee' with rounded lips. Examples: duur, muur, vuur" },
-            { nl: "g / ch", en: "sound: throat rasp", phonetic: "CH (guttural)", thai: "เสียงกระแทกจากลำคอ", note: "🔊 THE Dutch sound! Like clearing your throat. Thai speakers: like ค but from deeper. Examples: goed, acht, lachen" },
-            { nl: "sch", en: "sound: s + ch", phonetic: "S-CH", thai: "เสียง ซ+ค (จากลำคอ)", note: "🔊 's' then 'ch' combined. Examples: school, schoon, schrijven" },
-            { nl: "r", en: "sound: rolled or uvular r", phonetic: "R (varies)", thai: "เสียง ร (หลายแบบ)", note: "🔊 Dutch 'r' varies by region! Rolling, uvular, or soft. Examples: rood, water, deur" },
-            { nl: "w", en: "sound: between v and w", phonetic: "W (v-ish)", thai: "เสียง ระหว่าง ว กับ ฟ", note: "🔊 Not English 'w'! Lips touch slightly, like soft 'v'. Examples: water, weer, wij" },
-            { nl: "v", en: "sound: soft v/f", phonetic: "V (soft)", thai: "เสียง ฟ อ่อน", note: "🔊 Softer than English 'v', almost 'f' in some dialects. Examples: van, veel, vader" },
-            { nl: "ij / ei", en: "sound: ay (like 'eye')", phonetic: "AY", thai: "เสียง อาย", note: "🔊 Both sound the SAME! Like 'ay' or 'eye'. Examples: wijn/fijn, trein/klein" },
-            { nl: "aa", en: "sound: long ah", phonetic: "AH (long)", thai: "เสียง อา ยาว", note: "🔊 Long 'ah' like 'father'. Examples: naam, straat, kaas" },
-            { nl: "ee", en: "sound: long ay", phonetic: "AY (long)", thai: "เสียง เอ ยาว", note: "🔊 Long 'ay' like 'say'. Examples: twee, zee, been" },
-            { nl: "oo", en: "sound: long oh", phonetic: "OH (long)", thai: "เสียง โอ ยาว", note: "🔊 Long 'oh' like 'go'. Examples: rood, groot, brood" },
-            { nl: "ie", en: "sound: ee", phonetic: "EE", thai: "เสียง อี", note: "🔊 Like English 'ee' in 'see'. Examples: drie, ziek, fiets" },
+            { nl: "huis", en: "house (ui = ow-ee)", phonetic: "HOYS", thai: "บ้าน — เสียง ui = อาว-อี", note: "🔊 'ui' = unique Dutch! Round lips → spread. Also: muis, uit, buiten, fruit" },
+            { nl: "deur", en: "door (eu = rounded uh)", phonetic: "DUHR", thai: "ประตู — เสียง eu = เออ", note: "🔊 'eu' = like French 'eu'. Lips rounded. Also: neus, leuk, keuken" },
+            { nl: "boek", en: "book (oe = oo)", phonetic: "BOOK", thai: "หนังสือ — เสียง oe = อู", note: "🔊 'oe' = like English 'oo'. Easy for Thai! Also: goed, moe, groente" },
+            { nl: "muur", en: "wall (uu = rounded ee)", phonetic: "MEWR", thai: "กำแพง — เสียง uu = อือ", note: "🔊 'uu' = say 'ee' with rounded lips. Also: duur, vuur, buur, natuur" },
+            { nl: "goed", en: "good (g = throat rasp)", phonetic: "CHOOT", thai: "ดี — เสียง g = จากลำคอ", note: "🔊 THE Dutch sound! Clear your throat. Also: gracht, geel, groot, graag" },
+            { nl: "acht", en: "eight (ch = throat rasp)", phonetic: "ACHT", thai: "แปด — เสียง ch = จากลำคอ", note: "🔊 Same throat sound as 'g'. Also: nacht, lachen, echt, licht" },
+            { nl: "school", en: "school (sch = s + throat)", phonetic: "SCHOOL", thai: "โรงเรียน — เสียง sch = ซ+ค", note: "🔊 Start with 's' then throat 'ch'. Also: schrijven, schoon, schip" },
+            { nl: "rood", en: "red (r = rolled/uvular)", phonetic: "ROHT", thai: "แดง — เสียง r หลายแบบ", note: "🔊 Dutch 'r' varies by region! Rolling, uvular, or soft. Also: water, deur, reis" },
+            { nl: "water", en: "water (w = between v and w)", phonetic: "WAH-tur", thai: "น้ำ — เสียง w = ระหว่าง ว กับ ฟ", note: "🔊 Not English 'w'! Lips touch slightly. Also: weer, wij, wonen, werk" },
+            { nl: "vader", en: "father (v = soft v/f)", phonetic: "FAH-dur", thai: "พ่อ — เสียง v = ฟ อ่อน", note: "🔊 Softer than English 'v', almost 'f'. Also: van, veel, voet, vijf" },
+            { nl: "trein", en: "train (ei = ay)", phonetic: "TRAYN", thai: "รถไฟ — เสียง ei = อาย", note: "🔊 'ei' and 'ij' sound the SAME! Also: klein, fijn, wijn, bij" },
+            { nl: "naam", en: "name (aa = long ah)", phonetic: "NAHM", thai: "ชื่อ — เสียง aa = อา ยาว", note: "🔊 Long 'ah' like 'father'. Also: straat, kaas, praat, maan" },
+            { nl: "twee", en: "two (ee = long ay)", phonetic: "TWAY", thai: "สอง — เสียง ee = เอ ยาว", note: "🔊 Long 'ay'. Also: zee, been, steen, een" },
+            { nl: "brood", en: "bread (oo = long oh)", phonetic: "BROHT", thai: "ขนมปัง — เสียง oo = โอ ยาว", note: "🔊 Long 'oh' like 'go'. Also: rood, groot, mooi, boot" },
+            { nl: "fiets", en: "bicycle (ie = ee)", phonetic: "FEETS", thai: "จักรยาน — เสียง ie = อี", note: "🔊 Like English 'ee' in 'see'. Also: drie, ziek, lied, dier" },
           ],
           dialogues: [
             {
@@ -2488,18 +2489,18 @@ const COURSE_DATA = {
         {
           id: "u2b", title: "Medeklinkers & Combinaties", titleEn: "Consonants & Combos", titleTh: "พยัญชนะและเสียงรวม",
           vocab: [
-            { nl: "d → t", en: "d becomes t at end", phonetic: "T (at end)", thai: "d กลายเป็น t ท้ายคำ", note: "🔊 'hond' sounds like 'hont'. 'goed' sounds like 'goet'. Final d = always t sound!" },
-            { nl: "b → p", en: "b becomes p at end", phonetic: "P (at end)", thai: "b กลายเป็น p ท้ายคำ", note: "🔊 'heb' sounds like 'hep'. 'web' sounds like 'wep'" },
-            { nl: "nk", en: "nk sound (like English)", phonetic: "NK", thai: "เสียง งค", note: "🔊 Like English 'nk' in 'think'. Examples: dank, bank, denk" },
-            { nl: "ng", en: "ng sound (like English)", phonetic: "NG", thai: "เสียง ง", note: "🔊 Like English 'ng' in 'sing'. Examples: lang, jong, zingen" },
-            { nl: "tion", en: "-tion ending (tsee)", phonetic: "TSEE", thai: "เสียง ซี", note: "🔊 NOT like English 'shun'! Dutch: 'informatie' = in-for-MAH-tsee" },
-            { nl: "th", en: "th sound (just t!)", phonetic: "T", thai: "เสียง ท (ไม่ใช่ TH อังกฤษ)", note: "🔊 Dutch 'th' = just 't'. 'thee' = TAY, 'thuis' = TOYS" },
-            { nl: "sch-", en: "sch at start (s+ch)", phonetic: "S-CH", thai: "ซ+คจากลำคอ (ต้นคำ)", note: "🔊 At start of word: school, schrijven, schoon" },
-            { nl: "-isch", en: "-isch ending (soft -ies)", phonetic: "-EES", thai: "เสียง -อีซ (ท้ายคำ)", note: "🔊 At end: '-isch' sounds like '-ies'. 'praktisch' = prak-TEES" },
-            { nl: "tj", en: "tj sound (ch like cheese)", phonetic: "CH", thai: "เสียง ช", note: "🔊 Like English 'ch'. 'koekje' = KOOK-chuh, 'meisje' = MAY-shuh" },
-            { nl: "kn", en: "kn (both pronounced!)", phonetic: "KN", thai: "ออกเสียงทั้ง ค และ น", note: "🔊 Unlike English, pronounce BOTH! 'knie' = kNEE, 'knap' = kNAP" },
-            { nl: "-en", en: "-en ending (reduced)", phonetic: "-un", thai: "เสียง -เอิน (ลดเสียง)", note: "🔊 The 'e' in -en is almost silent. 'lopen' = LOH-pun, 'eten' = AY-tun" },
-            { nl: "z → s", en: "z weakens in some regions", phonetic: "Z/S", thai: "z อ่อนลงในบางภาค", note: "🔊 Some Dutch say 'z' like soft 's'. Both accepted!" },
+            { nl: "hond", en: "dog (d→t at end)", phonetic: "HONT", thai: "สุนัข — d ท้ายคำออกเสียง t", note: "🔊 Written 'hond' but sounds like 'hont'. Plural: honden (d comes back!)" },
+            { nl: "heb", en: "have (b→p at end)", phonetic: "HEP", thai: "มี — b ท้ายคำออกเสียง p", note: "🔊 Written 'heb' but sounds like 'hep'. Full: hebben (b returns!)" },
+            { nl: "dank", en: "thanks (nk sound)", phonetic: "DANK", thai: "ขอบคุณ — เสียง งค", note: "🔊 Like English 'nk' in 'thank'. Also: bank, denk, drinken" },
+            { nl: "lang", en: "long/tall (ng sound)", phonetic: "LANG", thai: "ยาว/สูง — เสียง ง", note: "🔊 Like English 'ng' in 'sing'. Also: jong, zingen, brengen" },
+            { nl: "informatie", en: "information (-tie = tsee)", phonetic: "in-for-MAH-tsee", thai: "ข้อมูล — -tie ออกเสียง ซี", note: "🔊 NOT English 'shun'! Dutch -tie = -tsee. Also: politie, situatie" },
+            { nl: "thee", en: "tea (th = just t)", phonetic: "TAY", thai: "ชา — th ออกเสียงแค่ ท", note: "🔊 Dutch 'th' = just 't'! NOT English 'th'. Also: thuis, Thailand" },
+            { nl: "schrijven", en: "to write (sch- = s+ch)", phonetic: "SCHRAY-vun", thai: "เขียน — sch ต้นคำ = ซ+ค", note: "🔊 Start with 's' then throat. Also: school, schoon, schip" },
+            { nl: "praktisch", en: "practical (-isch = -ees)", phonetic: "PRAK-tees", thai: "สะดวก — -isch ท้ายคำ = -อีซ", note: "🔊 Ending '-isch' sounds like '-ees'. Also: typisch, logisch" },
+            { nl: "koekje", en: "cookie (tj = ch sound)", phonetic: "KOOK-chuh", thai: "คุกกี้ — tj ออกเสียง ช", note: "🔊 Like English 'ch'. Also: meisje, kopje, beetje" },
+            { nl: "knie", en: "knee (kn = both said!)", phonetic: "kNEE", thai: "เข่า — kn ออกเสียงทั้งสองตัว", note: "🔊 Unlike English, say BOTH k and n! Also: knap, knoop, knoflook" },
+            { nl: "lopen", en: "to walk (-en = reduced)", phonetic: "LOH-pun", thai: "เดิน — -en ท้ายคำเสียงเบา", note: "🔊 The 'e' in -en is barely heard. Also: eten, drinken, slapen" },
+            { nl: "zon", en: "sun (z can soften to s)", phonetic: "ZON", thai: "พระอาทิตย์ — z อ่อนเป็น s ได้", note: "🔊 Some regions say soft 's'. Both accepted! Also: zee, ziek, zoeken" },
           ],
           dialogues: [
             {
@@ -2959,7 +2960,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.2.5 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.3 · February 2026</p>
     </div>
 
     <div class="card">
