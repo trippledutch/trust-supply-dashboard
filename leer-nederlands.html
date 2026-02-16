@@ -121,7 +121,7 @@
   .module-header .icon { font-size: 48px; }
 
   /* Tabs */
-  .tabs { display: flex; gap: 4px; margin: 16px 0; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .tabs { display: flex; gap: 4px; margin: 16px 0; flex-wrap: wrap; padding-bottom: 4px; }
   .tabs::-webkit-scrollbar { display: none; }
   .tab {
     padding: 9px 12px; border-radius: 20px; border: 1px solid #ddd;
@@ -147,6 +147,11 @@
   .vocab-card .en { font-size: 15px; font-weight: 500; color: #333; margin-bottom: 4px; }
   .vocab-card .thai { font-size: 14px; color: #999; }
   .vocab-card .note { font-size: 12px; color: #aaa; margin-top: 6px; font-style: italic; line-height: 1.4; }
+  .vocab-srs-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; padding: 2px 8px;
+    border-radius: 10px; margin-top: 6px; letter-spacing: 0.3px;
+  }
 
   /* Dialogue */
   .dialogue-box {
@@ -334,8 +339,13 @@
   .flashcard-dot {
     width: 8px; height: 8px; border-radius: 50%; background: #ddd; transition: all 0.2s;
   }
-  .flashcard-dot.active { background: #21468B; transform: scale(1.3); }
+  .flashcard-dot.active { transform: scale(1.3); }
   .flashcard-dot.known { background: #5E9B4E; }
+  .flashcard-dot.srs-1 { background: #E74C3C; }
+  .flashcard-dot.srs-2 { background: #F39C12; }
+  .flashcard-dot.srs-3 { background: #F1C40F; }
+  .flashcard-dot.srs-4 { background: #2E86AB; }
+  .flashcard-dot.srs-5 { background: #5E9B4E; }
   .flashcard-actions {
     display: flex; gap: 10px; justify-content: center; margin-top: 8px;
   }
@@ -356,6 +366,157 @@
   }
 
   .hidden { display: none; }
+
+  /* SRS Review Card */
+  .srs-card {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF3E0 100%);
+    border: 1px solid #F5DEC0; border-radius: 12px; padding: 20px 24px;
+    margin: 0 0 20px; cursor: pointer; transition: all 0.2s;
+  }
+  .srs-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-1px); }
+  .srs-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: #E85D26; color: #fff; font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px;
+  }
+  .srs-box-indicator {
+    display: inline-flex; gap: 3px; align-items: center;
+  }
+  .srs-box-dot {
+    width: 10px; height: 10px; border-radius: 3px; transition: all 0.2s;
+  }
+  .srs-stats-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 12px 0;
+  }
+  .srs-stat-box {
+    text-align: center; padding: 8px 4px; border-radius: 8px;
+    background: #fff; border: 1px solid #e8e8e8;
+  }
+  .srs-stat-box .num { font-size: 20px; font-weight: 800; }
+  .srs-stat-box .lbl { font-size: 10px; color: #888; font-weight: 600; text-transform: uppercase; }
+
+  /* Cloze / Fill-in-blank exercise */
+  .cloze-input {
+    display: inline-block; min-width: 100px; padding: 6px 12px;
+    border: 2px solid #ddd; border-radius: 6px; font-size: 16px;
+    font-family: inherit; outline: none; text-align: center;
+    background: #FAFAFA; transition: border-color 0.2s;
+  }
+  .cloze-input:focus { border-color: #21468B; background: #fff; }
+  .cloze-input.correct { border-color: #5E9B4E; background: #E8F8E8; color: #2E7D32; }
+  .cloze-input.wrong { border-color: #E74C3C; background: #FFEBEE; color: #C62828; }
+
+  /* Word reorder exercise */
+  .word-bank {
+    display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px;
+    padding: 12px; background: #F8F9FA; border-radius: 10px;
+    border: 2px dashed #ddd; margin-bottom: 10px;
+    align-items: flex-start; justify-content: center;
+  }
+  .word-bank.target { background: #F0F7FF; border-color: #B0D0EF; min-height: 56px; }
+  .word-chip {
+    padding: 8px 16px; border-radius: 8px; border: 2px solid #ddd;
+    background: #fff; cursor: pointer; font-size: 15px; font-weight: 600;
+    font-family: inherit; transition: all 0.15s; user-select: none;
+  }
+  .word-chip:hover { background: #E8F4FD; border-color: #2E86AB; transform: translateY(-1px); }
+  .word-chip.placed { opacity: 0.35; cursor: default; }
+  .word-chip.in-target { background: #E8F4FD; border-color: #21468B; color: #21468B; }
+  .word-chip.chip-correct { background: #E8F8E8; border-color: #5E9B4E; color: #2E7D32; }
+  .word-chip.chip-wrong { background: #FFEBEE; border-color: #E74C3C; color: #C62828; }
+
+  /* Match exercise */
+  .match-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .match-btn {
+    padding: 14px 16px; border-radius: 10px; border: 2px solid #e0e0e0;
+    background: #FAFAFA; cursor: pointer; font-size: 15px; font-family: inherit;
+    text-align: center; transition: all 0.15s; font-weight: 500;
+  }
+  .match-btn:hover:not(:disabled) { background: #f0f0f0; border-color: #bbb; }
+  .match-btn.match-selected { border-color: #21468B; background: #E8F4FD; color: #21468B; font-weight: 700; }
+  .match-btn.match-correct { background: #E8F8E8; border-color: #5E9B4E; color: #2E7D32; }
+  .match-btn.match-wrong { background: #FFEBEE; border-color: #E74C3C; color: #C62828; animation: shake 0.3s ease; }
+  .match-btn:disabled { cursor: default; opacity: 0.5; }
+  @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  /* Exercise section divider */
+  .exercise-section-title {
+    font-size: 13px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 24px 0 12px; padding-bottom: 8px;
+    border-bottom: 2px solid #eee;
+  }
+
+  /* Exam simulation */
+  .exam-card {
+    background: linear-gradient(135deg, #1B3A5C 0%, #21468B 50%, #2E5DA8 100%);
+    border-radius: 12px; padding: 20px 24px; margin: 0 0 20px;
+    color: #fff; cursor: pointer; transition: all 0.2s;
+  }
+  .exam-card:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(33,70,139,0.3); }
+  .exam-timer {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.15); border-radius: 20px;
+    padding: 6px 14px; font-size: 16px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .exam-timer.warning { background: rgba(231,76,60,0.3); animation: pulse-timer 1s infinite; }
+  @keyframes pulse-timer { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .exam-q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%; font-weight: 700;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .exam-q-nav {
+    display: flex; gap: 4px; flex-wrap: wrap; margin: 16px 0;
+    justify-content: center;
+  }
+  .exam-q-dot {
+    width: 28px; height: 28px; border-radius: 50%; border: 2px solid #ddd;
+    background: #fff; cursor: pointer; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; transition: all 0.15s; color: #888;
+  }
+  .exam-q-dot:hover { border-color: #21468B; }
+  .exam-q-dot.current { border-color: #21468B; background: #21468B; color: #fff; }
+  .exam-q-dot.answered { border-color: #5E9B4E; background: #E8F8E8; color: #5E9B4E; }
+  .exam-q-dot.reviewed { border-color: #5E9B4E; background: #5E9B4E; color: #fff; }
+  .exam-result-bar {
+    height: 24px; border-radius: 12px; overflow: hidden;
+    display: flex; margin: 12px 0;
+  }
+  .exam-history {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 16px;
+  }
+
+  /* Speech recognition */
+  .mic-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border-radius: 50%; border: 2px solid #ddd;
+    background: #FAFAFA; cursor: pointer; font-size: 22px;
+    transition: all 0.2s; flex-shrink: 0; padding: 0;
+  }
+  .mic-btn:hover { background: #FFF3E0; border-color: #E85D26; transform: scale(1.05); }
+  .mic-btn.recording {
+    background: #FFEBEE; border-color: #E74C3C;
+    animation: pulse-mic 1s infinite;
+  }
+  @keyframes pulse-mic { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231,76,60,0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(231,76,60,0); } }
+  .speech-result {
+    display: inline-block; padding: 6px 14px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; margin-top: 8px;
+  }
+  .speech-result.correct { background: #E8F8E8; color: #2E7D32; border: 1px solid #C8E6C0; }
+  .speech-result.partial { background: #FFF8E1; color: #F57F17; border: 1px solid #FFF0B2; }
+  .speech-result.wrong { background: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2; }
+  .speech-result.listening { background: #E8F4FD; color: #1565C0; border: 1px solid #B3D7F2; }
+  .speak-practice-card {
+    background: #fff; border: 1px solid #eee; border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
 
   @media (max-width: 500px) {
     .module-grid { grid-template-columns: 1fr; }
@@ -2545,7 +2706,7 @@ const COURSE_DATA = {
 // APP STATE & RENDERING
 // ============================================================
 let state = {
-  view: 'home', // home | module | lesson
+  view: 'home', // home | module | lesson | review
   currentModule: null,
   currentLesson: null,
   activeTab: 'vocab',
@@ -2562,7 +2723,34 @@ let state = {
   flashcardIdx: 0,
   flashcardFlipped: false,
   flashcardKnown: {},
+  // SRS state
+  srsData: JSON.parse(localStorage.getItem('dutchSRS') || '{}'),
+  // srsData format: { "wordKey": { box: 1-5, nextReview: timestamp, lastReview: timestamp, streak: 0 } }
+  srsReviewIdx: 0,
+  srsReviewFlipped: false,
+  srsReviewQueue: [],
+  // New exercise types state
+  clozeAnswers: {},
+  reorderState: {}, // { exIdx: { placed: [words], available: [words] } }
+  matchState: {}, // { selected: null|{side,idx}, matched: [pairs], wrong: null }
+  // Exam simulation state
+  examActive: false,
+  examQuestions: [],
+  examAnswers: {},
+  examCurrentQ: 0,
+  examTimeLeft: 0,
+  examTimerInterval: null,
+  examFinished: false,
+  examHistory: JSON.parse(localStorage.getItem('dutchExamHistory') || '[]'),
+  examSection: 'all', // 'all' | 'taal' | 'kns' | 'uitspraak'
+  // Speech recognition state
+  speechRecResult: null, // { text, score, status }
+  speechRecActive: false,
 };
+
+// Detect speech recognition support
+const SpeechRecAPI = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+const speechRecAvailable = !!SpeechRecAPI;
 
 // ============================================================
 // TTS ENGINE — Using HTML5 Audio with Google TTS + Browser fallback
@@ -2843,9 +3031,11 @@ function setTtsEngine(val) {
 }
 
 function resetProgress() {
-  if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?')) {
+  if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?\nThis includes SRS vocabulary data.')) {
     state.completedLessons = {};
+    state.srsData = {};
     localStorage.removeItem('dutchCompleted');
+    localStorage.removeItem('dutchSRS');
     render();
   }
 }
@@ -2854,6 +3044,17 @@ function setState(updates) {
   // Stop speech when navigating
   if (updates.view || updates.currentLesson !== undefined || updates.activeTab) {
     stopAllAudio();
+    // Stop speech recognition if active
+    if (speechRecognizer) {
+      try { speechRecognizer.abort(); } catch(e) {}
+      speechRecognizer = null;
+      state.speechRecActive = false;
+    }
+  }
+  // Clean up exam timer if leaving exam view
+  if (updates.view && updates.view !== 'exam' && state.examTimerInterval) {
+    clearInterval(state.examTimerInterval);
+    state.examTimerInterval = null;
   }
   Object.assign(state, updates);
   render();
@@ -2876,15 +3077,287 @@ function escHtml(s) {
 }
 
 // ============================================================
+// SRS ENGINE — Leitner Box System
+// ============================================================
+// Box 1: review every session (new/difficult words)
+// Box 2: review after 1 day
+// Box 3: review after 3 days
+// Box 4: review after 7 days
+// Box 5: review after 14 days (mastered)
+const SRS_INTERVALS = { 1: 0, 2: 86400000, 3: 259200000, 4: 604800000, 5: 1209600000 };
+const SRS_BOX_COLORS = { 1: '#E74C3C', 2: '#F39C12', 3: '#F1C40F', 4: '#2E86AB', 5: '#5E9B4E' };
+const SRS_BOX_LABELS = { 1: 'New', 2: '1 day', 3: '3 days', 4: '1 week', 5: 'Mastered' };
+
+function srsWordKey(word, lessonId) {
+  return `${lessonId}::${word.nl}`;
+}
+
+function saveSRS() {
+  localStorage.setItem('dutchSRS', JSON.stringify(state.srsData));
+}
+
+function srsGetCard(key) {
+  return state.srsData[key] || { box: 1, nextReview: 0, lastReview: 0, streak: 0 };
+}
+
+function srsMarkCorrect(key) {
+  const card = srsGetCard(key);
+  const newBox = Math.min(card.box + 1, 5);
+  const now = Date.now();
+  state.srsData[key] = {
+    box: newBox,
+    nextReview: now + SRS_INTERVALS[newBox],
+    lastReview: now,
+    streak: card.streak + 1
+  };
+  saveSRS();
+}
+
+function srsMarkWrong(key) {
+  const card = srsGetCard(key);
+  const now = Date.now();
+  state.srsData[key] = {
+    box: 1, // Back to box 1
+    nextReview: now, // Available immediately
+    lastReview: now,
+    streak: 0
+  };
+  saveSRS();
+}
+
+function srsGetDueWords() {
+  const now = Date.now();
+  const due = [];
+  COURSE_DATA.modules.forEach(mod => {
+    if (mod.comingSoon) return;
+    mod.lessons.forEach(lesson => {
+      lesson.vocab.forEach(word => {
+        const key = srsWordKey(word, lesson.id);
+        const card = state.srsData[key];
+        if (card && card.nextReview <= now) {
+          due.push({ word, lesson, mod, key, card });
+        }
+      });
+    });
+  });
+  // Sort: box 1 first (most urgent), then by nextReview
+  due.sort((a, b) => a.card.box - b.card.box || a.card.nextReview - b.card.nextReview);
+  return due;
+}
+
+function srsGetStats() {
+  const boxes = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  let total = 0;
+  Object.values(state.srsData).forEach(card => {
+    boxes[card.box] = (boxes[card.box] || 0) + 1;
+    total++;
+  });
+  const due = srsGetDueWords().length;
+  return { boxes, total, due };
+}
+
+function srsAddWordsFromFlashcards(lessonId, vocab, knownMap) {
+  // After a flashcard session, add words to SRS
+  vocab.forEach((word, idx) => {
+    const key = srsWordKey(word, lessonId);
+    const existing = state.srsData[key];
+    if (knownMap[idx]) {
+      // Marked as known — if new, start in box 2
+      if (!existing) {
+        const now = Date.now();
+        state.srsData[key] = {
+          box: 2,
+          nextReview: now + SRS_INTERVALS[2],
+          lastReview: now,
+          streak: 1
+        };
+      } else {
+        srsMarkCorrect(key);
+      }
+    } else {
+      // Marked as study again — put in box 1
+      if (!existing) {
+        state.srsData[key] = {
+          box: 1,
+          nextReview: Date.now(),
+          lastReview: Date.now(),
+          streak: 0
+        };
+      } else {
+        srsMarkWrong(key);
+      }
+    }
+  });
+  saveSRS();
+}
+
+function startSRSReview() {
+  const due = srsGetDueWords();
+  if (due.length === 0) return;
+  setState({
+    view: 'review',
+    srsReviewQueue: due.slice(0, 20), // Max 20 per session
+    srsReviewIdx: 0,
+    srsReviewFlipped: false
+  });
+}
+
+// ============================================================
+// EXERCISE GENERATORS — Create varied exercises from vocab data
+// ============================================================
+
+// Generate cloze (fill-in-the-blank) exercises from dialogues
+function generateClozeExercises(lesson) {
+  const exercises = [];
+  if (!lesson.dialogues) return exercises;
+
+  lesson.dialogues.forEach(d => {
+    d.lines.forEach(line => {
+      // Find vocab words that appear in this dialogue line
+      const vocabInLine = lesson.vocab.filter(v =>
+        line.nl.toLowerCase().includes(v.nl.toLowerCase()) && v.nl.length > 2
+      );
+      if (vocabInLine.length > 0) {
+        // Pick one word to blank out
+        const target = vocabInLine[Math.floor(Math.random() * vocabInLine.length)];
+        const regex = new RegExp(target.nl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+        const blanked = line.nl.replace(regex, '___');
+        if (blanked !== line.nl) {
+          exercises.push({
+            type: 'cloze',
+            sentence: blanked,
+            answer: target.nl.toLowerCase(),
+            hint: target.en,
+            hintTh: target.thai || '',
+            full: line.nl
+          });
+        }
+      }
+    });
+  });
+
+  // Also generate from grammar examples
+  if (lesson.grammar && lesson.grammar.examples) {
+    lesson.grammar.examples.forEach(ex => {
+      const vocabInEx = lesson.vocab.filter(v =>
+        ex.nl.toLowerCase().includes(v.nl.toLowerCase()) && v.nl.length > 2
+      );
+      if (vocabInEx.length > 0) {
+        const target = vocabInEx[Math.floor(Math.random() * vocabInEx.length)];
+        const regex = new RegExp(target.nl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+        const blanked = ex.nl.replace(regex, '___');
+        if (blanked !== ex.nl) {
+          exercises.push({
+            type: 'cloze',
+            sentence: blanked,
+            answer: target.nl.toLowerCase(),
+            hint: target.en,
+            hintTh: target.thai || '',
+            full: ex.nl
+          });
+        }
+      }
+    });
+  }
+
+  return exercises.slice(0, 4); // Max 4 cloze exercises
+}
+
+// Generate word reorder exercises from dialogues
+function generateReorderExercises(lesson) {
+  const exercises = [];
+  if (!lesson.dialogues) return exercises;
+
+  lesson.dialogues.forEach(d => {
+    d.lines.forEach(line => {
+      const words = line.nl.split(/\s+/).filter(w => w.length > 0);
+      if (words.length >= 3 && words.length <= 10) {
+        exercises.push({
+          type: 'reorder',
+          correctOrder: words,
+          hint: line.en,
+          hintTh: line.th || ''
+        });
+      }
+    });
+  });
+
+  // Shuffle and take max 3
+  return fisherYatesShuffle(exercises).slice(0, 3);
+}
+
+// Generate translation matching exercises from vocab
+function generateMatchExercises(lesson) {
+  if (lesson.vocab.length < 4) return [];
+  // Pick 4-6 words using Fisher-Yates
+  const shuffled = fisherYatesShuffle([...lesson.vocab]);
+  const words = shuffled.slice(0, Math.min(6, lesson.vocab.length));
+  return [{
+    type: 'match',
+    pairs: words.map(v => ({ nl: v.nl, en: v.en, thai: v.thai || '' }))
+  }];
+}
+
+// Seeded random for consistent exercise generation per lesson
+function seededRandom(seed) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = Math.imul(31, h) + seed.charCodeAt(i) | 0;
+  }
+  return function() {
+    h = h ^ (h >>> 16);
+    h = Math.imul(h, 0x45d9f3b);
+    h = h ^ (h >>> 16);
+    return (h >>> 0) / 4294967296;
+  };
+}
+
+// Fisher-Yates shuffle with optional seeded RNG — produces truly uniform randomization
+function fisherYatesShuffle(arr, rng) {
+  const r = rng || Math.random;
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor((typeof r === 'function' ? r() : Math.random()) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Cache generated exercises per lesson to avoid regeneration on re-render
+const exerciseCache = {};
+function getGeneratedExercises(lesson) {
+  if (exerciseCache[lesson.id]) return exerciseCache[lesson.id];
+  // Use seeded random for stability
+  const rng = seededRandom(lesson.id + '_v4');
+  const origRandom = Math.random;
+  Math.random = rng;
+  const cloze = generateClozeExercises(lesson);
+  const reorder = generateReorderExercises(lesson);
+  const match = generateMatchExercises(lesson);
+  Math.random = origRandom;
+  exerciseCache[lesson.id] = { cloze, reorder, match };
+  return exerciseCache[lesson.id];
+}
+
+// ============================================================
 // RENDER FUNCTIONS
 // ============================================================
-function render() {
+let lastView = null;
+let lastTab = null;
+function render(skipScroll) {
   const app = document.getElementById('app');
   if (state.view === 'home') app.innerHTML = renderHome();
   else if (state.view === 'settings') app.innerHTML = renderSettings();
   else if (state.view === 'module') app.innerHTML = renderModule();
   else if (state.view === 'lesson') app.innerHTML = renderLesson();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  else if (state.view === 'review') app.innerHTML = renderSRSReview();
+  else if (state.view === 'exam') app.innerHTML = renderExam();
+  // Only scroll to top when navigating to a different view or tab
+  const viewChanged = state.view !== lastView || state.activeTab !== lastTab;
+  lastView = state.view;
+  lastTab = state.activeTab;
+  if (viewChanged && !skipScroll) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function renderHome() {
@@ -2960,7 +3433,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.3 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.5 · February 2026</p>
     </div>
 
     <div class="card">
@@ -2996,6 +3469,46 @@ function renderHome() {
       🔍 ${state.showSearch ? 'Hide' : 'Search'} Dictionary (${getAllVocab().length} words)
     </button>
     ${searchHtml}
+
+    ${(() => {
+      const srs = srsGetStats();
+      const due = srs.due;
+      if (srs.total === 0) return '';
+      return `
+        <div class="srs-card" onclick="if(${due}>0)startSRSReview()">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div>
+              <span class="serif" style="font-size:18px;font-weight:700;color:#333">🧠 Vocabulary Review</span>
+              <span style="font-size:13px;color:#888;margin-left:6px">ทบทวนคำศัพท์</span>
+            </div>
+            ${due > 0 ? `<span class="srs-badge">🔥 ${due} due</span>` : `<span style="font-size:12px;color:#5E9B4E;font-weight:600">✅ All reviewed!</span>`}
+          </div>
+          <div class="srs-stats-grid">
+            ${[1,2,3,4,5].map(box => `
+              <div class="srs-stat-box" style="border-color:${SRS_BOX_COLORS[box]}20">
+                <div class="num" style="color:${SRS_BOX_COLORS[box]}">${srs.boxes[box] || 0}</div>
+                <div class="lbl">${SRS_BOX_LABELS[box]}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:#888">${srs.total} words tracked · ${srs.boxes[5] || 0} mastered</span>
+            ${due > 0 ? `<span style="font-size:14px;font-weight:700;color:#E85D26">Start Review →</span>` : ''}
+          </div>
+        </div>
+      `;
+    })()}
+
+    <div class="exam-card" onclick="setState({view:'exam'})">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div>
+          <span class="serif" style="font-size:18px;font-weight:700">📋 Mock Exam · สอบจำลอง</span>
+        </div>
+        ${state.examHistory.length > 0 ? `<span style="font-size:12px;background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:20px">Best: ${Math.max(...state.examHistory.map(h=>h.pct))}%</span>` : ''}
+      </div>
+      <p style="font-size:14px;opacity:0.85;margin:0 0 6px">Timed practice exam that simulates the real Basisexamen format</p>
+      <p style="font-size:12px;opacity:0.6;margin:0">จำลองสอบจริง · 30 questions · 30 minutes · random selection</p>
+    </div>
 
     <div class="card-accent">
       <h3 style="margin:0 0 8px;color:#E85D26" class="serif">📋 About the Inburgering Exam</h3>
@@ -3103,6 +3616,102 @@ function renderSettings() {
   `;
 }
 
+function renderSRSReview() {
+  const queue = state.srsReviewQueue;
+  const idx = state.srsReviewIdx;
+  const flipped = state.srsReviewFlipped;
+
+  if (!queue || queue.length === 0 || idx >= queue.length) {
+    // Review complete
+    const stats = srsGetStats();
+    return `
+      <button class="back-btn" onclick="setState({view:'home'})">◀ Home · หน้าหลัก</button>
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:64px;margin-bottom:16px">🎉</div>
+        <h2 class="serif" style="color:#5E9B4E;margin:0 0 8px">Review Complete! · ทบทวนเสร็จแล้ว!</h2>
+        <p style="color:#666;font-size:15px;margin:0 0 24px">Great work! ${stats.boxes[5] || 0} words mastered so far.</p>
+        <div class="srs-stats-grid" style="max-width:400px;margin:0 auto 24px">
+          ${[1,2,3,4,5].map(box => `
+            <div class="srs-stat-box" style="border-color:${SRS_BOX_COLORS[box]}20">
+              <div class="num" style="color:${SRS_BOX_COLORS[box]}">${stats.boxes[box] || 0}</div>
+              <div class="lbl">${SRS_BOX_LABELS[box]}</div>
+            </div>
+          `).join('')}
+        </div>
+        ${stats.due > 0 ? `<button class="flashcard-action-btn" style="border-color:#E85D26;color:#E85D26" onclick="startSRSReview()">🔄 Review ${stats.due} more · ทบทวนต่อ</button>` : ''}
+        <button class="flashcard-action-btn" style="border-color:#21468B;color:#21468B;margin-left:10px" onclick="setState({view:'home'})">🏠 Home</button>
+      </div>
+    `;
+  }
+
+  const item = queue[idx];
+  const w = item.word;
+  const card = srsGetCard(item.key);
+  const em = getWordEmoji(w.nl, w.en);
+
+  return `
+    <button class="back-btn" onclick="setState({view:'home'})">◀ Home · หน้าหลัก</button>
+    <div style="padding:16px 0 12px;border-bottom:3px solid #E85D26">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 class="serif" style="margin:0">🧠 SRS Review</h2>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:13px;color:#888">${idx + 1} / ${queue.length}</span>
+          <div class="srs-box-indicator">
+            ${[1,2,3,4,5].map(b => `<div class="srs-box-dot" style="background:${b <= card.box ? SRS_BOX_COLORS[b] : '#e0e0e0'}"></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <p style="color:#666;margin:4px 0 0;font-size:13px">From: ${escHtml(item.mod.title)} → ${escHtml(item.lesson.title)}</p>
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="progress-bar"><div class="progress-fill" style="width:${(idx / queue.length) * 100}%;background:linear-gradient(90deg, #E85D26, #F39C12)"></div></div>
+    </div>
+
+    <div style="text-align:center;margin:12px 0 8px">
+      <span style="font-size:12px;color:${SRS_BOX_COLORS[card.box]};font-weight:700">Box ${card.box} · ${SRS_BOX_LABELS[card.box]}</span>
+      ${card.streak > 0 ? ` <span style="font-size:12px;color:#888">· 🔥 ${card.streak} streak</span>` : ''}
+    </div>
+
+    <div class="flashcard-container" onclick="setState({srsReviewFlipped:!state.srsReviewFlipped})" style="margin-top:8px">
+      <div class="flashcard ${flipped ? 'flipped' : ''}">
+        <div class="flashcard-face flashcard-front">
+          <div style="font-size:56px;line-height:1;margin-bottom:6px">${em}</div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#999;margin-bottom:12px;font-weight:700">Nederlands</div>
+          <div class="serif" style="font-size:32px;font-weight:800;color:#E85D26;margin-bottom:8px">${escHtml(w.nl)}</div>
+          <div style="font-size:15px;color:#888">/${escHtml(w.phonetic)}/</div>
+          <button class="speak-btn" style="margin-top:16px" onclick="event.stopPropagation();speakAndHighlight(this,'${escHtml(w.nl).replace(/'/g,"\\'")}')">🔊</button>
+          <div style="font-size:12px;color:#bbb;margin-top:16px">tap to reveal · แตะเพื่อดูคำตอบ</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div style="font-size:36px;line-height:1;margin-bottom:4px">${em}</div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#2E7D32;margin-bottom:8px;font-weight:700">Answer · คำตอบ</div>
+          <div class="serif" style="font-size:24px;font-weight:700;color:#E85D26;margin-bottom:6px">${escHtml(w.nl)}</div>
+          <div style="font-size:20px;font-weight:600;color:#333;margin-bottom:4px">${escHtml(w.en)}</div>
+          ${w.thai ? `<div style="font-size:18px;color:#666;margin-bottom:6px">${w.thai}</div>` : ''}
+          ${w.note ? `<div style="font-size:13px;color:#999;font-style:italic;margin-top:4px">${escHtml(w.note)}</div>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard-actions">
+      <button class="flashcard-action-btn" style="border-color:#E74C3C;color:#E74C3C;background:#FFF5F5" onclick="srsReviewAnswer(false)">❌ Again · ทบทวน</button>
+      <button class="flashcard-action-btn" style="border-color:#5E9B4E;color:#5E9B4E;background:#F0FFF0" onclick="srsReviewAnswer(true)">✅ Got It! · รู้แล้ว</button>
+    </div>
+  `;
+}
+
+function srsReviewAnswer(correct) {
+  const item = state.srsReviewQueue[state.srsReviewIdx];
+  if (!item) return;
+  if (correct) srsMarkCorrect(item.key);
+  else srsMarkWrong(item.key);
+  setState({
+    srsReviewIdx: state.srsReviewIdx + 1,
+    srsReviewFlipped: false
+  });
+}
+
 function renderModule() {
   const mod = state.currentModule;
   return `
@@ -3117,12 +3726,26 @@ function renderModule() {
     <div class="lesson-list">
       ${mod.lessons.map((lesson, idx) => {
         const done = state.completedLessons[lesson.id];
+        // Count SRS status per word
+        let srsTracked = 0, srsMastered = 0;
+        lesson.vocab.forEach(v => {
+          const card = state.srsData[srsWordKey(v, lesson.id)];
+          if (card) { srsTracked++; if (card.box >= 5) srsMastered++; }
+        });
+        const srsPct = lesson.vocab.length > 0 ? Math.round(srsTracked / lesson.vocab.length * 100) : 0;
+        const masterPct = lesson.vocab.length > 0 ? Math.round(srsMastered / lesson.vocab.length * 100) : 0;
         return `<button class="lesson-card" onclick="setState({view:'lesson',currentLesson:state.currentModule.lessons[${idx}],activeTab:'vocab',exerciseAnswers:{},showResults:false})">
-          <div style="display:flex;align-items:center;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
             <div class="num" style="background:${done ? '#5E9B4E' : mod.color}">${done ? '✓' : idx+1}</div>
-            <div style="text-align:left">
+            <div style="text-align:left;flex:1;min-width:0">
               <div style="font-weight:600;color:#222;font-size:16px" class="serif">${escHtml(lesson.title)}</div>
               <div style="color:#666;font-size:13px">${escHtml(lesson.titleEn)} ${lesson.titleTh ? `· ${lesson.titleTh}` : ''} · ${lesson.vocab.length} words</div>
+              ${srsTracked > 0 ? `<div style="display:flex;align-items:center;gap:6px;margin-top:5px">
+                <div style="flex:1;height:4px;background:#eee;border-radius:2px;overflow:hidden;max-width:120px">
+                  <div style="height:100%;border-radius:2px;background:linear-gradient(90deg,${srsMastered > 0 ? '#5E9B4E' : '#F39C12'},${srsMastered > 0 ? '#5E9B4E' : '#F39C12'});width:${masterPct}%"></div>
+                </div>
+                <span style="font-size:11px;color:#888">${srsMastered}/${lesson.vocab.length} mastered</span>
+              </div>` : ''}
             </div>
           </div>
           <span style="color:#bbb;font-size:20px">→</span>
@@ -3141,18 +3764,22 @@ function renderLesson() {
     { key: 'vocab', label: 'คำศัพท์ Vocab' },
     { key: 'flashcards', label: 'บัตรคำ Cards' },
     { key: 'listen', label: 'ฟัง Listen' },
+    { key: 'speak', label: '🎤 Speak' },
     { key: 'dialogue', label: 'สนทนา Dialogue' },
     { key: 'grammar', label: 'ไวยากรณ์ Grammar' },
     { key: 'practice', label: 'ฝึกหัด Practice' },
+    { key: 'exercises', label: '✏️ Exercises' },
   ];
 
   let content = '';
   if (tab === 'vocab') content = renderVocab(mod, lesson);
   else if (tab === 'flashcards') content = renderFlashcards(mod, lesson);
   else if (tab === 'listen') content = renderListen(mod, lesson);
+  else if (tab === 'speak') content = renderSpeak(mod, lesson);
   else if (tab === 'dialogue') content = renderDialogue(mod, lesson);
   else if (tab === 'grammar') content = renderGrammar(mod, lesson);
   else if (tab === 'practice') content = renderPractice(mod, lesson);
+  else if (tab === 'exercises') content = renderNewExercises(mod, lesson);
 
   return `
     <button class="back-btn" onclick="setState({view:'module',currentLesson:null})">◀ ${escHtml(mod.title)}</button>
@@ -3161,7 +3788,7 @@ function renderLesson() {
       <p style="color:#666;margin:0">${escHtml(lesson.titleEn)} ${lesson.titleTh ? `· <span style="color:#999">${lesson.titleTh}</span>` : ''}</p>
     </div>
     <div class="tabs">
-      ${tabs.map(t => `<button class="tab ${tab === t.key ? 'active' : ''}" style="${tab === t.key ? 'background:'+mod.color+';border-color:transparent' : ''}" onclick="setState({activeTab:'${t.key}'${t.key === 'flashcards' ? ',flashcardIdx:0,flashcardFlipped:false,flashcardKnown:{}' : t.key !== 'practice' ? ',showResults:false,exerciseAnswers:{}' : ''}})">${t.label}</button>`).join('')}
+      ${tabs.map(t => `<button class="tab ${tab === t.key ? 'active' : ''}" style="${tab === t.key ? 'background:'+mod.color+';border-color:transparent' : ''}" onclick="setState({activeTab:'${t.key}'${t.key === 'flashcards' ? ',flashcardIdx:0,flashcardFlipped:false,flashcardKnown:{}' : t.key === 'exercises' ? ',clozeAnswers:{},reorderState:{},matchState:{}' : t.key !== 'practice' ? ',showResults:false,exerciseAnswers:{}' : ''}})">${t.label}</button>`).join('')}
     </div>
     <div>${content}</div>
   `;
@@ -3171,8 +3798,14 @@ function renderVocab(mod, lesson) {
   return `
     <p style="color:#666;font-size:14px;margin:0 0 16px">Learn these words. Click 🔊 to hear pronunciation. · เรียนคำเหล่านี้ คลิก 🔊 เพื่อฟังการออกเสียง</p>
     <div class="vocab-grid">
-      ${lesson.vocab.map(v => `
-        <div class="vocab-card">
+      ${lesson.vocab.map(v => {
+        const srsKey = srsWordKey(v, lesson.id);
+        const srsCard = state.srsData[srsKey];
+        const box = srsCard ? srsCard.box : 0;
+        const boxColor = box > 0 ? SRS_BOX_COLORS[box] : null;
+        const boxLabel = box > 0 ? SRS_BOX_LABELS[box] : null;
+        return `
+        <div class="vocab-card" style="${box > 0 ? 'border-left:3px solid '+boxColor : ''}">
           <div class="vocab-card-header">
             <div class="nl serif" style="color:${mod.color}">${escHtml(v.nl)}</div>
             <button class="speak-btn speak-btn-sm" onclick="speakAndHighlight(this,'${escHtml(v.nl).replace(/'/g,"\\'")}')">🔊</button>
@@ -3181,8 +3814,9 @@ function renderVocab(mod, lesson) {
           <div class="en">${escHtml(v.en)}</div>
           ${v.thai ? `<div class="thai">${v.thai}</div>` : ''}
           ${v.note ? `<div class="note">${escHtml(v.note)}</div>` : ''}
-        </div>
-      `).join('')}
+          ${box > 0 ? `<div class="vocab-srs-tag" style="background:${boxColor}15;color:${boxColor}">⬤ ${boxLabel}</div>` : ''}
+        </div>`;
+      }).join('')}
     </div>
   `;
 }
@@ -3409,11 +4043,13 @@ function renderFlashcards(mod, lesson) {
   const remaining = words.length - knownCount;
 
   if (!word || remaining === 0) {
+    // Feed all remaining known into SRS
     return `
       <div style="text-align:center;padding:40px 20px">
         <div style="font-size:48px;margin-bottom:16px">🎉</div>
         <h3 class="serif" style="color:${mod.color};margin:0 0 8px">เก่งมาก! All cards reviewed!</h3>
-        <p style="color:#666;font-size:15px;margin:0 0 20px">You've gone through all ${words.length} vocabulary cards. · คุณได้ทบทวนคำศัพท์ทั้งหมด ${words.length} คำแล้ว</p>
+        <p style="color:#666;font-size:15px;margin:0 0 8px">You've gone through all ${words.length} vocabulary cards. · คุณได้ทบทวนคำศัพท์ทั้งหมด ${words.length} คำแล้ว</p>
+        <p style="color:#888;font-size:13px;margin:0 0 20px">🧠 Words have been added to your SRS review queue · เพิ่มคำศัพท์ในระบบทบทวนแล้ว</p>
         <button class="flashcard-action-btn" style="border-color:${mod.color};color:${mod.color}" onclick="setState({flashcardIdx:0,flashcardFlipped:false,flashcardKnown:{}})">🔄 Start Over · เริ่มใหม่</button>
       </div>
     `;
@@ -3429,7 +4065,13 @@ function renderFlashcards(mod, lesson) {
   return `
     <p style="color:#666;font-size:14px;margin:0 0 12px;text-align:center">Tap card to flip · แตะการ์ดเพื่อพลิก &nbsp;|&nbsp; ${remaining} cards left · เหลือ ${remaining} ใบ</p>
     <div class="flashcard-progress-dots">
-      ${words.map((_, i) => `<div class="flashcard-dot ${i === currentIdx ? 'active' : ''} ${known[i] ? 'known' : ''}"></div>`).join('')}
+      ${words.map((w, i) => {
+        const srsKey = srsWordKey(w, lesson.id);
+        const srsCard = state.srsData[srsKey];
+        const box = srsCard ? srsCard.box : 0;
+        const srsClass = box > 0 ? ' srs-' + box : '';
+        return `<div class="flashcard-dot ${i === currentIdx ? 'active' : ''} ${known[i] ? 'known' : ''}${srsClass}" ${box > 0 ? 'title="Box '+box+': '+SRS_BOX_LABELS[box]+'"' : ''}></div>`;
+      }).join('')}
     </div>
     <div class="flashcard-container" onclick="setState({flashcardFlipped:!state.flashcardFlipped})">
       <div class="flashcard ${flipped ? 'flipped' : ''}">
@@ -3505,6 +4147,838 @@ function renderListen(mod, lesson) {
           `).join('')}
         </div>
       `).join('')}
+    </div>
+  `;
+}
+
+// ============================================================
+// NEW EXERCISE TYPES — Cloze, Reorder, Match
+// ============================================================
+function renderNewExercises(mod, lesson) {
+  const gen = getGeneratedExercises(lesson);
+  const hasCloze = gen.cloze.length > 0;
+  const hasReorder = gen.reorder.length > 0;
+  const hasMatch = gen.match.length > 0;
+
+  if (!hasCloze && !hasReorder && !hasMatch) {
+    return `<div style="text-align:center;padding:40px 20px;color:#888">
+      <div style="font-size:48px;margin-bottom:12px">📝</div>
+      <p>No interactive exercises available for this lesson yet.</p>
+      <p style="font-size:13px">ยังไม่มีแบบฝึกหัดเชิงโต้ตอบสำหรับบทเรียนนี้</p>
+    </div>`;
+  }
+
+  return `
+    <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#888">
+      ✏️ Interactive exercises generated from this lesson's vocabulary and dialogues. · แบบฝึกหัดเชิงโต้ตอบจากคำศัพท์และบทสนทนา
+    </div>
+
+    ${hasCloze ? `
+      <div class="exercise-section-title">📝 Fill in the Blank · เติมคำในช่องว่าง</div>
+      ${gen.cloze.map((ex, i) => renderClozeExercise(ex, i, mod)).join('')}
+    ` : ''}
+
+    ${hasReorder ? `
+      <div class="exercise-section-title">🔀 Word Order · จัดเรียงคำ</div>
+      ${gen.reorder.map((ex, i) => renderReorderExercise(ex, i, mod, lesson)).join('')}
+    ` : ''}
+
+    ${hasMatch ? `
+      <div class="exercise-section-title">🔗 Match Words · จับคู่คำศัพท์</div>
+      ${gen.match.map((ex, i) => renderMatchExercise(ex, i, mod, lesson)).join('')}
+    ` : ''}
+  `;
+}
+
+function renderClozeExercise(ex, idx, mod) {
+  const stateKey = `cloze_${idx}`;
+  const answer = state.clozeAnswers[stateKey];
+  const checked = answer !== undefined && answer !== null && state.clozeAnswers[stateKey + '_checked'];
+  const isCorrect = checked && answer.toLowerCase().trim() === ex.answer.toLowerCase().trim();
+  const isWrong = checked && !isCorrect;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${checked ? (isCorrect ? '#5E9B4E' : '#E74C3C') : mod.color}">
+      <div style="font-size:12px;color:#888;margin-bottom:8px">💡 Hint: ${escHtml(ex.hint)} ${ex.hintTh ? `· ${ex.hintTh}` : ''}</div>
+      <div class="question serif" style="font-size:17px;line-height:1.8">
+        ${ex.sentence.replace('___', `<input type="text" class="cloze-input ${isCorrect ? 'correct' : isWrong ? 'wrong' : ''}"
+          value="${escHtml(answer || '')}"
+          placeholder="..."
+          ${checked ? 'disabled' : ''}
+          oninput="state.clozeAnswers['${stateKey}']=this.value"
+          onkeydown="if(event.key==='Enter')checkCloze('${stateKey}','${escHtml(ex.answer).replace(/'/g,"\\'")}')"
+        >`)}
+      </div>
+      ${!checked ? `
+        <button style="margin-top:10px;padding:8px 16px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:600;cursor:pointer;font-family:inherit;font-size:13px"
+          onclick="checkCloze('${stateKey}','${escHtml(ex.answer).replace(/'/g,"\\'")}')">
+          Check · ตรวจ
+        </button>
+      ` : `
+        <div style="margin-top:10px;font-size:14px">
+          ${isCorrect ? `<span style="color:#5E9B4E;font-weight:600">✅ Correct! · ถูกต้อง!</span>` :
+            `<span style="color:#E74C3C;font-weight:600">❌ The answer is: <strong style="color:#333">${escHtml(ex.answer)}</strong></span>`}
+          <div style="color:#888;font-size:13px;margin-top:4px">Full sentence: ${escHtml(ex.full)}</div>
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function checkCloze(stateKey, answer) {
+  state.clozeAnswers[stateKey + '_checked'] = true;
+  render(true);
+}
+
+function renderReorderExercise(ex, idx, mod, lesson) {
+  const stateKey = `reorder_${lesson.id}_${idx}`;
+  if (!state.reorderState[stateKey]) {
+    // Initialize with properly shuffled words using Fisher-Yates
+    const shuffled = fisherYatesShuffle([...ex.correctOrder], seededRandom(stateKey + '_shuffle'));
+    state.reorderState[stateKey] = { placed: [], available: shuffled, checked: false };
+  }
+  const rs = state.reorderState[stateKey];
+  const isCorrect = rs.checked && rs.placed.join(' ') === ex.correctOrder.join(' ');
+  const isWrong = rs.checked && !isCorrect;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${rs.checked ? (isCorrect ? '#5E9B4E' : '#E74C3C') : mod.color}">
+      <div style="font-size:12px;color:#888;margin-bottom:8px">💡 ${escHtml(ex.hint)}</div>
+
+      <div class="word-bank target" style="${isCorrect ? 'border-color:#5E9B4E;background:#E8F8E8' : isWrong ? 'border-color:#E74C3C;background:#FFEBEE' : ''}">
+        ${rs.placed.length === 0 ? '<span style="color:#bbb;font-size:14px">Tap words to build the sentence · แตะคำเพื่อสร้างประโยค</span>' : ''}
+        ${rs.placed.map((w, i) => `<button class="word-chip in-target ${isCorrect ? 'chip-correct' : isWrong ? 'chip-wrong' : ''}"
+          ${rs.checked ? 'disabled' : `onclick="reorderRemoveWord('${stateKey}',${i})"`}>${escHtml(w)}</button>`).join('')}
+      </div>
+
+      <div class="word-bank">
+        ${rs.available.map((w, i) => `<button class="word-chip"
+          ${rs.checked ? 'disabled' : `onclick="reorderPlaceWord('${stateKey}',${i})"`}>${escHtml(w)}</button>`).join('')}
+      </div>
+
+      ${!rs.checked ? `
+        <div style="display:flex;gap:8px">
+          <button style="padding:8px 16px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:600;cursor:pointer;font-family:inherit;font-size:13px"
+            ${rs.placed.length !== ex.correctOrder.length ? 'disabled style="opacity:0.5;padding:8px 16px;border-radius:8px;border:2px solid #ccc;background:#fff;color:#ccc;font-weight:600;cursor:default;font-family:inherit;font-size:13px"' : ''}
+            onclick="checkReorder('${stateKey}')">
+            Check · ตรวจ
+          </button>
+          <button style="padding:8px 16px;border-radius:8px;border:1px solid #ddd;background:#f8f8f8;color:#888;font-weight:500;cursor:pointer;font-family:inherit;font-size:13px"
+            onclick="resetReorder('${stateKey}',${JSON.stringify(ex.correctOrder).replace(/"/g,'&quot;')})">
+            🔄 Reset
+          </button>
+        </div>
+      ` : `
+        <div style="margin-top:6px;font-size:14px">
+          ${isCorrect ? `<span style="color:#5E9B4E;font-weight:600">✅ Perfect! · สุดยอด!</span>` :
+            `<span style="color:#E74C3C;font-weight:600">❌ Correct order: <strong style="color:#333">${escHtml(ex.correctOrder.join(' '))}</strong></span>`}
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function reorderPlaceWord(stateKey, availIdx) {
+  const rs = state.reorderState[stateKey];
+  if (!rs || rs.checked) return;
+  const word = rs.available[availIdx];
+  rs.placed.push(word);
+  rs.available.splice(availIdx, 1);
+  render(true);
+}
+
+function reorderRemoveWord(stateKey, placedIdx) {
+  const rs = state.reorderState[stateKey];
+  if (!rs || rs.checked) return;
+  const word = rs.placed[placedIdx];
+  rs.placed.splice(placedIdx, 1);
+  rs.available.push(word);
+  render(true);
+}
+
+function checkReorder(stateKey) {
+  const rs = state.reorderState[stateKey];
+  if (rs) rs.checked = true;
+  render(true);
+}
+
+function resetReorder(stateKey, correctOrder) {
+  const shuffled = fisherYatesShuffle([...correctOrder], seededRandom(stateKey + '_' + Date.now()));
+  state.reorderState[stateKey] = { placed: [], available: shuffled, checked: false };
+  render(true);
+}
+
+function renderMatchExercise(ex, idx, mod, lesson) {
+  const stateKey = `match_${lesson.id}_${idx}`;
+  if (!state.matchState[stateKey]) {
+    // Shuffle both sides independently using Fisher-Yates
+    const nlOrder = fisherYatesShuffle(ex.pairs.map((p, i) => i), seededRandom(stateKey + '_nl'));
+    const enOrder = fisherYatesShuffle(ex.pairs.map((p, i) => i), seededRandom(stateKey + '_en'));
+    state.matchState[stateKey] = {
+      nlOrder, enOrder,
+      selected: null, // { side: 'nl'|'en', idx: number }
+      matched: [], // array of pair indices that are matched
+      wrong: null, // briefly highlight wrong pair
+      attempts: 0
+    };
+  }
+  const ms = state.matchState[stateKey];
+  const allMatched = ms.matched.length === ex.pairs.length;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${allMatched ? '#5E9B4E' : mod.color}">
+      <div style="font-size:12px;color:#888;margin-bottom:12px">Match Dutch words with their English translations · จับคู่คำดัตช์กับคำแปลภาษาอังกฤษ</div>
+      ${allMatched ? `<div style="text-align:center;margin-bottom:12px;font-size:15px;color:#5E9B4E;font-weight:600">✅ All matched! · จับคู่ครบแล้ว! (${ms.attempts} attempts)</div>` : ''}
+      <div class="match-grid">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:2px">Nederlands 🇳🇱</div>
+          ${ms.nlOrder.map(pairIdx => {
+            const pair = ex.pairs[pairIdx];
+            const isMatched = ms.matched.includes(pairIdx);
+            const isSelected = ms.selected && ms.selected.side === 'nl' && ms.selected.pairIdx === pairIdx;
+            const isWrong = ms.wrong && ms.wrong.side === 'nl' && ms.wrong.pairIdx === pairIdx;
+            return `<button class="match-btn ${isMatched ? 'match-correct' : isSelected ? 'match-selected' : isWrong ? 'match-wrong' : ''}"
+              ${isMatched ? 'disabled' : ''}
+              onclick="matchSelect('${stateKey}','nl',${pairIdx})">
+              ${escHtml(pair.nl)}
+            </button>`;
+          }).join('')}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:2px">English 🇬🇧</div>
+          ${ms.enOrder.map(pairIdx => {
+            const pair = ex.pairs[pairIdx];
+            const isMatched = ms.matched.includes(pairIdx);
+            const isSelected = ms.selected && ms.selected.side === 'en' && ms.selected.pairIdx === pairIdx;
+            const isWrong = ms.wrong && ms.wrong.side === 'en' && ms.wrong.pairIdx === pairIdx;
+            return `<button class="match-btn ${isMatched ? 'match-correct' : isSelected ? 'match-selected' : isWrong ? 'match-wrong' : ''}"
+              ${isMatched ? 'disabled' : ''}
+              onclick="matchSelect('${stateKey}','en',${pairIdx})">
+              ${escHtml(pair.en)}
+            </button>`;
+          }).join('')}
+        </div>
+      </div>
+      ${!allMatched ? `<div style="margin-top:10px;text-align:center;font-size:12px;color:#bbb">${ms.matched.length}/${ex.pairs.length} matched</div>` : `
+        <button style="margin-top:10px;padding:8px 16px;border-radius:8px;border:1px solid #ddd;background:#f8f8f8;color:#888;font-weight:500;cursor:pointer;font-family:inherit;font-size:13px"
+          onclick="resetMatch('${stateKey}',${ex.pairs.length})">🔄 Play Again</button>
+      `}
+    </div>
+  `;
+}
+
+function matchSelect(stateKey, side, pairIdx) {
+  const ms = state.matchState[stateKey];
+  if (!ms || ms.matched.includes(pairIdx)) return;
+
+  // Clear wrong highlight
+  ms.wrong = null;
+
+  if (!ms.selected) {
+    // First selection
+    ms.selected = { side, pairIdx };
+  } else if (ms.selected.side === side) {
+    // Same side — change selection
+    if (ms.selected.pairIdx === pairIdx) {
+      ms.selected = null; // Deselect
+    } else {
+      ms.selected = { side, pairIdx };
+    }
+  } else {
+    // Different side — check match
+    ms.attempts++;
+    if (ms.selected.pairIdx === pairIdx) {
+      // Correct match!
+      ms.matched.push(pairIdx);
+      ms.selected = null;
+    } else {
+      // Wrong match
+      ms.wrong = { side, pairIdx };
+      ms.selected = null;
+      // Clear wrong highlight after 500ms
+      setTimeout(() => {
+        if (state.matchState[stateKey]) {
+          state.matchState[stateKey].wrong = null;
+          render(true);
+        }
+      }, 600);
+    }
+  }
+  render(true);
+}
+
+function resetMatch(stateKey, pairCount) {
+  delete state.matchState[stateKey];
+  render(true);
+}
+
+// ============================================================
+// EXAM SIMULATION ENGINE
+// ============================================================
+function getAllExamQuestions(section) {
+  const questions = [];
+  COURSE_DATA.modules.forEach(mod => {
+    if (mod.comingSoon) return;
+    if (section !== 'all' && mod.section !== section) return;
+    mod.lessons.forEach(lesson => {
+      lesson.exercises.forEach(ex => {
+        questions.push({
+          ...ex,
+          moduleTitle: mod.title,
+          lessonTitle: lesson.title,
+          section: mod.section,
+          sectionIcon: mod.section === 'taal' ? '🇳🇱' : mod.section === 'kns' ? '🏛️' : '🗣️',
+          color: mod.color
+        });
+      });
+    });
+  });
+  return questions;
+}
+
+function startExam(section, count, minutes) {
+  const allQ = getAllExamQuestions(section);
+  const selected = fisherYatesShuffle([...allQ]).slice(0, Math.min(count, allQ.length));
+  // Also shuffle options for each question
+  selected.forEach(q => {
+    if (q.options) q.options = fisherYatesShuffle([...q.options]);
+  });
+  // Clear any existing timer
+  if (state.examTimerInterval) clearInterval(state.examTimerInterval);
+  state.examActive = true;
+  state.examQuestions = selected;
+  state.examAnswers = {};
+  state.examCurrentQ = 0;
+  state.examFinished = false;
+  state.examTimeLeft = minutes * 60;
+  state.examSection = section;
+  // Start countdown
+  state.examTimerInterval = setInterval(() => {
+    state.examTimeLeft--;
+    // Update timer display without full re-render
+    const timerEl = document.getElementById('exam-timer');
+    if (timerEl) {
+      const m = Math.floor(state.examTimeLeft / 60);
+      const s = state.examTimeLeft % 60;
+      timerEl.textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
+      timerEl.className = 'exam-timer' + (state.examTimeLeft <= 120 ? ' warning' : '');
+    }
+    if (state.examTimeLeft <= 0) {
+      finishExam();
+    }
+  }, 1000);
+  render();
+}
+
+function finishExam() {
+  if (state.examTimerInterval) clearInterval(state.examTimerInterval);
+  state.examTimerInterval = null;
+  state.examFinished = true;
+  state.examActive = false;
+  // Calculate results
+  const qs = state.examQuestions;
+  const correct = qs.filter((q, i) => state.examAnswers[i] === q.answer).length;
+  const total = qs.length;
+  const pct = Math.round(correct / total * 100);
+  // Save to history
+  const result = {
+    date: new Date().toISOString(),
+    section: state.examSection,
+    correct, total, pct,
+    timeUsed: (state.examSection === 'all' ? 30 : 15) * 60 - Math.max(0, state.examTimeLeft)
+  };
+  state.examHistory = [result, ...state.examHistory].slice(0, 20);
+  localStorage.setItem('dutchExamHistory', JSON.stringify(state.examHistory));
+  render();
+}
+
+function examSelectAnswer(qIdx, answer) {
+  if (state.examFinished) return;
+  state.examAnswers[qIdx] = answer;
+  render(true);
+}
+
+function examGoTo(qIdx) {
+  state.examCurrentQ = qIdx;
+  render(true);
+}
+
+function examNext() {
+  if (state.examCurrentQ < state.examQuestions.length - 1) {
+    state.examCurrentQ++;
+    render(true);
+  }
+}
+
+function examPrev() {
+  if (state.examCurrentQ > 0) {
+    state.examCurrentQ--;
+    render(true);
+  }
+}
+
+function renderExam() {
+  // Pre-exam: section selection screen
+  if (!state.examActive && !state.examFinished) {
+    return renderExamSetup();
+  }
+  // Post-exam: results
+  if (state.examFinished) {
+    return renderExamResults();
+  }
+  // Active exam
+  return renderExamActive();
+}
+
+function renderExamSetup() {
+  const taalQ = getAllExamQuestions('taal').length;
+  const knsQ = getAllExamQuestions('kns').length;
+  const uitQ = getAllExamQuestions('uitspraak').length;
+  const allQ = taalQ + knsQ + uitQ;
+  const history = state.examHistory;
+
+  return `
+    <button class="back-btn" onclick="setState({view:'home',examFinished:false})">◀ Home · หน้าหลัก</button>
+    <div style="padding:16px 0 12px;border-bottom:3px solid #21468B">
+      <h2 class="serif" style="margin:0 0 2px">📋 Mock Exam · สอบจำลอง</h2>
+      <p style="color:#666;margin:0">Practice under exam conditions · ฝึกสอบภายใต้เงื่อนไขสอบจริง</p>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">Choose Exam Type · เลือกประเภทสอบ</h3>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="lesson-card" onclick="startExam('all',30,30)" style="border-left:4px solid #21468B">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:#21468B">📋</div>
+            <div style="text-align:left">
+              <div style="font-weight:700;color:#222;font-size:16px" class="serif">Full Exam · สอบเต็ม</div>
+              <div style="color:#666;font-size:13px">30 questions · 30 minutes · All sections</div>
+              <div style="color:#999;font-size:12px">${allQ} questions available</div>
+            </div>
+          </div>
+          <span style="color:#21468B;font-size:20px">→</span>
+        </button>
+
+        <button class="lesson-card" onclick="startExam('taal',20,20)" style="border-left:4px solid #21468B">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:#21468B">🇳🇱</div>
+            <div style="text-align:left">
+              <div style="font-weight:700;color:#222;font-size:16px" class="serif">Taal Only · เฉพาะภาษา</div>
+              <div style="color:#666;font-size:13px">20 questions · 20 minutes · Language only</div>
+              <div style="color:#999;font-size:12px">${taalQ} questions available</div>
+            </div>
+          </div>
+          <span style="color:#21468B;font-size:20px">→</span>
+        </button>
+
+        <button class="lesson-card" onclick="startExam('kns',15,15)" style="border-left:4px solid #E85D26">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:#E85D26">🏛️</div>
+            <div style="text-align:left">
+              <div style="font-weight:700;color:#222;font-size:16px" class="serif">KNS Only · เฉพาะ KNS</div>
+              <div style="color:#666;font-size:13px">15 questions · 15 minutes · Dutch society</div>
+              <div style="color:#999;font-size:12px">${knsQ} questions available</div>
+            </div>
+          </div>
+          <span style="color:#E85D26;font-size:20px">→</span>
+        </button>
+
+        ${uitQ > 0 ? `
+        <button class="lesson-card" onclick="startExam('uitspraak',10,10)" style="border-left:4px solid #5E9B4E">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:#5E9B4E">🗣️</div>
+            <div style="text-align:left">
+              <div style="font-weight:700;color:#222;font-size:16px" class="serif">Uitspraak Only · เฉพาะออกเสียง</div>
+              <div style="color:#666;font-size:13px">10 questions · 10 minutes · Pronunciation</div>
+              <div style="color:#999;font-size:12px">${uitQ} questions available</div>
+            </div>
+          </div>
+          <span style="color:#5E9B4E;font-size:20px">→</span>
+        </button>` : ''}
+      </div>
+    </div>
+
+    ${history.length > 0 ? `
+    <div class="card" style="margin-top:20px">
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">📊 Exam History · ประวัติสอบ</h3>
+      <div class="exam-history">
+        ${history.slice(0, 10).map(h => {
+          const d = new Date(h.date);
+          const dateStr = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+          const timeStr = Math.floor(h.timeUsed / 60) + 'm ' + (h.timeUsed % 60) + 's';
+          const passed = h.pct >= 60;
+          const secLabel = h.section === 'all' ? 'Full' : h.section === 'taal' ? 'Taal' : h.section === 'kns' ? 'KNS' : 'Uitspraak';
+          return `<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0f0f0">
+            <div style="width:40px;text-align:center;font-size:20px">${passed ? '✅' : '📖'}</div>
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:14px;color:#333">${h.correct}/${h.total} (${h.pct}%) · ${secLabel}</div>
+              <div style="font-size:12px;color:#999">${dateStr} · ${timeStr}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="progress-bar" style="width:80px;height:6px"><div class="progress-fill" style="width:${h.pct}%;background:${passed ? '#5E9B4E' : '#F39C12'}"></div></div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
+  `;
+}
+
+function renderExamActive() {
+  const qs = state.examQuestions;
+  const idx = state.examCurrentQ;
+  const q = qs[idx];
+  const selected = state.examAnswers[idx];
+  const answeredCount = Object.keys(state.examAnswers).length;
+  const m = Math.floor(state.examTimeLeft / 60);
+  const s = state.examTimeLeft % 60;
+
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0 12px;border-bottom:2px solid #21468B">
+      <div>
+        <span class="serif" style="font-size:18px;font-weight:700;color:#21468B">📋 Mock Exam</span>
+        <span style="font-size:13px;color:#888;margin-left:8px">${answeredCount}/${qs.length} answered</span>
+      </div>
+      <div id="exam-timer" class="exam-timer ${state.examTimeLeft <= 120 ? 'warning' : ''}">⏱ ${m}:${s.toString().padStart(2,'0')}</div>
+    </div>
+
+    <div class="exam-q-nav">
+      ${qs.map((_, i) => `<button class="exam-q-dot ${i === idx ? 'current' : ''} ${state.examAnswers[i] !== undefined ? 'answered' : ''}"
+        onclick="examGoTo(${i})">${i+1}</button>`).join('')}
+    </div>
+
+    <div class="card" style="border-left:4px solid ${q.color || '#21468B'}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span class="exam-q-num" style="background:${q.color || '#21468B'}20;color:${q.color || '#21468B'}">${idx+1}</span>
+        <div>
+          <div style="font-size:12px;color:#888">${q.sectionIcon || ''} ${escHtml(q.moduleTitle || '')} · ${escHtml(q.lessonTitle || '')}</div>
+        </div>
+      </div>
+      <div class="question serif" style="font-size:17px;margin-bottom:14px">${escHtml(q.question)}</div>
+      ${q.th ? `<div style="font-size:13px;color:#aaa;margin:-8px 0 14px">${q.th}</div>` : ''}
+      <div class="options-grid" style="--mod-color:${q.color || '#21468B'}">
+        ${q.options.map(opt => {
+          const isSel = selected === opt;
+          return `<button class="option-btn ${isSel ? 'selected' : ''}" style="--mod-color:${q.color || '#21468B'}"
+            onclick="examSelectAnswer(${idx},'${escHtml(opt).replace(/'/g,"\\'")}')">
+            ${escHtml(opt)}
+          </button>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+      <button style="padding:10px 20px;border-radius:8px;border:2px solid #ddd;background:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:14px;color:#555${idx === 0 ? ';opacity:0.3;cursor:default' : ''}"
+        ${idx === 0 ? 'disabled' : ''} onclick="examPrev()">◀ Previous</button>
+
+      ${idx < qs.length - 1 ? `
+        <button style="padding:10px 20px;border-radius:8px;border:2px solid #21468B;background:#21468B;color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:14px"
+          onclick="examNext()">Next ▶</button>
+      ` : `
+        <button style="padding:10px 20px;border-radius:8px;border:2px solid #5E9B4E;background:#5E9B4E;color:#fff;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px"
+          onclick="if(confirm('Submit exam? You have answered '+Object.keys(state.examAnswers).length+' of ${qs.length} questions.\\n\\nส่งข้อสอบ?'))finishExam()">✅ Submit Exam</button>
+      `}
+    </div>
+
+    <div style="text-align:center;margin-top:12px">
+      <button style="font-size:12px;color:#999;background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline"
+        onclick="if(confirm('Are you sure you want to quit? Progress will be lost.\\n\\nแน่ใจว่าจะออก?')){if(state.examTimerInterval)clearInterval(state.examTimerInterval);setState({view:'home',examActive:false,examFinished:false,examTimerInterval:null})}">
+        Cancel Exam · ยกเลิก
+      </button>
+    </div>
+  `;
+}
+
+function renderExamResults() {
+  const qs = state.examQuestions;
+  const correct = qs.filter((q, i) => state.examAnswers[i] === q.answer).length;
+  const total = qs.length;
+  const pct = Math.round(correct / total * 100);
+  const passed = pct >= 60;
+  const unanswered = total - Object.keys(state.examAnswers).length;
+
+  // Score breakdown by section
+  const sections = {};
+  qs.forEach((q, i) => {
+    const sec = q.section || 'other';
+    if (!sections[sec]) sections[sec] = { correct: 0, total: 0 };
+    sections[sec].total++;
+    if (state.examAnswers[i] === q.answer) sections[sec].correct++;
+  });
+
+  return `
+    <button class="back-btn" onclick="setState({view:'exam',examFinished:false,examActive:false})">◀ Exam Menu · เมนูสอบ</button>
+    <div style="text-align:center;padding:24px 20px">
+      <div style="font-size:64px;margin-bottom:12px">${passed ? '🎉' : '📖'}</div>
+      <h2 class="serif" style="color:${passed ? '#5E9B4E' : '#F39C12'};margin:0 0 4px">${passed ? 'Passed! · สอบผ่าน!' : 'Keep Studying · เรียนต่อ!'}</h2>
+      <p style="font-size:14px;color:#888;margin:0">${passed ? 'You scored above 60% — well done!' : 'Score 60% or higher to pass · ต้องได้ 60% ขึ้นไป'}</p>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <div class="score serif" style="font-size:48px;font-weight:800;color:${passed ? '#5E9B4E' : '#F39C12'}">${pct}%</div>
+      <div style="font-size:16px;color:#555;margin:4px 0 16px">${correct} / ${total} correct ${unanswered > 0 ? `<span style="color:#E74C3C">(${unanswered} unanswered)</span>` : ''}</div>
+
+      <div class="exam-result-bar">
+        <div style="width:${pct}%;background:#5E9B4E;border-radius:12px 0 0 12px"></div>
+        <div style="width:${100-pct}%;background:#E74C3C;border-radius:0 12px 12px 0"></div>
+      </div>
+
+      ${Object.keys(sections).length > 1 ? `
+        <div style="margin-top:16px;text-align:left">
+          ${Object.entries(sections).map(([sec, data]) => {
+            const secPct = Math.round(data.correct / data.total * 100);
+            const label = sec === 'taal' ? '🇳🇱 Taal' : sec === 'kns' ? '🏛️ KNS' : '🗣️ Uitspraak';
+            return `<div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+              <span style="font-size:13px;min-width:80px">${label}</span>
+              <div style="flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden">
+                <div style="height:100%;width:${secPct}%;background:${secPct >= 60 ? '#5E9B4E' : '#F39C12'};border-radius:3px"></div>
+              </div>
+              <span style="font-size:12px;color:#888;min-width:60px;text-align:right">${data.correct}/${data.total} (${secPct}%)</span>
+            </div>`;
+          }).join('')}
+        </div>
+      ` : ''}
+    </div>
+
+    <div class="card">
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">📝 Question Review · ทบทวนคำตอบ</h3>
+      ${qs.map((q, i) => {
+        const userAns = state.examAnswers[i];
+        const isCorrect = userAns === q.answer;
+        const isUnanswered = userAns === undefined;
+        return `
+          <div class="exercise-card ${isCorrect ? 'correct' : 'wrong'}" style="border-left-color:${isCorrect ? '#5E9B4E' : '#E74C3C'}">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:12px;color:#888">${q.sectionIcon || ''} ${escHtml(q.moduleTitle || '')}</span>
+            </div>
+            <div class="question serif">${i+1}. ${escHtml(q.question)}</div>
+            ${isUnanswered ? `<div style="color:#E74C3C;font-size:13px;margin-top:6px">⚠️ Not answered</div>` : ''}
+            ${!isCorrect ? `
+              ${userAns ? `<div style="color:#E74C3C;font-size:13px;margin-top:6px">❌ Your answer: ${escHtml(userAns)}</div>` : ''}
+              <div style="color:#5E9B4E;font-size:13px;margin-top:2px">✅ Correct: ${escHtml(q.answer)}</div>
+            ` : `<div style="color:#5E9B4E;font-size:13px;margin-top:6px">✅ Correct!</div>`}
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="flashcard-action-btn" style="border-color:#21468B;color:#21468B" onclick="setState({view:'exam',examFinished:false,examActive:false})">📋 New Exam</button>
+      <button class="flashcard-action-btn" style="border-color:#5E9B4E;color:#5E9B4E" onclick="setState({view:'home',examFinished:false,examActive:false})">🏠 Home</button>
+    </div>
+  `;
+}
+
+// ============================================================
+// SPEECH RECOGNITION ENGINE
+// ============================================================
+let speechRecognizer = null;
+
+function startSpeechRec(expectedText, resultDivId) {
+  if (!SpeechRecAPI) return;
+  stopAllAudio();
+
+  // Stop any existing recognition
+  if (speechRecognizer) {
+    try { speechRecognizer.abort(); } catch(e) {}
+    speechRecognizer = null;
+  }
+
+  speechRecognizer = new SpeechRecAPI();
+  speechRecognizer.lang = 'nl-NL';
+  speechRecognizer.interimResults = true;
+  speechRecognizer.maxAlternatives = 3;
+  speechRecognizer.continuous = false;
+
+  const resultDiv = document.getElementById(resultDivId);
+  if (resultDiv) {
+    resultDiv.innerHTML = '<span class="speech-result listening">🎤 Listening... · กำลังฟัง...</span>';
+  }
+
+  // Update mic button state
+  const micBtn = document.getElementById('mic-' + resultDivId);
+  if (micBtn) micBtn.classList.add('recording');
+  state.speechRecActive = true;
+
+  speechRecognizer.onresult = function(event) {
+    let finalText = '';
+    let interimText = '';
+    for (let i = 0; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        finalText += event.results[i][0].transcript;
+      } else {
+        interimText += event.results[i][0].transcript;
+      }
+    }
+
+    const displayText = finalText || interimText;
+    if (resultDiv && !finalText) {
+      resultDiv.innerHTML = `<span class="speech-result listening">🎤 "${escHtml(displayText)}"</span>`;
+    }
+
+    if (finalText) {
+      const score = comparePronunciation(finalText, expectedText);
+      if (resultDiv) {
+        const cls = score >= 80 ? 'correct' : score >= 50 ? 'partial' : 'wrong';
+        const emoji = score >= 80 ? '✅' : score >= 50 ? '🟡' : '❌';
+        const msg = score >= 80 ? 'Excellent! · สุดยอด!' : score >= 50 ? 'Good try! · พอใช้!' : 'Try again · ลองอีกครั้ง';
+        resultDiv.innerHTML = `
+          <div class="speech-result ${cls}">
+            ${emoji} <strong>${score}%</strong> — ${msg}
+          </div>
+          <div style="font-size:13px;color:#888;margin-top:4px">
+            You said: "<em>${escHtml(finalText)}</em>"
+            ${score < 100 ? `<br>Expected: "<em>${escHtml(expectedText)}</em>"` : ''}
+          </div>
+        `;
+      }
+      if (micBtn) micBtn.classList.remove('recording');
+      state.speechRecActive = false;
+    }
+  };
+
+  speechRecognizer.onerror = function(event) {
+    if (resultDiv) {
+      if (event.error === 'no-speech') {
+        resultDiv.innerHTML = '<span class="speech-result wrong">🔇 No speech detected · ไม่ได้ยินเสียง — try again</span>';
+      } else if (event.error === 'not-allowed') {
+        resultDiv.innerHTML = '<span class="speech-result wrong">🚫 Microphone blocked · ไม่ได้อนุญาตไมค์ — check browser settings</span>';
+      } else {
+        resultDiv.innerHTML = `<span class="speech-result wrong">⚠️ Error: ${event.error}</span>`;
+      }
+    }
+    if (micBtn) micBtn.classList.remove('recording');
+    state.speechRecActive = false;
+  };
+
+  speechRecognizer.onend = function() {
+    if (micBtn) micBtn.classList.remove('recording');
+    state.speechRecActive = false;
+  };
+
+  try {
+    speechRecognizer.start();
+  } catch(e) {
+    if (resultDiv) {
+      resultDiv.innerHTML = '<span class="speech-result wrong">⚠️ Could not start microphone</span>';
+    }
+    state.speechRecActive = false;
+  }
+}
+
+function comparePronunciation(spoken, expected) {
+  // Normalize: lowercase, remove punctuation, collapse spaces
+  const norm = (s) => s.toLowerCase().replace(/[.,!?;:'"()\-]/g, '').replace(/\s+/g, ' ').trim();
+  const spokenNorm = norm(spoken);
+  const expectedNorm = norm(expected);
+
+  if (spokenNorm === expectedNorm) return 100;
+
+  // Word-level comparison
+  const spokenWords = spokenNorm.split(' ');
+  const expectedWords = expectedNorm.split(' ');
+
+  let matches = 0;
+  const usedExpected = new Set();
+  spokenWords.forEach(sw => {
+    const idx = expectedWords.findIndex((ew, i) => !usedExpected.has(i) && (ew === sw || levenshtein(ew, sw) <= 1));
+    if (idx >= 0) {
+      matches++;
+      usedExpected.add(idx);
+    }
+  });
+
+  const score = Math.round((matches / Math.max(expectedWords.length, 1)) * 100);
+  return Math.min(score, 100);
+}
+
+function levenshtein(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      const cost = b.charAt(i-1) === a.charAt(j-1) ? 0 : 1;
+      matrix[i][j] = Math.min(matrix[i-1][j]+1, matrix[i][j-1]+1, matrix[i-1][j-1]+cost);
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+function renderSpeak(mod, lesson) {
+  if (!SpeechRecAPI) {
+    return `
+      <div style="text-align:center;padding:30px 20px">
+        <div style="font-size:48px;margin-bottom:12px">🎤</div>
+        <h3 class="serif" style="color:#888;margin:0 0 8px">Speech Recognition Not Available</h3>
+        <p style="color:#999;font-size:14px;margin:0 0 12px">Your browser does not support the Web Speech API.</p>
+        <p style="color:#999;font-size:13px;margin:0">ฟีเจอร์นี้ต้องใช้ Chrome, Edge หรือ Safari บน Desktop</p>
+        <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:14px 16px;margin-top:16px;font-size:13px;color:#888;text-align:left">
+          <strong>Supported browsers:</strong> Chrome (desktop/Android), Edge, Safari 14.1+<br>
+          <strong>Not supported:</strong> Firefox, most iOS browsers (except Safari)<br><br>
+          💡 Tip: Use Chrome on desktop for the best experience.
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#888">
+      🎤 Click the microphone to practice pronunciation. Speak clearly in Dutch! · กดปุ่มไมค์แล้วพูดภาษาดัตช์ให้ชัด
+    </div>
+
+    <div class="exercise-section-title">🗣️ Vocabulary — พูดคำศัพท์</div>
+    ${lesson.vocab.slice(0, 12).map((v, i) => {
+      const rid = `sr_vocab_${lesson.id}_${i}`;
+      return `
+      <div class="speak-practice-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="flex:1;min-width:0">
+            <div class="serif" style="font-size:20px;font-weight:700;color:${mod.color}">${escHtml(v.nl)}</div>
+            <div style="font-size:13px;color:#888">/${escHtml(v.phonetic)}/ · ${escHtml(v.en)} ${v.thai ? `· ${v.thai}` : ''}</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="speak-btn" onclick="speakAndHighlight(this,'${escHtml(v.nl).replace(/'/g,"\\'")}')">🔊</button>
+            <button class="mic-btn" id="mic-${rid}" onclick="startSpeechRec('${escHtml(v.nl).replace(/'/g,"\\'")}','${rid}')">🎤</button>
+          </div>
+        </div>
+        <div id="${rid}" style="min-height:8px;margin-top:4px"></div>
+      </div>`;
+    }).join('')}
+
+    ${lesson.dialogues && lesson.dialogues.length > 0 ? `
+      <div class="exercise-section-title">🎭 Dialogue Sentences — ประโยคจากบทสนทนา</div>
+      ${lesson.dialogues[0].lines.slice(0, 6).map((line, i) => {
+        const rid = `sr_dial_${lesson.id}_${i}`;
+        return `
+        <div class="speak-practice-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div style="flex:1;min-width:0">
+              <div class="serif" style="font-size:16px;font-weight:600;color:#333">${escHtml(line.nl)}</div>
+              <div style="font-size:13px;color:#888">${escHtml(line.en)}</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="speak-btn speak-btn-sm" onclick="speakAndHighlight(this,'${escHtml(line.nl).replace(/'/g,"\\'")}')">🔊</button>
+              <button class="mic-btn" id="mic-${rid}" onclick="startSpeechRec('${escHtml(line.nl).replace(/'/g,"\\'")}','${rid}')" style="width:38px;height:38px;font-size:18px">🎤</button>
+            </div>
+          </div>
+          <div id="${rid}" style="min-height:8px;margin-top:4px"></div>
+        </div>`;
+      }).join('')}
+    ` : ''}
+
+    <div style="margin-top:20px;background:#F0F7FF;border:1px solid #D0E3F5;border-radius:10px;padding:14px 16px;font-size:13px;color:#555">
+      <strong>🇹🇭 Tips for Thai speakers:</strong>
+      <div style="margin-top:6px;line-height:1.7">
+        • Dutch <strong>g/ch</strong> — like Thai ค but rougher, from the back of the throat<br>
+        • Dutch <strong>ui</strong> — no Thai equivalent! Try saying "เออ" with rounded lips<br>
+        • Dutch <strong>sch</strong> — like "สค" (s + ch together)<br>
+        • Dutch <strong>r</strong> — can be rolled or guttural, both are accepted<br>
+        • Focus on getting the <strong>vowels</strong> right — Dutch has many vowels Thai doesn't have
+      </div>
     </div>
   `;
 }
@@ -3664,6 +5138,23 @@ function flashcardNext(currentIdx, isKnown) {
   const newKnown = {...state.flashcardKnown};
   if (isKnown) newKnown[currentIdx] = true;
   else delete newKnown[currentIdx];
+
+  // Feed into SRS
+  const lesson = state.currentLesson;
+  if (lesson && lesson.vocab[currentIdx]) {
+    const key = srsWordKey(lesson.vocab[currentIdx], lesson.id);
+    if (isKnown) {
+      const existing = state.srsData[key];
+      if (!existing) {
+        state.srsData[key] = { box: 2, nextReview: Date.now() + SRS_INTERVALS[2], lastReview: Date.now(), streak: 1 };
+      } else {
+        srsMarkCorrect(key);
+      }
+    } else {
+      state.srsData[key] = { box: 1, nextReview: Date.now(), lastReview: Date.now(), streak: 0 };
+    }
+    saveSRS();
+  }
 
   // Find next non-known card
   const words = state.currentLesson.vocab;
