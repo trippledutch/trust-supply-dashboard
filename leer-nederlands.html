@@ -592,29 +592,29 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "At the registration desk (Les 21)", lines: [
-              { speaker: "A", nl: "Goedemiddag mevrouw, kan ik u helpen?", en: "Good afternoon madam, can I help you?" },
-              { speaker: "B", nl: "Ja, ik wil mij graag inschrijven.", en: "Yes, I would like to register." },
-              { speaker: "A", nl: "Goed. Wat is uw naam?", en: "Good. What is your name?" },
-              { speaker: "B", nl: "Mijn naam is Siriporn Jansen.", en: "My name is Siriporn Jansen." },
-              { speaker: "A", nl: "En waar woont u?", en: "And where do you live?" },
-              { speaker: "B", nl: "Ik woon in Rotterdam.", en: "I live in Rotterdam." },
+              { speaker: "A", nl: "Goedemiddag mevrouw, kan ik u helpen?", en: "Good afternoon madam, can I help you?" , th: 'สวัสดีค่ะ ดิฉันช่วยอะไรได้คะ?'},
+              { speaker: "B", nl: "Ja, ik wil mij graag inschrijven.", en: "Yes, I would like to register." , th: 'ค่ะ ฉันอยากลงทะเบียนค่ะ'},
+              { speaker: "A", nl: "Goed. Wat is uw naam?", en: "Good. What is your name?" , th: 'ดีค่ะ ชื่ออะไรคะ?'},
+              { speaker: "B", nl: "Mijn naam is Siriporn Jansen.", en: "My name is Siriporn Jansen." , th: 'ชื่อศิริพร ยันเซ่นค่ะ'},
+              { speaker: "A", nl: "En waar woont u?", en: "And where do you live?" , th: 'แล้วคุณอาศัยอยู่ที่ไหนคะ?'},
+              { speaker: "B", nl: "Ik woon in Rotterdam.", en: "I live in Rotterdam." , th: 'ฉันอยู่ที่รอตเตอร์ดัมค่ะ'},
             ]}
           ],
           grammar: {
             title: "Formal vs Informal 'You'",
             explanation: "Dutch has two forms of 'you': <strong>jij/je</strong> (informal, for friends/family) and <strong>u</strong> (formal, for strangers/officials). In Les 21, everyone uses <em>u</em> because it's a registration desk. Think of it like Thai's คุณ — always use <em>u</em> when you're not sure.",
             examples: [
-              { nl: "Wat is uw naam?", en: "What is your name? (formal)" },
-              { nl: "Waar woont u?", en: "Where do you live? (formal)" },
-              { nl: "Kan ik u helpen?", en: "Can I help you? (formal)" },
+              { nl: "Wat is uw naam?", en: "What is your name? (formal)" , th: "ชื่ออะไรคะ? (ทางการ)"},
+              { nl: "Waar woont u?", en: "Where do you live? (formal)" , th: "คุณอยู่ที่ไหนคะ? (ทางการ)"},
+              { nl: "Kan ik u helpen?", en: "Can I help you? (formal)" , th: "ฉันช่วยอะไรได้ไหมคะ? (ทางการ)"},
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'I would like to register'?", answer: "Ik wil mij graag inschrijven", options: ["Ik wil mij graag inschrijven", "Ik woon in Rotterdam", "Wat is uw naam?", "Kan ik u helpen?"] },
-            { type: "mc", question: "What does 'waar' mean?", answer: "where", options: ["what", "where", "who", "when"] },
-            { type: "mc", question: "Fill in: Wat is ___ naam?", answer: "uw", options: ["uw", "mijn", "je", "de"] },
-            { type: "mc", question: "'Makkelijk' is the opposite of...?", answer: "moeilijk", options: ["goed", "graag", "moeilijk", "waar"] },
-            { type: "mc", question: "What is 'de postcode' in English?", answer: "postal code", options: ["post office", "postal code", "postcard", "phone number"] },
+            { type: "mc", question: "How do you say 'I would like to register'?", th: "'I would like to register' พูดเป็นภาษาดัตช์ว่าอย่างไร?", answer: "Ik wil mij graag inschrijven", options: ["Ik wil mij graag inschrijven", "Ik woon in Rotterdam", "Wat is uw naam?", "Kan ik u helpen?"] },
+            { type: "mc", question: "What does 'waar' mean?", th: "'waar' แปลว่าอะไร?", answer: "where", options: ["what", "where", "who", "when"] },
+            { type: "mc", question: "Fill in: Wat is ___ naam?", th: "เติมคำในช่องว่าง: Wat is ___ naam?", answer: "uw", options: ["uw", "mijn", "je", "de"] },
+            { type: "mc", question: "'Makkelijk' is the opposite of...?", th: "'Makkelijk' (ง่าย) ตรงข้ามกับ...?", answer: "moeilijk", options: ["goed", "graag", "moeilijk", "waar"] },
+            { type: "mc", question: "What is 'de postcode' in English?", th: "'de postcode' แปลเป็นอังกฤษว่าอะไร?", answer: "postal code", options: ["post office", "postal code", "postcard", "phone number"] },
           ]
         },
         {
@@ -652,29 +652,29 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Meeting a neighbor on the street (Les 22)", lines: [
-              { speaker: "A", nl: "Dag! Kennen wij elkaar niet?", en: "Hi! Don't we know each other?" },
-              { speaker: "B", nl: "Ik geloof het niet. Ik ben Siriporn.", en: "I don't think so. I'm Siriporn." },
-              { speaker: "A", nl: "Hoe heet jij?", en: "What's your name?" },
-              { speaker: "B", nl: "Ik heet Siriporn. En jij?", en: "My name is Siriporn. And you?" },
-              { speaker: "A", nl: "Ik ben Maria. Woon je hier in de straat?", en: "I'm Maria. Do you live here on the street?" },
-              { speaker: "B", nl: "Ja, ik woon daar.", en: "Yes, I live there." },
+              { speaker: "A", nl: "Dag! Kennen wij elkaar niet?", en: "Hi! Don't we know each other?" , th: 'สวัสดี! เราเคยรู้จักกันไหมคะ?'},
+              { speaker: "B", nl: "Ik geloof het niet. Ik ben Siriporn.", en: "I don't think so. I'm Siriporn." , th: 'ไม่คิดว่ารู้จักค่ะ ฉันชื่อศิริพร'},
+              { speaker: "A", nl: "Hoe heet jij?", en: "What's your name?" , th: 'คุณชื่ออะไรคะ?'},
+              { speaker: "B", nl: "Ik heet Siriporn. En jij?", en: "My name is Siriporn. And you?" , th: 'ฉันชื่อศิริพร แล้วคุณล่ะ?'},
+              { speaker: "A", nl: "Ik ben Maria. Woon je hier in de straat?", en: "I'm Maria. Do you live here on the street?" , th: 'ฉันชื่อมาเรีย คุณอยู่แถวนี้หรือเปล่า?'},
+              { speaker: "B", nl: "Ja, ik woon daar.", en: "Yes, I live there." , th: 'ค่ะ ฉันอยู่ตรงนั้น'},
             ]}
           ],
           grammar: {
             title: "Numbers 0-10 and Basic Questions",
             explanation: "Dutch numbers 0-10 are essential for phone numbers, addresses, and time. Notice: <strong>hoe heet je?</strong> (what's your name?), <strong>waar woon je?</strong> (where do you live?). Questions often start with a question word + verb + subject.",
             examples: [
-              { nl: "Hoe heet je?", en: "What's your name?" },
-              { nl: "Waar woon je?", en: "Where do you live?" },
-              { nl: "Ken je Maria?", en: "Do you know Maria?" },
+              { nl: "Hoe heet je?", en: "What's your name?" , th: "คุณชื่ออะไร? (ไม่เป็นทางการ)"},
+              { nl: "Waar woon je?", en: "Where do you live?" , th: "คุณอยู่ที่ไหน? (ไม่เป็นทางการ)"},
+              { nl: "Ken je Maria?", en: "Do you know Maria?" , th: "คุณรู้จักมาเรียไหม? (ไม่เป็นทางการ)"},
             ]
           },
           exercises: [
-            { type: "mc", question: "What number is 'zeven'?", answer: "7", options: ["5", "6", "7", "8"] },
-            { type: "mc", question: "How do you ask someone's name informally?", answer: "Hoe heet je?", options: ["Wat is uw naam?", "Hoe heet je?", "Wie ben jij?", "Kennen wij elkaar?"] },
-            { type: "mc", question: "What does 'fietsen' mean?", answer: "to cycle", options: ["to walk", "to drive", "to cycle", "to run"] },
-            { type: "mc", question: "Fill in: Kennen wij ___ niet?", answer: "elkaar", options: ["alleen", "niet", "elkaar", "samen"] },
-            { type: "mc", question: "What is 'drie' + 'vijf'?", answer: "acht", options: ["zeven", "acht", "negen", "zes"] },
+            { type: "mc", question: "What number is 'zeven'?", th: "'zeven' คือตัวเลขอะไร?", answer: "7", options: ["5", "6", "7", "8"] },
+            { type: "mc", question: "How do you ask someone's name informally?", th: "คุณจะถามใครสักคนว่า ... ยังไง?", answer: "Hoe heet je?", options: ["Wat is uw naam?", "Hoe heet je?", "Wie ben jij?", "Kennen wij elkaar?"] },
+            { type: "mc", question: "What does 'fietsen' mean?", th: "'fietsen' แปลว่าอะไร?", answer: "to cycle", options: ["to walk", "to drive", "to cycle", "to run"] },
+            { type: "mc", question: "Fill in: Kennen wij ___ niet?", th: "เติมคำในช่องว่าง: Kennen wij ___ niet?", answer: "elkaar", options: ["alleen", "niet", "elkaar", "samen"] },
+            { type: "mc", question: "What is 'drie' + 'vijf'?", th: "'drie' + 'vijf' คืออะไร?", answer: "acht", options: ["zeven", "acht", "negen", "zes"] },
           ]
         }
       ]
@@ -714,28 +714,28 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Showing your house to a visitor (Les 23)", lines: [
-              { speaker: "A", nl: "Dit is ons huis. Kom binnen!", en: "This is our house. Come in!" },
-              { speaker: "B", nl: "Wat een mooie woonkamer!", en: "What a beautiful living room!" },
-              { speaker: "A", nl: "De keuken is achter. Ga maar mee naar boven.", en: "The kitchen is at the back. Come upstairs with me." },
-              { speaker: "B", nl: "Hoeveel slaapkamers hebben jullie?", en: "How many bedrooms do you have?" },
-              { speaker: "A", nl: "Drie. De kinderen hebben hun eigen kamer.", en: "Three. The children have their own room." },
+              { speaker: "A", nl: "Dit is ons huis. Kom binnen!", en: "This is our house. Come in!" , th: 'นี่คือบ้านของเรา เข้ามาเลย!'},
+              { speaker: "B", nl: "Wat een mooie woonkamer!", en: "What a beautiful living room!" , th: 'ห้องนั่งเล่นสวยจัง!'},
+              { speaker: "A", nl: "De keuken is achter. Ga maar mee naar boven.", en: "The kitchen is at the back. Come upstairs with me." , th: 'ห้องครัวอยู่ด้านหลัง ขึ้นไปข้างบนกันเถอะ'},
+              { speaker: "B", nl: "Hoeveel slaapkamers hebben jullie?", en: "How many bedrooms do you have?" , th: 'มีห้องนอนกี่ห้องคะ?'},
+              { speaker: "A", nl: "Drie. De kinderen hebben hun eigen kamer.", en: "Three. The children have their own room." , th: 'สามห้อง ลูกๆ มีห้องของตัวเอง'},
             ]}
           ],
           grammar: {
             title: "Position Words & het/de Articles",
             explanation: "Dutch uses <strong>de</strong> for most nouns and <strong>het</strong> for neuter nouns. There's no easy rule — you must memorize them. Position words are important for giving directions: <strong>boven</strong> (upstairs), <strong>beneden</strong> (downstairs), <strong>links</strong> (left), <strong>rechts</strong> (right), <strong>achter</strong> (behind).",
             examples: [
-              { nl: "De keuken is achter", en: "The kitchen is at the back" },
-              { nl: "Het toilet is beneden", en: "The toilet is downstairs" },
-              { nl: "De badkamer is boven, links", en: "The bathroom is upstairs, on the left" },
+              { nl: "De keuken is achter", en: "The kitchen is at the back" , th: "ห้องครัวอยู่ด้านหลัง"},
+              { nl: "Het toilet is beneden", en: "The toilet is downstairs" , th: "ห้องน้ำอยู่ชั้นล่าง"},
+              { nl: "De badkamer is boven, links", en: "The bathroom is upstairs, on the left" , th: "ห้องน้ำอยู่ชั้นบน ด้านซ้าย"},
             ]
           },
           exercises: [
-            { type: "mc", question: "What is 'de keuken'?", answer: "kitchen", options: ["bedroom", "kitchen", "bathroom", "living room"] },
-            { type: "mc", question: "'Boven' is the opposite of...?", answer: "beneden", options: ["links", "rechts", "beneden", "achter"] },
-            { type: "mc", question: "Which article: ___ huis?", answer: "het", options: ["de", "het", "een", "die"] },
-            { type: "mc", question: "What does 'slaapkamer' literally mean?", answer: "sleep room", options: ["living room", "sleep room", "wash room", "sitting room"] },
-            { type: "mc", question: "Fill in: De badkamer is boven, ___", answer: "links", options: ["boven", "beneden", "links", "buiten"] },
+            { type: "mc", question: "What is 'de keuken'?", th: "'de keuken' คืออะไร?", answer: "kitchen", options: ["bedroom", "kitchen", "bathroom", "living room"] },
+            { type: "mc", question: "'Boven' is the opposite of...?", th: "'Boven' (ข้างบน) ตรงข้ามกับ...?", answer: "beneden", options: ["links", "rechts", "beneden", "achter"] },
+            { type: "mc", question: "Which article: ___ huis?", th: "ใช้คำนำหน้าอะไร: ___ huis?", answer: "het", options: ["de", "het", "een", "die"] },
+            { type: "mc", question: "What does 'slaapkamer' literally mean?", th: "'Slaapkamer' แปลตรงตัวว่าอะไร?", answer: "sleep room", options: ["living room", "sleep room", "wash room", "sitting room"] },
+            { type: "mc", question: "Fill in: De badkamer is boven, ___", th: "เติมคำในช่องว่าง: De badkamer is boven, ___", answer: "links", options: ["boven", "beneden", "links", "buiten"] },
           ]
         }
       ]
@@ -777,27 +777,27 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Talking about the weather (Les 24)", lines: [
-              { speaker: "A", nl: "Het is vandaag erg koud buiten!", en: "It's very cold outside today!" },
-              { speaker: "B", nl: "Ja, het is winter. Doe je jas aan!", en: "Yes, it's winter. Put your coat on!" },
-              { speaker: "A", nl: "In de lente wordt het warmer.", en: "In spring it gets warmer." },
-              { speaker: "B", nl: "Ja, en dan komen de bloemen. Wat mooi!", en: "Yes, and then the flowers come. How beautiful!" },
+              { speaker: "A", nl: "Het is vandaag erg koud buiten!", en: "It's very cold outside today!" , th: 'วันนี้ข้างนอกหนาวมาก!'},
+              { speaker: "B", nl: "Ja, het is winter. Doe je jas aan!", en: "Yes, it's winter. Put your coat on!" , th: 'ใช่ เป็นหน้าหนาว ใส่เสื้อโค้ทด้วยนะ!'},
+              { speaker: "A", nl: "In de lente wordt het warmer.", en: "In spring it gets warmer." , th: 'พอถึงฤดูใบไม้ผลิ อากาศจะอุ่นขึ้น'},
+              { speaker: "B", nl: "Ja, en dan komen de bloemen. Wat mooi!", en: "Yes, and then the flowers come. How beautiful!" , th: 'ใช่ แล้วดอกไม้ก็จะบาน สวยจัง!'},
             ]}
           ],
           grammar: {
             title: "Weather Expressions & 'het'",
             explanation: "Dutch uses <strong>het</strong> as an impersonal subject for weather: <em>Het regent</em> (it rains), <em>Het is koud</em> (it's cold). The word <strong>worden</strong> means 'to become': <em>Het wordt warmer</em> (it's getting warmer). Note: Thai doesn't have this — ฝนตก is literally 'rain falls' while Dutch says 'het regent' (it rains).",
             examples: [
-              { nl: "Het is koud", en: "It is cold" },
-              { nl: "Het regent", en: "It's raining" },
-              { nl: "Het wordt warmer", en: "It's getting warmer" },
+              { nl: "Het is koud", en: "It is cold" , th: "อากาศหนาว"},
+              { nl: "Het regent", en: "It's raining" , th: "ฝนตก"},
+              { nl: "Het wordt warmer", en: "It's getting warmer" , th: "อากาศจะอุ่นขึ้น"},
             ]
           },
           exercises: [
-            { type: "mc", question: "Which season has falling red and yellow leaves?", answer: "najaar", options: ["winter", "lente", "zomer", "najaar"] },
-            { type: "mc", question: "What does 'gezellig' mean?", answer: "cozy / convivial", options: ["beautiful", "cold", "cozy / convivial", "dark"] },
-            { type: "mc", question: "Fill in: Het ___ vandaag erg koud.", answer: "is", options: ["is", "ben", "zijn", "heeft"] },
-            { type: "mc", question: "'Nat' is the opposite of...?", answer: "droog", options: ["warm", "koud", "droog", "donker"] },
-            { type: "mc", question: "What does 'het weer' mean?", answer: "the weather", options: ["the wind", "the weather", "the rain", "the sun"] },
+            { type: "mc", question: "Which season has falling red and yellow leaves?", th: "ฤดูไหนใบไม้สีแดงและเหลืองร่วง?", answer: "najaar", options: ["winter", "lente", "zomer", "najaar"] },
+            { type: "mc", question: "What does 'gezellig' mean?", th: "'gezellig' แปลว่าอะไร?", answer: "cozy / convivial", options: ["beautiful", "cold", "cozy / convivial", "dark"] },
+            { type: "mc", question: "Fill in: Het ___ vandaag erg koud.", th: "เติมคำในช่องว่าง: Het ___ vandaag erg koud.", answer: "is", options: ["is", "ben", "zijn", "heeft"] },
+            { type: "mc", question: "'Nat' is the opposite of...?", th: "'Nat' (เปียก) ตรงข้ามกับ...?", answer: "droog", options: ["warm", "koud", "droog", "donker"] },
+            { type: "mc", question: "What does 'het weer' mean?", th: "'het weer' แปลว่าอะไร?", answer: "the weather", options: ["the wind", "the weather", "the rain", "the sun"] },
           ]
         },
         {
@@ -822,27 +822,27 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Talking about the school calendar", lines: [
-              { speaker: "A", nl: "Wanneer zijn de scholen dicht?", en: "When are the schools closed?" },
-              { speaker: "B", nl: "In juli en augustus. Dan is het zomer.", en: "In July and August. That's summer." },
-              { speaker: "A", nl: "En wanneer begint de school weer?", en: "And when does school start again?" },
-              { speaker: "B", nl: "In september.", en: "In September." },
+              { speaker: "A", nl: "Wanneer zijn de scholen dicht?", en: "When are the schools closed?" , th: 'โรงเรียนปิดเมื่อไหร่คะ?'},
+              { speaker: "B", nl: "In juli en augustus. Dan is het zomer.", en: "In July and August. That's summer." , th: 'เดือนกรกฎาคมและสิงหาคม ตอนนั้นเป็นฤดูร้อน'},
+              { speaker: "A", nl: "En wanneer begint de school weer?", en: "And when does school start again?" , th: 'แล้วโรงเรียนเปิดอีกเมื่อไหร่?'},
+              { speaker: "B", nl: "In september.", en: "In September." , th: 'เดือนกันยายน'},
             ]}
           ],
           grammar: {
             title: "Months & Seasons without Articles",
             explanation: "Months and seasons in Dutch are used without articles in most cases: <em>In januari is het koud</em> (In January it's cold). Unlike English, Dutch months are <strong>not capitalized</strong>. They all have <em>de</em> as their article if you need one.",
             examples: [
-              { nl: "In januari is het koud", en: "In January it's cold" },
-              { nl: "De zomer begint in juni", en: "Summer starts in June" },
-              { nl: "In december is het donker", en: "In December it's dark" },
+              { nl: "In januari is het koud", en: "In January it's cold" , th: "เดือนมกราคมอากาศหนาว"},
+              { nl: "De zomer begint in juni", en: "Summer starts in June" , th: "ฤดูร้อนเริ่มเดือนมิถุนายน"},
+              { nl: "In december is het donker", en: "In December it's dark" , th: "เดือนธันวาคมมืดเร็ว"},
             ]
           },
           exercises: [
-            { type: "mc", question: "Which month comes after 'maart'?", answer: "april", options: ["februari", "april", "mei", "januari"] },
-            { type: "mc", question: "Schools are closed (dicht) in...?", answer: "juli en augustus", options: ["januari en februari", "maart en april", "juli en augustus", "november en december"] },
-            { type: "mc", question: "How many months are there?", answer: "twaalf", options: ["tien", "elf", "twaalf", "dertien"] },
-            { type: "mc", question: "'Dicht' means...?", answer: "closed", options: ["open", "closed", "far", "near"] },
-            { type: "mc", question: "When does winter start in the Netherlands?", answer: "december", options: ["oktober", "november", "december", "januari"] },
+            { type: "mc", question: "Which month comes after 'maart'?", th: "เดือนไหนมาหลังเดือน 'maart'?", answer: "april", options: ["februari", "april", "mei", "januari"] },
+            { type: "mc", question: "Schools are closed (dicht) in...?", th: "โรงเรียนปิด (dicht) เดือนอะไร?", answer: "juli en augustus", options: ["januari en februari", "maart en april", "juli en augustus", "november en december"] },
+            { type: "mc", question: "How many months are there?", th: "มีทั้งหมดกี่เดือน?", answer: "twaalf", options: ["tien", "elf", "twaalf", "dertien"] },
+            { type: "mc", question: "'Dicht' means...?", th: "'Dicht' แปลว่า...?", answer: "closed", options: ["open", "closed", "far", "near"] },
+            { type: "mc", question: "When does winter start in the Netherlands?", th: "หน้าหนาวในเนเธอร์แลนด์เริ่มเมื่อไหร่?", answer: "december", options: ["oktober", "november", "december", "januari"] },
           ]
         }
       ]
@@ -877,27 +877,27 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Talking about a work schedule (Les 25)", lines: [
-              { speaker: "A", nl: "Wanneer werk je?", en: "When do you work?" },
-              { speaker: "B", nl: "Ik werk maandag tot en met vrijdag.", en: "I work Monday through Friday." },
-              { speaker: "A", nl: "En in het weekend?", en: "And on the weekend?" },
-              { speaker: "B", nl: "In het weekend hoef ik nooit te werken!", en: "On the weekend I never have to work!" },
+              { speaker: "A", nl: "Wanneer werk je?", en: "When do you work?" , th: 'คุณทำงานวันไหนบ้าง?'},
+              { speaker: "B", nl: "Ik werk maandag tot en met vrijdag.", en: "I work Monday through Friday." , th: 'ฉันทำงานวันจันทร์ถึงวันศุกร์'},
+              { speaker: "A", nl: "En in het weekend?", en: "And on the weekend?" , th: 'แล้ววันหยุดสุดสัปดาห์ล่ะ?'},
+              { speaker: "B", nl: "In het weekend hoef ik nooit te werken!", en: "On the weekend I never have to work!" , th: 'วันหยุดสุดสัปดาห์ไม่ต้องทำงานเลย!'},
             ]}
           ],
           grammar: {
             title: "Days of the Week & Time of Day",
             explanation: "Like months, Dutch days are <strong>not capitalized</strong>. Time of day uses a special construction: <strong>'s ochtends</strong> (in the morning), <strong>'s middags</strong> (in the afternoon), <strong>'s avonds</strong> (in the evening). The <em>'s</em> is an old genitive form. All days end in <em>-dag</em> (day).",
             examples: [
-              { nl: "Op maandag werk ik", en: "On Monday I work" },
-              { nl: "'s Ochtends ga ik naar school", en: "In the morning I go to school" },
-              { nl: "Ik ben 's avonds thuis", en: "I'm home in the evening" },
+              { nl: "Op maandag werk ik", en: "On Monday I work" , th: "วันจันทร์ฉันทำงาน"},
+              { nl: "'s Ochtends ga ik naar school", en: "In the morning I go to school", th: "ตอนเช้าฉันไปโรงเรียน" },
+              { nl: "Ik ben 's avonds thuis", en: "I'm home in the evening", th: "ตอนเย็นฉันอยู่บ้าน" },
             ]
           },
           exercises: [
-            { type: "mc", question: "Which day comes after 'woensdag'?", answer: "donderdag", options: ["dinsdag", "donderdag", "vrijdag", "maandag"] },
-            { type: "mc", question: "What does ''s avonds' mean?", answer: "in the evening", options: ["in the morning", "in the afternoon", "in the evening", "at night"] },
-            { type: "mc", question: "'Nooit' means...?", answer: "never", options: ["always", "sometimes", "never", "often"] },
-            { type: "mc", question: "The weekend is...?", answer: "zaterdag en zondag", options: ["vrijdag en zaterdag", "zaterdag en zondag", "zondag en maandag", "donderdag en vrijdag"] },
-            { type: "mc", question: "Fill in: Ik ___ maandag tot vrijdag.", answer: "werk", options: ["ga", "werk", "ben", "heb"] },
+            { type: "mc", question: "Which day comes after 'woensdag'?", th: "วันไหนมาหลังวัน 'woensdag'?", answer: "donderdag", options: ["dinsdag", "donderdag", "vrijdag", "maandag"] },
+            { type: "mc", question: "What does ''s avonds' mean?", th: "''s avonds' แปลว่าอะไร?", answer: "in the evening", options: ["in the morning", "in the afternoon", "in the evening", "at night"] },
+            { type: "mc", question: "'Nooit' means...?", th: "'Nooit' แปลว่า...?", answer: "never", options: ["always", "sometimes", "never", "often"] },
+            { type: "mc", question: "The weekend is...?", th: "วันหยุดสุดสัปดาห์คือ...?", answer: "zaterdag en zondag", options: ["vrijdag en zaterdag", "zaterdag en zondag", "zondag en maandag", "donderdag en vrijdag"] },
+            { type: "mc", question: "Fill in: Ik ___ maandag tot vrijdag.", th: "เติมคำในช่องว่าง: Ik ___ maandag tot vrijdag.", answer: "werk", options: ["ga", "werk", "ben", "heb"] },
           ]
         },
         {
@@ -921,28 +921,28 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Asking about time at school", lines: [
-              { speaker: "A", nl: "Hoe laat begint de les?", en: "What time does the lesson start?" },
-              { speaker: "B", nl: "Om half negen.", en: "At half past eight." },
-              { speaker: "A", nl: "En wanneer zijn we klaar?", en: "And when are we finished?" },
-              { speaker: "B", nl: "Om kwart voor een.", en: "At a quarter to one." },
+              { speaker: "A", nl: "Hoe laat begint de les?", en: "What time does the lesson start?" , th: 'บทเรียนเริ่มกี่โมงคะ?'},
+              { speaker: "B", nl: "Om half negen.", en: "At half past eight." , th: 'แปดโมงครึ่ง'},
+              { speaker: "A", nl: "En wanneer zijn we klaar?", en: "And when are we finished?" , th: 'แล้วเรียนเสร็จเมื่อไหร่?'},
+              { speaker: "B", nl: "Om kwart voor een.", en: "At a quarter to one." , th: 'บ่ายโมงสิบห้า... เอ้ย สิบสองนาฬิกาสี่สิบห้า'},
             ]}
           ],
           grammar: {
             title: "Telling Time in Dutch — ⚠️ Different from English!",
             explanation: "<strong>Half</strong> in Dutch refers to the NEXT hour, not the current one! <em>Half negen</em> = 8:30 (half of the way to nine). <em>Kwart over een</em> = 1:15. <em>Kwart voor twee</em> = 1:45. This is the #1 mistake for learners!",
             examples: [
-              { nl: "Het is drie uur", en: "It's 3:00" },
-              { nl: "Het is kwart over drie", en: "It's 3:15" },
-              { nl: "Het is half vier", en: "It's 3:30 (NOT 4:30!)" },
-              { nl: "Het is kwart voor vier", en: "It's 3:45" },
+              { nl: "Het is drie uur", en: "It's 3:00" , th: "สามโมง"},
+              { nl: "Het is kwart over drie", en: "It's 3:15" , th: "สามโมงสิบห้า"},
+              { nl: "Het is half vier", en: "It's 3:30 (NOT 4:30!)" , th: "สามโมงครึ่ง"},
+              { nl: "Het is kwart voor vier", en: "It's 3:45" , th: "อีกสิบห้านาทีจะสี่โมง"},
             ]
           },
           exercises: [
-            { type: "mc", question: "What time is 'half zes'?", answer: "5:30", options: ["6:30", "5:30", "5:00", "6:00"] },
-            { type: "mc", question: "'Kwart over twee' means...?", answer: "2:15", options: ["1:45", "2:00", "2:15", "2:45"] },
-            { type: "mc", question: "What does 'klaar' mean?", answer: "finished / ready", options: ["late", "clear", "finished / ready", "early"] },
-            { type: "mc", question: "'Kwart voor drie' is...?", answer: "2:45", options: ["3:15", "2:45", "3:45", "2:15"] },
-            { type: "mc", question: "How do you say 7:30?", answer: "half acht", options: ["half zeven", "half acht", "zeven uur", "kwart over zeven"] },
+            { type: "mc", question: "What time is 'half zes'?", th: "'half zes' คือกี่โมง?", answer: "5:30", options: ["6:30", "5:30", "5:00", "6:00"] },
+            { type: "mc", question: "'Kwart over twee' means...?", th: "'Kwart over twee' หมายถึง...?", answer: "2:15", options: ["1:45", "2:00", "2:15", "2:45"] },
+            { type: "mc", question: "What does 'klaar' mean?", th: "'klaar' แปลว่าอะไร?", answer: "finished / ready", options: ["late", "clear", "finished / ready", "early"] },
+            { type: "mc", question: "'Kwart voor drie' is...?", th: "'Kwart voor drie' คือ...?", answer: "2:45", options: ["3:15", "2:45", "3:45", "2:15"] },
+            { type: "mc", question: "How do you say 7:30?", th: "7:30 ภาษาดัตช์พูดว่าอย่างไร?", answer: "half acht", options: ["half zeven", "half acht", "zeven uur", "kwart over zeven"] },
           ]
         }
       ]
@@ -982,28 +982,28 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "At a café ordering food (Les 26)", lines: [
-              { speaker: "A", nl: "Zullen we iets eten? Laten we aan die tafel zitten.", en: "Shall we eat something? Let's sit at that table." },
-              { speaker: "B", nl: "Goed. Ik neem een broodje kaas.", en: "Good. I'll have a cheese sandwich." },
-              { speaker: "A", nl: "En ik heb zin in een kop soep.", en: "And I feel like a cup of soup." },
-              { speaker: "B", nl: "Wil je ook iets drinken? Een glas melk?", en: "Do you want something to drink too? A glass of milk?" },
-              { speaker: "A", nl: "Nee, een kopje koffie graag.", en: "No, a cup of coffee please." },
+              { speaker: "A", nl: "Zullen we iets eten? Laten we aan die tafel zitten.", en: "Shall we eat something? Let's sit at that table." , th: 'ไปกินอะไรกันไหม? นั่งโต๊ะตรงนั้นกันเถอะ'},
+              { speaker: "B", nl: "Goed. Ik neem een broodje kaas.", en: "Good. I'll have a cheese sandwich." , th: 'ดีเลย ฉันจะเอาขนมปังชีส'},
+              { speaker: "A", nl: "En ik heb zin in een kop soep.", en: "And I feel like a cup of soup." , th: 'ส่วนฉันอยากกินซุปสักถ้วย'},
+              { speaker: "B", nl: "Wil je ook iets drinken? Een glas melk?", en: "Do you want something to drink too? A glass of milk?" , th: 'อยากดื่มอะไรด้วยไหม? นมสักแก้ว?'},
+              { speaker: "A", nl: "Nee, een kopje koffie graag.", en: "No, a cup of coffee please." , th: 'ไม่ค่ะ ขอกาแฟสักถ้วยเถอะ'},
             ]}
           ],
           grammar: {
             title: "'Zin hebben in' & Food Ordering",
             explanation: "<strong>Zin hebben in</strong> means 'to feel like' / 'to want': <em>Ik heb zin in soep</em> (I feel like soup). For ordering: <strong>Ik neem...</strong> (I'll have...) or <strong>Mag ik...</strong> (May I have...). Note: <em>een kop soep</em> (a cup of soup) vs <em>een kopje koffie</em> (a small cup of coffee). The '-je' suffix makes things small (diminutive).",
             examples: [
-              { nl: "Ik heb zin in een broodje", en: "I feel like a sandwich" },
-              { nl: "Ik neem een glas water", en: "I'll have a glass of water" },
-              { nl: "Wil je iets drinken?", en: "Do you want something to drink?" },
+              { nl: "Ik heb zin in een broodje", en: "I feel like a sandwich" , th: "ฉันอยากกินขนมปัง"},
+              { nl: "Ik neem een glas water", en: "I'll have a glass of water" , th: "ฉันจะเอาน้ำแก้วหนึ่ง"},
+              { nl: "Wil je iets drinken?", en: "Do you want something to drink?" , th: "อยากดื่มอะไรไหม?"},
             ]
           },
           exercises: [
-            { type: "mc", question: "How do you say 'I feel like soup'?", answer: "Ik heb zin in soep", options: ["Ik wil soep", "Ik heb zin in soep", "Ik neem soep", "Ik eet soep"] },
-            { type: "mc", question: "What is 'het broodje'?", answer: "bread roll / sandwich", options: ["bread roll / sandwich", "croissant", "cake", "biscuit"] },
-            { type: "mc", question: "'Lekker' means...?", answer: "tasty", options: ["hungry", "tasty", "expensive", "hot"] },
-            { type: "mc", question: "Fill in: Ik neem een ___ water.", answer: "glas", options: ["kop", "glas", "kopje", "fles"] },
-            { type: "mc", question: "How do you ask for the bill?", answer: "Mag ik betalen?", options: ["Mag ik geld?", "Ik wil geld", "Mag ik betalen?", "Geld alsjeblieft?"] },
+            { type: "mc", question: "How do you say 'I feel like soup'?", th: "'I feel like soup' พูดเป็นภาษาดัตช์ว่าอย่างไร?", answer: "Ik heb zin in soep", options: ["Ik wil soep", "Ik heb zin in soep", "Ik neem soep", "Ik eet soep"] },
+            { type: "mc", question: "What is 'het broodje'?", th: "'het broodje' คืออะไร?", answer: "bread roll / sandwich", options: ["bread roll / sandwich", "croissant", "cake", "biscuit"] },
+            { type: "mc", question: "'Lekker' means...?", th: "'Lekker' แปลว่า...?", answer: "tasty", options: ["hungry", "tasty", "expensive", "hot"] },
+            { type: "mc", question: "Fill in: Ik neem een ___ water.", th: "เติมคำในช่องว่าง: Ik neem een ___ water.", answer: "glas", options: ["kop", "glas", "kopje", "fles"] },
+            { type: "mc", question: "How do you ask for the bill?", th: "ขอบิลพูดว่ายังไง?", answer: "Mag ik betalen?", options: ["Mag ik geld?", "Ik wil geld", "Mag ik betalen?", "Geld alsjeblieft?"] },
           ]
         },
         {
@@ -1027,27 +1027,27 @@ const COURSE_DATA = {
           ],
           dialogues: [
             { situation: "Describing daily meals (Les 26)", lines: [
-              { speaker: "A", nl: "Wat eet je voor ontbijt?", en: "What do you eat for breakfast?" },
-              { speaker: "B", nl: "Brood met boter en kaas, en een kopje thee.", en: "Bread with butter and cheese, and a cup of tea." },
-              { speaker: "A", nl: "En 's avonds? Eet je thuis met het gezin?", en: "And in the evening? Do you eat at home with the family?" },
-              { speaker: "B", nl: "Ja, meestal vis of kip met groente en aardappelen.", en: "Yes, usually fish or chicken with vegetables and potatoes." },
+              { speaker: "A", nl: "Wat eet je voor ontbijt?", en: "What do you eat for breakfast?" , th: 'อาหารเช้ากินอะไรคะ?'},
+              { speaker: "B", nl: "Brood met boter en kaas, en een kopje thee.", en: "Bread with butter and cheese, and a cup of tea." , th: 'ขนมปังกับเนยและชีส แล้วก็ชาหนึ่งถ้วย'},
+              { speaker: "A", nl: "En 's avonds? Eet je thuis met het gezin?", en: "And in the evening? Do you eat at home with the family?" , th: "แล้วตอนเย็น? กินข้าวที่บ้านกับครอบครัวไหม?"},
+              { speaker: "B", nl: "Ja, meestal vis of kip met groente en aardappelen.", en: "Yes, usually fish or chicken with vegetables and potatoes." , th: "ค่ะ ส่วนใหญ่ปลาหรือไก่กับผักและมันฝรั่ง"},
             ]}
           ],
           grammar: {
             title: "Dutch Meal Structure & Diminutives (-je)",
             explanation: "Dutch meals: <strong>ontbijt</strong> (breakfast) is bread-based. <strong>Lunch</strong> is also bread! <strong>Het avondeten</strong> (dinner) is the warm meal. The <strong>-je</strong> suffix makes things small/cute: <em>kop → kopje</em>, <em>brood → broodje</em>. This is one of the most-used features of Dutch!",
             examples: [
-              { nl: "een kopje koffie", en: "a small cup of coffee" },
-              { nl: "een broodje kaas", en: "a cheese sandwich (small bread)" },
-              { nl: "vis met aardappelen en groente", en: "fish with potatoes and vegetables" },
+              { nl: "een kopje koffie", en: "a small cup of coffee" , th: "กาแฟถ้วยเล็ก"},
+              { nl: "een broodje kaas", en: "a cheese sandwich (small bread)" , th: "ขนมปังชีส (ชิ้นเล็ก)"},
+              { nl: "vis met aardappelen en groente", en: "fish with potatoes and vegetables" , th: "ปลากับมันฝรั่งและผัก"},
             ]
           },
           exercises: [
-            { type: "mc", question: "What is a typical Dutch breakfast?", answer: "Brood met kaas", options: ["Rijst met vis", "Brood met kaas", "Soep met vlees", "Gebakken ei met kip"] },
-            { type: "mc", question: "'Aardappelen' are...?", answer: "potatoes", options: ["apples", "oranges", "potatoes", "pears"] },
-            { type: "mc", question: "The diminutive of 'kop' is...?", answer: "kopje", options: ["koppen", "kopje", "kopje's", "kleine kop"] },
-            { type: "mc", question: "Where does a Dutch family usually eat dinner?", answer: "thuis", options: ["in een restaurant", "thuis", "op school", "bij collega's"] },
-            { type: "mc", question: "What does 'meestal' mean?", answer: "usually", options: ["always", "never", "usually", "sometimes"] },
+            { type: "mc", question: "What is a typical Dutch breakfast?", th: "อาหารเช้าแบบดัตช์ปกติคืออะไร?", answer: "Brood met kaas", options: ["Rijst met vis", "Brood met kaas", "Soep met vlees", "Gebakken ei met kip"] },
+            { type: "mc", question: "'Aardappelen' are...?", th: "'Aardappelen' คือ...?", answer: "potatoes", options: ["apples", "oranges", "potatoes", "pears"] },
+            { type: "mc", question: "The diminutive of 'kop' is...?", th: "รูปย่อ (คำเล็ก) ของ 'kop' คืออะไร?", answer: "kopje", options: ["koppen", "kopje", "kopje's", "kleine kop"] },
+            { type: "mc", question: "Where does a Dutch family usually eat dinner?", th: "ครอบครัวดัตช์มักกินมื้อเย็นที่ไหน?", answer: "thuis", options: ["in een restaurant", "thuis", "op school", "bij collega's"] },
+            { type: "mc", question: "What does 'meestal' mean?", th: "'meestal' แปลว่าอะไร?", answer: "usually", options: ["always", "never", "usually", "sometimes"] },
           ]
         }
       ]
@@ -1090,13 +1090,13 @@ const COURSE_DATA = {
             {
               situation: "A busy morning at home — เช้าวันยุ่งๆ ที่บ้าน",
               lines: [
-                { speaker: "Narrator", nl: "Het is vroeg in de ochtend. Mama staat als eerste op.", en: "It is early in the morning. Mom gets up first." },
-                { speaker: "You", nl: "Kom, wakker worden! Het is al zeven uur.", en: "Come on, wake up! It's already seven o'clock." },
-                { speaker: "Child", nl: "Nog vijf minuutjes...", en: "Five more minutes..." },
-                { speaker: "You", nl: "Nee, eerst douchen en dan aankleden.", en: "No, first shower and then get dressed." },
-                { speaker: "You", nl: "Ik maak het ontbijt klaar. Schiet op!", en: "I'll prepare breakfast. Hurry up!" },
-                { speaker: "Partner", nl: "Ik breng de kinderen naar school.", en: "I'll take the children to school." },
-                { speaker: "You", nl: "Goed. Ik luister even naar het nieuws.", en: "Good. I'll listen to the news for a bit." },
+                { speaker: "Narrator", nl: "Het is vroeg in de ochtend. Mama staat als eerste op.", en: "It is early in the morning. Mom gets up first." , th: 'เช้าตรู่ แม่ตื่นเป็นคนแรก'},
+                { speaker: "You", nl: "Kom, wakker worden! Het is al zeven uur.", en: "Come on, wake up! It's already seven o'clock." , th: 'เร็ว ตื่นได้แล้ว! เจ็ดโมงแล้ว'},
+                { speaker: "Child", nl: "Nog vijf minuutjes...", en: "Five more minutes..." , th: 'อีกห้านาทีนะ...'},
+                { speaker: "You", nl: "Nee, eerst douchen en dan aankleden.", en: "No, first shower and then get dressed." , th: 'ไม่ได้ อาบน้ำก่อน แล้วค่อยแต่งตัว'},
+                { speaker: "You", nl: "Ik maak het ontbijt klaar. Schiet op!", en: "I'll prepare breakfast. Hurry up!" , th: 'ฉันเตรียมอาหารเช้า เร็วเข้า!'},
+                { speaker: "Partner", nl: "Ik breng de kinderen naar school.", en: "I'll take the children to school." , th: 'ฉันจะไปส่งลูกที่โรงเรียน'},
+                { speaker: "You", nl: "Goed. Ik luister even naar het nieuws.", en: "Good. I'll listen to the news for a bit." , th: 'ได้ ฉันจะฟังข่าวสักหน่อย'},
               ]
             }
           ],
@@ -1104,10 +1104,10 @@ const COURSE_DATA = {
             title: "Separable Verbs (Scheidbare werkwoorden)",
             explanation: "Many Dutch verbs split in two parts. The prefix goes to the end of the sentence. <strong>aantrekken</strong> → 'Ik <strong>trek</strong> mijn jas <strong>aan</strong>'. <strong>opruimen</strong> → 'Ik <strong>ruim</strong> de kamer <strong>op</strong>'. <strong>klaarmaken</strong> → 'Ik <strong>maak</strong> het eten <strong>klaar</strong>'. <br><br>🇹🇭 กริยาแยกส่วน: คำนำหน้าของกริยาจะไปอยู่ท้ายประโยค เช่น aantrekken แยกเป็น trek...aan",
             examples: [
-              { nl: "Ik trek schone kleren aan.", en: "I put on clean clothes." },
-              { nl: "Zij ruimt de keuken op.", en: "She tidies up the kitchen." },
-              { nl: "Hij maakt de lunch klaar.", en: "He prepares lunch." },
-              { nl: "Wij kleden ons aan.", en: "We get dressed." },
+              { nl: "Ik trek schone kleren aan.", en: "I put on clean clothes." , th: "ฉันใส่เสื้อผ้าสะอาด"},
+              { nl: "Zij ruimt de keuken op.", en: "She tidies up the kitchen." , th: "เธอเก็บห้องครัว"},
+              { nl: "Hij maakt de lunch klaar.", en: "He prepares lunch." , th: "เขาเตรียมอาหารกลางวัน"},
+              { nl: "Wij kleden ons aan.", en: "We get dressed." , th: "เราแต่งตัว"},
             ]
           },
           exercises: [
@@ -1158,13 +1158,13 @@ const COURSE_DATA = {
             {
               situation: "Meeting the neighbors — พบเพื่อนบ้าน",
               lines: [
-                { speaker: "You", nl: "Hallo! Wij zijn de nieuwe buren.", en: "Hello! We are the new neighbors." },
-                { speaker: "Neighbor", nl: "Welkom in de buurt! Ik ben Anna.", en: "Welcome to the neighborhood! I'm Anna." },
-                { speaker: "You", nl: "Dit is mijn familie. Mijn man en onze jongens.", en: "This is my family. My husband and our boys." },
-                { speaker: "Neighbor", nl: "Wat een leuke foto in de tuin!", en: "What a nice photo in the garden!" },
-                { speaker: "You", nl: "Ja, de oudste is zes en de jongste is drie.", en: "Yes, the oldest is six and the youngest is three." },
-                { speaker: "Neighbor", nl: "Misschien kunnen de kinderen samen spelen?", en: "Maybe the children can play together?" },
-                { speaker: "You", nl: "Ja, dat is een goed idee! Heel aardig.", en: "Yes, that's a good idea! Very kind." },
+                { speaker: "You", nl: "Hallo! Wij zijn de nieuwe buren.", en: "Hello! We are the new neighbors." , th: 'สวัสดีค่ะ! เราเป็นเพื่อนบ้านใหม่ค่ะ'},
+                { speaker: "Neighbor", nl: "Welkom in de buurt! Ik ben Anna.", en: "Welcome to the neighborhood! I'm Anna." , th: 'ยินดีต้อนรับสู่ละแวกนี้! ฉันชื่อแอนนา'},
+                { speaker: "You", nl: "Dit is mijn familie. Mijn man en onze jongens.", en: "This is my family. My husband and our boys." , th: 'นี่คือครอบครัวฉัน สามีและลูกชายของเรา'},
+                { speaker: "Neighbor", nl: "Wat een leuke foto in de tuin!", en: "What a nice photo in the garden!" , th: 'รูปถ่ายในสวนน่ารักจัง!'},
+                { speaker: "You", nl: "Ja, de oudste is zes en de jongste is drie.", en: "Yes, the oldest is six and the youngest is three." , th: 'ค่ะ คนโตอายุหกขวบ คนเล็กสามขวบ'},
+                { speaker: "Neighbor", nl: "Misschien kunnen de kinderen samen spelen?", en: "Maybe the children can play together?" , th: 'เด็กๆ อาจเล่นด้วยกันได้นะ?'},
+                { speaker: "You", nl: "Ja, dat is een goed idee! Heel aardig.", en: "Yes, that's a good idea! Very kind." , th: 'ใช่ เป็นความคิดที่ดี! ใจดีจัง'},
               ]
             }
           ],
@@ -1172,10 +1172,10 @@ const COURSE_DATA = {
             title: "Possessive Pronouns & Family (Bezittelijke voornaamwoorden)",
             explanation: "In Dutch, possessive pronouns match the subject: <strong>mijn</strong> (my), <strong>jouw</strong> (your informal), <strong>zijn</strong> (his), <strong>haar</strong> (her), <strong>ons/onze</strong> (our), <strong>jullie</strong> (your plural), <strong>hun</strong> (their). Use <strong>ons</strong> with het-words, <strong>onze</strong> with de-words: 'ons huis' but 'onze tuin'.<br><br>🇹🇭 สรรพนามแสดงความเป็นเจ้าของ: mijn (ของฉัน), jouw (ของคุณ), zijn (ของเขา), haar (ของเธอ), ons/onze (ของเรา)",
             examples: [
-              { nl: "Mijn moeder woont in Nederland.", en: "My mother lives in the Netherlands." },
-              { nl: "Zijn achternaam is De Vries.", en: "His surname is De Vries." },
-              { nl: "Onze buren zijn heel aardig.", en: "Our neighbors are very kind." },
-              { nl: "Haar jongste kind is drie.", en: "Her youngest child is three." },
+              { nl: "Mijn moeder woont in Nederland.", en: "My mother lives in the Netherlands." , th: "แม่ฉันอยู่เนเธอร์แลนด์"},
+              { nl: "Zijn achternaam is De Vries.", en: "His surname is De Vries." , th: "นามสกุลเขาคือ De Vries"},
+              { nl: "Onze buren zijn heel aardig.", en: "Our neighbors are very kind." , th: "เพื่อนบ้านเราใจดีมาก"},
+              { nl: "Haar jongste kind is drie.", en: "Her youngest child is three." , th: "ลูกคนเล็กของเธออายุสามขวบ"},
             ]
           },
           exercises: [
@@ -1220,12 +1220,12 @@ const COURSE_DATA = {
             {
               situation: "Calling the doctor — โทรหาหมอ",
               lines: [
-                { speaker: "Receptionist", nl: "Huisartsenpraktijk, goedemorgen.", en: "Doctor's office, good morning." },
-                { speaker: "You", nl: "Goedemorgen. Ik ben ziek. Ik heb overal pijn.", en: "Good morning. I am sick. I have pain everywhere." },
-                { speaker: "Receptionist", nl: "Wat voor pijn? Hoofdpijn?", en: "What kind of pain? Headache?" },
-                { speaker: "You", nl: "Ja, hoofdpijn en pijn in mijn armen en benen.", en: "Yes, headache and pain in my arms and legs." },
-                { speaker: "Receptionist", nl: "Kunt u vanmiddag om twee uur komen?", en: "Can you come this afternoon at two o'clock?" },
-                { speaker: "You", nl: "Ja, dat kan. Dank u wel.", en: "Yes, that's possible. Thank you." },
+                { speaker: "Receptionist", nl: "Huisartsenpraktijk, goedemorgen.", en: "Doctor's office, good morning." , th: 'คลินิกหมอประจำตัว สวัสดีค่ะ'},
+                { speaker: "You", nl: "Goedemorgen. Ik ben ziek. Ik heb overal pijn.", en: "Good morning. I am sick. I have pain everywhere." , th: 'สวัสดีค่ะ ฉันไม่สบาย เจ็บไปทั้งตัว'},
+                { speaker: "Receptionist", nl: "Wat voor pijn? Hoofdpijn?", en: "What kind of pain? Headache?" , th: 'เจ็บแบบไหนคะ? ปวดหัวไหม?'},
+                { speaker: "You", nl: "Ja, hoofdpijn en pijn in mijn armen en benen.", en: "Yes, headache and pain in my arms and legs." , th: 'ค่ะ ปวดหัว แล้วก็ปวดแขนและขา'},
+                { speaker: "Receptionist", nl: "Kunt u vanmiddag om twee uur komen?", en: "Can you come this afternoon at two o'clock?" , th: 'มาได้ตอนบ่ายสองโมงไหมคะ?'},
+                { speaker: "You", nl: "Ja, dat kan. Dank u wel.", en: "Yes, that's possible. Thank you." , th: 'ได้ค่ะ ขอบคุณค่ะ'},
               ]
             }
           ],
@@ -1233,10 +1233,10 @@ const COURSE_DATA = {
             title: "Body Parts & 'Pijn hebben' (Lichaamsdelen)",
             explanation: "To say you have pain, use <strong>pijn hebben in</strong> + body part: 'Ik heb pijn in mijn hoofd'. Or combine into one word: <strong>hoofdpijn</strong> (headache), <strong>buikpijn</strong> (stomachache), <strong>rugpijn</strong> (backache). <br><br>🇹🇭 บอกว่าปวดตรงไหน: ใช้ 'pijn hebben in' + ส่วนของร่างกาย หรือรวมเป็นคำเดียว เช่น hoofdpijn = ปวดหัว",
             examples: [
-              { nl: "Ik heb pijn in mijn hoofd.", en: "I have pain in my head." },
-              { nl: "Zij heeft buikpijn.", en: "She has a stomachache." },
-              { nl: "Hij voelt zich niet goed.", en: "He doesn't feel well." },
-              { nl: "Blijf in bed en drink genoeg water.", en: "Stay in bed and drink enough water." },
+              { nl: "Ik heb pijn in mijn hoofd.", en: "I have pain in my head." , th: "ฉันปวดหัว"},
+              { nl: "Zij heeft buikpijn.", en: "She has a stomachache." , th: "เธอปวดท้อง"},
+              { nl: "Hij voelt zich niet goed.", en: "He doesn't feel well." , th: "เขารู้สึกไม่สบาย"},
+              { nl: "Blijf in bed en drink genoeg water.", en: "Stay in bed and drink enough water." , th: "นอนพักและดื่มน้ำให้พอ"},
             ]
           },
           exercises: [
@@ -1274,12 +1274,12 @@ const COURSE_DATA = {
             {
               situation: "At the doctor's office — ที่คลินิกหมอ",
               lines: [
-                { speaker: "Doctor", nl: "Goedemiddag. Wat is het probleem?", en: "Good afternoon. What is the problem?" },
-                { speaker: "You", nl: "Ik heb pijn in mijn rug en mijn knie.", en: "I have pain in my back and my knee." },
-                { speaker: "Doctor", nl: "Hoe lang heeft u dit al?", en: "How long have you had this?" },
-                { speaker: "You", nl: "Twee dagen. En ik heb ook keelpijn.", en: "Two days. And I also have a sore throat." },
-                { speaker: "Doctor", nl: "Ik schrijf medicijnen voor. Haal ze bij de apotheek.", en: "I'll prescribe medicine. Pick them up at the pharmacy." },
-                { speaker: "You", nl: "Dank u wel, dokter.", en: "Thank you, doctor." },
+                { speaker: "Doctor", nl: "Goedemiddag. Wat is het probleem?", en: "Good afternoon. What is the problem?" , th: 'สวัสดีค่ะ มีอาการอะไรคะ?'},
+                { speaker: "You", nl: "Ik heb pijn in mijn rug en mijn knie.", en: "I have pain in my back and my knee." , th: 'ปวดหลังกับเข่าค่ะ'},
+                { speaker: "Doctor", nl: "Hoe lang heeft u dit al?", en: "How long have you had this?" , th: 'เป็นมานานเท่าไหร่แล้วคะ?'},
+                { speaker: "You", nl: "Twee dagen. En ik heb ook keelpijn.", en: "Two days. And I also have a sore throat." , th: 'สองวันแล้ว แล้วก็เจ็บคอด้วย'},
+                { speaker: "Doctor", nl: "Ik schrijf medicijnen voor. Haal ze bij de apotheek.", en: "I'll prescribe medicine. Pick them up at the pharmacy." , th: 'ฉันจะสั่งยาให้ ไปรับที่ร้านขายยานะคะ'},
+                { speaker: "You", nl: "Dank u wel, dokter.", en: "Thank you, doctor." , th: 'ขอบคุณค่ะ คุณหมอ'},
               ]
             }
           ],
@@ -1287,10 +1287,10 @@ const COURSE_DATA = {
             title: "Plural Nouns — Irregular Body Parts (Meervoud)",
             explanation: "Body parts often have irregular plurals: <strong>oog → ogen</strong>, <strong>oor → oren</strong>, <strong>hand → handen</strong>, <strong>voet → voeten</strong>, <strong>been → benen</strong>. Regular plurals add <strong>-en</strong> or <strong>-s</strong>: 'vinger → vingers', 'schouder → schouders'.<br><br>🇹🇭 พหูพจน์ไม่ปกติของส่วนร่างกาย: oog → ogen, oor → oren, hand → handen",
             examples: [
-              { nl: "Ik heb twee ogen en twee oren.", en: "I have two eyes and two ears." },
-              { nl: "Mijn handen zijn koud.", en: "My hands are cold." },
-              { nl: "Zijn voeten doen pijn.", en: "His feet hurt." },
-              { nl: "Was je handen met water.", en: "Wash your hands with water." },
+              { nl: "Ik heb twee ogen en twee oren.", en: "I have two eyes and two ears." , th: "ฉันมีตาสองข้างและหูสองข้าง"},
+              { nl: "Mijn handen zijn koud.", en: "My hands are cold." , th: "มือฉันเย็น"},
+              { nl: "Zijn voeten doen pijn.", en: "His feet hurt." , th: "เท้าเขาเจ็บ"},
+              { nl: "Was je handen met water.", en: "Wash your hands with water." , th: "ล้างมือด้วยน้ำ"},
             ]
           },
           exercises: [
@@ -1340,13 +1340,13 @@ const COURSE_DATA = {
             {
               situation: "Discussing transport options — คุยเรื่องการเดินทาง",
               lines: [
-                { speaker: "Friend", nl: "Hoe ga jij naar je werk?", en: "How do you go to your work?" },
-                { speaker: "You", nl: "Ik ga met de fiets. Het is praktisch.", en: "I go by bicycle. It's practical." },
-                { speaker: "Friend", nl: "Is dat niet ver?", en: "Isn't that far?" },
-                { speaker: "You", nl: "Nee, het is een korte afstand. Tien minuten.", en: "No, it's a short distance. Ten minutes." },
-                { speaker: "Friend", nl: "Ik neem liever de auto, maar de files...", en: "I prefer to take the car, but the traffic jams..." },
-                { speaker: "You", nl: "Ja, dat is het nadeel. De fiets is goedkoper en je hebt beweging!", en: "Yes, that's the disadvantage. The bike is cheaper and you get exercise!" },
-                { speaker: "Friend", nl: "Je hebt gelijk!", en: "You're right!" },
+                { speaker: "Friend", nl: "Hoe ga jij naar je werk?", en: "How do you go to your work?" , th: 'ไปทำงานยังไงคะ?'},
+                { speaker: "You", nl: "Ik ga met de fiets. Het is praktisch.", en: "I go by bicycle. It's practical." , th: 'ฉันขี่จักรยานไป สะดวกดี'},
+                { speaker: "Friend", nl: "Is dat niet ver?", en: "Isn't that far?" , th: 'ไม่ไกลหรอ?'},
+                { speaker: "You", nl: "Nee, het is een korte afstand. Tien minuten.", en: "No, it's a short distance. Ten minutes." , th: 'ไม่ ระยะสั้นเอง สิบนาที'},
+                { speaker: "Friend", nl: "Ik neem liever de auto, maar de files...", en: "I prefer to take the car, but the traffic jams..." , th: 'ฉันชอบขับรถมากกว่า แต่รถติด...'},
+                { speaker: "You", nl: "Ja, dat is het nadeel. De fiets is goedkoper en je hebt beweging!", en: "Yes, that's the disadvantage. The bike is cheaper and you get exercise!" , th: 'ใช่ นั่นเป็นข้อเสีย จักรยานถูกกว่าแล้วก็ได้ออกกำลังกายด้วย!'},
+                { speaker: "Friend", nl: "Je hebt gelijk!", en: "You're right!" , th: 'คุณพูดถูก!'},
               ]
             }
           ],
@@ -1354,10 +1354,10 @@ const COURSE_DATA = {
             title: "Transport: 'Met de...' (By means of...)",
             explanation: "To say how you travel, use <strong>met de/het</strong>: 'met de fiets' (by bike), 'met de auto' (by car), 'met de trein' (by train), 'met de bus' (by bus). You can also use verbs: <strong>fietsen</strong> (to cycle), <strong>rijden</strong> (to drive), <strong>lopen</strong> (to walk).<br><br>🇹🇭 บอกวิธีเดินทาง: ใช้ 'met de' + ยานพาหนะ เช่น met de fiets, met de auto, met de trein",
             examples: [
-              { nl: "Ik ga met de trein naar Amsterdam.", en: "I go by train to Amsterdam." },
-              { nl: "Zij fietst naar haar werk.", en: "She cycles to her work." },
-              { nl: "Wij rijden met de auto.", en: "We drive by car." },
-              { nl: "Hij wacht op de bus bij de halte.", en: "He waits for the bus at the stop." },
+              { nl: "Ik ga met de trein naar Amsterdam.", en: "I go by train to Amsterdam." , th: "ฉันนั่งรถไฟไปอัมสเตอร์ดัม"},
+              { nl: "Zij fietst naar haar werk.", en: "She cycles to her work." , th: "เธอขี่จักรยานไปทำงาน"},
+              { nl: "Wij rijden met de auto.", en: "We drive by car." , th: "เราขับรถไป"},
+              { nl: "Hij wacht op de bus bij de halte.", en: "He waits for the bus at the stop." , th: "เขารอรถบัสที่ป้าย"},
             ]
           },
           exercises: [
@@ -1407,14 +1407,14 @@ const COURSE_DATA = {
             {
               situation: "Talking about moving to the Netherlands — คุยเรื่องย้ายไปเนเธอร์แลนด์",
               lines: [
-                { speaker: "Friend", nl: "Je gaat binnenkort naar Europa, toch?", en: "You're going to Europe soon, right?" },
-                { speaker: "You", nl: "Ja, over enkele maanden. Ik ga naar Nederland.", en: "Yes, in a few months. I'm going to the Netherlands." },
-                { speaker: "Friend", nl: "Leer je al de taal?", en: "Are you already learning the language?" },
-                { speaker: "You", nl: "Ja, ik leer Nederlands. Dat is belangrijk voor de toekomst.", en: "Yes, I'm learning Dutch. That's important for the future." },
-                { speaker: "Friend", nl: "En je man, wat voor werk doet hij?", en: "And your husband, what kind of work does he do?" },
-                { speaker: "You", nl: "Hij werkt in de haven. Het is zwaar, maar hij verdient redelijk.", en: "He works in the port. It's tough, but he earns reasonably." },
-                { speaker: "Friend", nl: "Nederland is een mooi land. Duitsland en Frankrijk zijn dichtbij.", en: "The Netherlands is a beautiful country. Germany and France are nearby." },
-                { speaker: "You", nl: "Dat klopt! Er zijn veel steden en culturen.", en: "That's right! There are many cities and cultures." },
+                { speaker: "Friend", nl: "Je gaat binnenkort naar Europa, toch?", en: "You're going to Europe soon, right?" , th: 'คุณจะไปยุโรปเร็วๆ นี้ใช่ไหม?'},
+                { speaker: "You", nl: "Ja, over enkele maanden. Ik ga naar Nederland.", en: "Yes, in a few months. I'm going to the Netherlands." , th: 'ใช่ อีกไม่กี่เดือน ฉันจะไปเนเธอร์แลนด์'},
+                { speaker: "Friend", nl: "Leer je al de taal?", en: "Are you already learning the language?" , th: 'เริ่มเรียนภาษาแล้วหรือยัง?'},
+                { speaker: "You", nl: "Ja, ik leer Nederlands. Dat is belangrijk voor de toekomst.", en: "Yes, I'm learning Dutch. That's important for the future." , th: 'ใช่ ฉันเรียนภาษาดัตช์ สำคัญสำหรับอนาคต'},
+                { speaker: "Friend", nl: "En je man, wat voor werk doet hij?", en: "And your husband, what kind of work does he do?" , th: 'แล้วสามีทำงานอะไรคะ?'},
+                { speaker: "You", nl: "Hij werkt in de haven. Het is zwaar, maar hij verdient redelijk.", en: "He works in the port. It's tough, but he earns reasonably." , th: 'เขาทำงานที่ท่าเรือ หนักแต่รายได้พอสมควร'},
+                { speaker: "Friend", nl: "Nederland is een mooi land. Duitsland en Frankrijk zijn dichtbij.", en: "The Netherlands is a beautiful country. Germany and France are nearby." , th: 'เนเธอร์แลนด์เป็นประเทศสวยงาม เยอรมนีและฝรั่งเศสอยู่ใกล้ๆ'},
+                { speaker: "You", nl: "Dat klopt! Er zijn veel steden en culturen.", en: "That's right! There are many cities and cultures." , th: 'ถูกต้อง! มีหลายเมืองและวัฒนธรรม'},
               ]
             }
           ],
@@ -1422,10 +1422,10 @@ const COURSE_DATA = {
             title: "Countries & Nationalities (Landen en nationaliteiten)",
             explanation: "Countries: <strong>Nederland</strong>, <strong>Duitsland</strong> (Germany), <strong>Frankrijk</strong> (France), <strong>België</strong> (Belgium), <strong>Thailand</strong>. Languages add <strong>-s</strong>: 'Nederlands', 'Duits', 'Frans'. People: 'Nederlander', 'Duitser', 'Fransman'. Use <strong>naar</strong> for 'to a country' and <strong>in</strong> for 'in a country'.<br><br>🇹🇭 ชื่อประเทศ: Nederland, Duitsland (เยอรมนี), Frankrijk (ฝรั่งเศส). ภาษา: เติม -s เช่น Nederlands, Duits",
             examples: [
-              { nl: "Ik ga naar Nederland.", en: "I'm going to the Netherlands." },
-              { nl: "Duitsland ligt naast Nederland.", en: "Germany is next to the Netherlands." },
-              { nl: "Zij spreekt Frans en Nederlands.", en: "She speaks French and Dutch." },
-              { nl: "Den Haag is de stad van de regering.", en: "The Hague is the city of the government." },
+              { nl: "Ik ga naar Nederland.", en: "I'm going to the Netherlands." , th: "ฉันจะไปเนเธอร์แลนด์"},
+              { nl: "Duitsland ligt naast Nederland.", en: "Germany is next to the Netherlands." , th: "เยอรมนีอยู่ติดกับเนเธอร์แลนด์"},
+              { nl: "Zij spreekt Frans en Nederlands.", en: "She speaks French and Dutch." , th: "เธอพูดฝรั่งเศสและดัตช์"},
+              { nl: "Den Haag is de stad van de regering.", en: "The Hague is the city of the government." , th: "กรุงเฮกเป็นเมืองของรัฐบาล"},
             ]
           },
           exercises: [
@@ -1474,12 +1474,12 @@ const COURSE_DATA = {
             {
               situation: "Planning a birthday party — วางแผนงานวันเกิด",
               lines: [
-                { speaker: "You", nl: "Ik ben volgende week jarig!", en: "It's my birthday next week!" },
-                { speaker: "Friend", nl: "Leuk! Geef je een feestje?", en: "Nice! Are you having a party?" },
-                { speaker: "You", nl: "Ja, op zaterdagavond. Kun je komen?", en: "Yes, on Saturday evening. Can you come?" },
-                { speaker: "Friend", nl: "Zaterdag? Ja, dat kan! Afgesproken!", en: "Saturday? Yes, I can! It's a deal!" },
-                { speaker: "You", nl: "Ik moet nog boodschappen doen. Ga je mee?", en: "I still need to go shopping. Will you come along?" },
-                { speaker: "Friend", nl: "Ja, ik help je de tassen dragen.", en: "Yes, I'll help you carry the bags." },
+                { speaker: "You", nl: "Ik ben volgende week jarig!", en: "It's my birthday next week!" , th: 'สัปดาห์หน้าวันเกิดฉัน!'},
+                { speaker: "Friend", nl: "Leuk! Geef je een feestje?", en: "Nice! Are you having a party?" , th: 'เยี่ยม! จะจัดปาร์ตี้ไหม?'},
+                { speaker: "You", nl: "Ja, op zaterdagavond. Kun je komen?", en: "Yes, on Saturday evening. Can you come?" , th: 'ค่ะ คืนวันเสาร์ มาได้ไหม?'},
+                { speaker: "Friend", nl: "Zaterdag? Ja, dat kan! Afgesproken!", en: "Saturday? Yes, I can! It's a deal!" , th: 'วันเสาร์? ได้สิ! ตกลง!'},
+                { speaker: "You", nl: "Ik moet nog boodschappen doen. Ga je mee?", en: "I still need to go shopping. Will you come along?" , th: 'ฉันต้องไปซื้อของ ไปด้วยกันไหม?'},
+                { speaker: "Friend", nl: "Ja, ik help je de tassen dragen.", en: "Yes, I'll help you carry the bags." , th: 'ได้ ฉันจะช่วยถือถุง'},
               ]
             }
           ],
@@ -1487,10 +1487,10 @@ const COURSE_DATA = {
             title: "Modal Verbs: kunnen, moeten, willen",
             explanation: "Modal verbs change meaning: <strong>kunnen</strong> (can/be able), <strong>moeten</strong> (must/have to), <strong>willen</strong> (want to). The main verb goes to the END as infinitive: 'Ik <strong>kan</strong> morgen <strong>komen</strong>'. 'Je <strong>moet</strong> boodschappen <strong>doen</strong>'.<br><br>🇹🇭 กริยาช่วย: kunnen (สามารถ), moeten (ต้อง), willen (อยาก) — กริยาหลักไปท้ายประโยค",
             examples: [
-              { nl: "Kun je morgen komen?", en: "Can you come tomorrow?" },
-              { nl: "Ik moet boodschappen doen.", en: "I have to go shopping." },
-              { nl: "Wil je een feestje geven?", en: "Do you want to throw a party?" },
-              { nl: "Zij kan goed Nederlands spreken.", en: "She can speak Dutch well." },
+              { nl: "Kun je morgen komen?", en: "Can you come tomorrow?" , th: "พรุ่งนี้มาได้ไหม?"},
+              { nl: "Ik moet boodschappen doen.", en: "I have to go shopping." , th: "ฉันต้องไปจ่ายตลาด"},
+              { nl: "Wil je een feestje geven?", en: "Do you want to throw a party?" , th: "อยากจัดปาร์ตี้ไหม?"},
+              { nl: "Zij kan goed Nederlands spreken.", en: "She can speak Dutch well." , th: "เธอพูดดัตช์ได้ดี"},
             ]
           },
           exercises: [
@@ -1537,13 +1537,13 @@ const COURSE_DATA = {
             {
               situation: "Discussing exam preparation — คุยเรื่องเตรียมสอบ",
               lines: [
-                { speaker: "Teacher", nl: "Waarom leer je Nederlands?", en: "Why are you learning Dutch?" },
-                { speaker: "You", nl: "Omdat ik het inburgeringsexamen moet doen.", en: "Because I have to take the integration exam." },
-                { speaker: "Teacher", nl: "Goed. Het examen heeft drie onderdelen.", en: "Good. The exam has three parts." },
-                { speaker: "You", nl: "Ja, spreken, lezen en KNS.", en: "Yes, speaking, reading and KNS." },
-                { speaker: "Teacher", nl: "Precies. Oefen vooral het spreken.", en: "Exactly. Practice especially the speaking." },
-                { speaker: "You", nl: "Zijn er voorbeeldexamens op de website?", en: "Are there practice exams on the website?" },
-                { speaker: "Teacher", nl: "Ja! Veel succes met oefenen!", en: "Yes! Good luck with practicing!" },
+                { speaker: "Teacher", nl: "Waarom leer je Nederlands?", en: "Why are you learning Dutch?" , th: 'ทำไมถึงเรียนภาษาดัตช์?'},
+                { speaker: "You", nl: "Omdat ik het inburgeringsexamen moet doen.", en: "Because I have to take the integration exam." , th: 'เพราะฉันต้องสอบ Inburgering'},
+                { speaker: "Teacher", nl: "Goed. Het examen heeft drie onderdelen.", en: "Good. The exam has three parts." , th: 'ดี การสอบมีสามส่วน'},
+                { speaker: "You", nl: "Ja, spreken, lezen en KNS.", en: "Yes, speaking, reading and KNS." , th: 'ใช่ การพูด การอ่าน และ KNS'},
+                { speaker: "Teacher", nl: "Precies. Oefen vooral het spreken.", en: "Exactly. Practice especially the speaking." , th: 'ถูกต้อง ฝึกพูดให้มากนะ'},
+                { speaker: "You", nl: "Zijn er voorbeeldexamens op de website?", en: "Are there practice exams on the website?" , th: 'มีข้อสอบตัวอย่างบนเว็บไซต์ไหม?'},
+                { speaker: "Teacher", nl: "Ja! Veel succes met oefenen!", en: "Yes! Good luck with practicing!" , th: 'มีค่ะ! โชคดีกับการฝึกนะ!'},
               ]
             }
           ],
@@ -1551,10 +1551,10 @@ const COURSE_DATA = {
             title: "Subordinate Clauses: omdat, dat, als",
             explanation: "After <strong>omdat</strong> (because), <strong>dat</strong> (that), <strong>als</strong> (if/when), the verb moves to the END: 'Ik leer Nederlands <strong>omdat</strong> ik naar Nederland <strong>ga</strong>'. Compare: 'Ik ga naar Nederland' → 'omdat ik naar Nederland ga'.<br><br>🇹🇭 ประโยคย่อย: หลัง omdat/dat/als กริยาไปท้ายประโยค เช่น 'omdat ik Nederlands leer'",
             examples: [
-              { nl: "Ik oefen omdat het examen belangrijk is.", en: "I practice because the exam is important." },
-              { nl: "Ik weet dat spreken moeilijk is.", en: "I know that speaking is difficult." },
-              { nl: "Als ik oefen, word ik beter.", en: "If I practice, I get better." },
-              { nl: "Hij zegt dat hij morgen komt.", en: "He says that he comes tomorrow." },
+              { nl: "Ik oefen omdat het examen belangrijk is.", en: "I practice because the exam is important." , th: "ฉันฝึกเพราะการสอบสำคัญ"},
+              { nl: "Ik weet dat spreken moeilijk is.", en: "I know that speaking is difficult." , th: "ฉันรู้ว่าการพูดยาก"},
+              { nl: "Als ik oefen, word ik beter.", en: "If I practice, I get better." , th: "ถ้าฉันฝึก ฉันจะเก่งขึ้น"},
+              { nl: "Hij zegt dat hij morgen komt.", en: "He says that he comes tomorrow." , th: "เขาบอกว่าพรุ่งนี้จะมา"},
             ]
           },
           exercises: [
@@ -1600,13 +1600,13 @@ const COURSE_DATA = {
             {
               situation: "Shopping at the market — ซื้อของที่ตลาด",
               lines: [
-                { speaker: "You", nl: "Ik moet boodschappen doen. Ik heb verse eieren nodig.", en: "I need to go shopping. I need fresh eggs." },
-                { speaker: "Seller", nl: "Hoeveel eieren? Zes of tien?", en: "How many eggs? Six or ten?" },
-                { speaker: "You", nl: "Tien, alstublieft. En een bruin brood, gesneden.", en: "Ten, please. And a brown bread, sliced." },
-                { speaker: "Seller", nl: "Nog iets anders?", en: "Anything else?" },
-                { speaker: "You", nl: "Ja, ik moet ook fruit kopen. En een fles wijn.", en: "Yes, I also need to buy fruit. And a bottle of wine." },
-                { speaker: "Seller", nl: "Een cadeautje voor vanavond?", en: "A gift for tonight?" },
-                { speaker: "You", nl: "Ja! En chocola. Mijn vriendin is gek op chocola.", en: "Yes! And chocolate. My friend loves chocolate." },
+                { speaker: "You", nl: "Ik moet boodschappen doen. Ik heb verse eieren nodig.", en: "I need to go shopping. I need fresh eggs." , th: 'ฉันต้องไปจ่ายตลาด ต้องการไข่สดค่ะ'},
+                { speaker: "Seller", nl: "Hoeveel eieren? Zes of tien?", en: "How many eggs? Six or ten?" , th: 'ไข่กี่ฟอง? หกหรือสิบ?'},
+                { speaker: "You", nl: "Tien, alstublieft. En een bruin brood, gesneden.", en: "Ten, please. And a brown bread, sliced." , th: 'สิบค่ะ แล้วก็ขนมปังโฮลวีทหั่นสไลซ์'},
+                { speaker: "Seller", nl: "Nog iets anders?", en: "Anything else?" , th: 'ต้องการอย่างอื่นอีกไหมคะ?'},
+                { speaker: "You", nl: "Ja, ik moet ook fruit kopen. En een fles wijn.", en: "Yes, I also need to buy fruit. And a bottle of wine." , th: 'ค่ะ ต้องซื้อผลไม้ด้วย แล้วก็ไวน์หนึ่งขวด'},
+                { speaker: "Seller", nl: "Een cadeautje voor vanavond?", en: "A gift for tonight?" , th: 'ของขวัญสำหรับคืนนี้หรอ?'},
+                { speaker: "You", nl: "Ja! En chocola. Mijn vriendin is gek op chocola.", en: "Yes! And chocolate. My friend loves chocolate." , th: 'ใช่! แล้วก็ช็อกโกแลต เพื่อนฉันชอบช็อกโกแลตมาก'},
               ]
             }
           ],
@@ -1614,10 +1614,10 @@ const COURSE_DATA = {
             title: "Directions: rechtdoor, rechtsaf, linksaf",
             explanation: "Giving directions: <strong>rechtdoor</strong> (straight ahead), <strong>rechtsaf</strong> (turn right), <strong>linksaf</strong> (turn left), <strong>langs</strong> (past), <strong>voorbij</strong> (beyond). 'Ga rechtdoor en dan rechtsaf bij de kerk.'<br><br>🇹🇭 บอกทิศทาง: rechtdoor (ตรงไป), rechtsaf (เลี้ยวขวา), linksaf (เลี้ยวซ้าย), langs (ผ่าน)",
             examples: [
-              { nl: "Ga rechtdoor en dan rechtsaf.", en: "Go straight and then turn right." },
-              { nl: "Het winkelcentrum is voorbij de kerk.", en: "The shopping center is past the church." },
-              { nl: "Loop langs het park.", en: "Walk past the park." },
-              { nl: "Bij de hoek linksaf.", en: "Turn left at the corner." },
+              { nl: "Ga rechtdoor en dan rechtsaf.", en: "Go straight and then turn right." , th: "ตรงไปแล้วเลี้ยวขวา"},
+              { nl: "Het winkelcentrum is voorbij de kerk.", en: "The shopping center is past the church." , th: "ห้างอยู่เลยโบสถ์ไป"},
+              { nl: "Loop langs het park.", en: "Walk past the park." , th: "เดินผ่านสวนสาธารณะ"},
+              { nl: "Bij de hoek linksaf.", en: "Turn left at the corner." , th: "เลี้ยวซ้ายตรงหัวมุม"},
             ]
           },
           exercises: [
@@ -1660,12 +1660,12 @@ const COURSE_DATA = {
             {
               situation: "Talking about family — คุยเรื่องครอบครัว",
               lines: [
-                { speaker: "Friend", nl: "Hoe groot is jouw gezin?", en: "How big is your family?" },
-                { speaker: "You", nl: "Ik heb twee broers en een zus.", en: "I have two brothers and a sister." },
-                { speaker: "Friend", nl: "Zijn ze getrouwd?", en: "Are they married?" },
-                { speaker: "You", nl: "Ja, mijn oudste broer is getrouwd. Hij heeft twee kinderen.", en: "Yes, my oldest brother is married. He has two children." },
-                { speaker: "Friend", nl: "Wat doen de kinderen?", en: "What do the children do?" },
-                { speaker: "You", nl: "De oudste speelt piano en de jongste houdt van voetbal.", en: "The oldest plays piano and the youngest loves football." },
+                { speaker: "Friend", nl: "Hoe groot is jouw gezin?", en: "How big is your family?" , th: 'ครอบครัวคุณใหญ่แค่ไหน?'},
+                { speaker: "You", nl: "Ik heb twee broers en een zus.", en: "I have two brothers and a sister." , th: 'ฉันมีพี่ชายสองคนและน้องสาวหนึ่งคน'},
+                { speaker: "Friend", nl: "Zijn ze getrouwd?", en: "Are they married?" , th: 'แต่งงานแล้วหรือยัง?'},
+                { speaker: "You", nl: "Ja, mijn oudste broer is getrouwd. Hij heeft twee kinderen.", en: "Yes, my oldest brother is married. He has two children." , th: 'ค่ะ พี่ชายคนโตแต่งงานแล้ว มีลูกสองคน'},
+                { speaker: "Friend", nl: "Wat doen de kinderen?", en: "What do the children do?" , th: 'เด็กๆ ทำอะไรบ้าง?'},
+                { speaker: "You", nl: "De oudste speelt piano en de jongste houdt van voetbal.", en: "The oldest plays piano and the youngest loves football." , th: 'คนโตเล่นเปียโน คนเล็กชอบฟุตบอล'},
               ]
             }
           ],
@@ -1673,10 +1673,10 @@ const COURSE_DATA = {
             title: "Houden van & Hobbies",
             explanation: "Use <strong>houden van</strong> (to love/like) for hobbies and preferences: 'Ik hou van muziek'. Use <strong>graag</strong> + verb for 'like doing': 'Ik voetbal graag'. Use <strong>leuk vinden</strong> for 'find nice': 'Ik vind voetbal leuk'.<br><br>🇹🇭 การบอกความชอบ: houden van (รัก/ชอบ), graag + กริยา (ชอบทำ), leuk vinden (คิดว่าสนุก)",
             examples: [
-              { nl: "Ik hou van Nederlandse muziek.", en: "I love Dutch music." },
-              { nl: "Zij voetbalt graag.", en: "She likes playing football." },
-              { nl: "Wij vinden fietsen leuk.", en: "We think cycling is fun." },
-              { nl: "Hij houdt van zijn kinderen.", en: "He loves his children." },
+              { nl: "Ik hou van Nederlandse muziek.", en: "I love Dutch music." , th: "ฉันชอบเพลงดัตช์"},
+              { nl: "Zij voetbalt graag.", en: "She likes playing football." , th: "เธอชอบเล่นฟุตบอล"},
+              { nl: "Wij vinden fietsen leuk.", en: "We think cycling is fun." , th: "เราคิดว่าปั่นจักรยานสนุก"},
+              { nl: "Hij houdt van zijn kinderen.", en: "He loves his children." , th: "เขารักลูกๆ"},
             ]
           },
           exercises: [
@@ -1721,12 +1721,12 @@ const COURSE_DATA = {
             {
               situation: "After the football match — หลังเกมฟุตบอล",
               lines: [
-                { speaker: "Coach", nl: "Goed gespeeld! We hebben gewonnen!", en: "Well played! We won!" },
-                { speaker: "Player", nl: "Het was een moeilijke wedstrijd.", en: "It was a difficult match." },
-                { speaker: "Coach", nl: "Ja, maar jullie hadden veel energie.", en: "Yes, but you all had a lot of energy." },
-                { speaker: "You", nl: "De spelers renden heel hard!", en: "The players ran very fast!" },
-                { speaker: "Player", nl: "Ik ben moe. Waar is de douche?", en: "I'm tired. Where is the shower?" },
-                { speaker: "Coach", nl: "Eerst water drinken! En dan douchen.", en: "First drink water! And then shower." },
+                { speaker: "Coach", nl: "Goed gespeeld! We hebben gewonnen!", en: "Well played! We won!" , th: 'เล่นเก่ง! เราชนะ!'},
+                { speaker: "Player", nl: "Het was een moeilijke wedstrijd.", en: "It was a difficult match." , th: 'เป็นการแข่งขันที่ยากเลย'},
+                { speaker: "Coach", nl: "Ja, maar jullie hadden veel energie.", en: "Yes, but you all had a lot of energy." , th: 'ใช่ แต่พวกคุณมีพลังเยอะมาก'},
+                { speaker: "You", nl: "De spelers renden heel hard!", en: "The players ran very fast!" , th: 'นักกีฬาวิ่งเร็วมาก!'},
+                { speaker: "Player", nl: "Ik ben moe. Waar is de douche?", en: "I'm tired. Where is the shower?" , th: 'ฉันเหนื่อย ห้องอาบน้ำอยู่ไหน?'},
+                { speaker: "Coach", nl: "Eerst water drinken! En dan douchen.", en: "First drink water! And then shower." , th: 'ดื่มน้ำก่อน! แล้วค่อยอาบน้ำ'},
               ]
             }
           ],
@@ -1734,10 +1734,10 @@ const COURSE_DATA = {
             title: "Past Tense: Perfect (Voltooid tegenwoordige tijd)",
             explanation: "Dutch past tense uses <strong>hebben/zijn + past participle</strong>. Regular: ge- + stem + -d/-t. 'gespeeld' (played), 'gewerkt' (worked). The past participle goes to the END: 'Wij <strong>hebben</strong> goed <strong>gespeeld</strong>'.<br><br>🇹🇭 อดีตกาล: ใช้ hebben/zijn + กริยาช่อง 3 เช่น 'Ik heb gespeeld' = ฉันได้เล่นแล้ว",
             examples: [
-              { nl: "Wij hebben gewonnen!", en: "We won!" },
-              { nl: "Hij heeft hard gewerkt.", en: "He worked hard." },
-              { nl: "Ik heb gisteren gevoetbald.", en: "I played football yesterday." },
-              { nl: "Zij hebben de wedstrijd verloren.", en: "They lost the match." },
+              { nl: "Wij hebben gewonnen!", en: "We won!" , th: "เราชนะ!"},
+              { nl: "Hij heeft hard gewerkt.", en: "He worked hard." , th: "เขาทำงานหนัก"},
+              { nl: "Ik heb gisteren gevoetbald.", en: "I played football yesterday." , th: "เมื่อวานฉันเล่นฟุตบอล"},
+              { nl: "Zij hebben de wedstrijd verloren.", en: "They lost the match." , th: "พวกเขาแพ้การแข่งขัน"},
             ]
           },
           exercises: [
@@ -1782,12 +1782,12 @@ const COURSE_DATA = {
             {
               situation: "Writing a formal email — เขียนอีเมลทางการ",
               lines: [
-                { speaker: "You", nl: "Ik moet een e-mail schrijven naar de gemeente.", en: "I have to write an email to the municipality." },
-                { speaker: "Friend", nl: "Begin met 'Geachte heer/mevrouw'.", en: "Start with 'Dear sir/madam'." },
-                { speaker: "You", nl: "En hoe eindig ik de brief?", en: "And how do I end the letter?" },
-                { speaker: "Friend", nl: "Schrijf 'Met vriendelijke groet' en dan je naam.", en: "Write 'Kind regards' and then your name." },
-                { speaker: "You", nl: "Dank je wel! Ik stuur de e-mail nu.", en: "Thank you! I'll send the email now." },
-                { speaker: "Friend", nl: "Succes! Ze antwoorden meestal binnen een week.", en: "Good luck! They usually reply within a week." },
+                { speaker: "You", nl: "Ik moet een e-mail schrijven naar de gemeente.", en: "I have to write an email to the municipality." , th: 'ฉันต้องเขียนอีเมลถึงเทศบาล'},
+                { speaker: "Friend", nl: "Begin met 'Geachte heer/mevrouw'.", en: "Start with 'Dear sir/madam'." , th: "เริ่มด้วย 'เรียน ท่าน/คุณผู้หญิง'"},
+                { speaker: "You", nl: "En hoe eindig ik de brief?", en: "And how do I end the letter?" , th: 'แล้วจะลงท้ายจดหมายยังไง?'},
+                { speaker: "Friend", nl: "Schrijf 'Met vriendelijke groet' en dan je naam.", en: "Write 'Kind regards' and then your name." , th: "เขียน 'ด้วยความนับถือ' แล้วตามด้วยชื่อ"},
+                { speaker: "You", nl: "Dank je wel! Ik stuur de e-mail nu.", en: "Thank you! I'll send the email now." , th: 'ขอบคุณ! ฉันจะส่งอีเมลตอนนี้เลย'},
+                { speaker: "Friend", nl: "Succes! Ze antwoorden meestal binnen een week.", en: "Good luck! They usually reply within a week." , th: 'โชคดี! ปกติเขาตอบภายในหนึ่งสัปดาห์'},
               ]
             }
           ],
@@ -1795,10 +1795,10 @@ const COURSE_DATA = {
             title: "Formal vs Informal Writing (Formeel vs informeel)",
             explanation: "Formal letters/emails: start with <strong>'Geachte heer/mevrouw'</strong>, use <strong>u</strong>, end with <strong>'Met vriendelijke groet'</strong>. Informal: start with <strong>'Beste/Lieve [name]'</strong>, use <strong>je/jij</strong>, end with <strong>'Groetjes'</strong> or <strong>'Liefs'</strong>.<br><br>🇹🇭 ทางการ: เริ่มด้วย 'Geachte', ใช้ u, ลงท้าย 'Met vriendelijke groet' / ไม่ทางการ: เริ่มด้วย 'Beste/Lieve', ใช้ je, ลงท้าย 'Groetjes'",
             examples: [
-              { nl: "Geachte mevrouw De Vries, ...", en: "Dear Mrs De Vries, ..." },
-              { nl: "Beste Anna, hoe gaat het?", en: "Dear Anna, how are you?" },
-              { nl: "Met vriendelijke groet, ...", en: "Kind regards, ..." },
-              { nl: "Groetjes! Tot snel!", en: "Greetings! See you soon!" },
+              { nl: "Geachte mevrouw De Vries, ...", en: "Dear Mrs De Vries, ..." , th: "เรียน คุณ De Vries, ..."},
+              { nl: "Beste Anna, hoe gaat het?", en: "Dear Anna, how are you?" , th: "แอนนาที่รัก สบายดีไหม?"},
+              { nl: "Met vriendelijke groet, ...", en: "Kind regards, ..." , th: "ด้วยความนับถือ, ..."},
+              { nl: "Groetjes! Tot snel!", en: "Greetings! See you soon!" , th: "ทักทาย! เจอกันเร็วๆ นี้!"},
             ]
           },
           exercises: [
@@ -1845,12 +1845,12 @@ const COURSE_DATA = {
             {
               situation: "Visiting Dutch neighbors — ไปเยี่ยมเพื่อนบ้านชาวดัตช์",
               lines: [
-                { speaker: "Neighbor", nl: "Hallo! Wat leuk dat je komt! Kom binnen!", en: "Hello! How nice that you're coming! Come in!" },
-                { speaker: "You", nl: "Dank je wel. Hier, bloemen voor jou.", en: "Thank you. Here, flowers for you." },
-                { speaker: "Neighbor", nl: "Oh, wat lief! Ga lekker zitten. Koffie?", en: "Oh, how sweet! Sit down. Coffee?" },
-                { speaker: "You", nl: "Ja, graag. Wat een gezellig huis!", en: "Yes, please. What a cozy house!" },
-                { speaker: "Neighbor", nl: "Bedankt! Wil je ook een koekje of een stukje taart?", en: "Thanks! Would you also like a cookie or a piece of cake?" },
-                { speaker: "You", nl: "Een stukje taart, alsjeblieft. Het ziet er lekker uit!", en: "A piece of cake, please. It looks tasty!" },
+                { speaker: "Neighbor", nl: "Hallo! Wat leuk dat je komt! Kom binnen!", en: "Hello! How nice that you're coming! Come in!" , th: "สวัสดี! ดีใจที่มา! เข้ามาเลย!"},
+                { speaker: "You", nl: "Dank je wel. Hier, bloemen voor jou.", en: "Thank you. Here, flowers for you." , th: 'ขอบคุณค่ะ นี่ ดอกไม้ให้คุณ'},
+                { speaker: "Neighbor", nl: "Oh, wat lief! Ga lekker zitten. Koffie?", en: "Oh, how sweet! Sit down. Coffee?" , th: "โอ้ น่ารักจัง! นั่งตามสบายเลย กาแฟไหม?"},
+                { speaker: "You", nl: "Ja, graag. Wat een gezellig huis!", en: "Yes, please. What a cozy house!" , th: 'ค่ะ ด้วยความยินดี บ้านน่าอยู่จัง!'},
+                { speaker: "Neighbor", nl: "Bedankt! Wil je ook een koekje of een stukje taart?", en: "Thanks! Would you also like a cookie or a piece of cake?" , th: "ขอบคุณ! อยากได้คุกกี้หรือเค้กสักชิ้นไหม?"},
+                { speaker: "You", nl: "Een stukje taart, alsjeblieft. Het ziet er lekker uit!", en: "A piece of cake, please. It looks tasty!" , th: 'ขอเค้กชิ้นหนึ่งค่ะ ดูน่าอร่อย!'},
               ]
             }
           ],
@@ -1858,10 +1858,10 @@ const COURSE_DATA = {
             title: "Demonstratives: dit/dat, deze/die",
             explanation: "<strong>dit/deze</strong> = this/these (nearby). <strong>dat/die</strong> = that/those (further). Use <strong>dit/dat</strong> with het-words: 'dit huis', 'dat koekje'. Use <strong>deze/die</strong> with de-words: 'deze taart', 'die bloemen'.<br><br>🇹🇭 คำชี้เฉพาะ: dit/deze = นี้, dat/die = นั้น. ใช้ dit/dat กับคำ het, ใช้ deze/die กับคำ de",
             examples: [
-              { nl: "Dit huis is heel gezellig.", en: "This house is very cozy." },
-              { nl: "Deze taart is lekker!", en: "This cake is tasty!" },
-              { nl: "Dat koekje is van mij.", en: "That cookie is mine." },
-              { nl: "Die bloemen zijn mooi.", en: "Those flowers are beautiful." },
+              { nl: "Dit huis is heel gezellig.", en: "This house is very cozy." , th: "บ้านนี้บรรยากาศดีมาก"},
+              { nl: "Deze taart is lekker!", en: "This cake is tasty!" , th: "เค้กนี้อร่อย!"},
+              { nl: "Dat koekje is van mij.", en: "That cookie is mine." , th: "คุกกี้นั่นของฉัน"},
+              { nl: "Die bloemen zijn mooi.", en: "Those flowers are beautiful." , th: "ดอกไม้เหล่านั้นสวย"},
             ]
           },
           exercises: [
@@ -1905,12 +1905,12 @@ const COURSE_DATA = {
             {
               situation: "Job interview — สัมภาษณ์งาน",
               lines: [
-                { speaker: "Interviewer", nl: "Wat is uw beroep?", en: "What is your profession?" },
-                { speaker: "You", nl: "Ik ben administratief medewerker.", en: "I am an administrative worker." },
-                { speaker: "Interviewer", nl: "Heeft u ervaring?", en: "Do you have experience?" },
-                { speaker: "You", nl: "Ja, vijf jaar ervaring en een diploma.", en: "Yes, five years experience and a diploma." },
-                { speaker: "Interviewer", nl: "Wilt u fulltime of parttime werken?", en: "Do you want to work full-time or part-time?" },
-                { speaker: "You", nl: "Parttime, vier dagen per week.", en: "Part-time, four days a week." },
+                { speaker: "Interviewer", nl: "Wat is uw beroep?", en: "What is your profession?" , th: 'อาชีพของคุณคืออะไร?'},
+                { speaker: "You", nl: "Ik ben administratief medewerker.", en: "I am an administrative worker." , th: 'ฉันเป็นพนักงานธุรการ'},
+                { speaker: "Interviewer", nl: "Heeft u ervaring?", en: "Do you have experience?" , th: 'คุณมีประสบการณ์ไหม?'},
+                { speaker: "You", nl: "Ja, vijf jaar ervaring en een diploma.", en: "Yes, five years experience and a diploma." , th: 'ค่ะ ประสบการณ์ห้าปีและมีประกาศนียบัตร'},
+                { speaker: "Interviewer", nl: "Wilt u fulltime of parttime werken?", en: "Do you want to work full-time or part-time?" , th: 'คุณต้องการทำงานเต็มเวลาหรือพาร์ทไทม์?'},
+                { speaker: "You", nl: "Parttime, vier dagen per week.", en: "Part-time, four days a week." , th: 'พาร์ทไทม์ สัปดาห์ละสี่วัน'},
               ]
             }
           ],
@@ -1918,10 +1918,10 @@ const COURSE_DATA = {
             title: "Formal 'u' vs Informal 'jij' at Work",
             explanation: "At work use <strong>u</strong> with bosses/clients: 'Wat is <strong>uw</strong> beroep?'. Use <strong>jij/je</strong> with colleagues: 'Zeg maar je'. Dutch switch to informal quickly!<br><br>🇹🇭 ในที่ทำงาน: ใช้ u กับเจ้านาย/ลูกค้า ใช้ jij กับเพื่อนร่วมงาน",
             examples: [
-              { nl: "Wat is uw naam? (formal)", en: "What is your name?" },
-              { nl: "Hoe heet jij? (informal)", en: "What's your name?" },
-              { nl: "Kunt u dat uitleggen?", en: "Can you explain that?" },
-              { nl: "Zeg maar jij, hoor!", en: "Just use 'jij', no need for formality!" },
+              { nl: "Wat is uw naam? (formal)", en: "What is your name?" , th: "ชื่ออะไรคะ? (ทางการ)"},
+              { nl: "Hoe heet jij? (informal)", en: "What's your name?" , th: "ชื่ออะไร? (ไม่เป็นทางการ)"},
+              { nl: "Kunt u dat uitleggen?", en: "Can you explain that?" , th: "ช่วยอธิบายได้ไหมคะ?"},
+              { nl: "Zeg maar jij, hoor!", en: "Just use 'jij', no need for formality!", th: "เรียกเธอได้เลยนะ ไม่ต้องเป็นทางการ!" },
             ]
           },
           exercises: [
@@ -1964,12 +1964,12 @@ const COURSE_DATA = {
             {
               situation: "Learning about the Netherlands — เรียนรู้เกี่ยวกับเนเธอร์แลนด์",
               lines: [
-                { speaker: "Friend", nl: "Ken je Nederland een beetje?", en: "Do you know the Netherlands a bit?" },
-                { speaker: "You", nl: "Ja, Amsterdam is de hoofdstad.", en: "Yes, Amsterdam is the capital." },
-                { speaker: "Friend", nl: "Klopt! Maar de regering zit in Den Haag.", en: "Correct! But the government is in The Hague." },
-                { speaker: "You", nl: "Is het waar dat Nederland heel flat is?", en: "Is it true that the Netherlands is very flat?" },
-                { speaker: "Friend", nl: "Ja! Veel land ligt beneden zeeniveau. Daarom hebben we dijken.", en: "Yes! Much land is below sea level. That's why we have dikes." },
-                { speaker: "You", nl: "En overal fietspaden en molens!", en: "And bike paths and windmills everywhere!" },
+                { speaker: "Friend", nl: "Ken je Nederland een beetje?", en: "Do you know the Netherlands a bit?" , th: 'คุณรู้จักเนเธอร์แลนด์บ้างไหม?'},
+                { speaker: "You", nl: "Ja, Amsterdam is de hoofdstad.", en: "Yes, Amsterdam is the capital." , th: 'ค่ะ อัมสเตอร์ดัมเป็นเมืองหลวง'},
+                { speaker: "Friend", nl: "Klopt! Maar de regering zit in Den Haag.", en: "Correct! But the government is in The Hague." , th: 'ถูก! แต่รัฐบาลอยู่ที่กรุงเฮก'},
+                { speaker: "You", nl: "Is het waar dat Nederland heel flat is?", en: "Is it true that the Netherlands is very flat?" , th: 'จริงไหมที่เนเธอร์แลนด์แบนราบมาก?'},
+                { speaker: "Friend", nl: "Ja! Veel land ligt beneden zeeniveau. Daarom hebben we dijken.", en: "Yes! Much land is below sea level. That's why we have dikes." , th: 'ใช่! พื้นดินส่วนมากอยู่ต่ำกว่าระดับน้ำทะเล เลยต้องมีเขื่อน'},
+                { speaker: "You", nl: "En overal fietspaden en molens!", en: "And bike paths and windmills everywhere!" , th: 'แล้วก็ทางจักรยานกับกังหันลมอยู่ทั่ว!'},
               ]
             }
           ],
@@ -1977,10 +1977,10 @@ const COURSE_DATA = {
             title: "Er is / Er zijn (There is / There are)",
             explanation: "'<strong>Er is</strong>' = there is (singular). '<strong>Er zijn</strong>' = there are (plural). Questions: '<strong>Is er</strong> een museum?' = Is there a museum?<br><br>🇹🇭 er is = มี (เอกพจน์), er zijn = มี (พหูพจน์). คำถาม: Is er...? = มี...ไหม?",
             examples: [
-              { nl: "Er is een markt op zaterdag.", en: "There is a market on Saturday." },
-              { nl: "Er zijn twaalf provincies.", en: "There are twelve provinces." },
-              { nl: "Is er een museum in de buurt?", en: "Is there a museum nearby?" },
-              { nl: "Er zijn veel fietspaden in Nederland.", en: "There are many bike paths in NL." },
+              { nl: "Er is een markt op zaterdag.", en: "There is a market on Saturday." , th: "วันเสาร์มีตลาด"},
+              { nl: "Er zijn twaalf provincies.", en: "There are twelve provinces." , th: "มี 12 จังหวัด"},
+              { nl: "Is er een museum in de buurt?", en: "Is there a museum nearby?" , th: "แถวนี้มีพิพิธภัณฑ์ไหม?"},
+              { nl: "Er zijn veel fietspaden in Nederland.", en: "There are many bike paths in NL." , th: "ในเนเธอร์แลนด์มีทางจักรยานเยอะ"},
             ]
           },
           exercises: [
@@ -2024,12 +2024,12 @@ const COURSE_DATA = {
             {
               situation: "Learning Dutch customs — เรียนรู้ธรรมเนียมดัตช์",
               lines: [
-                { speaker: "Teacher", nl: "In Nederland is 'op tijd' heel belangrijk.", en: "In the Netherlands, being on time is very important." },
-                { speaker: "You", nl: "Ja, alles begint precies op tijd!", en: "Yes, everything starts exactly on time!" },
-                { speaker: "Teacher", nl: "Nederlanders zijn ook heel direct. Dat is niet onbeleefd.", en: "Dutch people are also very direct. That is not impolite." },
-                { speaker: "You", nl: "En bij een verjaardag? Wat moet ik doen?", en: "And at a birthday? What should I do?" },
-                { speaker: "Teacher", nl: "Feliciteer iedereen! Niet alleen de jarige.", en: "Congratulate everyone! Not just the birthday person." },
-                { speaker: "You", nl: "Dat is anders dan in Thailand!", en: "That's different from Thailand!" },
+                { speaker: "Teacher", nl: "In Nederland is 'op tijd' heel belangrijk.", en: "In the Netherlands, being on time is very important." , th: "ในเนเธอร์แลนด์ 'ตรงเวลา' สำคัญมาก"},
+                { speaker: "You", nl: "Ja, alles begint precies op tijd!", en: "Yes, everything starts exactly on time!" , th: "ใช่ ทุกอย่างเริ่มตรงเวลาเป๊ะ!"},
+                { speaker: "Teacher", nl: "Nederlanders zijn ook heel direct. Dat is niet onbeleefd.", en: "Dutch people are also very direct. That is not impolite." , th: "คนดัตช์พูดตรงๆ ด้วย นั่นไม่ใช่ความไม่สุภาพ"},
+                { speaker: "You", nl: "En bij een verjaardag? Wat moet ik doen?", en: "And at a birthday? What should I do?" , th: "แล้วงานวันเกิดล่ะ? ต้องทำอะไรบ้าง?"},
+                { speaker: "Teacher", nl: "Feliciteer iedereen! Niet alleen de jarige.", en: "Congratulate everyone! Not just the birthday person." , th: "อวยพรทุกคน! ไม่ใช่แค่เจ้าของวันเกิด"},
+                { speaker: "You", nl: "Dat is anders dan in Thailand!", en: "That's different from Thailand!" , th: "ต่างจากประเทศไทยเลยนะ!"},
               ]
             }
           ],
@@ -2037,10 +2037,10 @@ const COURSE_DATA = {
             title: "Moeten, Mogen, Niet mogen (Must, May, May not)",
             explanation: "Rules: <strong>moeten</strong> (must), <strong>mogen</strong> (may/allowed), <strong>niet mogen</strong> (forbidden). 'Je <strong>moet</strong> op tijd komen'. 'Je <strong>mag niet</strong> roken'.<br><br>🇹🇭 กฎ: moeten = ต้อง, mogen = ได้รับอนุญาต, niet mogen = ห้าม",
             examples: [
-              { nl: "Je moet op tijd komen.", en: "You must come on time." },
-              { nl: "Hier mag je niet roken.", en: "You may not smoke here." },
-              { nl: "Kinderen moeten naar school.", en: "Children must go to school." },
-              { nl: "Mag ik hier zitten?", en: "May I sit here?" },
+              { nl: "Je moet op tijd komen.", en: "You must come on time." , th: "คุณต้องมาตรงเวลา"},
+              { nl: "Hier mag je niet roken.", en: "You may not smoke here." , th: "ที่นี่ห้ามสูบบุหรี่"},
+              { nl: "Kinderen moeten naar school.", en: "Children must go to school." , th: "เด็กๆ ต้องไปโรงเรียน"},
+              { nl: "Mag ik hier zitten?", en: "May I sit here?" , th: "นั่งที่นี่ได้ไหม?"},
             ]
           },
           exercises: [
@@ -2087,14 +2087,14 @@ const COURSE_DATA = {
             {
               situation: "Saying goodbye before leaving for the Netherlands — อำลาก่อนไปเนเธอร์แลนด์",
               lines: [
-                { speaker: "Friend", nl: "Dus je gaat echt naar Nederland!", en: "So you're really going to the Netherlands!" },
-                { speaker: "You", nl: "Ja! Ik ben klaar. Een nieuw avontuur!", en: "Yes! I'm ready. A new adventure!" },
-                { speaker: "Friend", nl: "Ik ben trots op je. Je hebt zo hard gewerkt.", en: "I'm proud of you. You've worked so hard." },
-                { speaker: "You", nl: "Bedankt voor alles. Ik ga je missen.", en: "Thanks for everything. I will miss you." },
-                { speaker: "Friend", nl: "Vergeet me niet! Blijf in contact.", en: "Don't forget me! Stay in touch." },
-                { speaker: "You", nl: "Natuurlijk! Ik kom zeker terug.", en: "Of course! I will definitely come back." },
-                { speaker: "Friend", nl: "Goede reis en veel succes met de inburgering!", en: "Have a good trip and good luck with the integration!" },
-                { speaker: "You", nl: "Dank je wel! Tot snel!", en: "Thank you! See you soon!" },
+                { speaker: "Friend", nl: "Dus je gaat echt naar Nederland!", en: "So you're really going to the Netherlands!" , th: "จะไปเนเธอร์แลนด์จริงๆ เลยนะ!"},
+                { speaker: "You", nl: "Ja! Ik ben klaar. Een nieuw avontuur!", en: "Yes! I'm ready. A new adventure!" , th: "ใช่! พร้อมแล้ว การผจญภัยใหม่!"},
+                { speaker: "Friend", nl: "Ik ben trots op je. Je hebt zo hard gewerkt.", en: "I'm proud of you. You've worked so hard." , th: "ภูมิใจในตัวเธอ เธอทำงานหนักมาก"},
+                { speaker: "You", nl: "Bedankt voor alles. Ik ga je missen.", en: "Thanks for everything. I will miss you." , th: "ขอบคุณสำหรับทุกอย่าง ฉันจะคิดถึงนะ"},
+                { speaker: "Friend", nl: "Vergeet me niet! Blijf in contact.", en: "Don't forget me! Stay in touch." , th: "อย่าลืมนะ! ติดต่อกันด้วย"},
+                { speaker: "You", nl: "Natuurlijk! Ik kom zeker terug.", en: "Of course! I will definitely come back." , th: "แน่นอน! ฉันจะกลับมาแน่ๆ"},
+                { speaker: "Friend", nl: "Goede reis en veel succes met de inburgering!", en: "Have a good trip and good luck with the integration!" , th: "เดินทางปลอดภัย โชคดีกับการ Inburgering!"},
+                { speaker: "You", nl: "Dank je wel! Tot snel!", en: "Thank you! See you soon!" , th: "ขอบคุณ! แล้วเจอกัน!"},
               ]
             }
           ],
@@ -2102,10 +2102,10 @@ const COURSE_DATA = {
             title: "Ways to Say Goodbye in Dutch",
             explanation: "Dutch has many goodbye expressions: <strong>Tot ziens</strong> (formal goodbye), <strong>Doei/Dag</strong> (informal bye), <strong>Tot snel/straks/morgen</strong> (see you soon/later/tomorrow). With 'tot' + time: 'Tot volgende week!'. Wishes: '<strong>Het beste!</strong>' (all the best), '<strong>Goede reis!</strong>' (good trip), '<strong>Veel succes!</strong>' (good luck).<br><br>🇹🇭 วิธีกล่าวลา: Tot ziens (ทางการ), Doei (ไม่ทางการ), Tot snel (เจอกันเร็วๆ), Het beste (ขอให้โชคดี)",
             examples: [
-              { nl: "Tot ziens, mevrouw!", en: "Goodbye, ma'am!" },
-              { nl: "Doei! Tot morgen!", en: "Bye! See you tomorrow!" },
-              { nl: "Het beste en veel succes!", en: "All the best and much success!" },
-              { nl: "Goede reis! Pas goed op jezelf!", en: "Good trip! Take good care of yourself!" },
+              { nl: "Tot ziens, mevrouw!", en: "Goodbye, ma'am!" , th: "ลาก่อนค่ะ!"},
+              { nl: "Doei! Tot morgen!", en: "Bye! See you tomorrow!" , th: "บ๊ายบาย! เจอกันพรุ่งนี้!"},
+              { nl: "Het beste en veel succes!", en: "All the best and much success!" , th: "ขอให้ดีที่สุดและโชคดี!"},
+              { nl: "Goede reis! Pas goed op jezelf!", en: "Good trip! Take good care of yourself!" , th: "เดินทางปลอดภัย! ดูแลตัวเองด้วย!"},
             ]
           },
           exercises: [
@@ -2149,14 +2149,14 @@ const COURSE_DATA = {
             {
               situation: "KNS exam practice — ฝึกสอบ KNS",
               lines: [
-                { speaker: "Teacher", nl: "Wat is de hoofdstad van Nederland?", en: "What is the capital of the Netherlands?" },
-                { speaker: "You", nl: "Amsterdam is de hoofdstad.", en: "Amsterdam is the capital." },
-                { speaker: "Teacher", nl: "Waar zit de regering?", en: "Where is the government?" },
-                { speaker: "You", nl: "De regering zit in Den Haag.", en: "The government is in The Hague." },
-                { speaker: "Teacher", nl: "Hoeveel provincies heeft Nederland?", en: "How many provinces does the Netherlands have?" },
-                { speaker: "You", nl: "Nederland heeft twaalf provincies.", en: "The Netherlands has twelve provinces." },
-                { speaker: "Teacher", nl: "Welke landen liggen naast Nederland?", en: "Which countries are next to the Netherlands?" },
-                { speaker: "You", nl: "Duitsland en België.", en: "Germany and Belgium." },
+                { speaker: "Teacher", nl: "Wat is de hoofdstad van Nederland?", en: "What is the capital of the Netherlands?" , th: "เมืองหลวงของเนเธอร์แลนด์คืออะไร?"},
+                { speaker: "You", nl: "Amsterdam is de hoofdstad.", en: "Amsterdam is the capital." , th: "อัมสเตอร์ดัมเป็นเมืองหลวง"},
+                { speaker: "Teacher", nl: "Waar zit de regering?", en: "Where is the government?" , th: "รัฐบาลอยู่ที่ไหน?"},
+                { speaker: "You", nl: "De regering zit in Den Haag.", en: "The government is in The Hague." , th: "รัฐบาลอยู่ที่กรุงเฮก"},
+                { speaker: "Teacher", nl: "Hoeveel provincies heeft Nederland?", en: "How many provinces does the Netherlands have?" , th: "เนเธอร์แลนด์มีกี่จังหวัด?"},
+                { speaker: "You", nl: "Nederland heeft twaalf provincies.", en: "The Netherlands has twelve provinces." , th: "เนเธอร์แลนด์มี 12 จังหวัด"},
+                { speaker: "Teacher", nl: "Welke landen liggen naast Nederland?", en: "Which countries are next to the Netherlands?" , th: "ประเทศไหนอยู่ติดกับเนเธอร์แลนด์?"},
+                { speaker: "You", nl: "Duitsland en België.", en: "Germany and Belgium." , th: "เยอรมนีและเบลเยียม"},
               ]
             }
           ],
@@ -2164,10 +2164,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Geografie & Wonen",
             explanation: "📌 <strong>Amsterdam</strong> = hoofdstad (capital). <strong>Den Haag</strong> = seat of government. <strong>12 provincies</strong>. ~<strong>18 miljoen</strong> inwoners. Neighbors: <strong>Duitsland</strong> (east) & <strong>België</strong> (south). <strong>Noordzee</strong> to the west. Much land is <strong>below sea level</strong> — protected by <strong>dijken</strong>. Transport: <strong>OV-chipkaart</strong> for bus/train/tram. Housing: <strong>huurwoning</strong> (rent) or <strong>koopwoning</strong> (buy).<br><br>🇹🇭 ข้อเท็จจริง: อัมสเตอร์ดัม = เมืองหลวง, เดอะเฮก = ที่ตั้งรัฐบาล, 12 จังหวัด, ประชากร ~18 ล้านคน, ใช้ OV-chipkaart สำหรับรถสาธารณะ",
             examples: [
-              { nl: "Amsterdam is de hoofdstad van Nederland.", en: "Amsterdam is the capital of the Netherlands." },
-              { nl: "De Randstad is het drukste gebied.", en: "The Randstad is the busiest area." },
-              { nl: "Je hebt een OV-chipkaart nodig.", en: "You need an OV-chipkaart." },
-              { nl: "Nederland ligt aan de Noordzee.", en: "The Netherlands is on the North Sea." },
+              { nl: "Amsterdam is de hoofdstad van Nederland.", en: "Amsterdam is the capital of the Netherlands." , th: "อัมสเตอร์ดัมเป็นเมืองหลวง"},
+              { nl: "De Randstad is het drukste gebied.", en: "The Randstad is the busiest area." , th: "Randstad เป็นพื้นที่คึกคักที่สุด"},
+              { nl: "Je hebt een OV-chipkaart nodig.", en: "You need an OV-chipkaart." , th: "ต้องมีบัตร OV-chipkaart"},
+              { nl: "Nederland ligt aan de Noordzee.", en: "The Netherlands is on the North Sea." , th: "เนเธอร์แลนด์อยู่ริมทะเลเหนือ"},
             ]
           },
           exercises: [
@@ -2209,14 +2209,14 @@ const COURSE_DATA = {
             {
               situation: "Dutch history quiz — ตอบคำถามประวัติศาสตร์ดัตช์",
               lines: [
-                { speaker: "Teacher", nl: "Wanneer is Koningsdag?", en: "When is King's Day?" },
-                { speaker: "You", nl: "Op 27 april.", en: "On April 27th." },
-                { speaker: "Teacher", nl: "Wat was de Gouden Eeuw?", en: "What was the Golden Age?" },
-                { speaker: "You", nl: "De zeventiende eeuw. Nederland was heel rijk.", en: "The seventeenth century. The Netherlands was very rich." },
-                { speaker: "Teacher", nl: "Wat herdenken we op 4 mei?", en: "What do we commemorate on May 4th?" },
-                { speaker: "You", nl: "De slachtoffers van de Tweede Wereldoorlog.", en: "The victims of World War II." },
-                { speaker: "Teacher", nl: "En 5 mei?", en: "And May 5th?" },
-                { speaker: "You", nl: "Bevrijdingsdag! Het einde van de oorlog.", en: "Liberation Day! The end of the war." },
+                { speaker: "Teacher", nl: "Wanneer is Koningsdag?", en: "When is King's Day?" , th: 'วันกษัตริย์คือเมื่อไหร่?'},
+                { speaker: "You", nl: "Op 27 april.", en: "On April 27th." , th: 'วันที่ 27 เมษายน'},
+                { speaker: "Teacher", nl: "Wat was de Gouden Eeuw?", en: "What was the Golden Age?" , th: 'ยุคทองคืออะไร?'},
+                { speaker: "You", nl: "De zeventiende eeuw. Nederland was heel rijk.", en: "The seventeenth century. The Netherlands was very rich." , th: 'ศตวรรษที่ 17 เนเธอร์แลนด์ร่ำรวยมาก'},
+                { speaker: "Teacher", nl: "Wat herdenken we op 4 mei?", en: "What do we commemorate on May 4th?" , th: 'เราระลึกอะไรในวันที่ 4 พฤษภาคม?'},
+                { speaker: "You", nl: "De slachtoffers van de Tweede Wereldoorlog.", en: "The victims of World War II." , th: 'ผู้เสียชีวิตจากสงครามโลกครั้งที่สอง'},
+                { speaker: "Teacher", nl: "En 5 mei?", en: "And May 5th?" , th: 'แล้ว 5 พฤษภาคม?'},
+                { speaker: "You", nl: "Bevrijdingsdag! Het einde van de oorlog.", en: "Liberation Day! The end of the war." , th: 'วันปลดปล่อย! จุดสิ้นสุดสงคราม'},
               ]
             }
           ],
@@ -2224,10 +2224,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Geschiedenis",
             explanation: "📌 <strong>Gouden Eeuw</strong> = 17th century (trade, art, Rembrandt, VOC). <strong>Willem van Oranje</strong> = father of the nation. <strong>WWII</strong>: 1940-1945 German occupation. <strong>4 mei</strong> = Dodenherdenking (remembrance). <strong>5 mei</strong> = Bevrijdingsdag (liberation). <strong>Koningsdag</strong> = 27 april (national holiday, wear orange!). <strong>Anne Frank</strong> = Jewish girl who wrote famous diary during WWII.<br><br>🇹🇭 ข้อเท็จจริง: ยุคทอง = ศตวรรษที่ 17, 4 พ.ค. = วันรำลึก, 5 พ.ค. = วันปลดปล่อย, 27 เม.ย. = วันกษัตริย์",
             examples: [
-              { nl: "Koningsdag is op 27 april.", en: "King's Day is on April 27th." },
-              { nl: "Op 4 mei herdenken we de oorlog.", en: "On May 4th we remember the war." },
-              { nl: "De VOC was het eerste multinationale bedrijf.", en: "The VOC was the first multinational company." },
-              { nl: "De nationale kleur is oranje.", en: "The national color is orange." },
+              { nl: "Koningsdag is op 27 april.", en: "King's Day is on April 27th." , th: "วันกษัตริย์ 27 เม.ย."},
+              { nl: "Op 4 mei herdenken we de oorlog.", en: "On May 4th we remember the war." , th: "4 พ.ค. ระลึกถึงสงคราม"},
+              { nl: "De VOC was het eerste multinationale bedrijf.", en: "The VOC was the first multinational company." , th: "VOC เป็นบริษัทข้ามชาติแห่งแรก"},
+              { nl: "De nationale kleur is oranje.", en: "The national color is orange." , th: "สีประจำชาติคือสีส้ม"},
             ]
           },
           exercises: [
@@ -2269,14 +2269,14 @@ const COURSE_DATA = {
             {
               situation: "Learning about Dutch government — เรียนรู้รัฐบาลดัตช์",
               lines: [
-                { speaker: "Teacher", nl: "Wie is het staatshoofd van Nederland?", en: "Who is the head of state of the Netherlands?" },
-                { speaker: "You", nl: "De koning, Willem-Alexander.", en: "The king, Willem-Alexander." },
-                { speaker: "Teacher", nl: "En wie bestuurt het land?", en: "And who runs the country?" },
-                { speaker: "You", nl: "De minister-president en de ministers.", en: "The prime minister and the ministers." },
-                { speaker: "Teacher", nl: "Wanneer mag je stemmen?", en: "When may you vote?" },
-                { speaker: "You", nl: "Als je achttien jaar bent en Nederlander.", en: "When you are eighteen and Dutch." },
-                { speaker: "Teacher", nl: "Goed! Wat zegt de grondwet over discriminatie?", en: "Good! What does the constitution say about discrimination?" },
-                { speaker: "You", nl: "Discriminatie is verboden. Iedereen is gelijk.", en: "Discrimination is forbidden. Everyone is equal." },
+                { speaker: "Teacher", nl: "Wie is het staatshoofd van Nederland?", en: "Who is the head of state of the Netherlands?" , th: 'ประมุขของเนเธอร์แลนด์คือใคร?'},
+                { speaker: "You", nl: "De koning, Willem-Alexander.", en: "The king, Willem-Alexander." , th: 'พระมหากษัตริย์ วิลเลม-อเล็กซานเดอร์'},
+                { speaker: "Teacher", nl: "En wie bestuurt het land?", en: "And who runs the country?" , th: 'แล้วใครบริหารประเทศ?'},
+                { speaker: "You", nl: "De minister-president en de ministers.", en: "The prime minister and the ministers." , th: 'นายกรัฐมนตรีและรัฐมนตรี'},
+                { speaker: "Teacher", nl: "Wanneer mag je stemmen?", en: "When may you vote?" , th: 'เมื่อไหร่ถึงจะลงคะแนนเสียงได้?'},
+                { speaker: "You", nl: "Als je achttien jaar bent en Nederlander.", en: "When you are eighteen and Dutch." , th: 'เมื่ออายุ 18 ปีและเป็นชาวดัตช์'},
+                { speaker: "Teacher", nl: "Goed! Wat zegt de grondwet over discriminatie?", en: "Good! What does the constitution say about discrimination?" , th: 'ดี! รัฐธรรมนูญว่าอย่างไรเรื่องการเลือกปฏิบัติ?'},
+                { speaker: "You", nl: "Discriminatie is verboden. Iedereen is gelijk.", en: "Discrimination is forbidden. Everyone is equal." , th: 'การเลือกปฏิบัติเป็นสิ่งต้องห้าม ทุกคนเท่าเทียมกัน'},
               ]
             }
           ],
@@ -2284,10 +2284,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Staatsinrichting",
             explanation: "📌 Head of state: <strong>Koning Willem-Alexander</strong>. Head of government: <strong>minister-president</strong>. Parliament: <strong>Tweede Kamer</strong> (150 elected) + <strong>Eerste Kamer</strong> (75, Senate). Voting: from age <strong>18</strong>. <strong>Grondwet</strong> (constitution) guarantees: freedom of speech, religion, equality. <strong>Discriminatie is verboden</strong>. Local government: <strong>gemeente</strong> led by <strong>burgemeester</strong>.<br><br>🇹🇭 ประมุข: กษัตริย์วิลเลม-อเล็กซานเดอร์ หัวหน้ารัฐบาล: นายกรัฐมนตรี ลงคะแนนได้ตั้งแต่อายุ 18 ปี",
             examples: [
-              { nl: "De koning is het staatshoofd.", en: "The king is the head of state." },
-              { nl: "Je mag stemmen vanaf 18 jaar.", en: "You may vote from age 18." },
-              { nl: "Discriminatie is verboden.", en: "Discrimination is forbidden." },
-              { nl: "De Tweede Kamer heeft 150 leden.", en: "The House of Representatives has 150 members." },
+              { nl: "De koning is het staatshoofd.", en: "The king is the head of state." , th: "พระมหากษัตริย์เป็นประมุข"},
+              { nl: "Je mag stemmen vanaf 18 jaar.", en: "You may vote from age 18." , th: "ลงคะแนนได้ตั้งแต่ 18 ปี"},
+              { nl: "Discriminatie is verboden.", en: "Discrimination is forbidden." , th: "การเลือกปฏิบัติเป็นสิ่งต้องห้าม"},
+              { nl: "De Tweede Kamer heeft 150 leden.", en: "The House of Representatives has 150 members." , th: "สภาผู้แทนฯ มี 150 สมาชิก"},
             ]
           },
           exercises: [
@@ -2327,13 +2327,13 @@ const COURSE_DATA = {
             {
               situation: "About Dutch language requirements — เกี่ยวกับข้อกำหนดด้านภาษา",
               lines: [
-                { speaker: "Officer", nl: "Spreekt u Nederlands?", en: "Do you speak Dutch?" },
-                { speaker: "You", nl: "Een beetje. Ik leer Nederlands voor de inburgering.", en: "A little. I'm learning Dutch for civic integration." },
-                { speaker: "Officer", nl: "Het basisexamen doet u in Thailand, bij de ambassade.", en: "You take the basic exam in Thailand, at the embassy." },
-                { speaker: "You", nl: "Ja, ik oefen met een taalcursus.", en: "Yes, I practice with a language course." },
-                { speaker: "Officer", nl: "Nederlands is de officiële taal. In Friesland spreken ze ook Fries.", en: "Dutch is the official language. In Friesland they also speak Frisian." },
-                { speaker: "You", nl: "Zijn er veel dialecten?", en: "Are there many dialects?" },
-                { speaker: "Officer", nl: "Ja! Maar het ABN begrijpt iedereen.", en: "Yes! But everyone understands Standard Dutch." },
+                { speaker: "Officer", nl: "Spreekt u Nederlands?", en: "Do you speak Dutch?" , th: 'คุณพูดภาษาดัตช์ได้ไหม?'},
+                { speaker: "You", nl: "Een beetje. Ik leer Nederlands voor de inburgering.", en: "A little. I'm learning Dutch for civic integration." , th: 'นิดหน่อย ฉันเรียนภาษาดัตช์เพื่อ Inburgering'},
+                { speaker: "Officer", nl: "Het basisexamen doet u in Thailand, bij de ambassade.", en: "You take the basic exam in Thailand, at the embassy." , th: 'สอบเบื้องต้นที่ประเทศไทย ที่สถานทูต'},
+                { speaker: "You", nl: "Ja, ik oefen met een taalcursus.", en: "Yes, I practice with a language course." , th: 'ค่ะ ฉันฝึกด้วยคอร์สเรียนภาษา'},
+                { speaker: "Officer", nl: "Nederlands is de officiële taal. In Friesland spreken ze ook Fries.", en: "Dutch is the official language. In Friesland they also speak Frisian." , th: 'ภาษาดัตช์เป็นภาษาทางการ ในฟรีสแลนด์พูดภาษาฟรีเซียนด้วย'},
+                { speaker: "You", nl: "Zijn er veel dialecten?", en: "Are there many dialects?" , th: 'มีสำเนียงถิ่นเยอะไหม?'},
+                { speaker: "Officer", nl: "Ja! Maar het ABN begrijpt iedereen.", en: "Yes! But everyone understands Standard Dutch." , th: 'เยอะ! แต่ทุกคนเข้าใจภาษาดัตช์มาตรฐาน (ABN)'},
               ]
             }
           ],
@@ -2341,10 +2341,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Nederlandse Taal",
             explanation: "📌 Official language: <strong>Nederlands</strong>. Second official: <strong>Fries</strong> (in Friesland). Standard Dutch = <strong>ABN</strong> (Algemeen Beschaafd Nederlands). Many <strong>dialecten</strong> exist (Limburgs, Brabants, etc.). Dutch also spoken in <strong>België</strong> (Vlaams/Flemish) & <strong>Suriname</strong>. <strong>Inburgering</strong> = civic integration — required for immigrants. <strong>Basisexamen</strong> taken at Dutch embassy before coming to NL.<br><br>🇹🇭 ภาษาทางการ: Nederlands, ภาษาที่สอง: Fries ในฟรีสแลนด์ สอบ Basisexamen ที่สถานทูต",
             examples: [
-              { nl: "Nederlands is de officiële taal.", en: "Dutch is the official language." },
-              { nl: "In Friesland spreken ze ook Fries.", en: "In Friesland they also speak Frisian." },
-              { nl: "Het basisexamen doe je bij de ambassade.", en: "You take the basic exam at the embassy." },
-              { nl: "ABN is Standaardnederlands.", en: "ABN is Standard Dutch." },
+              { nl: "Nederlands is de officiële taal.", en: "Dutch is the official language." , th: "ภาษาดัตช์เป็นภาษาทางการ"},
+              { nl: "In Friesland spreken ze ook Fries.", en: "In Friesland they also speak Frisian." , th: "ในฟรีสแลนด์พูดภาษาฟรีเซียนด้วย"},
+              { nl: "Het basisexamen doe je bij de ambassade.", en: "You take the basic exam at the embassy." , th: "สอบเบื้องต้นที่สถานทูต"},
+              { nl: "ABN is Standaardnederlands.", en: "ABN is Standard Dutch." , th: "ABN คือภาษาดัตช์มาตรฐาน"},
             ]
           },
           exercises: [
@@ -2385,12 +2385,12 @@ const COURSE_DATA = {
             {
               situation: "Enrolling child in school — ลงทะเบียนลูกเข้าโรงเรียน",
               lines: [
-                { speaker: "You", nl: "Mijn kind is vier jaar. Kan hij naar school?", en: "My child is four years old. Can he go to school?" },
-                { speaker: "School", nl: "Ja! Kinderen beginnen in groep 1 van de basisschool.", en: "Yes! Children start in group 1 of primary school." },
-                { speaker: "You", nl: "Is de school gratis?", en: "Is school free?" },
-                { speaker: "School", nl: "Ja, de basisschool is gratis. U betaalt alleen voor schoolreisjes.", en: "Yes, primary school is free. You only pay for school trips." },
-                { speaker: "You", nl: "En hoe lang is de leerplicht?", en: "And how long is compulsory education?" },
-                { speaker: "School", nl: "Van vijf tot achttien jaar.", en: "From five to eighteen years." },
+                { speaker: "You", nl: "Mijn kind is vier jaar. Kan hij naar school?", en: "My child is four years old. Can he go to school?" , th: 'ลูกฉันอายุสี่ขวบ ไปโรงเรียนได้ไหม?'},
+                { speaker: "School", nl: "Ja! Kinderen beginnen in groep 1 van de basisschool.", en: "Yes! Children start in group 1 of primary school." , th: 'ได้ค่ะ! เด็กๆ เริ่มในกลุ่ม 1 ของโรงเรียนประถม'},
+                { speaker: "You", nl: "Is de school gratis?", en: "Is school free?" , th: 'โรงเรียนฟรีไหม?'},
+                { speaker: "School", nl: "Ja, de basisschool is gratis. U betaalt alleen voor schoolreisjes.", en: "Yes, primary school is free. You only pay for school trips." , th: 'ค่ะ ประถมฟรี จ่ายแค่ค่าทัศนศึกษา'},
+                { speaker: "You", nl: "En hoe lang is de leerplicht?", en: "And how long is compulsory education?" , th: 'แล้วการศึกษาภาคบังคับนานเท่าไหร่?'},
+                { speaker: "School", nl: "Van vijf tot achttien jaar.", en: "From five to eighteen years." , th: 'ตั้งแต่อายุห้าถึงสิบแปดปี'},
               ]
             }
           ],
@@ -2398,10 +2398,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Onderwijs",
             explanation: "📌 <strong>Leerplicht</strong>: ages 5-18. <strong>Basisschool</strong>: ages 4-12 (groep 1-8), FREE. <strong>Middelbare school</strong>: 3 levels — <strong>VMBO</strong> (4yr), <strong>HAVO</strong> (5yr), <strong>VWO</strong> (6yr → university). <strong>Opvang/Kinderopvang</strong> for younger children. Parents attend <strong>ouderavond</strong> at school. Children get <strong>rapport</strong> (report card).<br><br>🇹🇭 การศึกษาภาคบังคับ: อายุ 5-18 ปี ประถม: อายุ 4-12 (ฟรี!) มัธยม: VMBO/HAVO/VWO",
             examples: [
-              { nl: "De leerplicht begint op vijf jaar.", en: "Compulsory education starts at age five." },
-              { nl: "De basisschool is gratis.", en: "Primary school is free." },
-              { nl: "Na de basisschool ga je naar de middelbare school.", en: "After primary you go to secondary school." },
-              { nl: "VWO is de voorbereiding op de universiteit.", en: "VWO is preparation for university." },
+              { nl: "De leerplicht begint op vijf jaar.", en: "Compulsory education starts at age five." , th: "ภาคบังคับเริ่มอายุ 5 ปี"},
+              { nl: "De basisschool is gratis.", en: "Primary school is free." , th: "ประถมฟรี"},
+              { nl: "Na de basisschool ga je naar de middelbare school.", en: "After primary you go to secondary school." , th: "หลังประถมไปมัธยม"},
+              { nl: "VWO is de voorbereiding op de universiteit.", en: "VWO is preparation for university." , th: "VWO เตรียมเข้ามหาวิทยาลัย"},
             ]
           },
           exercises: [
@@ -2442,13 +2442,13 @@ const COURSE_DATA = {
             {
               situation: "Registering with a GP — ลงทะเบียนกับหมอประจำตัว",
               lines: [
-                { speaker: "Receptionist", nl: "Welkom. Wilt u zich inschrijven bij de huisarts?", en: "Welcome. Would you like to register with the GP?" },
-                { speaker: "You", nl: "Ja, ik ben nieuw in de buurt.", en: "Yes, I am new in the neighborhood." },
-                { speaker: "Receptionist", nl: "Heeft u een zorgverzekering?", en: "Do you have health insurance?" },
-                { speaker: "You", nl: "Ja, die is verplicht toch?", en: "Yes, it's mandatory right?" },
-                { speaker: "Receptionist", nl: "Klopt! Als u een specialist nodig heeft, krijgt u een verwijzing.", en: "Correct! If you need a specialist, you'll get a referral." },
-                { speaker: "You", nl: "En voor noodgevallen?", en: "And for emergencies?" },
-                { speaker: "Receptionist", nl: "Bel 112. Maar ga altijd eerst naar de huisarts.", en: "Call 112. But always go to the GP first." },
+                { speaker: "Receptionist", nl: "Welkom. Wilt u zich inschrijven bij de huisarts?", en: "Welcome. Would you like to register with the GP?" , th: 'ยินดีต้อนรับ คุณต้องการลงทะเบียนกับแพทย์ประจำตัวไหม?'},
+                { speaker: "You", nl: "Ja, ik ben nieuw in de buurt.", en: "Yes, I am new in the neighborhood." , th: 'ค่ะ ฉันเพิ่งย้ายมาอยู่แถวนี้'},
+                { speaker: "Receptionist", nl: "Heeft u een zorgverzekering?", en: "Do you have health insurance?" , th: 'คุณมีประกันสุขภาพไหม?'},
+                { speaker: "You", nl: "Ja, die is verplicht toch?", en: "Yes, it's mandatory right?" , th: 'ค่ะ บังคับใช่ไหมคะ?'},
+                { speaker: "Receptionist", nl: "Klopt! Als u een specialist nodig heeft, krijgt u een verwijzing.", en: "Correct! If you need a specialist, you'll get a referral." , th: 'ถูกค่ะ! ถ้าต้องพบแพทย์เฉพาะทาง จะได้ใบส่งตัว'},
+                { speaker: "You", nl: "En voor noodgevallen?", en: "And for emergencies?" , th: 'แล้วกรณีฉุกเฉินล่ะ?'},
+                { speaker: "Receptionist", nl: "Bel 112. Maar ga altijd eerst naar de huisarts.", en: "Call 112. But always go to the GP first." , th: 'โทร 112 แต่ไปหาแพทย์ประจำตัวก่อนเสมอ'},
               ]
             }
           ],
@@ -2456,10 +2456,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Gezondheidszorg",
             explanation: "📌 <strong>Zorgverzekering</strong> = health insurance — MANDATORY for everyone 18+. <strong>Huisarts</strong> = GP, FIRST point of contact (not hospital!). Need <strong>verwijzing</strong> (referral) for specialist. <strong>Eigen risico</strong> = ~€385 deductible/year. Emergency: call <strong>112</strong>. <strong>Apotheek</strong> for medicine with <strong>recept</strong>. Free child health: <strong>consultatiebureau</strong> (ages 0-4). Free <strong>vaccinaties</strong> for children.<br><br>🇹🇭 ประกันสุขภาพบังคับ! หมอประจำตัว (huisarts) คือจุดแรกเสมอ เบอร์ฉุกเฉิน: 112",
             examples: [
-              { nl: "De zorgverzekering is verplicht.", en: "Health insurance is mandatory." },
-              { nl: "Ga altijd eerst naar de huisarts.", en: "Always go to the GP first." },
-              { nl: "Voor noodgevallen bel je 112.", en: "For emergencies you call 112." },
-              { nl: "De apotheek geeft medicijnen met een recept.", en: "The pharmacy gives medicine with a prescription." },
+              { nl: "De zorgverzekering is verplicht.", en: "Health insurance is mandatory." , th: "ประกันสุขภาพบังคับ"},
+              { nl: "Ga altijd eerst naar de huisarts.", en: "Always go to the GP first." , th: "ไปหาหมอประจำตัวก่อนเสมอ"},
+              { nl: "Voor noodgevallen bel je 112.", en: "For emergencies you call 112." , th: "ฉุกเฉินโทร 112"},
+              { nl: "De apotheek geeft medicijnen met een recept.", en: "The pharmacy gives medicine with a prescription." , th: "ร้านยาจ่ายยาตามใบสั่ง"},
             ]
           },
           exercises: [
@@ -2502,13 +2502,13 @@ const COURSE_DATA = {
             {
               situation: "At the gemeente — registration — ที่เทศบาล ลงทะเบียน",
               lines: [
-                { speaker: "Officer", nl: "Welkom in Nederland. U krijgt nu een BSN-nummer.", en: "Welcome to the Netherlands. You'll now receive a BSN number." },
-                { speaker: "You", nl: "Waarvoor heb ik dat nodig?", en: "What do I need that for?" },
-                { speaker: "Officer", nl: "Voor alles! Werk, belasting, zorgverzekering.", en: "For everything! Work, taxes, health insurance." },
-                { speaker: "You", nl: "Mag ik meteen werken?", en: "May I work immediately?" },
-                { speaker: "Officer", nl: "Met een werkvergunning, ja. Zwart werken is verboden.", en: "With a work permit, yes. Working illegally is forbidden." },
-                { speaker: "You", nl: "En als ik geen werk kan vinden?", en: "And if I can't find work?" },
-                { speaker: "Officer", nl: "Dan kunt u misschien een uitkering aanvragen bij het UWV.", en: "Then you can possibly apply for benefits at the UWV." },
+                { speaker: "Officer", nl: "Welkom in Nederland. U krijgt nu een BSN-nummer.", en: "Welcome to the Netherlands. You'll now receive a BSN number." , th: 'ยินดีต้อนรับสู่เนเธอร์แลนด์ คุณจะได้รับเลข BSN'},
+                { speaker: "You", nl: "Waarvoor heb ik dat nodig?", en: "What do I need that for?" , th: 'ฉันต้องใช้ทำอะไรบ้าง?'},
+                { speaker: "Officer", nl: "Voor alles! Werk, belasting, zorgverzekering.", en: "For everything! Work, taxes, health insurance." , th: 'ทุกอย่างเลย! ทำงาน เสียภาษี ประกันสุขภาพ'},
+                { speaker: "You", nl: "Mag ik meteen werken?", en: "May I work immediately?" , th: 'ทำงานได้เลยไหม?'},
+                { speaker: "Officer", nl: "Met een werkvergunning, ja. Zwart werken is verboden.", en: "With a work permit, yes. Working illegally is forbidden." , th: 'มีใบอนุญาตทำงานก็ได้ ทำงานเถื่อนเป็นสิ่งผิดกฎหมาย'},
+                { speaker: "You", nl: "En als ik geen werk kan vinden?", en: "And if I can't find work?" , th: 'แล้วถ้าหางานไม่ได้ล่ะ?'},
+                { speaker: "Officer", nl: "Dan kunt u misschien een uitkering aanvragen bij het UWV.", en: "Then you can possibly apply for benefits at the UWV." , th: 'คุณอาจขอสวัสดิการจาก UWV ได้'},
               ]
             }
           ],
@@ -2516,10 +2516,10 @@ const COURSE_DATA = {
             title: "🏛️ Key Facts: Werk & Inkomen",
             explanation: "📌 <strong>BSN</strong> (Burgerservicenummer) = citizen number — needed for EVERYTHING. <strong>Minimumloon</strong> = minimum wage by law. <strong>Zwart werken</strong> = working without paying tax — ILLEGAL. Salary: <strong>bruto</strong> (gross) → <strong>netto</strong> (net, after tax). <strong>AOW</strong> = state pension from age ~67. <strong>UWV</strong> handles unemployment benefits. <strong>Vrijwilligerswerk</strong> = volunteering — great for integration!<br><br>🇹🇭 BSN = เลขประจำตัว ต้องใช้ทุกอย่าง! ห้ามทำงานเถื่อน (zwart werken) AOW = บำนาญจากอายุ ~67 ปี",
             examples: [
-              { nl: "Iedereen heeft een BSN-nummer nodig.", en: "Everyone needs a BSN number." },
-              { nl: "Zwart werken is verboden.", en: "Working illegally is forbidden." },
-              { nl: "De AOW begint rond 67 jaar.", en: "The state pension starts around age 67." },
-              { nl: "Vrijwilligerswerk helpt bij de inburgering.", en: "Volunteer work helps with integration." },
+              { nl: "Iedereen heeft een BSN-nummer nodig.", en: "Everyone needs a BSN number." , th: "ทุกคนต้องมีเลข BSN"},
+              { nl: "Zwart werken is verboden.", en: "Working illegally is forbidden." , th: "ทำงานเถื่อนผิดกฎหมาย"},
+              { nl: "De AOW begint rond 67 jaar.", en: "The state pension starts around age 67." , th: "เงินบำนาญ AOW เริ่มอายุราว 67"},
+              { nl: "Vrijwilligerswerk helpt bij de inburgering.", en: "Volunteer work helps with integration." , th: "อาสาสมัครช่วยในการ Inburgering"},
             ]
           },
           exercises: [
@@ -2563,14 +2563,14 @@ const COURSE_DATA = {
             {
               situation: "Pronunciation practice — ฝึกออกเสียง",
               lines: [
-                { speaker: "Teacher", nl: "Zeg maar na: huis, muis, uit.", en: "Repeat after me: huis, muis, uit." },
-                { speaker: "You", nl: "Huis... muis... uit...", en: "Huis... muis... uit..." },
-                { speaker: "Teacher", nl: "Goed! Nu de 'g': goed, gracht, geel.", en: "Good! Now the 'g': goed, gracht, geel." },
-                { speaker: "You", nl: "Goed... gracht... geel...", en: "Goed... gracht... geel..." },
-                { speaker: "Teacher", nl: "De 'g' komt van diep in je keel. Nog een keer!", en: "The 'g' comes from deep in your throat. One more time!" },
-                { speaker: "You", nl: "Gggoed! Is dat beter?", en: "Gggood! Is that better?" },
-                { speaker: "Teacher", nl: "Ja! Nu: schrijven, school, schoon.", en: "Yes! Now: schrijven, school, schoon." },
-                { speaker: "You", nl: "Schrijven, school, schoon. De 'sch' is moeilijk!", en: "Schrijven, school, schoon. The 'sch' is hard!" },
+                { speaker: "Teacher", nl: "Zeg maar na: huis, muis, uit.", en: "Repeat after me: huis, muis, uit." , th: 'พูดตามนะ: huis, muis, uit'},
+                { speaker: "You", nl: "Huis... muis... uit...", en: "Huis... muis... uit..." , th: 'Huis... muis... uit...'},
+                { speaker: "Teacher", nl: "Goed! Nu de 'g': goed, gracht, geel.", en: "Good! Now the 'g': goed, gracht, geel." , th: "ดี! ต่อไปเสียง 'g': goed, gracht, geel"},
+                { speaker: "You", nl: "Goed... gracht... geel...", en: "Goed... gracht... geel..." , th: 'Goed... gracht... geel...'},
+                { speaker: "Teacher", nl: "De 'g' komt van diep in je keel. Nog een keer!", en: "The 'g' comes from deep in your throat. One more time!" , th: "เสียง 'g' มาจากลึกในลำคอ อีกครั้ง!"},
+                { speaker: "You", nl: "Gggoed! Is dat beter?", en: "Gggood! Is that better?" , th: "Gggoed! ดีขึ้นไหม?"},
+                { speaker: "Teacher", nl: "Ja! Nu: schrijven, school, schoon.", en: "Yes! Now: schrijven, school, schoon." , th: 'ดี! ต่อไป: schrijven, school, schoon'},
+                { speaker: "You", nl: "Schrijven, school, schoon. De 'sch' is moeilijk!", en: "Schrijven, school, schoon. The 'sch' is hard!" , th: 'Schrijven, school, schoon'},
               ]
             }
           ],
@@ -2578,10 +2578,10 @@ const COURSE_DATA = {
             title: "🔊 Pronunciation Guide: Key Sounds",
             explanation: "<strong>Hardest sounds for Thai speakers:</strong><br>• <strong>g/ch</strong> = throat rasp (like clearing throat) — ไม่มีในภาษาไทย!<br>• <strong>ui</strong> = round lips then spread (ow-ee) — ไม่มีในภาษาไทย!<br>• <strong>uu</strong> = say 'ee' with rounded lips — คล้าย อือ<br>• <strong>r</strong> = rolled or uvular, varies by region<br>• <strong>w</strong> = between Thai ว and ฟ<br><br><strong>Easier sounds:</strong><br>• <strong>oe</strong> = อู (like Thai!)<br>• <strong>ie</strong> = อี (like Thai!)<br>• <strong>aa</strong> = อา ยาว<br>• <strong>ij/ei</strong> = อาย (both same sound!)<br><br>💡 <strong>Tip:</strong> Press 🔊 on any word to hear it! ลองกดฟังเสียงทุกคำ!",
             examples: [
-              { nl: "goed — gracht — geel", en: "🔊 Practice the 'g' sound (throat)" },
-              { nl: "huis — muis — uit", en: "🔊 Practice the 'ui' sound (ow-ee)" },
-              { nl: "deur — neus — leuk", en: "🔊 Practice the 'eu' sound (rounded uh)" },
-              { nl: "school — schrijven — schoon", en: "🔊 Practice the 'sch' sound (s + throat)" },
+              { nl: "goed — gracht — geel", en: "🔊 Practice the 'g' sound (throat)" , th: "ฝึกเสียง 'g' — คล้ายเสียง ค ในไทย แต่ลึกกว่า"},
+              { nl: "huis — muis — uit", en: "🔊 Practice the 'ui' sound (ow-ee)" , th: "ฝึกเสียง 'ui' — ไม่มีในภาษาไทย ลองพูด เออ + ปากห่อ"},
+              { nl: "deur — neus — leuk", en: "🔊 Practice the 'eu' sound (rounded uh)" , th: "ฝึกเสียง 'eu' — คล้าย เออ แบบปากห่อกลม"},
+              { nl: "school — schrijven — schoon", en: "🔊 Practice the 'sch' sound (s + throat)" , th: "ฝึกเสียง 'sch' — คือ ส + ค รวมกัน"},
             ]
           },
           exercises: [
@@ -2618,13 +2618,13 @@ const COURSE_DATA = {
             {
               situation: "Short vs long vowels — สระสั้นกับสระยาว",
               lines: [
-                { speaker: "Teacher", nl: "Luister goed: 'man' en 'maan'. Hoor je het verschil?", en: "Listen carefully: 'man' and 'maan'. Do you hear the difference?" },
-                { speaker: "You", nl: "Ja! 'Man' is kort en 'maan' is lang.", en: "Yes! 'Man' is short and 'maan' is long." },
-                { speaker: "Teacher", nl: "Precies! Nu: 'bos' en 'boon'.", en: "Exactly! Now: 'bos' and 'boon'." },
-                { speaker: "You", nl: "Bos — kort. Boon — lang.", en: "Bos — short. Boon — long." },
-                { speaker: "Teacher", nl: "Heel goed! Let op: de lengte verandert de betekenis!", en: "Very good! Pay attention: the length changes the meaning!" },
-                { speaker: "You", nl: "Dus 'man' is niet hetzelfde als 'maan'?", en: "So 'man' is not the same as 'maan'?" },
-                { speaker: "Teacher", nl: "Nee! 'Man' is een persoon, 'maan' is aan de hemel!", en: "No! 'Man' is a person, 'maan' is in the sky!" },
+                { speaker: "Teacher", nl: "Luister goed: 'man' en 'maan'. Hoor je het verschil?", en: "Listen carefully: 'man' and 'maan'. Do you hear the difference?" , th: "ฟังดีๆ: 'man' กับ 'maan' ได้ยินความต่างไหม?"},
+                { speaker: "You", nl: "Ja! 'Man' is kort en 'maan' is lang.", en: "Yes! 'Man' is short and 'maan' is long." , th: "ใช่! 'man' สั้น และ 'maan' ยาว"},
+                { speaker: "Teacher", nl: "Precies! Nu: 'bos' en 'boon'.", en: "Exactly! Now: 'bos' and 'boon'." , th: "ถูกต้อง! ต่อไป: 'bos' กับ 'boon'"},
+                { speaker: "You", nl: "Bos — kort. Boon — lang.", en: "Bos — short. Boon — long." , th: 'Bos — สั้น Boon — ยาว'},
+                { speaker: "Teacher", nl: "Heel goed! Let op: de lengte verandert de betekenis!", en: "Very good! Pay attention: the length changes the meaning!" , th: 'เก่งมาก! ระวัง: ความยาวเสียงเปลี่ยนความหมาย!'},
+                { speaker: "You", nl: "Dus 'man' is niet hetzelfde als 'maan'?", en: "So 'man' is not the same as 'maan'?" , th: "งั้น 'man' ไม่เหมือนกับ 'maan' ใช่ไหม?"},
+                { speaker: "Teacher", nl: "Nee! 'Man' is een persoon, 'maan' is aan de hemel!", en: "No! 'Man' is a person, 'maan' is in the sky!" , th: "ไม่! 'man' คือคน 'maan' คือดวงจันทร์!"},
               ]
             }
           ],
@@ -2632,10 +2632,10 @@ const COURSE_DATA = {
             title: "🔤 Short vs Long Vowels — The Key Rule",
             explanation: "<strong>THE most important Dutch spelling rule:</strong><br><br>In a <strong>closed syllable</strong> (ends with consonant): vowel is SHORT → written ONCE<br>• m<strong>a</strong>n, b<strong>e</strong>d, b<strong>o</strong>s, b<strong>u</strong>s, p<strong>i</strong>t<br><br>In an <strong>open syllable</strong> (ends with vowel): vowel is LONG → written ONCE<br>• m<strong>a</strong>-nen (men), b<strong>o</strong>-nen (beans), b<strong>u</strong>-ren (neighbors)<br><br>To keep long vowel in closed syllable: write DOUBLE<br>• m<strong>aa</strong>n, b<strong>oo</strong>n, b<strong>uu</strong>r, b<strong>ee</strong>n<br><br>🇹🇭 กฎสำคัญ: พยางค์ปิด (ลงท้ายพยัญชนะ) = สระสั้น, พยางค์เปิด = สระยาว. ต้องเขียนสระซ้ำเพื่อให้เป็นสระยาวในพยางค์ปิด",
             examples: [
-              { nl: "man (short) → manen (long, open syllable)", en: "man → men (a becomes long in open syllable)" },
-              { nl: "maan (long, closed) → manen (long, open)", en: "moon → moons (aa becomes a in open syllable)" },
-              { nl: "bos (short) → bossen (stays short, doubled s)", en: "forest → forests (consonant doubles to keep vowel short)" },
-              { nl: "boon (long) → bonen (long, open syllable)", en: "bean → beans (oo becomes o in open syllable)" },
+              { nl: "man (short) → manen (long, open syllable)", en: "man → men (a becomes long in open syllable)" , th: "man (สั้น) → manen (ยาว พยางค์เปิด)"},
+              { nl: "maan (long, closed) → manen (long, open)", en: "moon → moons (aa becomes a in open syllable)" , th: "maan (ยาว) → manen (ยาว พยางค์เปิด)"},
+              { nl: "bos (short) → bossen (stays short, doubled s)", en: "forest → forests (consonant doubles to keep vowel short)" , th: "bos (สั้น) → bossen (ยังสั้น พยัญชนะซ้อน)"},
+              { nl: "boon (long) → bonen (long, open syllable)", en: "bean → beans (oo becomes o in open syllable)" , th: "boon (ยาว) → bonen (ยาว พยางค์เปิด)"},
             ]
           },
           exercises: [
@@ -2667,13 +2667,13 @@ const COURSE_DATA = {
             {
               situation: "Consonant traps — กับดักพยัญชนะ",
               lines: [
-                { speaker: "Teacher", nl: "Let op! 'Hond' schrijf je met een d, maar je zegt een t.", en: "Pay attention! 'Hond' is written with d, but you say t." },
-                { speaker: "You", nl: "Dus: h-o-n-d maar ik zeg 'hont'?", en: "So: h-o-n-d but I say 'hont'?" },
-                { speaker: "Teacher", nl: "Precies! Maar 'honden' — daar hoor je de d weer!", en: "Exactly! But 'honden' — there you hear the d again!" },
-                { speaker: "You", nl: "Ah! Omdat de d niet meer aan het einde staat!", en: "Ah! Because the d is no longer at the end!" },
-                { speaker: "Teacher", nl: "Heel goed! En 'thee' — hoe zeg je 'th'?", en: "Very good! And 'thee' — how do you say 'th'?" },
-                { speaker: "You", nl: "Gewoon als een t! Niet zoals in het Engels.", en: "Just as a t! Not like in English." },
-                { speaker: "Teacher", nl: "Perfect! Je uitspraak wordt steeds beter!", en: "Perfect! Your pronunciation is getting better and better!" },
+                { speaker: "Teacher", nl: "Let op! 'Hond' schrijf je met een d, maar je zegt een t.", en: "Pay attention! 'Hond' is written with d, but you say t." , th: "ระวัง! 'hond' เขียนด้วย d แต่ออกเสียงเป็น t"},
+                { speaker: "You", nl: "Dus: h-o-n-d maar ik zeg 'hont'?", en: "So: h-o-n-d but I say 'hont'?" , th: "งั้น: h-o-n-d แต่พูดว่า 'hont'?"},
+                { speaker: "Teacher", nl: "Precies! Maar 'honden' — daar hoor je de d weer!", en: "Exactly! But 'honden' — there you hear the d again!" , th: "ถูก! แต่ 'honden' — ตรงนั้นได้ยินเสียง d อีก!"},
+                { speaker: "You", nl: "Ah! Omdat de d niet meer aan het einde staat!", en: "Ah! Because the d is no longer at the end!" , th: 'อ้า! เพราะ d ไม่ได้อยู่ท้ายคำแล้ว!'},
+                { speaker: "Teacher", nl: "Heel goed! En 'thee' — hoe zeg je 'th'?", en: "Very good! And 'thee' — how do you say 'th'?" , th: "เก่งมาก! แล้ว 'thee' — ออกเสียง 'th' ยังไง?"},
+                { speaker: "You", nl: "Gewoon als een t! Niet zoals in het Engels.", en: "Just as a t! Not like in English." , th: 'ออกเสียงเหมือน t เลย! ไม่เหมือนภาษาอังกฤษ'},
+                { speaker: "Teacher", nl: "Perfect! Je uitspraak wordt steeds beter!", en: "Perfect! Your pronunciation is getting better and better!" , th: 'สมบูรณ์แบบ! การออกเสียงดีขึ้นเรื่อยๆ!'},
               ]
             }
           ],
@@ -2681,10 +2681,10 @@ const COURSE_DATA = {
             title: "🔤 Final Devoicing & Spelling Rules",
             explanation: "<strong>Final devoicing</strong> (Eindklankverscherping):<br>At the end of a word: <strong>d → t</strong>, <strong>b → p</strong>, <strong>g → ch</strong><br>• 'hon<strong>d</strong>' sounds like 'hont' BUT plural 'hon<strong>d</strong>en' → d returns<br>• 'he<strong>b</strong>' sounds like 'hep' BUT 'he<strong>bb</strong>en' → b returns<br><br><strong>Dutch 'th'</strong> = just a <strong>t</strong> sound (never like English 'th'!)<br><strong>Dutch 'kn'</strong> = pronounce BOTH letters (unlike English 'knife')<br><strong>Dutch '-en'</strong> ending = the 'e' is barely pronounced (เสียง -เอิน เกือบไม่ออก)<br><br>🇹🇭 ท้ายคำ: d ออกเสียง t, b ออกเสียง p. แต่พอเติมพหูพจน์ เสียงเดิมกลับมา!",
             examples: [
-              { nl: "hond → honden (d returns in plural)", en: "dog → dogs (d sound comes back)" },
-              { nl: "heb → hebben (b returns)", en: "have → to have (b sound comes back)" },
-              { nl: "thee = TAY (th = just t!)", en: "tea (not 'thee' with English th)" },
-              { nl: "knie = kNEE (pronounce the k!)", en: "knee (unlike English, say the k)" },
+              { nl: "hond → honden (d returns in plural)", en: "dog → dogs (d sound comes back)" , th: "hond → honden (เสียง d กลับมาในพหูพจน์)"},
+              { nl: "heb → hebben (b returns)", en: "have → to have (b sound comes back)" , th: "heb → hebben (เสียง b กลับมา)"},
+              { nl: "thee = TAY (th = just t!)", en: "tea (not 'thee' with English th)" , th: "thee = ที (th ออกเสียงแค่ t!)"},
+              { nl: "knie = kNEE (pronounce the k!)", en: "knee (unlike English, say the k)" , th: "knie = คนี (ออกเสียง k ด้วย!)"},
             ]
           },
           exercises: [
@@ -3374,7 +3374,7 @@ function renderHome() {
     searchHtml = `
       <input type="text" class="search-input" placeholder="Search in Dutch, English, or Thai..." value="${escHtml(state.searchTerm)}" oninput="setState({searchTerm: this.value})">
       ${filtered.length > 0 ? `<div class="search-results">${filtered.slice(0,15).map(v => `
-        <div class="item"><strong>${escHtml(v.nl)}</strong> — ${escHtml(v.en)} ${v.thai ? `<span style="color:#888">(${v.thai})</span>` : ''}
+        <div class="item"><strong>${escHtml(v.nl)}</strong> — ${v.thai ? `<span style="color:#444;font-weight:500">${v.thai}</span>` : ''} <span style="color:#999">${escHtml(v.en)}</span>
         <div class="detail">/${escHtml(v.phonetic)}/ · ${escHtml(v.module)}</div></div>
       `).join('')}</div>` : ''}
     `;
@@ -4125,7 +4125,7 @@ function renderListen(mod, lesson) {
               <span class="serif" style="font-size:18px;font-weight:700;color:${mod.color}">${escHtml(v.nl)}</span>
               <span style="font-size:13px;color:#888">/${escHtml(v.phonetic)}/</span>
             </div>
-            <div style="font-size:14px;color:#555;margin-top:2px">${escHtml(v.en)} ${v.thai ? `<span style="color:#999">· ${v.thai}</span>` : ''}</div>
+            <div style="font-size:15px;color:#444;margin-top:2px">${v.thai ? `<span style="font-family:'Sarabun',sans-serif">${v.thai}</span> · ` : ''}<span style="color:#999;font-size:13px">${escHtml(v.en)}</span></div>
           </div>
         </div>
       `).join('')}
@@ -4656,7 +4656,7 @@ function renderExamActive() {
         </div>
       </div>
       <div class="question serif" style="font-size:17px;margin-bottom:14px">${escHtml(q.question)}</div>
-      ${q.th ? `<div style="font-size:13px;color:#aaa;margin:-8px 0 14px">${q.th}</div>` : ''}
+      ${q.th ? `<div style="font-size:14px;color:#555;margin:-8px 0 14px;font-family:'Sarabun',sans-serif">${q.th}</div>` : ''}
       <div class="options-grid" style="--mod-color:${q.color || '#21468B'}">
         ${q.options.map(opt => {
           const isSel = selected === opt;
@@ -5048,8 +5048,8 @@ function renderGrammar(mod, lesson) {
             <div class="nl serif">${escHtml(ex.nl)}</div>
             <button class="speak-btn speak-btn-sm" onclick="event.stopPropagation();speakAndHighlight(this,'${escHtml(ex.nl).replace(/'/g,"\\'")}')">🔊</button>
           </div>
-          <div class="en">${escHtml(ex.en)}</div>
-          ${thaiEx ? `<div style="font-size:13px;color:#aaa;margin-top:2px">${thaiEx}</div>` : ''}
+          ${thaiEx ? `<div style="font-size:15px;color:#444;margin-top:3px;font-family:'Sarabun',sans-serif">${thaiEx}</div>` : ''}
+          <div style="font-size:13px;color:#999;margin-top:1px">${escHtml(ex.en)}</div>
         </div>`;
       }).join('')}
     </div>
@@ -5092,7 +5092,7 @@ function renderPractice(mod, lesson) {
       return `
         <div class="exercise-card ${show ? (isCorrect ? 'correct' : isWrong ? 'wrong' : '') : ''}">
           <div class="question serif">${idx+1}. ${escHtml(ex.question)}</div>
-          ${ex.th ? `<div style="font-size:13px;color:#aaa;margin:-6px 0 10px">${ex.th}</div>` : ''}
+          ${ex.th ? `<div style="font-size:14px;color:#555;margin:-4px 0 10px;font-family:'Sarabun',sans-serif">${ex.th}</div>` : ''}
           <div class="options-grid" style="--mod-color:${mod.color}">
             ${ex.options.map(opt => {
               const isSel = selected === opt;
