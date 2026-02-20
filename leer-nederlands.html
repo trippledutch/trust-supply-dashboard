@@ -588,6 +588,11 @@ const COURSE_DATA = {
       id: "uitspraak", title: "Uitspraak · การออกเสียง", titleEn: "Pronunciation", icon: "🗣️", color: "#5E9B4E",
       description: "Dutch sounds and pronunciation for Thai speakers (based on Les 1-4 & 20)",
       descriptionTh: "เสียงและการออกเสียงภาษาดัตช์สำหรับคนไทย (จากบทที่ 1-4 และ 20)"
+    },
+    {
+      id: "a2", title: "A2 · ระดับ A2", titleEn: "Level A2", icon: "📈", color: "#1565C0",
+      description: "Bridge to A2 level — past tense, modal verbs, complex sentences",
+      descriptionTh: "ก้าวสู่ระดับ A2 — อดีตกาล กริยาช่วย ประโยคซับซ้อน"
     }
   ],
   modules: [
@@ -2738,6 +2743,217 @@ const COURSE_DATA = {
       ]
     }
 
+  ,
+    // ===== SECTION D: A2 LEVEL =====
+    // ===== A2 Module 1: Het Perfectum (Past Tense) =====
+    {
+      id: 31, section: "a2", title: "Het Perfectum", titleEn: "Past Tense", titleTh: "อดีตกาล", icon: "⏪", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_1a", title: "Regelmatige Werkwoorden", titleEn: "Regular Verbs", titleTh: "กริยาปกติ",
+          vocab: [
+            { nl: "gewerkt", en: "worked", phonetic: "khuh-VERKT", thai: "ทำงานแล้ว", note: "werken → gewerkt" },
+            { nl: "gewandeld", en: "walked", phonetic: "khuh-VAN-dult", thai: "เดินแล้ว", note: "wandelen → gewandeld" },
+            { nl: "gekookt", en: "cooked", phonetic: "khuh-KOHKT", thai: "ทำอาหารแล้ว", note: "koken → gekookt" },
+            { nl: "gefietst", en: "cycled", phonetic: "khuh-FEEST", thai: "ขี่จักรยานแล้ว", note: "fietsen → gefietst" },
+            { nl: "geleerd", en: "learned", phonetic: "khuh-LAYRT", thai: "เรียนแล้ว", note: "leren → geleerd" },
+            { nl: "gebeld", en: "called (phone)", phonetic: "khuh-BELT", thai: "โทรแล้ว", note: "bellen → gebeld" },
+            { nl: "gemaakt", en: "made", phonetic: "khuh-MAHKT", thai: "ทำแล้ว", note: "maken → gemaakt" },
+            { nl: "betaald", en: "paid", phonetic: "buh-TAHLT", thai: "จ่ายแล้ว", note: "betalen → betaald (no ge-)" },
+            { nl: "gestudeerd", en: "studied", phonetic: "khuh-stuw-DAYRT", thai: "เรียนแล้ว", note: "studeren → gestudeerd" },
+            { nl: "gisteren", en: "yesterday", phonetic: "KHIS-tuh-run", thai: "เมื่อวาน" },
+            { nl: "vorige week", en: "last week", phonetic: "VOH-rikh-uh vayk", thai: "สัปดาห์ที่แล้ว" },
+            { nl: "hebben", en: "to have (auxiliary)", phonetic: "HEB-bun", thai: "มี (กริยาช่วย)", note: "het perfectum uses hebben or zijn" },
+          ],
+          dialogues: [
+            { situation: "Talking about yesterday — เมื่อวานทำอะไร", lines: [
+              { speaker: "A", nl: "Wat heb je gisteren gedaan?", en: "What did you do yesterday?", th: "เมื่อวานคุณทำอะไร?" },
+              { speaker: "B", nl: "Ik heb gekookt en gewandeld.", en: "I cooked and walked.", th: "ฉันทำอาหารและเดินเล่น" },
+              { speaker: "A", nl: "Heb je ook gefietst?", en: "Did you also cycle?", th: "คุณขี่จักรยานด้วยไหม?" },
+              { speaker: "B", nl: "Nee, ik heb de hele dag gewerkt.", en: "No, I worked all day.", th: "ไม่ ฉันทำงานทั้งวัน" },
+              { speaker: "A", nl: "Ik heb Nederlands geleerd vorige week.", en: "I learned Dutch last week.", th: "ฉันเรียนภาษาดัตช์สัปดาห์ที่แล้ว" },
+              { speaker: "B", nl: "Goed zo! Heb je ook je huiswerk gemaakt?", en: "Well done! Did you also do your homework?", th: "เก่งมาก! คุณทำการบ้านด้วยไหม?" },
+            ]}
+          ],
+          grammar: {
+            title: "Het Perfectum — Past Tense (Regular)",
+            explanation: "Dutch past tense uses <strong>hebben/zijn + past participle (voltooid deelwoord)</strong>. For regular verbs: <strong>ge- + stem + -t/-d</strong>. Use <strong>-t</strong> after voiceless consonants (t, k, f, s, ch, p = 't kofschip), <strong>-d</strong> after others. Verbs with be-, ver-, ge-, er-, her-, ont- do NOT add ge-. Think of it like Thai's แล้ว: <em>ik heb gewerkt</em> = ฉันทำงานแล้ว.",
+            examples: [
+              { nl: "Ik heb gewerkt.", en: "I have worked / I worked.", th: "ฉันทำงานแล้ว" },
+              { nl: "Zij heeft gekookt.", en: "She has cooked / She cooked.", th: "เธอทำอาหารแล้ว" },
+              { nl: "Wij hebben geleerd.", en: "We have learned / We learned.", th: "พวกเราเรียนแล้ว" },
+              { nl: "Hij heeft betaald.", en: "He has paid. (no ge- for be-)", th: "เขาจ่ายแล้ว (ไม่มี ge- เพราะขึ้นต้นด้วย be-)" },
+              { nl: "Heb je gefietst?", en: "Did you cycle?", th: "คุณขี่จักรยานไหม?" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "The past participle of 'werken' is:", th: "กริยาช่องสามของ werken คือ:", answer: "gewerkt", options: ["gewerkt", "gewerkd", "gewerken", "werkd"] },
+            { type: "mc", question: "'Ik heb gekookt' means:", th: "'Ik heb gekookt' แปลว่า:", answer: "I cooked", options: ["I am cooking", "I cooked", "I will cook", "I cook"] },
+            { type: "mc", question: "Why is 'betaald' without 'ge-'?", th: "ทำไม betaald ไม่มี ge-?", answer: "Verbs starting with be- skip ge-", options: ["It's irregular", "Verbs starting with be- skip ge-", "It's a short verb", "It already has a prefix"] },
+            { type: "mc", question: "Fill in: Zij ___ gisteren gewandeld.", th: "เติม: Zij ___ gisteren gewandeld.", answer: "heeft", options: ["heb", "heeft", "hebben", "had"] },
+            { type: "mc", question: "The 't kofschip' rule determines:", th: "กฎ 't kofschip ใช้สำหรับ:", answer: "Whether to use -t or -d ending", options: ["Word order", "Whether to use -t or -d ending", "When to use zijn", "Pronunciation"] },
+            { type: "mc", question: "Past participle of 'fietsen':", th: "กริยาช่องสามของ fietsen:", answer: "gefietst", options: ["gefietsd", "gefietst", "gefiets", "fietsed"] },
+          ]
+        },
+        {
+          id: "a2_1b", title: "Onregelmatige Werkwoorden", titleEn: "Irregular Verbs", titleTh: "กริยาอปกติ",
+          vocab: [
+            { nl: "gegaan", en: "gone", phonetic: "khuh-KHAHN", thai: "ไปแล้ว", note: "gaan → gegaan (zijn)" },
+            { nl: "geweest", en: "been", phonetic: "khuh-VAYST", thai: "เคยเป็น/อยู่", note: "zijn → geweest (zijn)" },
+            { nl: "gekomen", en: "come", phonetic: "khuh-KOH-mun", thai: "มาแล้ว", note: "komen → gekomen (zijn)" },
+            { nl: "gedaan", en: "done", phonetic: "khuh-DAHN", thai: "ทำแล้ว", note: "doen → gedaan" },
+            { nl: "gezien", en: "seen", phonetic: "khuh-ZEEN", thai: "เห็นแล้ว", note: "zien → gezien" },
+            { nl: "gegeten", en: "eaten", phonetic: "khuh-KHAY-tun", thai: "กินแล้ว", note: "eten → gegeten" },
+            { nl: "gedronken", en: "drunk", phonetic: "khuh-DRONG-kun", thai: "ดื่มแล้ว", note: "drinken → gedronken" },
+            { nl: "geschreven", en: "written", phonetic: "khuh-SKHRAY-vun", thai: "เขียนแล้ว", note: "schrijven → geschreven" },
+            { nl: "gelezen", en: "read (past)", phonetic: "khuh-LAY-zun", thai: "อ่านแล้ว", note: "lezen → gelezen" },
+            { nl: "gevonden", en: "found", phonetic: "khuh-VON-dun", thai: "พบแล้ว", note: "vinden → gevonden" },
+            { nl: "zijn", en: "to be (auxiliary)", phonetic: "zeyn", thai: "เป็น (กริยาช่วย)", note: "Used with movement/state change verbs" },
+            { nl: "vanmorgen", en: "this morning", phonetic: "van-MOR-khun", thai: "เมื่อเช้า" },
+          ],
+          dialogues: [
+            { situation: "Weekend activities — กิจกรรมสุดสัปดาห์", lines: [
+              { speaker: "A", nl: "Waar ben je gisteren geweest?", en: "Where were you yesterday?", th: "เมื่อวานคุณอยู่ที่ไหน?" },
+              { speaker: "B", nl: "Ik ben naar Amsterdam gegaan.", en: "I went to Amsterdam.", th: "ฉันไปอัมสเตอร์ดัม" },
+              { speaker: "A", nl: "Wat heb je daar gedaan?", en: "What did you do there?", th: "คุณทำอะไรที่นั่น?" },
+              { speaker: "B", nl: "Ik heb het Rijksmuseum gezien.", en: "I saw the Rijksmuseum.", th: "ฉันไปดูพิพิธภัณฑ์ Rijksmuseum" },
+              { speaker: "A", nl: "Heb je stroopwafels gegeten?", en: "Did you eat stroopwafels?", th: "คุณกินสตรูปวาเฟิลไหม?" },
+              { speaker: "B", nl: "Ja, en ik heb koffie gedronken!", en: "Yes, and I drank coffee!", th: "ใช่ แล้วก็ดื่มกาแฟด้วย!" },
+            ]}
+          ],
+          grammar: {
+            title: "Het Perfectum — Irregular Verbs & Zijn",
+            explanation: "Many common Dutch verbs are <strong>irregular</strong> — the past participle must be memorized (like English go→gone). Movement and state-change verbs use <strong>zijn</strong> instead of <strong>hebben</strong>: gaan→gegaan, komen→gekomen, zijn→geweest. Think: if the verb describes movement from A to B, or becoming something, use <em>zijn</em>.",
+            examples: [
+              { nl: "Ik ben naar huis gegaan.", en: "I went home. (zijn = movement)", th: "ฉันกลับบ้านแล้ว (ใช้ zijn เพราะเคลื่อนที่)" },
+              { nl: "Zij is ziek geweest.", en: "She has been sick. (zijn = state change)", th: "เธอป่วยมาแล้ว (ใช้ zijn เพราะเปลี่ยนสถานะ)" },
+              { nl: "Wij hebben veel gezien.", en: "We saw a lot. (hebben)", th: "พวกเราเห็นเยอะ (ใช้ hebben)" },
+              { nl: "Hij heeft een boek gelezen.", en: "He read a book.", th: "เขาอ่านหนังสือแล้ว" },
+              { nl: "Ik heb een brief geschreven.", en: "I wrote a letter.", th: "ฉันเขียนจดหมายแล้ว" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "'Ik ben gegaan' uses 'zijn' because:", th: "ใช้ zijn เพราะ:", answer: "gaan describes movement", options: ["gaan is irregular", "gaan describes movement", "gaan starts with g", "gaan is short"] },
+            { type: "mc", question: "Past participle of 'eten':", th: "กริยาช่องสามของ eten:", answer: "gegeten", options: ["geëten", "gegeten", "geëtet", "geet"] },
+            { type: "mc", question: "Fill in: Ik ___ naar de winkel gegaan.", th: "เติม: Ik ___ naar de winkel gegaan.", answer: "ben", options: ["heb", "ben", "heeft", "was"] },
+            { type: "mc", question: "'Gedronken' is the past participle of:", th: "gedronken เป็นกริยาช่องสามของ:", answer: "drinken", options: ["denken", "drinken", "dromen", "dragen"] },
+            { type: "mc", question: "Which verb uses 'zijn'?", th: "กริยาใดใช้ zijn?", answer: "komen → gekomen", options: ["koken → gekookt", "komen → gekomen", "kopen → gekocht", "kennen → gekend"] },
+            { type: "mc", question: "'Zij heeft een brief geschreven' means:", th: "แปลว่า:", answer: "She wrote a letter", options: ["She is writing a letter", "She wrote a letter", "She will write a letter", "She reads a letter"] },
+          ]
+        }
+      ]
+    },
+    // ===== A2 Module 2: Modale Werkwoorden (Modal Verbs) =====
+    {
+      id: 32, section: "a2", title: "Modale Werkwoorden", titleEn: "Modal Verbs", titleTh: "กริยาช่วย", icon: "🔧", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_2a", title: "Kunnen, Moeten, Willen", titleEn: "Can, Must, Want", titleTh: "ได้ ต้อง อยาก",
+          vocab: [
+            { nl: "kunnen", en: "can / to be able to", phonetic: "KUN-nun", thai: "สามารถ, ได้" },
+            { nl: "moeten", en: "must / have to", phonetic: "MOO-tun", thai: "ต้อง" },
+            { nl: "willen", en: "want to", phonetic: "VIL-lun", thai: "อยาก, ต้องการ" },
+            { nl: "mogen", en: "may / to be allowed", phonetic: "MOH-khun", thai: "อนุญาต, ได้รับอนุญาต" },
+            { nl: "hoeven", en: "to need to (negative)", phonetic: "HOO-vun", thai: "จำเป็นต้อง (ในประโยคปฏิเสธ)" },
+            { nl: "zullen", en: "shall / will", phonetic: "ZUL-lun", thai: "จะ" },
+            { nl: "afspraak", en: "appointment", phonetic: "AF-sprahk", thai: "นัดหมาย", note: "de afspraak" },
+            { nl: "beginnen", en: "to begin", phonetic: "buh-KHIN-nun", thai: "เริ่ม" },
+            { nl: "oefenen", en: "to practice", phonetic: "OO-fuh-nun", thai: "ฝึก" },
+            { nl: "proberen", en: "to try", phonetic: "proh-BAY-run", thai: "ลอง" },
+            { nl: "uitleggen", en: "to explain", phonetic: "OWT-lekh-un", thai: "อธิบาย" },
+            { nl: "verbeteren", en: "to improve", phonetic: "vur-BAY-tuh-run", thai: "ปรับปรุง" },
+          ],
+          dialogues: [
+            { situation: "At the language school — ที่โรงเรียนสอนภาษา", lines: [
+              { speaker: "A", nl: "Kun je morgen komen?", en: "Can you come tomorrow?", th: "คุณมาพรุ่งนี้ได้ไหม?" },
+              { speaker: "B", nl: "Nee, ik moet werken.", en: "No, I have to work.", th: "ไม่ได้ ฉันต้องทำงาน" },
+              { speaker: "A", nl: "Wil je overmorgen oefenen?", en: "Do you want to practice the day after?", th: "อยากฝึกมะรืนไหม?" },
+              { speaker: "B", nl: "Ja, dat wil ik graag!", en: "Yes, I'd like that!", th: "อยากเลย!" },
+              { speaker: "A", nl: "Mag ik je iets vragen?", en: "May I ask you something?", th: "ขอถามอะไรหน่อยได้ไหม?" },
+              { speaker: "B", nl: "Je hoeft niet te vragen, vraag maar!", en: "You don't need to ask, just ask!", th: "ไม่ต้องขออนุญาต ถามเลย!" },
+              { speaker: "A", nl: "Zullen we samen studeren?", en: "Shall we study together?", th: "เราเรียนด้วยกันดีไหม?" },
+              { speaker: "B", nl: "Goed idee! Ik wil mijn Nederlands verbeteren.", en: "Good idea! I want to improve my Dutch.", th: "ความคิดดี! ฉันอยากปรับปรุงภาษาดัตช์" },
+            ]}
+          ],
+          grammar: {
+            title: "Modal Verbs — กริยาช่วย",
+            explanation: "Modal verbs change the meaning of the main verb. In Dutch, the modal verb is <strong>conjugated</strong> and the main verb goes to the <strong>end in infinitive form</strong>. Like Thai: ฉัน<em>ต้อง</em>ทำงาน = Ik <em>moet</em> werken. <strong>kunnen</strong> (can), <strong>moeten</strong> (must), <strong>willen</strong> (want), <strong>mogen</strong> (may), <strong>zullen</strong> (shall).",
+            examples: [
+              { nl: "Ik kan zwemmen.", en: "I can swim.", th: "ฉันว่ายน้ำได้" },
+              { nl: "Jij moet studeren.", en: "You must study.", th: "คุณต้องเรียน" },
+              { nl: "Wij willen eten.", en: "We want to eat.", th: "พวกเราอยากกิน" },
+              { nl: "Je mag hier niet roken.", en: "You may not smoke here.", th: "ห้ามสูบบุหรี่ที่นี่" },
+              { nl: "Je hoeft niet te betalen.", en: "You don't need to pay.", th: "คุณไม่ต้องจ่าย" },
+              { nl: "Zal ik je helpen?", en: "Shall I help you?", th: "จะให้ฉันช่วยไหม?" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "'Ik moet werken' means:", th: "แปลว่า:", answer: "I have to work", options: ["I can work", "I have to work", "I want to work", "I may work"] },
+            { type: "mc", question: "In 'Zij wil slapen', the infinitive is:", th: "กริยา infinitive คือ:", answer: "slapen (at the end)", options: ["wil", "slapen (at the end)", "zij", "wil slapen"] },
+            { type: "mc", question: "'Mogen' means:", th: "mogen แปลว่า:", answer: "may / to be allowed", options: ["must", "can", "may / to be allowed", "want"] },
+            { type: "mc", question: "Fill in: Je ___ hier niet parkeren.", th: "เติม (ห้ามจอดรถที่นี่):", answer: "mag", options: ["kan", "wil", "mag", "zal"] },
+            { type: "mc", question: "'Hoeven' is used for:", th: "hoeven ใช้สำหรับ:", answer: "Negative necessity (don't need to)", options: ["Positive ability", "Negative necessity (don't need to)", "Future tense", "Past tense"] },
+            { type: "mc", question: "Fill in: ___ we samen koffie drinken?", th: "เติม (เราไปดื่มกาแฟด้วยกันไหม?):", answer: "Zullen", options: ["Moeten", "Hoeven", "Zullen", "Kunnen"] },
+          ]
+        }
+      ]
+    },
+    // ===== A2 Module 3: Voegwoorden (Conjunctions) =====
+    {
+      id: 33, section: "a2", title: "Voegwoorden", titleEn: "Conjunctions", titleTh: "คำเชื่อม", icon: "🔗", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_3a", title: "Omdat, Want, Dat, Als", titleEn: "Because, That, If", titleTh: "เพราะ ว่า ถ้า",
+          vocab: [
+            { nl: "omdat", en: "because (subordinating)", phonetic: "om-DAT", thai: "เพราะว่า (เปลี่ยนลำดับคำ)", note: "Verb goes to END" },
+            { nl: "want", en: "because (coordinating)", phonetic: "vant", thai: "เพราะ (ลำดับคำปกติ)", note: "Normal word order" },
+            { nl: "dat", en: "that (conjunction)", phonetic: "dat", thai: "ว่า", note: "Verb goes to END" },
+            { nl: "als", en: "if / when", phonetic: "als", thai: "ถ้า / เมื่อ", note: "Verb goes to END" },
+            { nl: "maar", en: "but", phonetic: "mahr", thai: "แต่" },
+            { nl: "of", en: "or / whether", phonetic: "of", thai: "หรือ" },
+            { nl: "toen", en: "when (past)", phonetic: "toon", thai: "เมื่อ (อดีต)", note: "Verb goes to END" },
+            { nl: "daarom", en: "therefore", phonetic: "DAHR-om", thai: "ดังนั้น", note: "Inversion: verb before subject" },
+            { nl: "misschien", en: "maybe", phonetic: "mis-SKHEEN", thai: "อาจจะ" },
+            { nl: "eigenlijk", en: "actually", phonetic: "AY-khun-luk", thai: "จริงๆ แล้ว" },
+            { nl: "natuurlijk", en: "of course", phonetic: "nah-TUWR-luk", thai: "แน่นอน" },
+            { nl: "belangrijk", en: "important", phonetic: "buh-LANG-reyk", thai: "สำคัญ" },
+          ],
+          dialogues: [
+            { situation: "Explaining reasons — อธิบายเหตุผล", lines: [
+              { speaker: "A", nl: "Waarom leer je Nederlands?", en: "Why are you learning Dutch?", th: "ทำไมคุณเรียนภาษาดัตช์?" },
+              { speaker: "B", nl: "Omdat ik in Nederland wil wonen.", en: "Because I want to live in the Netherlands.", th: "เพราะฉันอยากอยู่ที่เนเธอร์แลนด์" },
+              { speaker: "A", nl: "Ik denk dat het belangrijk is.", en: "I think that it's important.", th: "ฉันคิดว่ามันสำคัญ" },
+              { speaker: "B", nl: "Ja, want ik moet het examen doen.", en: "Yes, because I have to do the exam.", th: "ใช่ เพราะฉันต้องสอบ" },
+              { speaker: "A", nl: "Als je elke dag oefent, lukt het!", en: "If you practice every day, you'll succeed!", th: "ถ้าคุณฝึกทุกวัน จะสำเร็จ!" },
+              { speaker: "B", nl: "Dat weet ik, daarom studeer ik hard.", en: "I know that, therefore I study hard.", th: "ฉันรู้ ดังนั้นฉันเรียนหนัก" },
+            ]}
+          ],
+          grammar: {
+            title: "Conjunctions & Word Order — คำเชื่อมและลำดับคำ",
+            explanation: "The most important A2 grammar: <strong>subordinating conjunctions</strong> (omdat, dat, als, toen) send the verb to the <strong>END</strong> of the clause. <strong>Coordinating conjunctions</strong> (want, maar, en, of) keep <strong>normal word order</strong>. Compare: <em>...want ik <u>moet</u> werken</em> vs <em>...omdat ik moet <u>werken</u></em>. This is THE key difference for A2.",
+            examples: [
+              { nl: "Ik werk, want ik heb geld nodig.", en: "I work, because I need money. (normal order)", th: "ฉันทำงาน เพราะฉันต้องการเงิน (ลำดับปกติ)" },
+              { nl: "Ik werk, omdat ik geld nodig heb.", en: "I work, because I need money. (verb to end)", th: "ฉันทำงาน เพราะว่าฉันต้องการเงิน (กริยาไปท้าย)" },
+              { nl: "Ik weet dat hij ziek is.", en: "I know that he is sick. (verb to end)", th: "ฉันรู้ว่าเขาป่วย (กริยาไปท้าย)" },
+              { nl: "Als het regent, blijf ik thuis.", en: "If it rains, I stay home.", th: "ถ้าฝนตก ฉันอยู่บ้าน" },
+              { nl: "Het is moeilijk, maar ik probeer het.", en: "It's difficult, but I try.", th: "มันยาก แต่ฉันพยายาม" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "'Omdat' sends the verb to:", th: "omdat ทำให้กริยาไป:", answer: "The end of the clause", options: ["The beginning", "The end of the clause", "Before the subject", "It stays in place"] },
+            { type: "mc", question: "Which keeps normal word order?", th: "คำใดใช้ลำดับปกติ?", answer: "want", options: ["omdat", "want", "dat", "als"] },
+            { type: "mc", question: "Fill in: Ik blijf thuis, ___ ik ziek ben.", th: "เติม (ฉันอยู่บ้านเพราะป่วย):", answer: "omdat", options: ["want", "omdat", "maar", "als"] },
+            { type: "mc", question: "In 'omdat ik moet werken', the verb order is:", th: "ลำดับกริยาคือ:", answer: "moet werken (both at end)", options: ["werken moet", "moet werken (both at end)", "moet werken (normal)", "werken (only main verb)"] },
+            { type: "mc", question: "'Als het mooi weer is, ...' means:", th: "แปลว่า:", answer: "If the weather is nice, ...", options: ["Because the weather is nice", "If the weather is nice, ...", "When it was nice", "Although it is nice"] },
+            { type: "mc", question: "'Daarom' causes:", th: "daarom ทำให้:", answer: "Inversion (verb before subject)", options: ["Normal order", "Verb to end", "Inversion (verb before subject)", "No change"] },
+          ]
+        }
+      ]
+    }
+
   ]
 };
 
@@ -2785,7 +3001,28 @@ let state = {
   // Speech recognition state
   speechRecResult: null, // { text, score, status }
   speechRecActive: false,
+  micPermission: 'prompt', // 'prompt' | 'granted' | 'denied'
+  micStream: null, // Active MediaStream while in Speak tab
 };
+
+// Check mic permission on load
+if (navigator.permissions && navigator.permissions.query) {
+  navigator.permissions.query({ name: 'microphone' }).then(result => {
+    state.micPermission = result.state;
+    result.onchange = () => { state.micPermission = result.state; render(true); };
+  }).catch(() => {});
+}
+
+function requestMicPermission() {
+  // Just acquire the stream — this triggers the browser popup
+  acquireMicStream();
+}
+
+function retryMicPermission() {
+  state.micPermission = 'prompt';
+  releaseMicStream();
+  acquireMicStream();
+}
 
 // Detect speech recognition support
 const SpeechRecAPI = window.SpeechRecognition || window.webkitSpeechRecognition || null;
@@ -3244,7 +3481,7 @@ let installBannerDismissed = false;
 if ('serviceWorker' in navigator) {
   // Inline service worker via blob URL
   const swCode = `
-    const CACHE = 'leer-nl-v0.6';
+    const CACHE = 'leer-nl-v0.7';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -3302,18 +3539,31 @@ function setState(updates) {
   // Stop speech when navigating
   if (updates.view || updates.currentLesson !== undefined || updates.activeTab) {
     stopAllAudio();
-    // Stop speech recognition if active (keep instance alive for reuse)
-    if (speechRecognizer) {
+    // Stop any active speech recognition
+    if (state.speechRecActive && speechRecognizer) {
       try { speechRecognizer.abort(); } catch(e) {}
+      speechRecognizer = null;
       state.speechRecActive = false;
     }
   }
+  // Mic stream lifecycle: release when LEAVING speak tab
+  const enteringSpeak = updates.activeTab === 'speak';
+  const leavingSpeak = state.activeTab === 'speak' && (
+    (updates.activeTab && updates.activeTab !== 'speak') ||
+    updates.view || updates.currentLesson !== undefined
+  );
+  if (leavingSpeak) releaseMicStream();
+
   // Clean up exam timer if leaving exam view
   if (updates.view && updates.view !== 'exam' && state.examTimerInterval) {
     clearInterval(state.examTimerInterval);
     state.examTimerInterval = null;
   }
   Object.assign(state, updates);
+
+  // Acquire mic when ENTERING speak tab
+  if (enteringSpeak) acquireMicStream();
+
   render();
 }
 
@@ -3517,7 +3767,7 @@ function generateClozeExercises(lesson) {
     });
   }
 
-  return exercises.slice(0, 4); // Max 4 cloze exercises
+  return exercises.slice(0, 6); // Max 6 cloze exercises
 }
 
 // Generate word reorder exercises from dialogues
@@ -3539,20 +3789,102 @@ function generateReorderExercises(lesson) {
     });
   });
 
-  // Shuffle and take max 3
-  return fisherYatesShuffle(exercises).slice(0, 3);
+  return fisherYatesShuffle(exercises).slice(0, 5);
 }
 
 // Generate translation matching exercises from vocab
 function generateMatchExercises(lesson) {
   if (lesson.vocab.length < 4) return [];
-  // Pick 4-6 words using Fisher-Yates
   const shuffled = fisherYatesShuffle([...lesson.vocab]);
   const words = shuffled.slice(0, Math.min(6, lesson.vocab.length));
   return [{
     type: 'match',
     pairs: words.map(v => ({ nl: v.nl, en: v.en, thai: v.thai || '' }))
   }];
+}
+
+// Generate dictation exercises — hear word, type spelling
+function generateDictationExercises(lesson) {
+  const exercises = [];
+  // Pick vocab words that are 3+ chars (skip tiny words)
+  const candidates = lesson.vocab.filter(v => v.nl.length >= 3 && !v.nl.includes(' '));
+  const shuffled = fisherYatesShuffle([...candidates]);
+  shuffled.slice(0, 6).forEach(v => {
+    exercises.push({
+      type: 'dictation',
+      word: v.nl,
+      hint: v.en,
+      hintTh: v.thai || '',
+      phonetic: v.phonetic || ''
+    });
+  });
+  return exercises;
+}
+
+// Generate context sentence exercises — pick the correct word for a sentence
+function generateContextExercises(lesson) {
+  const exercises = [];
+  // Build context sentences from dialogues
+  if (lesson.dialogues) {
+    lesson.dialogues.forEach(d => {
+      d.lines.forEach(line => {
+        const vocabInLine = lesson.vocab.filter(v =>
+          line.nl.toLowerCase().includes(v.nl.toLowerCase()) && v.nl.length > 3
+        );
+        if (vocabInLine.length > 0) {
+          const target = vocabInLine[Math.floor(Math.random() * vocabInLine.length)];
+          // Create distractors from other vocab
+          const distractors = fisherYatesShuffle(
+            lesson.vocab.filter(v => v.nl !== target.nl && v.nl.length > 2)
+          ).slice(0, 3).map(v => v.nl);
+          if (distractors.length >= 2) {
+            const regex = new RegExp(target.nl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+            const blanked = line.nl.replace(regex, '______');
+            if (blanked !== line.nl) {
+              const options = fisherYatesShuffle([target.nl, ...distractors.slice(0, 3)]);
+              exercises.push({
+                type: 'context',
+                sentence: blanked,
+                translation: line.en,
+                translationTh: line.th || '',
+                answer: target.nl,
+                options: options
+              });
+            }
+          }
+        }
+      });
+    });
+  }
+  // Also from grammar examples
+  if (lesson.grammar && lesson.grammar.examples) {
+    lesson.grammar.examples.forEach(ex => {
+      const vocabInEx = lesson.vocab.filter(v =>
+        ex.nl.toLowerCase().includes(v.nl.toLowerCase()) && v.nl.length > 3
+      );
+      if (vocabInEx.length > 0) {
+        const target = vocabInEx[Math.floor(Math.random() * vocabInEx.length)];
+        const distractors = fisherYatesShuffle(
+          lesson.vocab.filter(v => v.nl !== target.nl && v.nl.length > 2)
+        ).slice(0, 3).map(v => v.nl);
+        if (distractors.length >= 2) {
+          const regex = new RegExp(target.nl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+          const blanked = ex.nl.replace(regex, '______');
+          if (blanked !== ex.nl) {
+            exercises.push({
+              type: 'context',
+              sentence: blanked,
+              translation: ex.en,
+              translationTh: ex.th || '',
+              answer: target.nl,
+              options: fisherYatesShuffle([target.nl, ...distractors.slice(0, 3)])
+            });
+          }
+        }
+      }
+    });
+  }
+  return fisherYatesShuffle(exercises).slice(0, 5);
 }
 
 // Seeded random for consistent exercise generation per lesson
@@ -3584,14 +3916,16 @@ const exerciseCache = {};
 function getGeneratedExercises(lesson) {
   if (exerciseCache[lesson.id]) return exerciseCache[lesson.id];
   // Use seeded random for stability
-  const rng = seededRandom(lesson.id + '_v4');
+  const rng = seededRandom(lesson.id + '_v7');
   const origRandom = Math.random;
   Math.random = rng;
   const cloze = generateClozeExercises(lesson);
   const reorder = generateReorderExercises(lesson);
   const match = generateMatchExercises(lesson);
+  const dictation = generateDictationExercises(lesson);
+  const context = generateContextExercises(lesson);
   Math.random = origRandom;
-  exerciseCache[lesson.id] = { cloze, reorder, match };
+  exerciseCache[lesson.id] = { cloze, reorder, match, dictation, context };
   return exerciseCache[lesson.id];
 }
 
@@ -3690,7 +4024,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.6 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.7 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -3716,7 +4050,7 @@ function renderHome() {
           const allMods = mods.length;
           const activeMods = active.length;
           return `<div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-            <span style="font-size:12px;color:#888;min-width:60px">${sec.icon} ${sec.id === 'taal' ? 'Taal' : sec.id === 'kns' ? 'KNS' : 'Uitspraak'}</span>
+            <span style="font-size:12px;color:#888;min-width:60px">${sec.icon} ${sec.id === 'taal' ? 'Taal' : sec.id === 'kns' ? 'KNS' : sec.id === 'a2' ? 'A2' : 'Uitspraak'}</span>
             <div style="flex:1;height:4px;background:#eee;border-radius:2px;overflow:hidden">
               <div style="height:100%;width:${secPct}%;background:${sec.color};border-radius:2px;transition:width 0.5s"></div>
             </div>
@@ -3805,74 +4139,132 @@ function renderSettings() {
     `<option value="browser-${i}" ${state.ttsEngine === 'browser-'+i ? 'selected' : ''}>${escHtml(getBrowserVoiceLabel(v))}</option>`
   ).join('');
 
-  const currentVoiceLabel = state.ttsEngine === 'auto' ? 'Google Dutch 🌐'
-    : state.ttsEngine === 'browser-auto' ? 'Auto-select female 👩'
+  const currentVoiceLabel = state.ttsEngine === 'auto' ? 'Google Dutch'
+    : state.ttsEngine === 'browser-auto' ? 'Auto-select female'
     : state.ttsEngine.startsWith('browser-') ? (dutchBrowserVoices[parseInt(state.ttsEngine.replace('browser-',''),10)]?.name || 'Browser voice')
     : 'Unknown';
+
+  const micGranted = state.micPermission === 'granted';
+  const micDenied = state.micPermission === 'denied';
+  const totalLessons = COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0);
+  const completedCount = Object.keys(state.completedLessons).length;
+  const xp = getXP();
+  const lvl = getLevel(xp);
+  const streak = getStreakData();
 
   return `
     <button class="back-btn" onclick="setState({view:'home'})">◀ Home · หน้าหลัก</button>
     <div style="padding:16px 0 12px;border-bottom:3px solid #21468B">
-      <h2 class="serif" style="margin:0 0 2px">⚙️ Settings · การตั้งค่า</h2>
-      <p style="color:#666;margin:0">Configure your learning experience</p>
+      <h2 class="serif" style="margin:0 0 2px">Settings · การตั้งค่า</h2>
+      <p style="color:#666;margin:0">ตั้งค่าการเรียนรู้ · Configure your learning experience</p>
     </div>
 
     <div class="card" style="margin-top:20px">
-      <h3 class="serif" style="margin:0 0 16px;color:#21468B">🎙️ Voice · เสียง</h3>
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">Voice · เสียง</h3>
 
       <div style="margin-bottom:16px">
-        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Dutch Voice Engine</label>
+        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Dutch Voice Engine · เครื่องเสียง</label>
         <select id="voice-select" class="voice-select" onchange="setTtsEngine(this.value)">
-          <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>🌐 Google Dutch — native speaker (desktop recommended)</option>
+          <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>Google Dutch — native speaker (desktop recommended)</option>
           ${dutchBrowserVoices.length > 0 ? `<optgroup label="── Browser Voices (${dutchBrowserVoices.length} found) ──">
-            <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>🖥️ Auto-select best female voice 👩</option>
+            <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>Auto-select best female voice</option>
             ${browserVoiceOptions}
           </optgroup>` : ''}
         </select>
         <div style="font-size:12px;color:#888;margin-top:6px;line-height:1.5">
-          Current: <strong>${escHtml(currentVoiceLabel)}</strong><br>
-          🌐 Google = native speaker, needs internet · 🖥️ Browser = works offline<br>
-          📱 iPhone/iPad auto-uses browser voice (Google blocked by iOS)
+          ใช้อยู่: <strong>${escHtml(currentVoiceLabel)}</strong><br>
+          Google = เสียงเจ้าของภาษา ต้องใช้อินเทอร์เน็ต · Browser = ใช้ได้ออฟไลน์
         </div>
       </div>
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-        <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">🔊 Test Greeting</button>
-        <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">🔊 Test Sentence</button>
-        <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">🔊 Test Hard Sounds</button>
-        <button class="voice-test-btn" onclick="stopAllAudio()">⏹ Stop</button>
+        <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">Test Greeting</button>
+        <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">Test Sentence</button>
+        <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">Test Hard Sounds</button>
+        <button class="voice-test-btn" onclick="stopAllAudio()">Stop</button>
       </div>
 
       <div style="margin-bottom:4px">
-        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Speech Speed · ความเร็ว</label>
+        <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Speed · ความเร็ว</label>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${[0.6, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r});render()">${r === 0.6 ? '🐢 Slow — for learning' : '🚶 Normal speed'}</button>`).join('')}
+          ${[0.6, 1.0].map(r => `<button class="speed-btn ${state.speechRate === r ? 'active-speed' : ''}" data-rate="${r}" onclick="setSpeed(${r});render()">${r === 0.6 ? 'Slow — สำหรับเรียนรู้' : 'Normal speed — ปกติ'}</button>`).join('')}
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h3 class="serif" style="margin:0 0 16px;color:#21468B">📊 Progress · ความก้าวหน้า</h3>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <span style="font-size:14px;color:#555">${Object.keys(state.completedLessons).length} of ${COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0)} lessons completed</span>
-      </div>
-      <div class="progress-bar" style="margin-bottom:16px"><div class="progress-fill" style="width:${(Object.keys(state.completedLessons).length / COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0) * 100)}%"></div></div>
-      ${Object.keys(state.completedLessons).length > 0 ? `
-        <button onclick="resetProgress()" style="background:#fff;border:2px solid #E74C3C;border-radius:8px;padding:10px 20px;font-size:14px;color:#E74C3C;cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.2s">🔄 Reset All Progress</button>
-        <p style="font-size:12px;color:#999;margin:8px 0 0">This will clear all completed lessons. You'll start from scratch.</p>
-      ` : `<p style="font-size:14px;color:#999">No lessons completed yet. Start learning!</p>`}
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">Microphone · ไมโครโฟน</h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 12px">
+        ใช้ไมโครโฟนในแท็บ Speak เพื่อฝึกออกเสียง
+      </p>
+      ${(window.self !== window.top && !micGranted) ? `
+        <div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;padding:12px 16px;font-size:14px;color:#E65100;line-height:1.6;margin-bottom:8px">
+          ไมค์ใช้ไม่ได้ในหน้าพรีวิว
+        </div>
+        <button onclick="downloadSelf()" style="background:#E65100;color:white;border:none;border-radius:10px;padding:12px 20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px;width:100%">
+          ดาวน์โหลด leer-nederlands.html
+        </button>
+        <p style="font-size:12px;color:#888;margin:6px 0 0">เปิดไฟล์ใน Safari หรือ Chrome เพื่อใช้ไมค์</p>
+      ` : micGranted ? `
+        <div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:10px;padding:12px 16px;font-size:15px;color:#2E7D32;font-weight:600">
+          เปิดไมโครโฟนแล้ว · Enabled
+        </div>
+      ` : `
+        <button onclick="requestMicPermission()" style="background:#21468B;color:white;border:none;border-radius:10px;padding:14px 24px;font-weight:700;cursor:pointer;font-family:inherit;font-size:16px;width:100%">
+          เปิดไมโครโฟน · Enable Microphone
+        </button>
+        <p style="font-size:13px;color:#888;margin:8px 0 0;text-align:center">กด Allow ในป็อปอัพที่ขึ้นมา</p>
+      `}
     </div>
 
     <div class="card">
-      <h3 class="serif" style="margin:0 0 12px;color:#21468B">ℹ️ About</h3>
-      <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 8px">
-        A Dutch language course designed for Thai speakers preparing for the <strong>Basisexamen Inburgering Buitenland</strong> (A1 level).
-        Covers vocabulary, dialogues, grammar, pronunciation, and Dutch society knowledge (KNS).
+      <h3 class="serif" style="margin:0 0 16px;color:#21468B">Progress · ความก้าวหน้า</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:14px;color:#555">${completedCount} of ${totalLessons} lessons completed</span>
+        <span style="font-size:14px;color:#555">${xp} XP · ${lvl.emoji} ${lvl.name}</span>
+      </div>
+      <div class="progress-bar" style="margin-bottom:8px"><div class="progress-fill" style="width:${(completedCount / totalLessons * 100)}%"></div></div>
+      <div style="font-size:13px;color:#888;margin-bottom:16px">
+        Streak: ${streak.days} days · SRS vocabulary: ${Object.keys(state.srsData).length} words tracked
+      </div>
+      ${completedCount > 0 ? `
+        <button onclick="resetProgress()" style="background:#fff;border:2px solid #E74C3C;border-radius:8px;padding:10px 20px;font-size:14px;color:#E74C3C;cursor:pointer;font-family:inherit;font-weight:600">Reset All Progress · รีเซ็ตทั้งหมด</button>
+        <p style="font-size:12px;color:#999;margin:8px 0 0">ลบข้อมูลทั้งหมด: บทเรียน SRS Streak XP</p>
+      ` : `<p style="font-size:14px;color:#999">ยังไม่ได้เรียน เริ่มเรียนเลย!</p>`}
+    </div>
+
+    <div class="card">
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับ</h3>
+      <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 12px">
+        <strong>Leer Nederlands v0.7</strong> — Dutch for Thai speakers preparing for the
+        <strong>Basisexamen Inburgering Buitenland</strong> (A1 level).
       </p>
-      <p style="font-size:13px;color:#888;line-height:1.6;margin:0 0 12px">
+      <p style="font-size:13px;color:#555;line-height:1.7;margin:0 0 12px">
         หลักสูตรภาษาดัตช์สำหรับคนไทย เตรียมสอบ Inburgering ระดับ A1
-        ครอบคลุมคำศัพท์ บทสนทนา ไวยากรณ์ การออกเสียง และความรู้เกี่ยวกับสังคมดัตช์
       </p>
+      <div style="font-size:13px;color:#666;line-height:1.8;margin:0 0 12px">
+        <strong>Features · ฟีเจอร์:</strong><br>
+        <span style="color:#444">Vocabulary</span> — ${getAllVocab().length}+ words with Dutch, Thai, English, phonetics<br>
+        <span style="color:#444">Flash Cards</span> — Swipeable cards with emoji illustrations<br>
+        <span style="color:#444">Listen</span> — Audio playback for all words and dialogues<br>
+        <span style="color:#444">Speak</span> — Pronunciation practice with speech recognition<br>
+        <span style="color:#444">Dialogue</span> — Realistic conversations per topic<br>
+        <span style="color:#444">Grammar</span> — Rules and examples per lesson<br>
+        <span style="color:#444">Practice</span> — Multiple choice quizzes (60% to pass)<br>
+        <span style="color:#444">Exercises</span> — Cloze, reorder, matching, dictation, and context drills<br>
+        <span style="color:#444">SRS Review</span> — Spaced repetition (Leitner 5-box system)<br>
+        <span style="color:#444">Test Exam</span> — Timed exam simulation (5 exam types incl. A2)<br>
+        <span style="color:#444">Streak & XP</span> — Daily streak tracking and level progression<br>
+        <span style="color:#444">PWA</span> — Installable as app, works offline
+      </div>
+      <div style="font-size:13px;color:#666;line-height:1.8;margin:0 0 12px">
+        <strong>Curriculum · หลักสูตร:</strong><br>
+        <span style="color:#444">Taal A1</span> — 21 modules: greetings, house, weather, time, food, daily life, family, health, transport, shopping, sports, communication, and more<br>
+        <span style="color:#444">KNS</span> — 7 modules: geography, history, politics, language, education, healthcare, work & law<br>
+        <span style="color:#444">Uitspraak</span> — 2 modules: difficult sounds, vowel length & spelling<br>
+        <span style="color:#444">A2</span> — 3 modules: past tense (perfectum), modal verbs, conjunctions & word order
+      </div>
+      <p style="font-size:12px;color:#aaa;margin:12px 0 0">by @trippledutch — built with Claude · February 2026</p>
     </div>
   `;
 }
@@ -4030,14 +4422,14 @@ function renderLesson() {
   const tab = state.activeTab;
 
   const tabs = [
-    { key: 'vocab', label: 'คำศัพท์ Vocab' },
-    { key: 'flashcards', label: 'บัตรคำ Cards' },
+    { key: 'vocab', label: 'คำศัพท์ Vocabulary' },
+    { key: 'flashcards', label: 'บัตรคำ Flash Cards' },
     { key: 'listen', label: 'ฟัง Listen' },
-    { key: 'speak', label: '🎤 Speak' },
+    { key: 'speak', label: 'พูด Speak' },
     { key: 'dialogue', label: 'สนทนา Dialogue' },
     { key: 'grammar', label: 'ไวยากรณ์ Grammar' },
     { key: 'practice', label: 'ฝึกหัด Practice' },
-    { key: 'exercises', label: '✏️ Exercises' },
+    { key: 'exercises', label: 'แบบฝึกหัด Exercises' },
   ];
 
   let content = '';
@@ -4317,9 +4709,11 @@ function renderFlashcards(mod, lesson) {
       <div style="text-align:center;padding:40px 20px">
         <div style="font-size:48px;margin-bottom:16px">🎉</div>
         <h3 class="serif" style="color:${mod.color};margin:0 0 8px">เก่งมาก! All cards reviewed!</h3>
-        <p style="color:#666;font-size:15px;margin:0 0 8px">You've gone through all ${words.length} vocabulary cards. · คุณได้ทบทวนคำศัพท์ทั้งหมด ${words.length} คำแล้ว</p>
-        <p style="color:#888;font-size:13px;margin:0 0 20px">🧠 Words have been added to your SRS review queue · เพิ่มคำศัพท์ในระบบทบทวนแล้ว</p>
-        <button class="flashcard-action-btn" style="border-color:${mod.color};color:${mod.color}" onclick="setState({flashcardIdx:0,flashcardFlipped:false,flashcardKnown:{}})">🔄 Start Over · เริ่มใหม่</button>
+        <p style="color:#666;font-size:15px;margin:0 0 8px">ดูคำศัพท์ครบทั้ง ${words.length} คำแล้ว</p>
+        <p style="color:#888;font-size:13px;margin:0 0 6px">คำที่ตอบว่า "Got It!" จะเลื่อนขึ้นในระบบ SRS</p>
+        <p style="color:#888;font-size:13px;margin:0 0 6px">คำที่ตอบว่า "Don't Know" จะอยู่ในกล่อง SRS กล่องแรก</p>
+        <p style="color:#888;font-size:13px;margin:0 0 20px">ไปที่หน้าหลักเพื่อทบทวนคำศัพท์ที่ถึงเวลาใน Vocabulary Review</p>
+        <button class="flashcard-action-btn" style="border-color:${mod.color};color:${mod.color}" onclick="setState({flashcardIdx:0,flashcardFlipped:false,flashcardKnown:{}})">เริ่มใหม่ Start Over</button>
       </div>
     `;
   }
@@ -4363,9 +4757,12 @@ function renderFlashcards(mod, lesson) {
       </div>
     </div>
     <div class="flashcard-actions">
-      <button class="flashcard-action-btn" style="border-color:#E74C3C;color:#E74C3C;background:#FFF5F5" onclick="flashcardNext(${currentIdx}, false)">❌ Study Again · ทบทวน</button>
-      <button class="flashcard-action-btn" style="border-color:#5E9B4E;color:#5E9B4E;background:#F0FFF0" onclick="flashcardNext(${currentIdx}, true)">✅ Got It! · รู้แล้ว</button>
+      <button class="flashcard-action-btn" style="border-color:#E74C3C;color:#E74C3C;background:#FFF5F5" onclick="flashcardNext(${currentIdx}, false)">ยังจำไม่ได้ Don't Know</button>
+      <button class="flashcard-action-btn" style="border-color:#5E9B4E;color:#5E9B4E;background:#F0FFF0" onclick="flashcardNext(${currentIdx}, true)">รู้แล้ว Got It!</button>
     </div>
+    <p style="text-align:center;font-size:12px;color:#aaa;margin-top:8px;line-height:1.5">
+      "Don't Know" = คำนี้จะกลับมาในรอบนี้ · "Got It!" = เลื่อนขึ้นในระบบ SRS
+    </p>
     <div class="flashcard-nav" style="margin-top:16px">
       <button class="flashcard-nav-btn" ${currentIdx <= 0 ? 'disabled' : ''} onclick="flashcardGo(${currentIdx - 1})">◀</button>
       <span style="font-size:14px;color:#888;font-weight:600">${currentIdx + 1} / ${words.length}</span>
@@ -4428,8 +4825,10 @@ function renderNewExercises(mod, lesson) {
   const hasCloze = gen.cloze.length > 0;
   const hasReorder = gen.reorder.length > 0;
   const hasMatch = gen.match.length > 0;
+  const hasDictation = gen.dictation.length > 0;
+  const hasContext = gen.context.length > 0;
 
-  if (!hasCloze && !hasReorder && !hasMatch) {
+  if (!hasCloze && !hasReorder && !hasMatch && !hasDictation && !hasContext) {
     return `<div style="text-align:center;padding:40px 20px;color:#888">
       <div style="font-size:48px;margin-bottom:12px">📝</div>
       <p>No interactive exercises available for this lesson yet.</p>
@@ -4441,6 +4840,16 @@ function renderNewExercises(mod, lesson) {
     <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#888">
       ✏️ Interactive exercises generated from this lesson's vocabulary and dialogues. · แบบฝึกหัดเชิงโต้ตอบจากคำศัพท์และบทสนทนา
     </div>
+
+    ${hasDictation ? `
+      <div class="exercise-section-title">🎧 Dictation · ฟังแล้วเขียน</div>
+      ${gen.dictation.map((ex, i) => renderDictationExercise(ex, i, mod)).join('')}
+    ` : ''}
+
+    ${hasContext ? `
+      <div class="exercise-section-title">📖 Context · เลือกคำที่ถูกต้อง</div>
+      ${gen.context.map((ex, i) => renderContextExercise(ex, i, mod)).join('')}
+    ` : ''}
 
     ${hasCloze ? `
       <div class="exercise-section-title">📝 Fill in the Blank · เติมคำในช่องว่าง</div>
@@ -4681,6 +5090,92 @@ function resetMatch(stateKey, pairCount) {
   render(true);
 }
 
+// Dictation exercise: listen to word, type its spelling
+function renderDictationExercise(ex, idx, mod) {
+  const stateKey = `dict_${idx}`;
+  const answer = state.clozeAnswers[stateKey] || '';
+  const checked = state.clozeAnswers[stateKey + '_checked'];
+  const isCorrect = checked && answer.toLowerCase().trim() === ex.word.toLowerCase().trim();
+  const isWrong = checked && !isCorrect;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${checked ? (isCorrect ? '#5E9B4E' : '#E74C3C') : mod.color}">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <button class="speak-btn" onclick="speakDutch('${escHtml(ex.word).replace(/'/g,"\\'")}')" style="font-size:24px;width:48px;height:48px">🔊</button>
+        <div>
+          <div style="font-size:14px;color:#555;font-weight:600">ฟังแล้วพิมพ์ · Listen and type</div>
+          <div style="font-size:12px;color:#888">💡 ${escHtml(ex.hint)} ${ex.hintTh ? `· ${ex.hintTh}` : ''}</div>
+        </div>
+      </div>
+      <input type="text" class="cloze-input ${isCorrect ? 'correct' : isWrong ? 'wrong' : ''}"
+        style="width:100%;font-size:18px;padding:12px 16px;box-sizing:border-box"
+        value="${escHtml(answer)}"
+        placeholder="พิมพ์คำที่ได้ยิน..."
+        ${checked ? 'disabled' : ''}
+        oninput="state.clozeAnswers['${stateKey}']=this.value"
+        onkeydown="if(event.key==='Enter')checkCloze('${stateKey}','${escHtml(ex.word).replace(/'/g,"\\'")}')"
+        autocomplete="off" autocapitalize="off" spellcheck="false"
+      >
+      ${!checked ? `
+        <button style="margin-top:10px;padding:8px 16px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:600;cursor:pointer;font-family:inherit;font-size:13px"
+          onclick="checkCloze('${stateKey}','${escHtml(ex.word).replace(/'/g,"\\'")}')">
+          Check · ตรวจ
+        </button>
+      ` : `
+        <div style="margin-top:10px;font-size:14px">
+          ${isCorrect ? `<span style="color:#5E9B4E;font-weight:600">✅ Correct! · ถูกต้อง!</span>` :
+            `<span style="color:#E74C3C;font-weight:600">❌ Incorrect</span>
+             <span style="color:#5E9B4E;margin-left:8px">→ ${escHtml(ex.word)}</span>`}
+          ${ex.phonetic ? `<div style="font-size:12px;color:#888;margin-top:4px">/${escHtml(ex.phonetic)}/</div>` : ''}
+        </div>
+      `}
+    </div>
+  `;
+}
+
+// Context exercise: pick the right word for a sentence
+function renderContextExercise(ex, idx, mod) {
+  const stateKey = `ctx_${idx}`;
+  const selected = state.clozeAnswers[stateKey];
+  const checked = state.clozeAnswers[stateKey + '_checked'];
+  const isCorrect = checked && selected === ex.answer;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${checked ? (isCorrect ? '#5E9B4E' : '#E74C3C') : mod.color}">
+      <div class="question serif" style="font-size:17px;line-height:1.7;margin-bottom:4px">
+        ${escHtml(ex.sentence).replace('______', '<span style="border-bottom:2px solid ' + mod.color + ';padding:0 12px;color:' + mod.color + ';font-weight:700">' + (selected || '______') + '</span>')}
+      </div>
+      <div style="font-size:13px;color:#888;margin-bottom:12px">${escHtml(ex.translation)} ${ex.translationTh ? `· ${ex.translationTh}` : ''}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${ex.options.map(opt => {
+          const isSel = selected === opt;
+          const showCorrect = checked && opt === ex.answer;
+          const showWrong = checked && isSel && !isCorrect;
+          return `<button style="padding:8px 16px;border-radius:8px;border:2px solid ${showCorrect ? '#5E9B4E' : showWrong ? '#E74C3C' : isSel ? mod.color : '#ddd'};
+            background:${showCorrect ? '#E8F5E9' : showWrong ? '#FFEBEE' : isSel ? mod.color + '15' : '#fff'};
+            color:${showCorrect ? '#2E7D32' : showWrong ? '#C62828' : '#333'};font-weight:${isSel || showCorrect ? '700' : '400'};
+            cursor:${checked ? 'default' : 'pointer'};font-family:inherit;font-size:14px"
+            ${checked ? '' : `onclick="state.clozeAnswers['${stateKey}']='${escHtml(opt).replace(/'/g,"\\'")}';render(true)"`}>
+            ${escHtml(opt)}
+          </button>`;
+        }).join('')}
+      </div>
+      ${selected && !checked ? `
+        <button style="margin-top:10px;padding:8px 16px;border-radius:8px;border:2px solid ${mod.color};background:${mod.color};color:#fff;font-weight:600;cursor:pointer;font-family:inherit;font-size:13px"
+          onclick="state.clozeAnswers['${stateKey}_checked']=true;render(true)">
+          Check · ตรวจ
+        </button>
+      ` : ''}
+      ${checked ? `
+        <div style="margin-top:10px;font-size:14px">
+          ${isCorrect ? '<span style="color:#5E9B4E;font-weight:600">✅ Correct! · ถูกต้อง!</span>' :
+            `<span style="color:#E74C3C;font-weight:600">❌ คำตอบที่ถูก: <strong>${escHtml(ex.answer)}</strong></span>`}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
 // ============================================================
 // EXAM SIMULATION ENGINE
 // ============================================================
@@ -4803,7 +5298,8 @@ function renderExamSetup() {
   const taalQ = getAllExamQuestions('taal').length;
   const knsQ = getAllExamQuestions('kns').length;
   const uitQ = getAllExamQuestions('uitspraak').length;
-  const allQ = taalQ + knsQ + uitQ;
+  const a2Q = getAllExamQuestions('a2').length;
+  const allQ = taalQ + knsQ + uitQ + a2Q;
   const history = state.examHistory;
 
   return `
@@ -4865,6 +5361,19 @@ function renderExamSetup() {
           </div>
           <span style="color:#5E9B4E;font-size:20px">→</span>
         </button>` : ''}
+
+        ${a2Q > 0 ? `
+        <button class="lesson-card" onclick="startExam('a2',15,15)" style="border-left:4px solid #1565C0">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="num" style="background:#1565C0">📈</div>
+            <div style="text-align:left">
+              <div style="font-weight:700;color:#222;font-size:16px" class="serif">A2 Only · เฉพาะ A2</div>
+              <div style="color:#666;font-size:13px">15 questions · 15 minutes · Past tense, modals, conjunctions</div>
+              <div style="color:#999;font-size:12px">${a2Q} questions available</div>
+            </div>
+          </div>
+          <span style="color:#1565C0;font-size:20px">→</span>
+        </button>` : ''}
       </div>
     </div>
 
@@ -4877,7 +5386,7 @@ function renderExamSetup() {
           const dateStr = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
           const timeStr = Math.floor(h.timeUsed / 60) + 'm ' + (h.timeUsed % 60) + 's';
           const passed = h.pct >= 60;
-          const secLabel = h.section === 'all' ? 'Full' : h.section === 'taal' ? 'Taal' : h.section === 'kns' ? 'KNS' : 'Uitspraak';
+          const secLabel = h.section === 'all' ? 'Full' : h.section === 'taal' ? 'Taal' : h.section === 'kns' ? 'KNS' : h.section === 'a2' ? 'A2' : 'Uitspraak';
           return `<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0f0f0">
             <div style="width:40px;text-align:center;font-size:20px">${passed ? '✅' : '📖'}</div>
             <div style="flex:1">
@@ -5006,7 +5515,7 @@ function renderExamResults() {
         <div style="margin-top:16px;text-align:left">
           ${Object.entries(sections).map(([sec, data]) => {
             const secPct = Math.round(data.correct / data.total * 100);
-            const label = sec === 'taal' ? '🇳🇱 Taal' : sec === 'kns' ? '🏛️ KNS' : '🗣️ Uitspraak';
+            const label = sec === 'taal' ? '🇳🇱 Taal' : sec === 'kns' ? '🏛️ KNS' : sec === 'a2' ? '📈 A2' : '🗣️ Uitspraak';
             return `<div style="display:flex;align-items:center;gap:8px;margin-top:8px">
               <span style="font-size:13px;min-width:80px">${label}</span>
               <div style="flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden">
@@ -5051,109 +5560,228 @@ function renderExamResults() {
 // ============================================================
 // SPEECH RECOGNITION ENGINE
 // ============================================================
-// Persistent speech recognizer — created ONCE, reused to avoid repeated permission prompts
+// Strategy: Start recognizer ONCE, keep it running continuously via onend auto-restart.
+// .start() is called exactly ONCE. Tapping 🎤 just sets the expected word.
+// This means Chrome asks for permission exactly ONCE.
 let speechRecognizer = null;
 let speechRecSession = null;
+let speechRecKeepAlive = false; // Controls auto-restart loop
 
-function ensureSpeechRec() {
-  if (speechRecognizer) return true;
-  if (!SpeechRecAPI) return false;
-  try {
-    speechRecognizer = new SpeechRecAPI();
-    speechRecognizer.lang = 'nl-NL';
-    speechRecognizer.interimResults = true;
-    speechRecognizer.maxAlternatives = 5;
-    speechRecognizer.continuous = true;
-    return true;
-  } catch(e) { return false; }
+function acquireMicStream() {
+  if (state.micStream) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    state.micStream = stream;
+    state.micPermission = 'granted';
+    // Start the always-on recognizer
+    startContinuousRecognizer();
+    render(true);
+  }).catch(() => {
+    state.micStream = null;
+    state.micPermission = 'denied';
+    render(true);
+  });
 }
 
-function startSpeechRec(expectedText, resultDivId) {
-  if (!ensureSpeechRec()) return;
-  stopAllAudio();
-  try { speechRecognizer.abort(); } catch(e) {}
+function startContinuousRecognizer() {
+  if (speechRecognizer || !SpeechRecAPI) return;
+  try {
+    speechRecognizer = new SpeechRecAPI();
+  } catch(e) { return; }
+  speechRecognizer.lang = 'nl-NL';
+  speechRecognizer.interimResults = true;
+  speechRecognizer.maxAlternatives = 5;
+  speechRecognizer.continuous = true;
 
-  const resultDiv = document.getElementById(resultDivId);
-  if (resultDiv) resultDiv.innerHTML = '<span class="speech-result listening">🎤 กำลังฟัง... พูดให้ชัดนะ</span>';
-  const micBtn = document.getElementById('mic-' + resultDivId);
-  if (micBtn) micBtn.classList.add('recording');
-  state.speechRecActive = true;
-
-  const session = { bestText: '', bestScore: 0, silTimer: null, maxTimer: null, done: false };
-  speechRecSession = session;
-
-  function finish() {
-    if (session.done) return;
-    session.done = true;
-    if (session.silTimer) clearTimeout(session.silTimer);
-    if (session.maxTimer) clearTimeout(session.maxTimer);
-    try { speechRecognizer.abort(); } catch(e) {}
-    if (session.bestText) {
-      const s = session.bestScore;
-      const cls = s >= 80 ? 'correct' : s >= 50 ? 'partial' : 'wrong';
-      const emoji = s >= 80 ? '✅' : s >= 50 ? '🟡' : '❌';
-      const msg = s >= 80 ? 'สุดยอด! Excellent!' : s >= 50 ? 'พอใช้! Good try!' : 'ลองอีกครั้ง Try again';
-      if (resultDiv) resultDiv.innerHTML = `
-        <div class="speech-result ${cls}">${emoji} <strong>${s}%</strong> — ${msg}</div>
-        <div style="font-size:13px;color:#888;margin-top:4px">
-          คุณพูด: "<em>${escHtml(session.bestText)}</em>"
-          ${s < 100 ? `<br>ต้องพูด: "<em>${escHtml(expectedText)}</em>"` : ''}
-        </div>`;
-    } else {
-      if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
-    }
-    if (micBtn) micBtn.classList.remove('recording');
-    state.speechRecActive = false;
-  }
+  speechRecKeepAlive = true;
 
   speechRecognizer.onresult = function(event) {
-    if (session.done || speechRecSession !== session) return;
+    const session = speechRecSession;
+    if (!session || session.done) return;
     let candidates = [], interim = '';
-    for (let i = 0; i < event.results.length; i++) {
+    for (let i = session.resultOffset; i < event.results.length; i++) {
       if (event.results[i].isFinal) {
         for (let j = 0; j < event.results[i].length; j++) candidates.push(event.results[i][j].transcript);
       } else { interim = event.results[i][0].transcript; }
     }
-    if (!candidates.length && interim && resultDiv)
-      resultDiv.innerHTML = `<span class="speech-result listening">🎤 "${escHtml(interim)}"...</span>`;
+    if (!candidates.length && interim && session.resultDiv)
+      session.resultDiv.innerHTML = `<span class="speech-result listening">🎤 "${escHtml(interim)}"...</span>`;
     if (candidates.length) {
       candidates.forEach(c => {
-        const sc = comparePronunciation(c, expectedText);
+        const sc = comparePronunciation(c, session.expectedText);
         if (sc > session.bestScore) { session.bestScore = sc; session.bestText = c; }
       });
-      if (session.bestScore >= 90) { finish(); return; }
+      if (session.bestScore >= 90) { finishSession(session); return; }
       if (session.silTimer) clearTimeout(session.silTimer);
-      session.silTimer = setTimeout(finish, 2000);
+      session.silTimer = setTimeout(() => finishSession(session), 2000);
     }
   };
+
   speechRecognizer.onerror = function(event) {
-    if (session.done || speechRecSession !== session) return;
-    if (event.error === 'not-allowed') {
-      session.done = true;
-      if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🚫 ไม่ได้อนุญาตไมค์ — กรุณาตั้งค่าเบราว์เซอร์</span>';
-      if (micBtn) micBtn.classList.remove('recording');
-      state.speechRecActive = false;
-      speechRecognizer = null;
-    } else if (event.error === 'no-speech') {
-      if (session.bestText) finish(); else {
+    const session = speechRecSession;
+    if (!session || session.done) return;
+    if (event.error === 'no-speech') {
+      if (session.bestText) finishSession(session); else {
         session.done = true;
-        if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
-        if (micBtn) micBtn.classList.remove('recording');
+        if (session.resultDiv) session.resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
+        if (session.micBtn) session.micBtn.classList.remove('recording');
         state.speechRecActive = false;
+        speechRecSession = null;
       }
-    } else if (event.error !== 'aborted') finish();
+    } else if (event.error === 'aborted') {
+      // Aborted by us, ignore
+    } else if (event.error === 'not-allowed') {
+      speechRecKeepAlive = false;
+    }
   };
+
+  // Auto-restart: when the recognizer ends (browser timeout, etc.), restart it
+  // This is the KEY: .start() is only called here and on initial start
   speechRecognizer.onend = function() {
-    if (session.done || speechRecSession !== session) return;
-    finish();
+    if (speechRecKeepAlive) {
+      try { speechRecognizer.start(); } catch(e) {}
+    }
+    const session = speechRecSession;
+    if (session && !session.done) {
+      finishSession(session);
+    }
   };
-  session.maxTimer = setTimeout(() => { if (!session.done && speechRecSession === session) finish(); }, 8000);
-  try { speechRecognizer.start(); } catch(e) {
-    speechRecognizer = null;
-    if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">⚠️ ไม่สามารถเปิดไมค์ — ลองรีเฟรช</span>';
-    state.speechRecActive = false;
-  }
+
+  try { speechRecognizer.start(); } catch(e) {}
 }
+
+function finishSession(session) {
+  if (session.done) return;
+  session.done = true;
+  if (session.silTimer) clearTimeout(session.silTimer);
+  if (session.maxTimer) clearTimeout(session.maxTimer);
+  if (session.bestText) {
+    const s = session.bestScore;
+    const cls = s >= 80 ? 'correct' : s >= 50 ? 'partial' : 'wrong';
+    const emoji = s >= 80 ? '✅' : s >= 50 ? '🟡' : '❌';
+    const msg = s >= 80 ? 'สุดยอด! Excellent!' : s >= 50 ? 'พอใช้! Good try!' : 'ลองอีกครั้ง Try again';
+    if (session.resultDiv) session.resultDiv.innerHTML = `
+      <div class="speech-result ${cls}">${emoji} <strong>${s}%</strong> — ${msg}</div>
+      <div style="font-size:13px;color:#888;margin-top:4px">
+        คุณพูด: "<em>${escHtml(session.bestText)}</em>"
+        ${s < 100 ? `<br>ต้องพูด: "<em>${escHtml(session.expectedText)}</em>"` : ''}
+      </div>`;
+  } else {
+    if (session.resultDiv) session.resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
+  }
+  if (session.micBtn) session.micBtn.classList.remove('recording');
+  state.speechRecActive = false;
+  speechRecSession = null;
+}
+
+function releaseMicStream() {
+  speechRecKeepAlive = false;
+  if (speechRecognizer) {
+    try { speechRecognizer.abort(); } catch(e) {}
+    speechRecognizer = null;
+  }
+  if (state.micStream) {
+    state.micStream.getTracks().forEach(t => t.stop());
+    state.micStream = null;
+  }
+  speechRecSession = null;
+  state.speechRecActive = false;
+}
+
+// Self-download: saves the current page as leer-nederlands.html
+function downloadSelf() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'leer-nederlands.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function startSpeechRec(expectedText, resultDivId) {
+  if (!SpeechRecAPI) {
+    const rd = document.getElementById(resultDivId);
+    if (rd) rd.innerHTML = '<span class="speech-result wrong">เบราว์เซอร์ไม่รองรับ Speech Recognition</span>';
+    return;
+  }
+  stopAllAudio();
+
+  const resultDiv = document.getElementById(resultDivId);
+  const micBtn = document.getElementById('mic-' + resultDivId);
+
+  // If recognizer isn't running yet, start it (first time or after error)
+  if (!speechRecognizer || !state.micStream) {
+    if (resultDiv) resultDiv.innerHTML = '<span class="speech-result listening">🎤 กำลังเปิดไมค์...</span>';
+    acquireMicStream();
+    const waitForMic = setInterval(() => {
+      if (speechRecognizer && state.micStream) {
+        clearInterval(waitForMic);
+        activateWord(expectedText, resultDiv, micBtn);
+      } else if (state.micPermission === 'denied') {
+        clearInterval(waitForMic);
+        if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">ไม่ได้อนุญาตไมค์ — กด Allow แล้วลองอีกครั้ง</span>';
+      }
+    }, 100);
+    setTimeout(() => clearInterval(waitForMic), 10000);
+    return;
+  }
+
+  activateWord(expectedText, resultDiv, micBtn);
+}
+
+// Just set which word we're listening for — recognizer is already running
+function activateWord(expectedText, resultDiv, micBtn) {
+  // Finish any previous session
+  if (speechRecSession && !speechRecSession.done) {
+    speechRecSession.done = true;
+    if (speechRecSession.silTimer) clearTimeout(speechRecSession.silTimer);
+    if (speechRecSession.maxTimer) clearTimeout(speechRecSession.maxTimer);
+    if (speechRecSession.micBtn) speechRecSession.micBtn.classList.remove('recording');
+  }
+
+  if (resultDiv) resultDiv.innerHTML = '<span class="speech-result listening">🎤 กำลังฟัง... พูดให้ชัดนะ</span>';
+  if (micBtn) micBtn.classList.add('recording');
+  state.speechRecActive = true;
+
+  // Track the current result offset so we only process NEW results
+  let resultOffset = 0;
+  try {
+    // Get current results length from any pending recognition
+    // We'll track from the onresult handler
+  } catch(e) {}
+
+  const session = {
+    expectedText,
+    resultDiv,
+    micBtn,
+    bestText: '',
+    bestScore: 0,
+    silTimer: null,
+    maxTimer: null,
+    done: false,
+    resultOffset: 0 // Will be updated on first result event
+  };
+
+  // Set resultOffset to skip all previous results
+  // We do this by tracking results length in the recognizer
+  if (speechRecognizer && speechRecognizer._lastResultLength) {
+    session.resultOffset = speechRecognizer._lastResultLength;
+  }
+
+  speechRecSession = session;
+
+  // Safety timeout
+  session.maxTimer = setTimeout(() => {
+    if (!session.done && speechRecSession === session) finishSession(session);
+  }, 8000);
+}
+
+// Patch: track result count for offset management
+const _origOnResult = null;
 
 function comparePronunciation(spoken, expected) {
   // Normalize: lowercase, remove punctuation, collapse spaces
@@ -5236,10 +5864,41 @@ function renderSpeak(mod, lesson) {
     `;
   }
 
+  // Detect if running in a sandboxed iframe (e.g. Claude.ai artifact preview)
+  const inIframe = window.self !== window.top;
+  const micBlocked = state.micPermission === 'denied';
+  const micReady = !!state.micStream;
+
   return `
-    <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#888">
-      🎤 Click the microphone to practice pronunciation. Speak clearly in Dutch! · กดปุ่มไมค์แล้วพูดภาษาดัตช์ให้ชัด
+    ${inIframe && !micReady ? `
+    <div style="background:#FFF3E0;border:2px solid #FFB74D;border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="font-size:16px;font-weight:700;color:#E65100;margin-bottom:8px">ไมค์ใช้ไม่ได้ในหน้าพรีวิว</div>
+      <div style="font-size:14px;color:#555;line-height:1.7;margin-bottom:12px">
+        ดาวน์โหลดไฟล์แล้วเปิดใน Safari หรือ Chrome เพื่อใช้ไมค์
+      </div>
+      <button onclick="downloadSelf()" style="background:#E65100;color:white;border:none;border-radius:10px;padding:14px 24px;font-weight:700;cursor:pointer;font-family:inherit;font-size:16px;width:100%;margin-bottom:10px">
+        ดาวน์โหลด leer-nederlands.html
+      </button>
+      <div style="font-size:13px;color:#888;line-height:1.6">
+        เปิดไฟล์ที่ดาวน์โหลดใน Safari หรือ Chrome แล้วไมค์จะทำงานได้
+      </div>
     </div>
+      </div>
+    </div>
+    ` : micReady ? `
+    <div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#2E7D32">
+      🎤 ไมค์พร้อมใช้งาน — กดปุ่ม 🎤 แล้วพูดภาษาดัตช์ให้ชัด
+    </div>
+    ` : micBlocked ? `
+    <div style="background:#FFEBEE;border:1px solid #EF9A9A;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:14px;color:#C62828;font-weight:600;margin-bottom:8px">ไมค์ถูกบล็อก — กด Allow ในป็อปอัพของเบราว์เซอร์</div>
+      <button onclick="retryMicPermission()" style="background:#21468B;color:white;border:none;border-radius:8px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">ลองอีกครั้ง</button>
+    </div>
+    ` : `
+    <div style="background:#FFF8F0;border:1px solid #F5DEC0;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+      <div style="font-size:14px;color:#555">กำลังเปิดไมค์... กด Allow ในป็อปอัพ</div>
+    </div>
+    `}
 
     <div class="exercise-section-title">🗣️ Vocabulary — พูดคำศัพท์</div>
     ${lesson.vocab.slice(0, 12).map((v, i) => {
@@ -5380,7 +6039,7 @@ function renderPractice(mod, lesson) {
     const passed = correct >= total * 0.6;
     scoreHtml = `
       <div class="score-card ${passed ? 'pass' : 'fail'}">
-        <div class="score serif">${correct}/${total}</div>
+        <div class="score serif">${correct}/${total} <span style="font-size:20px;color:${passed ? '#5E9B4E' : '#c62828'}">(${Math.round(correct/total*100)}%)</span></div>
         <div class="msg">${correct === total ? '🎉 สุดยอด! Perfect! Uitstekend!' : passed ? '✅ เก่งมาก! Goed gedaan! บทเรียนเสร็จสมบูรณ์!' : '📖 ลองอีกครั้ง! Probeer het nog een keer!'}</div>
         <div style="font-size:13px;color:#888;margin-top:6px">${passed ? 'Lesson marked as completed · บทเรียนนี้เสร็จสมบูรณ์แล้ว ✓' : 'Score 60% or higher to complete this lesson · ต้องได้คะแนนอย่างน้อย 60% เพื่อให้บทเรียนเสร็จสมบูรณ์'}</div>
         ${passed ? `<div style="display:inline-block;background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:4px 14px;margin-top:8px;font-size:14px;color:#F57F17;font-weight:700">+${20 + Math.min(getStreakData().days, 7) * 2} XP ⭐</div>` : ''}
