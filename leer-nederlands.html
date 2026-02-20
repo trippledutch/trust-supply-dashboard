@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#21468B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Leer Nederlands">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTGVlciBOZWRlcmxhbmRzIiwic2hvcnRfbmFtZSI6IkxlZXIgTkwiLCJkZXNjcmlwdGlvbiI6IkR1dGNoIGZvciBUaGFpIFNwZWFrZXJzIOC5gOC4o%2BC4teC4ouC4meC4oOC4suC4qeC4suC4lOC4seC4leC4iuC5jCIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRkFGQUY4IiwidGhlbWVfY29sb3IiOiIjMjE0NjhCIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE5Micgdmlld0JveD0nMCAwIDE5MiAxOTInJTNFJTNDcmVjdCB3aWR0aD0nMTkyJyBoZWlnaHQ9JzE5MicgZmlsbD0nJTIzMjE0NjhCJyByeD0nMzInLyUzRSUzQ3RleHQgeD0nOTYnIHk9JzEwOCcgZm9udC1zaXplPSc4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnJTNF8J%2BHs%2FCfh7ElM0MvdGV4dCUzRSUzQy9zdmclM0UiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
 <title>Leer Nederlands — Dutch for Thai Speakers</title>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700;800&family=Nunito:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -524,6 +529,39 @@
     .options-grid { grid-template-columns: 1fr; }
     .header h1 { font-size: 26px; }
   }
+  /* Engagement: Streak, XP, Levels */
+  .streak-widget {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8F00 100%);
+    border-radius: 16px; padding: 16px 20px; color: white; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .streak-fire { font-size: 36px; line-height: 1; }
+  .streak-info { flex: 1; }
+  .streak-days { font-size: 28px; font-weight: 800; line-height: 1.1; }
+  .streak-label { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+  .streak-week { display: flex; gap: 4px; margin-top: 8px; }
+  .streak-dot { width: 24px; height: 24px; border-radius: 50%; font-size: 10px;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; }
+  .streak-dot.done { background: rgba(255,255,255,0.9); color: #FF6B35; }
+  .streak-dot.today { background: rgba(255,255,255,0.4); color: white; border: 2px solid white; }
+  .streak-dot.future { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); }
+
+  .xp-bar-wrap { background: #F0F0EC; border-radius: 16px; padding: 14px 18px; margin-bottom: 16px; }
+  .xp-bar-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .xp-level { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 15px; color: #333; }
+  .xp-level .badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; font-size: 14px; color: white; font-weight: 800; }
+  .xp-next { font-size: 12px; color: #888; }
+  .xp-track { height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; }
+  .xp-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+
+  .install-banner {
+    background: #E8F0FE; border: 1px solid #C8D8F0; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .install-banner button { background: #21468B; color: white; border: none; border-radius: 8px;
+    padding: 8px 16px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 13px; white-space: nowrap; }
+  .install-banner .dismiss { background: none; color: #888; padding: 4px 8px; font-size: 20px; }
 </style>
 </head>
 <body>
@@ -613,7 +651,7 @@ const COURSE_DATA = {
           exercises: [
             { type: "mc", question: "How do you say 'I would like to register'?", th: "'I would like to register' พูดเป็นภาษาดัตช์ว่าอย่างไร?", answer: "Ik wil mij graag inschrijven", options: ["Ik wil mij graag inschrijven", "Ik woon in Rotterdam", "Wat is uw naam?", "Kan ik u helpen?"] },
             { type: "mc", question: "What does 'waar' mean?", th: "'waar' แปลว่าอะไร?", answer: "where", options: ["what", "where", "who", "when"] },
-            { type: "mc", question: "Fill in: Wat is ___ naam?", th: "เติมคำในช่องว่าง: Wat is ___ naam?", answer: "uw", options: ["uw", "mijn", "je", "de"] },
+            { type: "mc", question: "Fill in (formal): Wat is ___ naam?", th: "เติมคำในช่องว่าง (ทางการ): Wat is ___ naam? (ชื่อของคุณคืออะไร?)", answer: "uw", options: ["uw", "mijn", "je", "de"] },
             { type: "mc", question: "'Makkelijk' is the opposite of...?", th: "'Makkelijk' (ง่าย) ตรงข้ามกับ...?", answer: "moeilijk", options: ["goed", "graag", "moeilijk", "waar"] },
             { type: "mc", question: "What is 'de postcode' in English?", th: "'de postcode' แปลเป็นอังกฤษว่าอะไร?", answer: "postal code", options: ["post office", "postal code", "postcard", "phone number"] },
           ]
@@ -3059,23 +3097,214 @@ function setTtsEngine(val) {
 }
 
 function resetProgress() {
-  if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?\nThis includes SRS vocabulary data.')) {
+  if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?\nThis includes SRS, streak, and XP data.')) {
     state.completedLessons = {};
     state.srsData = {};
     localStorage.removeItem('dutchCompleted');
     localStorage.removeItem('dutchSRS');
+    localStorage.removeItem('dutchStreak');
+    localStorage.removeItem('dutchXP');
     render();
   }
+}
+
+// ============================================================
+// ENGAGEMENT: Streaks, XP, Levels
+// ============================================================
+const LEVELS = [
+  { name: 'Beginner', nameT: 'เริ่มต้น', xp: 0, color: '#90CAF9', emoji: '🌱' },
+  { name: 'Explorer', nameT: 'ค้นพบ', xp: 50, color: '#66BB6A', emoji: '🌿' },
+  { name: 'Student', nameT: 'นักเรียน', xp: 150, color: '#42A5F5', emoji: '📘' },
+  { name: 'Speaker', nameT: 'พูดได้', xp: 350, color: '#AB47BC', emoji: '🗣️' },
+  { name: 'Scholar', nameT: 'นักวิชาการ', xp: 600, color: '#FF7043', emoji: '🎓' },
+  { name: 'Expert', nameT: 'ผู้เชี่ยวชาญ', xp: 1000, color: '#FFA726', emoji: '⭐' },
+  { name: 'Master', nameT: 'ปรมาจารย์', xp: 1500, color: '#EF5350', emoji: '👑' },
+];
+
+function getStreakData() {
+  try { return JSON.parse(localStorage.getItem('dutchStreak')) || { days: 0, lastDate: null, history: [] }; }
+  catch(e) { return { days: 0, lastDate: null, history: [] }; }
+}
+function saveStreakData(d) { localStorage.setItem('dutchStreak', JSON.stringify(d)); }
+
+function getXP() {
+  try { return parseInt(localStorage.getItem('dutchXP')) || 0; } catch(e) { return 0; }
+}
+function addXP(amount) {
+  const xp = getXP() + amount;
+  localStorage.setItem('dutchXP', xp.toString());
+  return xp;
+}
+
+function getLevel(xp) {
+  let lvl = LEVELS[0];
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    if (xp >= LEVELS[i].xp) { lvl = LEVELS[i]; lvl.idx = i; break; }
+  }
+  const next = LEVELS[Math.min((lvl.idx || 0) + 1, LEVELS.length - 1)];
+  const progress = next.xp > lvl.xp ? ((xp - lvl.xp) / (next.xp - lvl.xp)) * 100 : 100;
+  return { ...lvl, nextXP: next.xp, nextName: next.name, progress: Math.min(progress, 100), totalXP: xp };
+}
+
+function updateStreak() {
+  const data = getStreakData();
+  const today = new Date().toISOString().split('T')[0];
+  if (data.lastDate === today) return data; // Already counted today
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  if (data.lastDate === yesterday) {
+    data.days++;
+  } else if (data.lastDate !== today) {
+    data.days = 1; // Reset streak
+  }
+  data.lastDate = today;
+  if (!data.history.includes(today)) data.history.push(today);
+  // Keep last 30 days
+  if (data.history.length > 30) data.history = data.history.slice(-30);
+  saveStreakData(data);
+  return data;
+}
+
+function isStreakActive() {
+  const data = getStreakData();
+  const today = new Date().toISOString().split('T')[0];
+  return data.lastDate === today;
+}
+
+function renderStreakWidget() {
+  const data = getStreakData();
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const dayNames = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+
+  // Build week dots (Mon-Sun centered on today)
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay() + 1); // Monday
+  let dots = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    const dStr = d.toISOString().split('T')[0];
+    const isDone = data.history.includes(dStr);
+    const isToday = dStr === todayStr;
+    const isFuture = d > today;
+    const cls = isDone ? 'done' : isToday ? 'today' : isFuture ? 'future' : 'future';
+    dots += `<div class="streak-dot ${cls}">${isDone ? '✓' : dayNames[d.getDay()]}</div>`;
+  }
+
+  return `
+    <div class="streak-widget">
+      <div class="streak-fire">${data.days >= 7 ? '🔥' : data.days >= 3 ? '⚡' : data.days >= 1 ? '✨' : '💤'}</div>
+      <div class="streak-info">
+        <div class="streak-days">${data.days} ${data.days === 1 ? 'Day' : 'Days'}</div>
+        <div class="streak-label">${data.days > 0 ? 'เรียนต่อเนื่อง · Learning Streak' : 'เริ่มเรียนวันนี้! · Start today!'}</div>
+        <div class="streak-week">${dots}</div>
+      </div>
+    </div>`;
+}
+
+function renderXPWidget() {
+  const xp = getXP();
+  const lvl = getLevel(xp);
+  const nextLvl = LEVELS[Math.min((lvl.idx || 0) + 1, LEVELS.length - 1)];
+  return `
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-top">
+        <div class="xp-level">
+          <span class="badge" style="background:${lvl.color}">${lvl.emoji}</span>
+          ${lvl.name} · ${lvl.nameT}
+        </div>
+        <div class="xp-next">${xp} XP ${lvl.progress < 100 ? `· ${nextLvl.name} at ${nextLvl.xp}` : '· MAX'}</div>
+      </div>
+      <div class="xp-track">
+        <div class="xp-fill" style="width:${lvl.progress}%;background:${lvl.color}"></div>
+      </div>
+    </div>`;
+}
+
+// XP awards: lesson complete = 20xp, SRS review session = 10xp, streak bonus = 5xp per day
+function awardLessonXP() {
+  const streak = getStreakData();
+  const bonus = Math.min(streak.days, 7) * 2; // Up to 14 bonus XP for 7-day streak
+  addXP(20 + bonus);
+  updateStreak();
+}
+
+function awardSRSXP(cardsReviewed) {
+  addXP(Math.min(cardsReviewed * 2, 20)); // 2xp per card, max 20
+  updateStreak();
+}
+
+// ============================================================
+// PWA: Service Worker + Install Prompt
+// ============================================================
+let deferredInstallPrompt = null;
+let installBannerDismissed = false;
+
+// Register service worker for offline capability
+if ('serviceWorker' in navigator) {
+  // Inline service worker via blob URL
+  const swCode = `
+    const CACHE = 'leer-nl-v0.6';
+    self.addEventListener('install', e => { self.skipWaiting(); });
+    self.addEventListener('activate', e => {
+      e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+    });
+    self.addEventListener('fetch', e => {
+      if (e.request.method !== 'GET') return;
+      e.respondWith(
+        caches.match(e.request).then(cached => {
+          const fetchPromise = fetch(e.request).then(response => {
+            if (response && response.status === 200) {
+              const clone = response.clone();
+              caches.open(CACHE).then(c => c.put(e.request, clone));
+            }
+            return response;
+          }).catch(() => cached);
+          return cached || fetchPromise;
+        })
+      );
+    });
+  `;
+  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl, { scope: '/' }).catch(() => {});
+}
+
+// Capture install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+
+function showInstallPrompt() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(() => { deferredInstallPrompt = null; });
+  }
+}
+
+function renderInstallBanner() {
+  if (installBannerDismissed || !deferredInstallPrompt) return '';
+  if (window.matchMedia('(display-mode: standalone)').matches) return ''; // Already installed
+  return `
+    <div class="install-banner">
+      <div style="font-size:24px">📲</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:#333">ติดตั้งแอป · Install App</div>
+        <div style="font-size:12px;color:#666">เรียนได้ทุกที่แม้ไม่มีอินเทอร์เน็ต · Learn offline anytime</div>
+      </div>
+      <button onclick="showInstallPrompt()">Install</button>
+      <button class="dismiss" onclick="installBannerDismissed=true;render()">×</button>
+    </div>`;
 }
 
 function setState(updates) {
   // Stop speech when navigating
   if (updates.view || updates.currentLesson !== undefined || updates.activeTab) {
     stopAllAudio();
-    // Stop speech recognition if active
+    // Stop speech recognition if active (keep instance alive for reuse)
     if (speechRecognizer) {
       try { speechRecognizer.abort(); } catch(e) {}
-      speechRecognizer = null;
       state.speechRecActive = false;
     }
   }
@@ -3461,8 +3690,12 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.5 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.6 · February 2026</p>
     </div>
+
+    ${renderInstallBanner()}
+    ${renderStreakWidget()}
+    ${renderXPWidget()}
 
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -3650,14 +3883,22 @@ function renderSRSReview() {
   const flipped = state.srsReviewFlipped;
 
   if (!queue || queue.length === 0 || idx >= queue.length) {
-    // Review complete
+    // Review complete — award XP
+    const reviewCount = queue.length;
     const stats = srsGetStats();
+    // Award XP once per render (use a flag to prevent double-awarding)
+    if (!state._srsXPAwarded) {
+      awardSRSXP(reviewCount);
+      state._srsXPAwarded = true;
+    }
+    const xpEarned = Math.min(reviewCount * 2, 20);
     return `
-      <button class="back-btn" onclick="setState({view:'home'})">◀ Home · หน้าหลัก</button>
+      <button class="back-btn" onclick="setState({view:'home',_srsXPAwarded:false})">◀ Home · หน้าหลัก</button>
       <div style="text-align:center;padding:40px 20px">
         <div style="font-size:64px;margin-bottom:16px">🎉</div>
         <h2 class="serif" style="color:#5E9B4E;margin:0 0 8px">Review Complete! · ทบทวนเสร็จแล้ว!</h2>
-        <p style="color:#666;font-size:15px;margin:0 0 24px">Great work! ${stats.boxes[5] || 0} words mastered so far.</p>
+        <p style="color:#666;font-size:15px;margin:0 0 8px">Great work! ${stats.boxes[5] || 0} words mastered so far.</p>
+        <div style="display:inline-block;background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:6px 16px;margin:0 0 20px;font-size:14px;color:#F57F17;font-weight:700">+${xpEarned} XP ⭐</div>
         <div class="srs-stats-grid" style="max-width:400px;margin:0 auto 24px">
           ${[1,2,3,4,5].map(box => `
             <div class="srs-stat-box" style="border-color:${SRS_BOX_COLORS[box]}20">
@@ -3667,7 +3908,7 @@ function renderSRSReview() {
           `).join('')}
         </div>
         ${stats.due > 0 ? `<button class="flashcard-action-btn" style="border-color:#E85D26;color:#E85D26" onclick="startSRSReview()">🔄 Review ${stats.due} more · ทบทวนต่อ</button>` : ''}
-        <button class="flashcard-action-btn" style="border-color:#21468B;color:#21468B;margin-left:10px" onclick="setState({view:'home'})">🏠 Home</button>
+        <button class="flashcard-action-btn" style="border-color:#21468B;color:#21468B;margin-left:10px" onclick="setState({view:'home',_srsXPAwarded:false})">🏠 Home</button>
       </div>
     `;
   }
@@ -4810,154 +5051,106 @@ function renderExamResults() {
 // ============================================================
 // SPEECH RECOGNITION ENGINE
 // ============================================================
+// Persistent speech recognizer — created ONCE, reused to avoid repeated permission prompts
 let speechRecognizer = null;
+let speechRecSession = null;
+
+function ensureSpeechRec() {
+  if (speechRecognizer) return true;
+  if (!SpeechRecAPI) return false;
+  try {
+    speechRecognizer = new SpeechRecAPI();
+    speechRecognizer.lang = 'nl-NL';
+    speechRecognizer.interimResults = true;
+    speechRecognizer.maxAlternatives = 5;
+    speechRecognizer.continuous = true;
+    return true;
+  } catch(e) { return false; }
+}
 
 function startSpeechRec(expectedText, resultDivId) {
-  if (!SpeechRecAPI) return;
+  if (!ensureSpeechRec()) return;
   stopAllAudio();
-
-  // Stop any existing recognition
-  if (speechRecognizer) {
-    try { speechRecognizer.abort(); } catch(e) {}
-    speechRecognizer = null;
-  }
-
-  speechRecognizer = new SpeechRecAPI();
-  speechRecognizer.lang = 'nl-NL';
-  speechRecognizer.interimResults = true;
-  speechRecognizer.maxAlternatives = 5;
-  speechRecognizer.continuous = true; // Keep listening until silence
+  try { speechRecognizer.abort(); } catch(e) {}
 
   const resultDiv = document.getElementById(resultDivId);
-  if (resultDiv) {
-    resultDiv.innerHTML = '<span class="speech-result listening">🎤 Listening... · กำลังฟัง... (speak clearly)</span>';
-  }
-
+  if (resultDiv) resultDiv.innerHTML = '<span class="speech-result listening">🎤 กำลังฟัง... พูดให้ชัดนะ</span>';
   const micBtn = document.getElementById('mic-' + resultDivId);
   if (micBtn) micBtn.classList.add('recording');
   state.speechRecActive = true;
 
-  let bestFinalText = '';
-  let bestScore = 0;
-  let silenceTimer = null;
-  let hasReceivedFinal = false;
+  const session = { bestText: '', bestScore: 0, silTimer: null, maxTimer: null, done: false };
+  speechRecSession = session;
 
-  function showResult(text, score) {
-    if (!resultDiv) return;
-    const cls = score >= 80 ? 'correct' : score >= 50 ? 'partial' : 'wrong';
-    const emoji = score >= 80 ? '✅' : score >= 50 ? '🟡' : '❌';
-    const msg = score >= 80 ? 'Excellent! · สุดยอด!' : score >= 50 ? 'Good try! · พอใช้!' : 'Try again · ลองอีกครั้ง';
-    resultDiv.innerHTML = `
-      <div class="speech-result ${cls}">
-        ${emoji} <strong>${score}%</strong> — ${msg}
-      </div>
-      <div style="font-size:13px;color:#888;margin-top:4px">
-        คุณพูด: "<em>${escHtml(text)}</em>"
-        ${score < 100 ? `<br>ต้องพูด: "<em>${escHtml(expectedText)}</em>"` : ''}
-      </div>
-    `;
+  function finish() {
+    if (session.done) return;
+    session.done = true;
+    if (session.silTimer) clearTimeout(session.silTimer);
+    if (session.maxTimer) clearTimeout(session.maxTimer);
+    try { speechRecognizer.abort(); } catch(e) {}
+    if (session.bestText) {
+      const s = session.bestScore;
+      const cls = s >= 80 ? 'correct' : s >= 50 ? 'partial' : 'wrong';
+      const emoji = s >= 80 ? '✅' : s >= 50 ? '🟡' : '❌';
+      const msg = s >= 80 ? 'สุดยอด! Excellent!' : s >= 50 ? 'พอใช้! Good try!' : 'ลองอีกครั้ง Try again';
+      if (resultDiv) resultDiv.innerHTML = `
+        <div class="speech-result ${cls}">${emoji} <strong>${s}%</strong> — ${msg}</div>
+        <div style="font-size:13px;color:#888;margin-top:4px">
+          คุณพูด: "<em>${escHtml(session.bestText)}</em>"
+          ${s < 100 ? `<br>ต้องพูด: "<em>${escHtml(expectedText)}</em>"` : ''}
+        </div>`;
+    } else {
+      if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
+    }
     if (micBtn) micBtn.classList.remove('recording');
     state.speechRecActive = false;
-  }
-
-  function finishRecognition() {
-    if (silenceTimer) clearTimeout(silenceTimer);
-    try { speechRecognizer.stop(); } catch(e) {}
-    speechRecognizer = null;
-    if (bestFinalText) {
-      showResult(bestFinalText, bestScore);
-    } else {
-      if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองอีกครั้ง</span>';
-      if (micBtn) micBtn.classList.remove('recording');
-      state.speechRecActive = false;
-    }
   }
 
   speechRecognizer.onresult = function(event) {
-    // Collect ALL alternatives from ALL results and find best match
-    let allCandidates = [];
-    let latestInterim = '';
-
+    if (session.done || speechRecSession !== session) return;
+    let candidates = [], interim = '';
     for (let i = 0; i < event.results.length; i++) {
       if (event.results[i].isFinal) {
-        hasReceivedFinal = true;
-        for (let j = 0; j < event.results[i].length; j++) {
-          allCandidates.push(event.results[i][j].transcript);
-        }
-      } else {
-        latestInterim = event.results[i][0].transcript;
-      }
+        for (let j = 0; j < event.results[i].length; j++) candidates.push(event.results[i][j].transcript);
+      } else { interim = event.results[i][0].transcript; }
     }
-
-    // Show interim feedback
-    if (!hasReceivedFinal && latestInterim && resultDiv) {
-      resultDiv.innerHTML = `<span class="speech-result listening">🎤 "${escHtml(latestInterim)}"...</span>`;
-    }
-
-    // Evaluate all final candidates and pick the best scoring one
-    if (allCandidates.length > 0) {
-      allCandidates.forEach(candidate => {
-        const score = comparePronunciation(candidate, expectedText);
-        if (score > bestScore) {
-          bestScore = score;
-          bestFinalText = candidate;
-        }
+    if (!candidates.length && interim && resultDiv)
+      resultDiv.innerHTML = `<span class="speech-result listening">🎤 "${escHtml(interim)}"...</span>`;
+    if (candidates.length) {
+      candidates.forEach(c => {
+        const sc = comparePronunciation(c, expectedText);
+        if (sc > session.bestScore) { session.bestScore = sc; session.bestText = c; }
       });
-
-      // If we got a perfect or near-perfect score, stop immediately
-      if (bestScore >= 90) {
-        finishRecognition();
-        return;
-      }
-
-      // Otherwise wait a bit for more speech, then finalize
-      if (silenceTimer) clearTimeout(silenceTimer);
-      silenceTimer = setTimeout(finishRecognition, 2000);
+      if (session.bestScore >= 90) { finish(); return; }
+      if (session.silTimer) clearTimeout(session.silTimer);
+      session.silTimer = setTimeout(finish, 2000);
     }
   };
-
   speechRecognizer.onerror = function(event) {
-    if (silenceTimer) clearTimeout(silenceTimer);
-    if (event.error === 'no-speech') {
-      // If we already have a result, show it
-      if (bestFinalText) {
-        showResult(bestFinalText, bestScore);
-      } else if (resultDiv) {
-        resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
-      }
-    } else if (event.error === 'not-allowed') {
+    if (session.done || speechRecSession !== session) return;
+    if (event.error === 'not-allowed') {
+      session.done = true;
       if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🚫 ไม่ได้อนุญาตไมค์ — กรุณาตั้งค่าเบราว์เซอร์</span>';
-    } else if (event.error !== 'aborted') {
-      if (resultDiv) resultDiv.innerHTML = `<span class="speech-result wrong">⚠️ Error: ${event.error}</span>`;
-    }
-    if (micBtn) micBtn.classList.remove('recording');
-    state.speechRecActive = false;
-  };
-
-  speechRecognizer.onend = function() {
-    if (silenceTimer) clearTimeout(silenceTimer);
-    // If we have results, show them
-    if (bestFinalText && state.speechRecActive) {
-      showResult(bestFinalText, bestScore);
-    } else if (state.speechRecActive) {
       if (micBtn) micBtn.classList.remove('recording');
       state.speechRecActive = false;
-    }
+      speechRecognizer = null;
+    } else if (event.error === 'no-speech') {
+      if (session.bestText) finish(); else {
+        session.done = true;
+        if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">🔇 ไม่ได้ยินเสียง — ลองพูดดังขึ้น</span>';
+        if (micBtn) micBtn.classList.remove('recording');
+        state.speechRecActive = false;
+      }
+    } else if (event.error !== 'aborted') finish();
   };
-
-  // Auto-stop after 8 seconds max listening
-  setTimeout(() => {
-    if (state.speechRecActive && speechRecognizer) {
-      finishRecognition();
-    }
-  }, 8000);
-
-  try {
-    speechRecognizer.start();
-  } catch(e) {
-    if (resultDiv) {
-      resultDiv.innerHTML = '<span class="speech-result wrong">⚠️ ไม่สามารถเปิดไมค์ได้</span>';
-    }
+  speechRecognizer.onend = function() {
+    if (session.done || speechRecSession !== session) return;
+    finish();
+  };
+  session.maxTimer = setTimeout(() => { if (!session.done && speechRecSession === session) finish(); }, 8000);
+  try { speechRecognizer.start(); } catch(e) {
+    speechRecognizer = null;
+    if (resultDiv) resultDiv.innerHTML = '<span class="speech-result wrong">⚠️ ไม่สามารถเปิดไมค์ — ลองรีเฟรช</span>';
     state.speechRecActive = false;
   }
 }
@@ -5190,6 +5383,7 @@ function renderPractice(mod, lesson) {
         <div class="score serif">${correct}/${total}</div>
         <div class="msg">${correct === total ? '🎉 สุดยอด! Perfect! Uitstekend!' : passed ? '✅ เก่งมาก! Goed gedaan! บทเรียนเสร็จสมบูรณ์!' : '📖 ลองอีกครั้ง! Probeer het nog een keer!'}</div>
         <div style="font-size:13px;color:#888;margin-top:6px">${passed ? 'Lesson marked as completed · บทเรียนนี้เสร็จสมบูรณ์แล้ว ✓' : 'Score 60% or higher to complete this lesson · ต้องได้คะแนนอย่างน้อย 60% เพื่อให้บทเรียนเสร็จสมบูรณ์'}</div>
+        ${passed ? `<div style="display:inline-block;background:#FFF8E1;border:1px solid #FFE082;border-radius:8px;padding:4px 14px;margin-top:8px;font-size:14px;color:#F57F17;font-weight:700">+${20 + Math.min(getStreakData().days, 7) * 2} XP ⭐</div>` : ''}
         ${correct < total ? `<button class="retry-btn" style="background:${mod.color}" onclick="setState({exerciseAnswers:{},showResults:false})">ลองอีกครั้ง · Try Again</button>` : ''}
       </div>
     `;
@@ -5254,8 +5448,10 @@ function checkAnswers() {
   const lesson = state.currentLesson;
   const correct = lesson.exercises.filter((ex,i) => state.exerciseAnswers[i] === ex.answer).length;
   if (correct >= lesson.exercises.length * 0.6) {
+    const wasNew = !state.completedLessons[lesson.id];
     state.completedLessons = {...state.completedLessons, [lesson.id]: true};
     saveCompleted();
+    if (wasNew) awardLessonXP(); // 20xp + streak bonus
   }
   render();
 }
