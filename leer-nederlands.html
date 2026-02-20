@@ -3085,7 +3085,10 @@ function stopAllAudio() {
     }
     currentAudio = null;
   }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  // Cancel speechSynthesis but prevent onend callbacks from firing
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
   state.isPlaying = false;
   state.activeWordIdx = -1;
   document.querySelectorAll('.listen-card').forEach(c => c.classList.remove('active-word'));
@@ -3098,80 +3101,80 @@ function stopAllAudio() {
 }
 
 // Low-level play function — plays one text, calls onDone when finished
-// Returns a promise and uses sequence IDs to prevent chaos
+// Uses sequence IDs to prevent chaos from overlapping/cancelled sequences
 function playOneTTS(text, onDone) {
-  const mySeqId = ttsSequenceId;
+  const seqId = ttsSequenceId;
 
-  // Wait if another utterance is still playing
-  function doPlay() {
-    // Check if sequence was cancelled
-    if (ttsSequenceId !== mySeqId || playAborted) {
-      if (onDone) onDone();
-      return;
-    }
+  // Check if already cancelled
+  if (playAborted) { if (onDone) onDone(); return; }
 
-    // Clean up previous audio without cancelling the sequence
-    if (currentAudio) {
-      currentAudio.onended = null;
-      currentAudio.onerror = null;
-      currentAudio.pause();
-      if (currentAudio !== unlockedAudio) currentAudio = null;
-      else { currentAudio.src = ''; currentAudio = null; }
-    }
-
-    const engine = state.ttsEngine;
-
-    // Browser voice path
-    if (engine === 'browser-auto' || (engine !== 'auto' && typeof engine === 'string' && engine.startsWith('browser-'))) {
-      const voiceIdx = engine === 'browser-auto' ? -1 : parseInt(engine.replace('browser-',''), 10);
-      return playOneBrowser(text, voiceIdx, mySeqId, onDone);
-    }
-
-    // Google TTS path (default)
-    const slow = state.speechRate < 0.7;
-    const url = googleTtsUrl(text, slow);
-    const audio = unlockedAudio || new Audio();
-    audio.src = url;
-    currentAudio = audio;
-
-    let done = false;
-    function finish() {
-      if (done) return;
-      done = true;
-      currentAudio = null;
-      ttsBusy = false;
-      if (ttsSequenceId === mySeqId && onDone && !playAborted) onDone();
-    }
-
-    const safetyTimer = setTimeout(() => {
-      if (!done && currentAudio === audio) { audio.pause(); finish(); }
-    }, 12000);
-
-    audio.onended = () => { clearTimeout(safetyTimer); finish(); };
-    audio.onerror = () => {
-      clearTimeout(safetyTimer);
-      currentAudio = null;
-      playOneBrowser(text, -1, mySeqId, onDone);
-    };
-
-    ttsBusy = true;
-    const playPromise = audio.play();
-    if (playPromise && playPromise.catch) {
-      playPromise.catch(() => {
-        clearTimeout(safetyTimer);
-        currentAudio = null;
-        playOneBrowser(text, -1, mySeqId, onDone);
-      });
-    }
+  // Clean up previous audio without cancelling the sequence
+  if (currentAudio) {
+    currentAudio.onended = null;
+    currentAudio.onerror = null;
+    currentAudio.pause();
+    if (currentAudio !== unlockedAudio) currentAudio = null;
+    else { currentAudio.src = ''; currentAudio = null; }
   }
 
-  doPlay();
+  const engine = state.ttsEngine;
+
+  // Browser voice path
+  if (engine === 'browser-auto' || (engine !== 'auto' && typeof engine === 'string' && engine.startsWith('browser-'))) {
+    const voiceIdx = engine === 'browser-auto' ? -1 : parseInt(engine.replace('browser-',''), 10);
+    return playOneBrowser(text, voiceIdx, seqId, onDone);
+  }
+
+  // Google TTS path (default)
+  const slow = state.speechRate < 0.7;
+  const url = googleTtsUrl(text, slow);
+  const audio = unlockedAudio || new Audio();
+  audio.src = url;
+  currentAudio = audio;
+
+  let done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    currentAudio = null;
+    ttsBusy = false;
+    if (ttsSequenceId === seqId && onDone && !playAborted) onDone();
+  }
+
+  const safetyTimer = setTimeout(() => {
+    if (!done && currentAudio === audio) { audio.pause(); finish(); }
+  }, 12000);
+
+  audio.onended = () => { clearTimeout(safetyTimer); finish(); };
+  audio.onerror = () => {
+    clearTimeout(safetyTimer);
+    done = true; // Prevent double callback
+    currentAudio = null;
+    playOneBrowser(text, -1, seqId, onDone);
+  };
+
+  ttsBusy = true;
+  const playPromise = audio.play();
+  if (playPromise && playPromise.catch) {
+    playPromise.catch(() => {
+      clearTimeout(safetyTimer);
+      done = true;
+      currentAudio = null;
+      playOneBrowser(text, -1, seqId, onDone);
+    });
+  }
 }
 
 function playOneBrowser(text, voiceIdx, seqId, onDone) {
   if (!('speechSynthesis' in window)) { if (onDone) onDone(); return; }
-  // Only cancel if there's something speaking - don't aggressively cancel
-  if (speechSynthesis.speaking) speechSynthesis.cancel();
+  // Check abort BEFORE doing anything
+  if (ttsSequenceId !== seqId || playAborted) { if (onDone) onDone(); return; }
+
+  // Cancel any existing speech — the onend from cancelled utterances will fire
+  // but their seqId check will prevent cascade
+  if (speechSynthesis.speaking || speechSynthesis.pending) {
+    speechSynthesis.cancel();
+  }
 
   // Small delay after cancel to let the engine reset
   setTimeout(() => {
@@ -3192,13 +3195,19 @@ function playOneBrowser(text, voiceIdx, seqId, onDone) {
       if (best) utter.voice = best;
     }
     let done = false;
-    const safetyTimer = setTimeout(() => { if (!done) { done = true; ttsBusy = false; if (onDone && !playAborted && ttsSequenceId === seqId) onDone(); } }, 12000);
-    utter.onend = () => { clearTimeout(safetyTimer); if (!done) { done = true; ttsBusy = false; if (onDone && !playAborted && ttsSequenceId === seqId) onDone(); } };
-    utter.onerror = () => { clearTimeout(safetyTimer); if (!done) { done = true; ttsBusy = false; if (onDone && !playAborted && ttsSequenceId === seqId) onDone(); } };
+    function finish() {
+      if (done) return;
+      done = true;
+      ttsBusy = false;
+      if (onDone && !playAborted && ttsSequenceId === seqId) onDone();
+    }
+    const safetyTimer = setTimeout(() => finish(), 12000);
+    utter.onend = () => { clearTimeout(safetyTimer); finish(); };
+    utter.onerror = () => { clearTimeout(safetyTimer); finish(); };
     if (speechSynthesis.paused) speechSynthesis.resume();
     ttsBusy = true;
     speechSynthesis.speak(utter);
-  }, 50);
+  }, 80);
 }
 
 // =================================================================
@@ -3248,13 +3257,16 @@ if (isIOS && state.ttsEngine === 'auto') {
 // High-level speak — for single word clicks (stops everything first)
 function speakDutch(text) {
   stopAllAudio();
+  // Reset abort flag and bump sequence for this new playback
   playAborted = false;
+  ttsSequenceId++;
   playOneTTS(text, null);
 }
 
 function speakAndHighlight(btn, text) {
   stopAllAudio();
   playAborted = false;
+  ttsSequenceId++;
   document.querySelectorAll('.speak-btn').forEach(b => b.classList.remove('speaking'));
   if (btn) btn.classList.add('speaking');
   playOneTTS(text, () => { if (btn) btn.classList.remove('speaking'); });
@@ -3266,7 +3278,7 @@ function playAllWords() {
   if (state.isPlaying) { stopPlayAll(); return; }
   if (!state.currentLesson) return;
   const words = state.currentLesson.vocab;
-  stopAllAudio(); // Clean slate
+  stopAllAudio(); // Clean slate — sets playAborted=true, increments seqId
   state.isPlaying = true;
   playAborted = false;
   ttsSequenceId++;
@@ -3275,13 +3287,16 @@ function playAllWords() {
   if (pb) { pb.textContent = '⏹ Stop'; pb.style.background = '#FFEBEE'; }
 
   function playNext(idx) {
-    if (playAborted || ttsSequenceId !== mySeqId || idx >= words.length) { stopPlayAll(); return; }
+    if (playAborted || ttsSequenceId !== mySeqId || idx >= words.length) {
+      stopPlayAll();
+      return;
+    }
     state.activeWordIdx = idx;
     document.querySelectorAll('.listen-card').forEach((c,i) => c.classList.toggle('active-word', i === idx));
     const ac = document.querySelectorAll('.listen-card')[idx];
     if (ac) ac.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     playOneTTS(words[idx].nl, () => {
-      if (ttsSequenceId !== mySeqId) return;
+      if (ttsSequenceId !== mySeqId || playAborted) return;
       setTimeout(() => playNext(idx+1), 800);
     });
   }
@@ -3302,7 +3317,10 @@ function playDialogue() {
   if (db) { db.textContent = '⏹ Stop'; db.style.background = '#FFEBEE'; }
 
   function playNext(idx) {
-    if (playAborted || ttsSequenceId !== mySeqId || idx >= allLines.length) { stopPlayAll(); return; }
+    if (playAborted || ttsSequenceId !== mySeqId || idx >= allLines.length) {
+      stopPlayAll();
+      return;
+    }
     // Highlight current line
     document.querySelectorAll('.dialogue-line').forEach((c,i) => {
       c.style.outline = i === idx ? '2px solid #2E86AB' : 'none';
@@ -3311,7 +3329,7 @@ function playDialogue() {
     const ae = document.querySelectorAll('.dialogue-line')[idx];
     if (ae) ae.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     playOneTTS(allLines[idx], () => {
-      if (ttsSequenceId !== mySeqId) return;
+      if (ttsSequenceId !== mySeqId || playAborted) return;
       // Longer pause between dialogue lines for natural flow
       setTimeout(() => playNext(idx+1), 1000);
     });
