@@ -3395,7 +3395,6 @@ function getBrowserVoiceLabel(v) {
   const KNOWN = {
     'xander':   { g:'👨', label:'Xander' },
     'ellen':    { g:'👩', label:'Ellen' },
-    'claire':   { g:'👩', label:'Claire' },
     'colette':  { g:'👩', label:'Colette' },
     'fenna':    { g:'👩', label:'Fenna' },
     'maarten':  { g:'👨', label:'Maarten' },
@@ -3924,7 +3923,7 @@ let installBannerDismissed = false;
 if ('serviceWorker' in navigator) {
   // Inline service worker via blob URL
   const swCode = `
-    const CACHE = 'leer-nl-v0.7.9';
+    const CACHE = 'leer-nl-v0.7.11';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -4467,7 +4466,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.7.9 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.7.11 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -4625,6 +4624,7 @@ function renderSettings() {
         <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">Test Sentence</button>
         <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">Test Hard Sounds</button>
         <button class="voice-test-btn" onclick="stopAllAudio()">Stop</button>
+        <button class="voice-test-btn" onclick="(function(){const all=speechSynthesis.getVoices();const nl=all.filter(v=>v.lang.startsWith('nl'));alert('Dutch voices found ('+nl.length+'):\n'+nl.map(v=>v.name+' ['+v.lang+']'+(v.localService?' local':' cloud')).join('\n')||(all.length+' total voices, none Dutch'))})()">🔍 Show All Dutch Voices</button>
       </div>
 
       <div style="margin-bottom:4px">
@@ -4679,7 +4679,7 @@ function renderSettings() {
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับ</h3>
       <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 12px">
-        <strong>Leer Nederlands v0.7.9</strong> — Dutch for Thai speakers preparing for the
+        <strong>Leer Nederlands v0.7.11</strong> — Dutch for Thai speakers preparing for the
         <strong>Basisexamen Inburgering Buitenland</strong> (A1 level).
       </p>
       <p style="font-size:13px;color:#555;line-height:1.7;margin:0 0 12px">
