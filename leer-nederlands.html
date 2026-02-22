@@ -717,6 +717,20 @@ const COURSE_DATA = {
             { nl: "vaak", en: "often", phonetic: "vahk", thai: "บ่อย" },
             { nl: "fietsen", en: "to cycle", phonetic: "FEET-sun", thai: "ขี่จักรยาน", note: "Very Dutch! 🚲" },
             { nl: "met", en: "with", phonetic: "met", thai: "กับ" },
+            { nl: "elf", en: "eleven", phonetic: "elf", thai: "สิบเอ็ด" },
+            { nl: "twaalf", en: "twelve", phonetic: "twalef", thai: "สิบสอง" },
+            { nl: "twintig", en: "twenty", phonetic: "TWIN-tich", thai: "ยี่สิบ" },
+            { nl: "dertig", en: "thirty", phonetic: "DER-tich", thai: "สามสิบ" },
+            { nl: "veertig", en: "forty", phonetic: "VAYR-tich", thai: "สี่สิบ" },
+            { nl: "vijftig", en: "fifty", phonetic: "VAYF-tich", thai: "ห้าสิบ" },
+            { nl: "zestig", en: "sixty", phonetic: "ZES-tich", thai: "หกสิบ" },
+            { nl: "zeventig", en: "seventy", phonetic: "ZAY-vun-tich", thai: "เจ็ดสิบ" },
+            { nl: "tachtig", en: "eighty", phonetic: "TACH-tich", thai: "แปดสิบ" },
+            { nl: "negentig", en: "ninety", phonetic: "NAY-chun-tich", thai: "เก้าสิบ" },
+            { nl: "honderd", en: "hundred", phonetic: "HON-durt", thai: "ร้อย", note: "honderd = 100, tweehonderd = 200" },
+            { nl: "duizend", en: "thousand", phonetic: "DOW-zunt", thai: "พัน", note: "duizend = 1.000, tienduizend = 10.000" },
+            { nl: "postcode", en: "postcode / zip code", phonetic: "POST-kohd", thai: "รหัสไปรษณีย์", note: "format: 1234 AB — 4 digits + 2 letters" },
+            { nl: "telefoonnummer", en: "phone number", phonetic: "teh-luh-FOHN-num-ur", thai: "เบอร์โทรศัพท์", note: "mobile: 06-XXXXXXXX, 10 digits total" },
           ],
           dialogues: [
             { situation: "Meeting a neighbor on the street (Les 22)", lines: [
@@ -730,7 +744,7 @@ const COURSE_DATA = {
           ],
           grammar: {
             title: "Numbers 0-10 and Basic Questions",
-            explanation: "Dutch numbers 0-10 are essential for phone numbers, addresses, and time. Notice: <strong>hoe heet je?</strong> (what's your name?), <strong>waar woon je?</strong> (where do you live?). Questions often start with a question word + verb + subject.",
+            explanation: "Dutch numbers are essential for daily life. <strong>0-10:</strong> nul, één, twee, drie, vier, vijf, zes, zeven, acht, negen, tien. <strong>Tens:</strong> twintig, dertig, veertig, vijftig, zestig, zeventig, tachtig, negentig. <strong>Higher:</strong> honderd (100), duizend (1.000). Compound numbers: <em>twee</em>honderd<em>vijftig</em> (250). <strong>Dutch postcode:</strong> 4 digits + 2 letters: <em>1234 AB</em>. <strong>Mobile number:</strong> starts with 06, 10 digits total: <em>06-12345678</em>. <strong>BSN:</strong> 9-digit citizen number. Questions often start with a question word + verb + subject.<br><br>🇹🇭 ตัวเลขใช้ทุกวัน: ที่อยู่ เบอร์โทร รหัสไปรษณีย์ BSN ฝึกบอกเบอร์โทรและที่อยู่ของคุณเป็นภาษาดัตช์!",
             examples: [
               { nl: "Hoe heet je?", en: "What's your name? (informal 👋)" , th: "คุณชื่ออะไร? (ไม่เป็นทางการ)"},
               { nl: "Waar woon je?", en: "Where do you live? (informal 👋)" , th: "คุณอยู่ที่ไหน? (ไม่เป็นทางการ)"},
@@ -743,6 +757,11 @@ const COURSE_DATA = {
             { type: "mc", question: "What does 'fietsen' mean?", th: "'fietsen' แปลว่าอะไร?", answer: "to cycle", options: ["to walk", "to drive", "to cycle", "to run"] },
             { type: "mc", question: "Fill in: Kennen wij ___ niet?", th: "เติมคำในช่องว่าง: Kennen wij ___ niet?", answer: "elkaar", options: ["alleen", "niet", "elkaar", "samen"] },
             { type: "mc", question: "What is 'drie' + 'vijf'?", th: "'drie' + 'vijf' คืออะไร?", answer: "acht", options: ["zeven", "acht", "negen", "zes"] },
+            { type: "mc", question: "What number is 'vijftig'?", th: "vijftig คือเลขอะไร?", answer: "50", options: ["15", "50", "55", "45"] },
+            { type: "mc", question: "Dutch postcodes have the format:", th: "รหัสไปรษณีย์ดัตช์มีรูปแบบ:", answer: "4 digits + 2 letters (e.g. 1234 AB)", options: ["4 digits + 2 letters (e.g. 1234 AB)", "5 digits", "6 digits", "3 letters + 3 digits"] },
+            { type: "mc", question: "Dutch mobile numbers start with:", th: "เบอร์มือถือดัตช์เริ่มด้วย:", answer: "06", options: ["06", "07", "08", "05"] },
+            { type: "mc", question: "What is 'tweehonderd' in digits?", th: "tweehonderd คือเลขอะไร?", answer: "200", options: ["20", "200", "2000", "120"] },
+            { type: "mc", question: "'Honderd plus twintig' is:", th: "honderd plus twintig คือ:", answer: "120", options: ["102", "120", "100", "220"] },
           ]
         }
       ]
@@ -1663,6 +1682,11 @@ const COURSE_DATA = {
             { nl: "rechtsaf", en: "turn right", phonetic: "RECHTS-af", thai: "เลี้ยวขวา" },
             { nl: "kerk", en: "church", phonetic: "KERK", thai: "โบสถ์", note: "de kerk" },
             { nl: "langs", en: "past / along", phonetic: "LANGS", thai: "ผ่าน" },
+            { nl: "openingstijden", en: "opening hours", phonetic: "OH-puh-nings-tay-dun", thai: "เวลาเปิดทำการ", note: "check openingstijden before you go!" },
+            { nl: "koopavond", en: "late shopping evening", phonetic: "KOHP-ah-vont", thai: "คืนช้อปปิ้ง", note: "usually Thursday or Friday — shops open until 21:00" },
+            { nl: "koopzondag", en: "Sunday shopping", phonetic: "KOHP-zon-dach", thai: "ช้อปปิ้งวันอาทิตย์", note: "not every Sunday — check per municipality" },
+            { nl: "gesloten", en: "closed", phonetic: "chuh-SLOH-tun", thai: "ปิด", note: "Gesloten op zondag = closed on Sunday" },
+            { nl: "feestdag", en: "public holiday", phonetic: "FAYST-dach", thai: "วันหยุดนักขัตฤกษ์", note: "shops often closed — Koningsdag, Kerstmis etc." },
           ],
           dialogues: [
             {
@@ -2188,6 +2212,76 @@ const COURSE_DATA = {
       ]
     },
 
+
+    // ===== Theme 22: De Weg Vragen (Directions) =====
+    {
+      id: 39, section: "taal", title: "De Weg Vragen", titleEn: "Asking Directions", titleTh: "การถามทาง", icon: "🗺️", color: "#2980B9",
+      source: "A1 Daily Life",
+      lessons: [
+        {
+          id: "t22a", title: "Links, Rechts, Rechtdoor", titleEn: "Left, Right, Straight On", titleTh: "ซ้าย ขวา ตรงไป",
+          vocab: [
+            { nl: "links", en: "left", phonetic: "links", thai: "ซ้าย" },
+            { nl: "rechts", en: "right", phonetic: "rechts", thai: "ขวา" },
+            { nl: "rechtdoor", en: "straight ahead", phonetic: "RECHT-dohr", thai: "ตรงไป" },
+            { nl: "sla af", en: "turn (imperative)", phonetic: "slah AF", thai: "เลี้ยว", note: "from: afslaan — sla links/rechts af" },
+            { nl: "de hoek", en: "the corner", phonetic: "duh hook", thai: "มุม", note: "om de hoek = around the corner" },
+            { nl: "het stoplicht", en: "the traffic light", phonetic: "hut STOP-licht", thai: "สัญญาณไฟจราจร" },
+            { nl: "de straat", en: "the street", phonetic: "duh straht", thai: "ถนน", note: "de straat — Keizerstraat, Hoofdstraat" },
+            { nl: "het plein", en: "the square", phonetic: "hut playn", thai: "จัตุรัส", note: "het plein — open public square" },
+            { nl: "de brug", en: "the bridge", phonetic: "duh bruch", thai: "สะพาน" },
+            { nl: "oversteken", en: "to cross (road/bridge)", phonetic: "oh-vur-STAY-kun", thai: "ข้ามถนน", note: "steek over bij het zebrapad" },
+            { nl: "het zebrapad", en: "pedestrian crossing", phonetic: "hut ZAY-bra-pad", thai: "ทางม้าลาย" },
+            { nl: "de rotonde", en: "the roundabout", phonetic: "duh roh-TON-duh", thai: "วงเวียน" },
+            { nl: "verderop", en: "further along", phonetic: "vur-DUR-op", thai: "ถัดไปข้างหน้า", note: "Het is verderop aan de linker kant" },
+            { nl: "aan de linkerkant", en: "on the left side", phonetic: "ahn duh LIN-kur-kant", thai: "ทางด้านซ้าย" },
+            { nl: "aan de rechterkant", en: "on the right side", phonetic: "ahn duh RECH-tur-kant", thai: "ทางด้านขวา" },
+            { nl: "naast", en: "next to", phonetic: "nahst", thai: "ถัดจาก" },
+            { nl: "tegenover", en: "opposite / across from", phonetic: "TAY-chun-oh-vur", thai: "ตรงข้าม" },
+            { nl: "de weg", en: "the road / the way", phonetic: "duh wech", thai: "ทาง / ถนน", note: "de weg vragen = to ask for directions" },
+            { nl: "verdwalen", en: "to get lost", phonetic: "vur-DWAH-lun", thai: "หลงทาง" },
+            { nl: "het kaartje", en: "the map (small)", phonetic: "hut KART-yuh", thai: "แผนที่", note: "de kaart = larger map" },
+            { nl: "lopen", en: "to walk / to go on foot", phonetic: "LOH-pun", thai: "เดิน" },
+            { nl: "ongeveer", en: "approximately", phonetic: "on-chuh-VAYR", thai: "ประมาณ", note: "Ongeveer 5 minuten lopen" },
+          ],
+          dialogues: [
+            {
+              situation: "Asking for directions in a Dutch town — ถามทางในเมืองดัตช์",
+              lines: [
+                { speaker: "You", nl: "Excuseer mij, ik ben verdwaald. Waar is het station?", en: "Excuse me, I'm lost. Where is the station?", th: "ขอโทษนะคะ ฉันหลงทาง สถานีรถไฟอยู่ที่ไหน?" },
+                { speaker: "Local", nl: "Geen probleem! Ga rechtdoor tot het stoplicht.", en: "No problem! Go straight ahead to the traffic light.", th: "ไม่เป็นไร! เดินตรงไปจนถึงสัญญาณไฟ" },
+                { speaker: "You", nl: "En dan?", en: "And then?", th: "แล้วก็?" },
+                { speaker: "Local", nl: "Sla rechts af bij het stoplicht, dan de brug over.", en: "Turn right at the traffic light, then over the bridge.", th: "เลี้ยวขวาที่สัญญาณไฟ แล้วข้ามสะพาน" },
+                { speaker: "You", nl: "Is het ver?", en: "Is it far?", th: "ไกลไหมคะ?" },
+                { speaker: "Local", nl: "Nee, ongeveer vijf minuten lopen. Het station is aan de linkerkant, tegenover het plein.", en: "No, about five minutes walking. The station is on the left side, opposite the square.", th: "ไม่ไกล ประมาณห้านาทีเดิน สถานีอยู่ทางซ้าย ตรงข้ามจัตุรัส" },
+                { speaker: "You", nl: "Hartelijk dank!", en: "Thank you very much!", th: "ขอบคุณมากค่ะ!" },
+                { speaker: "Local", nl: "Geen dank. Goede reis!", en: "You're welcome. Have a good trip!", th: "ไม่เป็นไรค่ะ เดินทางดีนะ!" },
+              ]
+            }
+          ],
+          grammar: {
+            title: "The Imperative — Gebiedende Wijs",
+            explanation: "For directions, Dutch uses the <strong>imperative mood</strong> (gebiedende wijs) — the base verb form without a subject. Like Thai commands, no extra word is needed:<br>• <strong>Ga</strong> rechtdoor! (Go straight!) — from gaan<br>• <strong>Sla</strong> links af! (Turn left!) — from afslaan<br>• <strong>Neem</strong> de tweede straat. (Take the second street.) — from nemen<br>• <strong>Steek</strong> over bij het zebrapad. (Cross at the pedestrian crossing.) — from oversteken<br><br>🇹🇭 เปรียบเทียบภาษาไทย: เลี้ยวซ้าย = sla links af, ตรงไป = rechtdoor, ข้ามถนน = steek over — โครงสร้างเหมือนกัน ไม่ต้องมีประธาน!",
+            examples: [
+              { nl: "Ga rechtdoor tot de hoek.", en: "Go straight ahead to the corner.", th: "เดินตรงไปจนถึงมุม" },
+              { nl: "Sla links af bij het stoplicht.", en: "Turn left at the traffic light.", th: "เลี้ยวซ้ายที่สัญญาณไฟ" },
+              { nl: "Het is tegenover het station.", en: "It is opposite the station.", th: "อยู่ตรงข้ามสถานี" },
+              { nl: "Steek over bij het zebrapad.", en: "Cross at the pedestrian crossing.", th: "ข้ามที่ทางม้าลาย" },
+              { nl: "Dat is ongeveer tien minuten lopen.", en: "That is about ten minutes walking.", th: "ประมาณสิบนาทีเดิน" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "'Sla rechts af' means:", th: "หมายถึง:", answer: "Turn right", options: ["Turn right", "Turn left", "Go straight", "Stop here"] },
+            { type: "mc", question: "What is 'het stoplicht'?", th: "het stoplicht คืออะไร?", answer: "traffic light", options: ["traffic light", "pedestrian crossing", "roundabout", "bridge"] },
+            { type: "mc", question: "Fill in: Ga ___ tot het plein, dan links.", th: "เติมคำ:", answer: "rechtdoor", options: ["rechtdoor", "links", "tegenover", "verderop"] },
+            { type: "mc", question: "'Tegenover' means:", th: "tegenover หมายถึง:", answer: "opposite / across from", options: ["next to", "behind", "opposite / across from", "above"] },
+            { type: "mc", question: "How do you say 'I am lost' in Dutch?", th: "ฉันหลงทางพูดว่า:", answer: "Ik ben verdwaald", options: ["Ik ben verdwaald", "Ik ben moe", "Ik ben ziek", "Ik ben klaar"] },
+            { type: "mc", question: "The imperative of 'gaan' (to go) is:", th: "รูปคำสั่งของ gaan คือ:", answer: "Ga!", options: ["Ga!", "Gaan!", "Gegaan!", "Ging!"] },
+          ]
+        }
+      ]
+    },
+
     // ===== SECTION B: KNS — POPULATED =====
     // KNS 1: Geografie, Vervoer & Wonen
     {
@@ -2212,6 +2306,13 @@ const COURSE_DATA = {
             { nl: "buurlanden", en: "neighboring countries", phonetic: "BEWR-lan-dun", thai: "ประเทศเพื่อนบ้าน", note: "Duitsland & België" },
             { nl: "Randstad", en: "Randstad (urban area)", phonetic: "RANT-stat", thai: "แรนด์สตัด", note: "Amsterdam-Rotterdam-Den Haag-Utrecht" },
             { nl: "waterschap", en: "water board", phonetic: "WAH-tur-schap", thai: "คณะกรรมการน้ำ", note: "manages water & dikes" },
+            { nl: "DigiD", en: "digital identity login", phonetic: "DEE-chee-DAY", thai: "ระบบล็อกอินดิจิทัล", note: "used for all government websites — aanvragen bij DigiD.nl" },
+            { nl: "inloggen", en: "to log in", phonetic: "IN-loch-chun", thai: "เข้าสู่ระบบ", note: "log in met uw DigiD" },
+            { nl: "wachtwoord", en: "password", phonetic: "WACHT-wohrt", thai: "รหัสผ่าน", note: "het wachtwoord" },
+            { nl: "app", en: "app", phonetic: "ap", thai: "แอป", note: "de DigiD app — for mobile login" },
+            { nl: "MijnOverheid", en: "MyGovernment portal", phonetic: "mayn OH-vur-hayt", thai: "พอร์ทัลรัฐบาลส่วนตัว", note: "mijnoverheid.nl — your personal government page" },
+            { nl: "gemeente", en: "municipality", phonetic: "chuh-MAYN-tuh", thai: "เทศบาล", note: "de gemeente — local government office" },
+            { nl: "inschrijven", en: "to register", phonetic: "IN-schray-vun", thai: "ลงทะเบียน", note: "inschrijven bij de gemeente = register at city hall" },
           ],
           dialogues: [
             {
@@ -2505,6 +2606,11 @@ const COURSE_DATA = {
             { nl: "vaccinatie", en: "vaccination", phonetic: "vak-see-NAH-see", thai: "การฉีดวัคซีน", note: "free for children via Rijksvaccinatieprogramma" },
             { nl: "112", en: "emergency number", phonetic: "ayn-ayn-tway", thai: "เบอร์ฉุกเฉิน", note: "like 191 in Thailand" },
             { nl: "premie", en: "insurance premium", phonetic: "PRAY-mee", thai: "เบี้ยประกัน", note: "de premie — monthly payment" },
+            { nl: "basispakket", en: "basic package", phonetic: "BAH-sis-pak-et", thai: "แพ็กเกจพื้นฐาน", note: "standard mandatory coverage — same for everyone" },
+            { nl: "aanvullende verzekering", en: "supplementary insurance", phonetic: "AHN-vul-un-duh vur-ZAY-kuh-ring", thai: "ประกันเสริม", note: "optional extra — dentist, physio, glasses" },
+            { nl: "no-claimkorting", en: "no-claim discount", phonetic: "noh-KLAYM-kor-ting", thai: "ส่วนลดไม่เคลม", note: "if you don't use eigen risico you get a discount next year" },
+            { nl: "zorgverzekeraar", en: "health insurer", phonetic: "ZORCH-vur-ZAY-kuh-rahr", thai: "บริษัทประกันสุขภาพ", note: "Zilveren Kruis, VGZ, CZ, Menzis etc." },
+            { nl: "collectiviteit", en: "group insurance discount", phonetic: "kol-lek-tee-vi-TAYT", thai: "ส่วนลดประกันกลุ่ม", note: "cheaper via employer or municipality" },
           ],
           dialogues: [
             {
@@ -2565,6 +2671,13 @@ const COURSE_DATA = {
             { nl: "pensioen", en: "pension", phonetic: "pen-SYOON", thai: "บำนาญ" },
             { nl: "AOW", en: "state pension", phonetic: "ah-oh-WAY", thai: "บำนาญแห่งรัฐ", note: "Algemene Ouderdomswet — from age ~67" },
             { nl: "vrijwilligerswerk", en: "volunteer work", phonetic: "VRAY-wil-ih-churs-werk", thai: "งานอาสาสมัคร", note: "good way to learn Dutch & integrate!" },
+            { nl: "toeslag", en: "benefit / allowance", phonetic: "TOO-slach", thai: "เงินช่วยเหลือ / ส่วนเพิ่ม", note: "de toeslag — via Belastingdienst / Toeslagen" },
+            { nl: "zorgtoeslag", en: "healthcare allowance", phonetic: "ZORCH-too-slach", thai: "เงินช่วยค่าประกันสุขภาพ", note: "subsidy for zorgverzekering — aanvragen via Toeslagen" },
+            { nl: "huurtoeslag", en: "rent allowance", phonetic: "HEWR-too-slach", thai: "เงินช่วยค่าเช่า", note: "for people with low income renting a home" },
+            { nl: "kinderbijslag", en: "child benefit", phonetic: "KIN-dur-bay-slach", thai: "เงินช่วยเหลือบุตร", note: "quarterly payment per child — via SVB" },
+            { nl: "aanvragen", en: "to apply for", phonetic: "AHN-vrah-chun", thai: "ยื่นขอ / สมัคร", note: "aanvragen via DigiD on toeslagen.nl" },
+            { nl: "toeslagpartner", en: "benefit partner", phonetic: "TOO-slach-part-nur", thai: "คู่ชีวิตตามระบบสวัสดิการ", note: "partner affects toeslag amount" },
+            { nl: "belastingdienst", en: "tax authority", phonetic: "buh-LAS-ting-deenst", thai: "กรมสรรพากร", note: "de Belastingdienst — manages toeslagen & tax returns" },
           ],
           dialogues: [
             {
@@ -2977,9 +3090,233 @@ const COURSE_DATA = {
           ]
         }
       ]
-    }
+    },
 
-  ,
+    // ===== A2 Module 4: Vergelijkingen (Comparatives & Superlatives) =====
+    {
+      id: 40, section: "a2", title: "Vergelijkingen", titleEn: "Comparatives & Superlatives", titleTh: "การเปรียบเทียบ", icon: "⚖️", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_4a", title: "Groter, Kleiner, Het Beste", titleEn: "Bigger, Smaller, The Best", titleTh: "ใหญ่กว่า เล็กกว่า ดีที่สุด",
+          vocab: [
+            { nl: "groter", en: "bigger", phonetic: "KROH-tur", thai: "ใหญ่กว่า", note: "groot → groter → het grootst" },
+            { nl: "kleiner", en: "smaller", phonetic: "KLAY-nur", thai: "เล็กกว่า", note: "klein → kleiner → het kleinst" },
+            { nl: "mooier", en: "more beautiful", phonetic: "MOH-ee-ur", thai: "สวยกว่า", note: "mooi → mooier → het mooist" },
+            { nl: "duurder", en: "more expensive", phonetic: "DEWR-dur", thai: "แพงกว่า", note: "duur → duurder → het duurst" },
+            { nl: "goedkoper", en: "cheaper", phonetic: "KHOOT-koh-pur", thai: "ถูกกว่า", note: "goedkoop → goedkoper → het goedkoopst" },
+            { nl: "sneller", en: "faster", phonetic: "SNEL-ur", thai: "เร็วกว่า", note: "snel → sneller → het snelst" },
+            { nl: "beter", en: "better", phonetic: "BAY-tur", thai: "ดีกว่า", note: "goed → beter → het best (irregular!)" },
+            { nl: "slechter", en: "worse", phonetic: "SLECH-tur", thai: "แย่กว่า", note: "slecht → slechter → het slechtst" },
+            { nl: "verder", en: "further / farther", phonetic: "VER-dur", thai: "ไกลกว่า", note: "ver → verder → het verst" },
+            { nl: "dichter bij", en: "closer", phonetic: "DICH-tur bay", thai: "ใกล้กว่า", note: "dichtbij → dichter bij → het dichtst bij" },
+            { nl: "dan", en: "than", phonetic: "dan", thai: "กว่า", note: "used in comparisons: groter dan = bigger than" },
+            { nl: "net zo ... als", en: "just as ... as", phonetic: "net zo ... als", thai: "เท่ากับ", note: "net zo groot als = just as big as" },
+            { nl: "het meest", en: "the most", phonetic: "hut MAYST", thai: "มากที่สุด", note: "het meest populair = the most popular" },
+            { nl: "het minst", en: "the least", phonetic: "hut MINST", thai: "น้อยที่สุด", note: "het minst duur = the least expensive" },
+            { nl: "verreweg", en: "by far", phonetic: "VER-uh-wech", thai: "ห่างไกลมาก (เน้นความแตกต่าง)", note: "verreweg het beste = by far the best" },
+          ],
+          dialogues: [
+            { situation: "Comparing apartments — เปรียบเทียบอพาร์ทเม้นท์", lines: [
+              { speaker: "A", nl: "Welk appartement vind je mooier?", en: "Which apartment do you find more beautiful?", th: "คุณชอบอพาร์ทเม้นท์ไหนมากกว่า?" },
+              { speaker: "B", nl: "Het eerste is groter, maar het tweede is goedkoper.", en: "The first one is bigger, but the second is cheaper.", th: "อันแรกใหญ่กว่า แต่อันสองถูกกว่า" },
+              { speaker: "A", nl: "Is het tweede net zo groot als het eerste?", en: "Is the second one just as big as the first?", th: "อันสองใหญ่เท่ากับอันแรกไหม?" },
+              { speaker: "B", nl: "Nee, het eerste is verreweg het grootst.", en: "No, the first one is by far the biggest.", th: "ไม่ อันแรกใหญ่ที่สุดเลย" },
+              { speaker: "A", nl: "Maar het tweede ligt dichter bij het centrum.", en: "But the second is closer to the centre.", th: "แต่อันสองอยู่ใกล้ใจกลางเมืองกว่า" },
+              { speaker: "B", nl: "Dan is het tweede de beste keuze!", en: "Then the second is the best choice!", th: "งั้นอันสองเป็นตัวเลือกที่ดีที่สุด!" },
+            ]}
+          ],
+          grammar: {
+            title: "Vergelijkingen — Comparatives & Superlatives",
+            explanation: "Dutch forms comparatives by adding <strong>-er</strong> and superlatives with <strong>het + -st(e)</strong>.<br><br><strong>Comparative:</strong> adjective + <em>-er dan</em><br>• groot → groot<strong>er</strong> dan = bigger than<br>• mooi → mooi<strong>er</strong> dan = more beautiful than<br><br><strong>Superlative:</strong> het + adjective + <em>-st</em><br>• groot → het groot<strong>st</strong> = the biggest<br>• mooi → het mooi<strong>st</strong> = the most beautiful<br><br><strong>Irregular forms (must memorise!):</strong><br>• goed → beter → <strong>het best</strong><br>• weinig → minder → <strong>het minst</strong><br>• veel → meer → <strong>het meest</strong><br><br><strong>Equality:</strong> net zo + adjective + <em>als</em> = just as ... as<br>• net zo groot als = just as big as<br><br>🇹🇭 เปรียบเทียบ: groter dan (ใหญ่กว่า), het grootst (ใหญ่ที่สุด), net zo groot als (ใหญ่เท่ากับ) — คล้ายกับภาษาไทย แต่เพิ่ม -er และใช้ het นำหน้า!",
+            examples: [
+              { nl: "Amsterdam is groter dan Utrecht.", en: "Amsterdam is bigger than Utrecht.", th: "อัมสเตอร์ดัมใหญ่กว่าอูเทรคต์" },
+              { nl: "Deze trein is sneller dan de bus.", en: "This train is faster than the bus.", th: "รถไฟสายนี้เร็วกว่ารถบัส" },
+              { nl: "Dit is het beste restaurant in de stad.", en: "This is the best restaurant in the city.", th: "นี่คือร้านอาหารที่ดีที่สุดในเมือง" },
+              { nl: "Mijn huis is net zo groot als het jouwe.", en: "My house is just as big as yours.", th: "บ้านฉันใหญ่เท่ากับบ้านคุณ" },
+              { nl: "Ze spreekt het beste Nederlands van ons.", en: "She speaks the best Dutch of all of us.", th: "เธอพูดภาษาดัตช์ได้ดีที่สุดในพวกเรา" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "The comparative of 'groot' is:", th: "comparative ของ groot คือ:", answer: "groter", options: ["groter", "grooter", "het grootst", "groten"] },
+            { type: "mc", question: "The superlative of 'goed' is:", th: "superlative ของ goed คือ:", answer: "het best", options: ["het goedst", "het best", "beter", "het meest goed"] },
+            { type: "mc", question: "Fill in: Deze fiets is ___ dan die auto. (fast)", th: "เติมคำ (เร็วกว่า):", answer: "sneller", options: ["sneller", "snelst", "het snelst", "meer snel"] },
+            { type: "mc", question: "'Net zo groot als' means:", th: "หมายถึง:", answer: "just as big as", options: ["bigger than", "the biggest", "just as big as", "not as big as"] },
+            { type: "mc", question: "Fill in: Dit is het ___ huis in de straat. (mooi)", th: "เติม (สวยที่สุด):", answer: "mooiste", options: ["mooier", "mooist", "mooiste", "het mooier"] },
+            { type: "mc", question: "Which is the irregular comparative?", th: "คู่ไหนเป็น irregular?", answer: "goed → beter", options: ["groot → groter", "snel → sneller", "goed → beter", "klein → kleiner"] },
+          ]
+        }
+      ]
+    },
+
+    // ===== A2 Module 5: Woordvolgorde (Word Order & Inversion) =====
+    {
+      id: 41, section: "a2", title: "Woordvolgorde", titleEn: "Word Order & Inversion", titleTh: "ลำดับคำและการสลับ", icon: "🔀", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_5a", title: "SVO en Inversie", titleEn: "SVO and Inversion", titleTh: "SVO และการสลับประธาน-กริยา",
+          vocab: [
+            { nl: "inversie", en: "inversion", phonetic: "in-VER-see", thai: "การสลับลำดับ (กริยานำหน้าประธาน)", note: "verb before subject after fronted element" },
+            { nl: "onderwerp", en: "subject", phonetic: "ON-dur-werp", thai: "ประธาน", note: "het onderwerp — 'ik', 'hij', 'de man'" },
+            { nl: "persoonsvorm", en: "finite verb", phonetic: "pur-SOHNS-vorm", thai: "กริยาหลัก (ที่ผันตาม)", note: "the conjugated verb that agrees with subject" },
+            { nl: "bijwoordelijke bepaling", en: "adverbial phrase", phonetic: "bay-WOOR-duh-luk-uh buh-PAH-ling", thai: "วลีกริยาวิเศษณ์", note: "morgen, gisteren, in Amsterdam, elke dag" },
+            { nl: "volgorde", en: "order / sequence", phonetic: "VOL-khor-duh", thai: "ลำดับ" },
+            { nl: "zin", en: "sentence", phonetic: "ZIN", thai: "ประโยค", note: "de zin" },
+            { nl: "hoofdzin", en: "main clause", phonetic: "HOHFT-zin", thai: "ประโยคหลัก", note: "normal or inverted word order" },
+            { nl: "bijzin", en: "subordinate clause", phonetic: "BAY-zin", thai: "ประโยคย่อย", note: "verb goes to END (omdat, dat, als...)" },
+            { nl: "normaal", en: "normal", phonetic: "nor-MAHL", thai: "ปกติ" },
+            { nl: "morgen", en: "tomorrow", phonetic: "MOR-chun", thai: "พรุ่งนี้" },
+            { nl: "elke dag", en: "every day", phonetic: "EL-kuh DACH", thai: "ทุกวัน" },
+            { nl: "altijd", en: "always", phonetic: "AL-tayt", thai: "เสมอ" },
+            { nl: "nooit", en: "never", phonetic: "NOYT", thai: "ไม่เคย" },
+            { nl: "soms", en: "sometimes", phonetic: "SOMS", thai: "บางครั้ง" },
+          ],
+          dialogues: [
+            { situation: "Explaining daily routine with varied sentence starts — อธิบายกิจวัตรโดยขึ้นต้นต่างกัน", lines: [
+              { speaker: "A", nl: "Ik fiets elke dag naar het werk.", en: "I cycle to work every day.", th: "ฉันปั่นจักรยานไปทำงานทุกวัน" },
+              { speaker: "B", nl: "Elke dag fiets je naar het werk?", en: "Every day you cycle to work?", th: "ทุกวันคุณปั่นจักรยานไปทำงาน?" },
+              { speaker: "A", nl: "Ja! Morgen ga ik met de trein.", en: "Yes! Tomorrow I'm going by train.", th: "ใช่! พรุ่งนี้ฉันจะไปด้วยรถไฟ" },
+              { speaker: "B", nl: "Waarom ga je morgen met de trein?", en: "Why are you going by train tomorrow?", th: "ทำไมพรุ่งนี้ถึงไปรถไฟ?" },
+              { speaker: "A", nl: "Omdat mijn fiets kapot is.", en: "Because my bike is broken.", th: "เพราะจักรยานพัง" },
+              { speaker: "B", nl: "Dan moet je een nieuwe kopen.", en: "Then you have to buy a new one.", th: "งั้นต้องซื้อใหม่แล้ว" },
+            ]}
+          ],
+          grammar: {
+            title: "Woordvolgorde — The V2 Rule",
+            explanation: "Dutch is a <strong>V2 language</strong>: the finite verb (persoonsvorm) is ALWAYS in <strong>second position</strong> in a main clause (hoofdzin).<br><br><strong>Normal SVO order:</strong><br>① <em>Ik</em> ② <em>fiets</em> ③ elke dag naar het werk.<br>(Subject → Verb → Rest)<br><br><strong>When something other than the subject comes first (fronting), the subject and verb SWAP — this is inversie:</strong><br>① <em>Elke dag</em> ② <em>fiets</em> ③ <em>ik</em> naar het werk.<br>(Front element → Verb → Subject → Rest)<br><br>Common fronted elements: time (morgen, gisteren), frequency (altijd, soms), place (in Amsterdam), result clause after dan.<br><br><strong>Subordinate clause (bijzin) — verb goes to END:</strong><br>...omdat ik elke dag naar het werk <em>fiets</em>.<br><br>🇹🇭 เปรียบเทียบไทย: ภาษาไทยไม่มี inversion — 'ทุกวันฉันปั่นจักรยาน' ลำดับไม่เปลี่ยน แต่ดัตช์ต้องสลับ: Elke dag <u>fiets</u> <u>ik</u>. จำง่ายๆ: กริยาอยู่ตำแหน่งที่ 2 เสมอ!",
+            examples: [
+              { nl: "Ik werk elke dag. → Elke dag werk ik.", en: "I work every day. → Every day I work. (inversion!)", th: "ฉันทำงานทุกวัน → ทุกวันฉันทำงาน (กริยาสลับกับประธาน)" },
+              { nl: "Hij gaat morgen naar Amsterdam. → Morgen gaat hij naar Amsterdam.", en: "He goes to Amsterdam tomorrow. → Tomorrow he goes to Amsterdam.", th: "พรุ่งนี้เขาไปอัมสเตอร์ดัม (กริยาสลับ)" },
+              { nl: "Dan koop ik een nieuwe fiets.", en: "Then I'll buy a new bike. (dan causes inversion)", th: "งั้นฉันจะซื้อจักรยานใหม่ (dan ทำให้สลับ)" },
+              { nl: "Ik fiets naar het werk, omdat ik elke dag wil sporten.", en: "I cycle to work, because I want to exercise every day. (verb to end in bijzin)", th: "ฉันปั่นจักรยานไปทำงาน เพราะอยากออกกำลังกายทุกวัน (กริยาท้าย bijzin)" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "In Dutch main clauses, the finite verb is always in position:", th: "ในประโยคหลักดัตช์ กริยาอยู่ตำแหน่ง:", answer: "2nd position", options: ["1st position", "2nd position", "Last position", "3rd position"] },
+            { type: "mc", question: "Reorder: 'gisteren / ik / gewerkt / heb' starting with 'Gisteren':", th: "เรียงประโยคขึ้นต้น Gisteren:", answer: "Gisteren heb ik gewerkt.", options: ["Gisteren ik heb gewerkt.", "Gisteren heb ik gewerkt.", "Gisteren ik gewerkt heb.", "Gisteren gewerkt ik heb."] },
+            { type: "mc", question: "'Morgen ga ik naar school' — why is the verb before the subject?", th: "ทำไมกริยาอยู่หน้าประธาน?", answer: "Morgen (time) is fronted — V2 rule causes inversion", options: ["It's a question", "Morgen (time) is fronted — V2 rule causes inversion", "Random word order", "Dutch always puts verb first"] },
+            { type: "mc", question: "Which sentence has correct inversion?", th: "ประโยคไหนใช้ inversion ถูก?", answer: "Elke dag eet ik brood.", options: ["Elke dag ik eet brood.", "Elke dag eet ik brood.", "Elke dag brood eet ik.", "Elke dag ik brood eet."] },
+            { type: "mc", question: "In a bijzin (subordinate clause), the verb goes to:", th: "ใน bijzin กริยาไป:", answer: "The end", options: ["2nd position", "1st position", "The end", "After the subject"] },
+            { type: "mc", question: "Fill in: ___ ga jij naar de dokter? (morgen — inversion)", th: "เติม (พรุ่งนี้คุณจะไปหาหมอ):", answer: "Morgen ga jij naar de dokter.", options: ["Morgen jij gaat naar de dokter.", "Morgen ga jij naar de dokter.", "Morgen gaat jij naar de dokter.", "Morgen naar de dokter ga jij."] },
+          ]
+        }
+      ]
+    },
+
+    // ===== A2 Module 6: Verkleinwoorden (Diminutives) =====
+    {
+      id: 42, section: "a2", title: "Verkleinwoorden", titleEn: "Diminutives", titleTh: "คำย่อเล็ก", icon: "🔬", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_6a", title: "Het -tje Suffix", titleEn: "The -tje Suffix", titleTh: "คำลงท้าย -tje",
+          vocab: [
+            { nl: "kopje", en: "cup (small/dim.)", phonetic: "KOP-yuh", thai: "ถ้วยเล็ก / ถ้วยกาแฟ", note: "kop → kopje (after p: -je)" },
+            { nl: "meisje", en: "girl", phonetic: "MAY-syuh", thai: "เด็กผู้หญิง", note: "meid → meisje — very common diminutive" },
+            { nl: "beetje", en: "a little / a bit", phonetic: "BAY-tyuh", thai: "นิดหน่อย", note: "beet → beetje — one of the most useful words!" },
+            { nl: "huisje", en: "little house / cottage", phonetic: "HOW-syuh", thai: "บ้านเล็กๆ / กระท่อม", note: "huis → huisje" },
+            { nl: "mannetje", en: "little man / guy", phonetic: "MAN-uh-tyuh", thai: "ผู้ชายตัวเล็ก", note: "man → mannetje (after short vowel + n: -netje)" },
+            { nl: "kindje", en: "baby / little child", phonetic: "KIND-yuh", thai: "เด็กเล็ก / ทารก", note: "kind → kindje" },
+            { nl: "woordje", en: "little word / quick word", phonetic: "WORT-yuh", thai: "คำเล็กๆ / คุยกันสั้นๆ", note: "woord → woordje — 'een woordje wisselen' = have a quick chat" },
+            { nl: "flesje", en: "small bottle", phonetic: "FLES-yuh", thai: "ขวดเล็ก", note: "fles → flesje (after -s: -je)" },
+            { nl: "hapje", en: "a bite / snack", phonetic: "HAP-yuh", thai: "ของกินนิดหน่อย", note: "hap → hapje — 'een hapje eten' = grab a bite" },
+            { nl: "momentje", en: "just a moment", phonetic: "moh-MEN-tyuh", thai: "สักครู่", note: "moment → momentje — very Dutch polite phrase!" },
+            { nl: "zusje", en: "little sister", phonetic: "ZUS-yuh", thai: "น้องสาว / พี่สาวตัวน้อย", note: "zus → zusje" },
+            { nl: "broertje", en: "little brother", phonetic: "BROOR-tyuh", thai: "น้องชาย / พี่ชายตัวน้อย", note: "broer → broertje (after -r: -tje)" },
+            { nl: "lampje", en: "small lamp / bulb", phonetic: "LAMP-yuh", thai: "โคมไฟเล็ก / หลอดไฟ", note: "lamp → lampje (after -mp: -je)" },
+            { nl: "verkleinwoord", en: "diminutive", phonetic: "vur-KLAYN-wohrt", thai: "คำย่อเล็ก (ภาษาศาสตร์)", note: "het verkleinwoord — always het, never de!" },
+          ],
+          dialogues: [
+            { situation: "Dutch small talk — คุยเล่นแบบดัตช์", lines: [
+              { speaker: "Colleague", nl: "Momentje! Wil je een kopje koffie?", en: "Just a moment! Do you want a cup of coffee?", th: "สักครู่! อยากได้กาแฟสักถ้วยไหม?" },
+              { speaker: "You", nl: "Ja, graag! Een beetje melk erbij.", en: "Yes please! A little milk with it.", th: "ขอบคุณ! ใส่นมนิดหน่อยด้วยนะ" },
+              { speaker: "Colleague", nl: "Ik heb ook een hapje meegebracht.", en: "I also brought a little snack.", th: "ฉันเอาของกินมาด้วยนะ" },
+              { speaker: "You", nl: "Wat leuk! Is dat voor het hele kantoor?", en: "How nice! Is that for the whole office?", th: "น่ารักจัง! สำหรับทั้งออฟฟิศเลยหรอ?" },
+              { speaker: "Colleague", nl: "Ja, het is een klein feestje — ik heb een nieuw zusje!", en: "Yes, it's a little celebration — I have a new little sister!", th: "ใช่ ฉลองเล็กๆ น้อยๆ — ฉันมีน้องสาวคนใหม่!" },
+              { speaker: "You", nl: "Gefeliciteerd! Hoe heet het kindje?", en: "Congratulations! What is the baby called?", th: "ขอแสดงความยินดี! เด็กน้อยชื่ออะไร?" },
+            ]}
+          ],
+          grammar: {
+            title: "Verkleinwoorden — The -tje Rules",
+            explanation: "Dutch diminutives are <strong>extremely common</strong> — used for small things, affection, informality, and politeness. All diminutives are <strong>het</strong> words (neuter). Formation rules:<br><br><strong>-tje</strong> (default): huis → huis<em>tje</em>, tafel → tafel<em>tje</em><br><strong>-je</strong> (after l, n, r, t + long vowel): school → school<em>tje</em> → wait — after l: bal → bal<em>letje</em> (short vowel l = -letje)<br><strong>-etje</strong> (after short vowel + m, n, ng, l, r): man → man<em>netje</em>, kom → kom<em>metje</em><br><strong>-pje</strong> (after -m at end): boom → boom<em>pje</em>, tram → tram<em>pje</em><br><strong>-kje → -kje</strong> (after -ng): ring → ring<em>etje</em><br><br>Common everyday diminutives you <em>must</em> know: <strong>beetje, kopje, momentje, hapje, zusje, broertje</strong><br><br>🇹🇭 ภาษาดัตช์ใช้ diminutive บ่อยมาก เช่น momentje (แป๊บนึง), beetje (นิดหน่อย), kopje (ถ้วยกาแฟ) — ไม่ได้แปลว่า 'เล็ก' เสมอไป แต่ฟังดูสุภาพและเป็นกันเอง!",
+            examples: [
+              { nl: "Een beetje suiker, alsjeblieft.", en: "A little sugar, please.", th: "ขอน้ำตาลนิดหน่อยนะ" },
+              { nl: "Momentje, ik ben zo terug.", en: "Just a moment, I'll be right back.", th: "สักครู่ ฉันจะกลับมาทันที" },
+              { nl: "Wil je een kopje thee?", en: "Would you like a cup of tea?", th: "อยากดื่มชาสักถ้วยไหม?" },
+              { nl: "Ze woont in een klein huisje op het platteland.", en: "She lives in a little cottage in the countryside.", th: "เธออาศัยอยู่ในกระท่อมเล็กๆ ที่ชนบท" },
+              { nl: "Mijn broertje is drie jaar oud.", en: "My little brother is three years old.", th: "น้องชายฉันอายุสามขวบ" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "All Dutch diminutives use the article:", th: "คำย่อเล็กทุกคำใช้คำนำหน้า:", answer: "het", options: ["de", "het", "een", "depends on the noun"] },
+            { type: "mc", question: "The diminutive of 'kop' is:", th: "diminutive ของ kop คือ:", answer: "kopje", options: ["kopje", "koptje", "kopetje", "koppje"] },
+            { type: "mc", question: "'Een beetje' means:", th: "Een beetje หมายถึง:", answer: "a little / a bit", options: ["a big bite", "a little / a bit", "a small animal", "sometimes"] },
+            { type: "mc", question: "The diminutive of 'man' is:", th: "diminutive ของ man คือ:", answer: "mannetje", options: ["mantje", "manje", "mannetje", "mantjetje"] },
+            { type: "mc", question: "'Momentje!' means:", th: "Momentje! หมายถึง:", answer: "Just a moment!", options: ["Good morning!", "Just a moment!", "Excuse me!", "Thank you!"] },
+            { type: "mc", question: "The diminutive of 'boom' (tree) follows which rule?", th: "diminutive ของ boom ใช้กฎไหน?", answer: "-pje after -m: boompje", options: ["-tje: boomtje", "-pje after -m: boompje", "-etje: boometje", "-je: boomje"] },
+          ]
+        }
+      ]
+    },
+
+    // ===== A2 Module 7: Er-constructies (Er-construction) =====
+    {
+      id: 43, section: "a2", title: "Er-constructies", titleEn: "Er-constructions", titleTh: "การใช้ er", icon: "📍", color: "#1565C0",
+      source: "A2 Grammar",
+      lessons: [
+        {
+          id: "a2_7a", title: "Er is, Er staat, Er + prep", titleEn: "There is, There stands, Er + prep", titleTh: "มีอยู่ วางอยู่ ใกล้กับมัน",
+          vocab: [
+            { nl: "er is", en: "there is", phonetic: "ur IS", thai: "มี (อยู่ที่ไหนสักที่)", note: "er is een probleem = there is a problem" },
+            { nl: "er zijn", en: "there are", phonetic: "ur ZAYN", thai: "มี (พหูพจน์)", note: "er zijn veel mensen = there are many people" },
+            { nl: "er staat", en: "there stands", phonetic: "ur STAAT", thai: "มีตั้งอยู่ (สิ่งที่ตั้งได้)", note: "for upright objects: a vase, person, building" },
+            { nl: "er ligt", en: "there lies", phonetic: "ur LICHT", thai: "มีวางอยู่ (สิ่งที่นอนราบ)", note: "for flat objects: a book, map, body" },
+            { nl: "er hangt", en: "there hangs", phonetic: "ur HANCHT", thai: "มีแขวนอยู่", note: "for hanging objects: a picture, coat" },
+            { nl: "er zit", en: "there sits", phonetic: "ur ZIT", thai: "มีนั่งอยู่", note: "for sitting person or something contained in a box/bag" },
+            { nl: "ernaast", en: "next to it", phonetic: "ur-NAHST", thai: "อยู่ถัดจากมัน", note: "er + naast — always one word when unstressed" },
+            { nl: "ervoor", en: "in front of it / for it", phonetic: "ur-VOHR", thai: "อยู่หน้ามัน / เพื่อมัน", note: "er + voor" },
+            { nl: "erachter", en: "behind it", phonetic: "ur-ACH-tur", thai: "อยู่หลังมัน", note: "er + achter" },
+            { nl: "ermee", en: "with it", phonetic: "ur-MAY", thai: "ด้วยมัน / โดยใช้มัน", note: "er + mee — 'ik doe het ermee' = I do it with it" },
+            { nl: "erin", en: "in it", phonetic: "ur-IN", thai: "อยู่ในมัน", note: "er + in — 'er zit iets in' = there's something in it" },
+            { nl: "erop", en: "on it", phonetic: "ur-OP", thai: "อยู่บนมัน", note: "er + op — 'er ligt een boek op' = there's a book on it" },
+            { nl: "hoeveel", en: "how many / how much", phonetic: "hoo-VAYL", thai: "เท่าไหร่ / กี่", note: "hoeveel zijn er? = how many are there?" },
+          ],
+          dialogues: [
+            { situation: "Describing a new apartment — บรรยายอพาร์ทเม้นท์ใหม่", lines: [
+              { speaker: "You", nl: "Er is een grote keuken en er zijn twee slaapkamers.", en: "There is a large kitchen and there are two bedrooms.", th: "มีครัวใหญ่และมีห้องนอนสองห้อง" },
+              { speaker: "Friend", nl: "Is er ook een balkon?", en: "Is there also a balcony?", th: "มีระเบียงด้วยไหม?" },
+              { speaker: "You", nl: "Ja! Er staat een tafel op en er hangen bloemen aan de muur.", en: "Yes! There's a table on it and there are flowers hanging on the wall.", th: "มี! มีโต๊ะวางอยู่บนนั้น และมีดอกไม้แขวนที่ผนัง" },
+              { speaker: "Friend", nl: "Klinkt mooi. Is er een lift in het gebouw?", en: "Sounds nice. Is there a lift in the building?", th: "ฟังดูดี มีลิฟต์ในอาคารไหม?" },
+              { speaker: "You", nl: "Nee, er is geen lift, maar het is maar twee hoog.", en: "No, there is no lift, but it's only on the second floor.", th: "ไม่มี แต่อยู่แค่ชั้นสองเอง" },
+              { speaker: "Friend", nl: "En de buren — hoe zijn die?", en: "And the neighbours — what are they like?", th: "แล้วเพื่อนบ้านล่ะ เป็นยังไง?" },
+              { speaker: "You", nl: "Er woont een oud stel ernaast. Heel aardig!", en: "There's an elderly couple living next to it. Very nice!", th: "มีคู่สูงอายุอยู่ข้างๆ น่ารักมาก!" },
+            ]}
+          ],
+          grammar: {
+            title: "Er-constructies — Three Main Uses",
+            explanation: "<strong>1. Existential er</strong> — 'there is/are' (existence/quantity)<br>• <em>Er is</em> een probleem. = There is a problem.<br>• <em>Er zijn</em> tien mensen. = There are ten people.<br>• <em>Er is geen</em> lift. = There is no lift.<br>• Hoeveel zijn <em>er</em>? = How many are there?<br><br><strong>2. Locative er</strong> — position verbs (staan/liggen/hangen/zitten/zijn)<br>• <em>Er staat</em> een vaas op tafel. = There's a vase on the table.<br>• <em>Er ligt</em> een boek op de stoel. = There's a book on the chair.<br>• <em>Er hangt</em> een schilderij aan de muur. = There's a painting on the wall.<br><br><strong>3. Prepositional er</strong> — replaces 'het/dit/dat' after prepositions<br>• Ik ga <em>er</em>naast wonen. = I'm going to live next to it.<br>• Zit er iets <em>in</em>? = Is there something in it?<br>• Ik ben <em>er</em>mee bezig. = I'm busy with it.<br><br>🇹🇭 เปรียบเทียบ: 'er is / er zijn' คล้าย มี ในภาษาไทย — 'มีปัญหา' = er is een probleem. 'er staat' บอกว่าสิ่งนั้นตั้งอยู่ที่ไหน ใช้บ่อยในการบอกทิศทางและบรรยายสถานที่!",
+            examples: [
+              { nl: "Er is een supermarkt in de straat.", en: "There is a supermarket on the street.", th: "มีซุปเปอร์มาร์เก็ตบนถนนนั้น" },
+              { nl: "Er zijn veel fietsen in Nederland.", en: "There are many bikes in the Netherlands.", th: "มีจักรยานเยอะมากในเนเธอร์แลนด์" },
+              { nl: "Er staat een fiets voor de deur.", en: "There is a bike in front of the door.", th: "มีจักรยานตั้งอยู่หน้าประตู" },
+              { nl: "Er ligt een brief op de mat.", en: "There is a letter on the mat.", th: "มีจดหมายวางอยู่บนพรมเช็ดเท้า" },
+              { nl: "Hoeveel mensen zijn er op het feest?", en: "How many people are there at the party?", th: "มีคนกี่คนในงานปาร์ตี้?" },
+              { nl: "Ik heb een nieuwe tas. Ik doe alles erin.", en: "I have a new bag. I put everything in it.", th: "ฉันมีกระเป๋าใหม่ ฉันใส่ทุกอย่างลงไปในนั้น" },
+            ]
+          },
+          exercises: [
+            { type: "mc", question: "Fill in: ___ zijn drie appels op tafel.", th: "เติม: มีแอปเปิ้ลสามลูกบนโต๊ะ:", answer: "Er", options: ["Er", "Het", "Zij", "Die"] },
+            { type: "mc", question: "'Er staat een man voor de deur' — why 'staat' not 'is'?", th: "ทำไมใช้ staat ไม่ใช้ is?", answer: "For upright/standing objects use 'staat'", options: ["'staat' is more formal", "For upright/standing objects use 'staat'", "Random choice", "'staat' means there is (plural)"] },
+            { type: "mc", question: "'Ik woon ernaast' means:", th: "หมายถึง:", answer: "I live next to it", options: ["I live in it", "I live next to it", "I live behind it", "I live with it"] },
+            { type: "mc", question: "Which is correct for 'there is no coffee'?", th: "ประโยคใดถูกต้อง?", answer: "Er is geen koffie.", options: ["Er zijn geen koffie.", "Er is geen koffie.", "Er niet koffie.", "Geen er koffie is."] },
+            { type: "mc", question: "'Er ligt een boek' — 'ligt' is used because:", th: "ใช้ liegt เพราะ:", answer: "Books are flat/lying objects", options: ["Books are upright", "Books are flat/lying objects", "Books are hanging", "Random choice"] },
+            { type: "mc", question: "'Hoeveel zijn er?' means:", th: "หมายถึง:", answer: "How many are there?", options: ["How many do you want?", "How many are there?", "Where are they?", "What are they?"] },
+          ]
+        }
+      ]
+    },
+
     // ===== SECTION E: B1 LEVEL =====
     // ===== B1 Module 1: De Lijdende Vorm (Passive Voice) =====
     {
@@ -3924,7 +4261,7 @@ let installBannerDismissed = false;
 if ('serviceWorker' in navigator) {
   // Inline service worker via blob URL
   const swCode = `
-    const CACHE = 'leer-nl-v0.8.2';
+    const CACHE = 'leer-nl-v0.9.2';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -4467,7 +4804,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.8.2 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.9.2 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -4700,7 +5037,7 @@ function renderSettings() {
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับแอป</h3>
       <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 8px">
-        <strong>Leer Nederlands v0.8.2</strong> is a Dutch language learning app for Thai speakers
+        <strong>Leer Nederlands v0.9.2</strong> is a Dutch language learning app for Thai speakers
         preparing for the <strong>Basisexamen Inburgering Buitenland</strong> — the Dutch civic integration
         exam taken at the embassy in Bangkok before moving to the Netherlands.
       </p>
