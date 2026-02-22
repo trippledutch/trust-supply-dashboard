@@ -3572,10 +3572,10 @@ function playOneBrowser(text, voiceIdx, seqId, onDone) {
     if (voiceIdx >= 0 && voiceIdx < dutchBrowserVoices.length) {
       utter.voice = dutchBrowserVoices[voiceIdx];
     } else if (dutchBrowserVoices.length > 0) {
-      const femaleNames = ['noor','ellen','colette','fenna','dena','lotte','sophie','hanna','olivia','fay','laura','sara','maria','fleur','merel','anna','claire','inge','roos'];
-      const best = dutchBrowserVoices.find(v => v.lang === 'nl-NL' && femaleNames.some(f => v.name.toLowerCase().includes(f)))
+      const maleNames = ['xander','maarten','ruben','frank','finn','gerrit','arnaud','daan','bas','tom','erik','jan'];
+      const best = dutchBrowserVoices.find(v => v.lang === 'nl-NL' && maleNames.some(m => v.name.toLowerCase().includes(m)))
         || dutchBrowserVoices.find(v => v.lang === 'nl-NL' && !v.localService)
-        || dutchBrowserVoices.find(v => femaleNames.some(f => v.name.toLowerCase().includes(f)))
+        || dutchBrowserVoices.find(v => maleNames.some(m => v.name.toLowerCase().includes(m)))
         || dutchBrowserVoices.find(v => v.lang === 'nl-NL')
         || dutchBrowserVoices[0];
       if (best) utter.voice = best;
@@ -3924,7 +3924,7 @@ let installBannerDismissed = false;
 if ('serviceWorker' in navigator) {
   // Inline service worker via blob URL
   const swCode = `
-    const CACHE = 'leer-nl-v0.8.1';
+    const CACHE = 'leer-nl-v0.8.2';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -4467,7 +4467,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.8.1 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.8.2 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -4583,7 +4583,7 @@ function renderSettings() {
   ).join('');
 
   const currentVoiceLabel = state.ttsEngine === 'auto' ? 'Google Dutch'
-    : state.ttsEngine === 'browser-auto' ? 'Auto-select female'
+    : state.ttsEngine === 'browser-auto' ? 'Auto-select voice'
     : state.ttsEngine.startsWith('browser-') ? (dutchBrowserVoices[parseInt(state.ttsEngine.replace('browser-',''),10)]?.name || 'Browser voice')
     : 'Unknown';
 
@@ -4609,8 +4609,8 @@ function renderSettings() {
         <label style="font-weight:600;font-size:14px;color:#333;display:block;margin-bottom:8px">Dutch Voice Engine · เครื่องเสียง</label>
         <select id="voice-select" class="voice-select" onchange="setTtsEngine(this.value)">
           <option value="auto" ${state.ttsEngine === 'auto' ? 'selected' : ''}>Google Dutch — synthesized (desktop recommended)</option>
-          ${dutchBrowserVoices.length > 0 ? `<optgroup label="── Browser Voices (${dutchBrowserVoices.length} found) ──">
-            <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>Auto-select best female voice</option>
+          ${dutchBrowserVoices.length > 0 ? `<optgroup label="Browser Voices (${dutchBrowserVoices.length} found)">
+            <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>Auto-select voice</option>
             ${browserVoiceOptions}
           </optgroup>` : ''}
         </select>
@@ -4700,7 +4700,7 @@ function renderSettings() {
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับแอป</h3>
       <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 8px">
-        <strong>Leer Nederlands v0.8.1</strong> is a Dutch language learning app for Thai speakers
+        <strong>Leer Nederlands v0.8.2</strong> is a Dutch language learning app for Thai speakers
         preparing for the <strong>Basisexamen Inburgering Buitenland</strong> — the Dutch civic integration
         exam taken at the embassy in Bangkok before moving to the Netherlands.
       </p>
