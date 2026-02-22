@@ -4625,7 +4625,27 @@ function renderSettings() {
         <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">Test Sentence</button>
         <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">Test Hard Sounds</button>
         <button class="voice-test-btn" onclick="stopAllAudio()">Stop</button>
-        <button class="voice-test-btn" onclick="(function(){function show(){const all=speechSynthesis.getVoices();const nl=all.filter(v=>v.lang.startsWith('nl'));const msg=nl.length>0?'Dutch voices ('+nl.length+'):\n'+nl.map(v=>v.name+' ['+v.lang+']'+(v.localService?' local':' ☁️')).join('\n'):'No Dutch voices found.\nTotal loaded: '+all.length+'\n(Try again in a moment)';alert(msg)}const v=speechSynthesis.getVoices();if(v.length>0){show()}else{speechSynthesis.onvoiceschanged=show;speechSynthesis.getVoices()}})()">🔍 Show All Dutch Voices</button>
+        <button class="voice-test-btn" onclick="(function(){
+  speechSynthesis.cancel();
+  function report(){
+    const all=speechSynthesis.getVoices();
+    const nl=all.filter(v=>v.lang.startsWith('nl'));
+    if(nl.length===0 && all.length===0){
+      setTimeout(report,800);
+      return;
+    }
+    const lines=nl.map(v=>v.name+' ['+v.lang+']'+(!v.localService?' ☁️':' 📱')+( v.default?' ★':'')).join('\n')||'None found';
+    alert('Dutch voices ('+nl.length+' of '+all.length+' total):\n\n'+lines+'\n\niOS: if Enhanced doesn\'t show here,\nit may use a different lang tag.');
+  }
+  var attempts=0;
+  function tryLoad(){
+    const v=speechSynthesis.getVoices();
+    if(v.length>0||attempts>5){report();}
+    else{attempts++;setTimeout(tryLoad,300);}
+  }
+  speechSynthesis.onvoiceschanged=report;
+  tryLoad();
+})()">🔍 Show All Dutch Voices</button>
       </div>
 
       <div style="margin-bottom:4px">
