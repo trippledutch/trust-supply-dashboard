@@ -2834,7 +2834,7 @@ const COURSE_DATA = {
             { nl: "gelezen", en: "read (past)", phonetic: "khuh-LAY-zun", thai: "อ่านแล้ว", note: "lezen → gelezen" },
             { nl: "gevonden", en: "found", phonetic: "khuh-VON-dun", thai: "พบแล้ว", note: "vinden → gevonden" },
             { nl: "zijn", en: "to be (auxiliary)", phonetic: "zeyn", thai: "เป็น (กริยาช่วย)", note: "Used with movement/state change verbs" },
-            { nl: "vanmorgen", en: "this morning", phonetic: "van-MOR-khun", thai: "เมื่อเช้า" },
+            { nl: "gevallen", en: "fallen", phonetic: "khuh-FAL-lun", thai: "ล้มแล้ว/ตกแล้ว", note: "vallen → gevallen (zijn)" },
           ],
           dialogues: [
             { situation: "Weekend activities — กิจกรรมสุดสัปดาห์", lines: [
@@ -2864,6 +2864,7 @@ const COURSE_DATA = {
             { type: "mc", question: "'Gedronken' is the past participle of:", th: "gedronken เป็นกริยาช่องสามของ:", answer: "drinken", options: ["denken", "drinken", "dromen", "dragen"] },
             { type: "mc", question: "Which verb uses 'zijn'?", th: "กริยาใดใช้ zijn?", answer: "komen → gekomen", options: ["koken → gekookt", "komen → gekomen", "kopen → gekocht", "kennen → gekend"] },
             { type: "mc", question: "'Zij heeft een brief geschreven' means:", th: "แปลว่า:", answer: "She wrote a letter", options: ["She is writing a letter", "She wrote a letter", "She will write a letter", "She reads a letter"] },
+            { type: "mc", question: "'Ik ben gevallen' — which auxiliary and why?", th: "ใช้ zijn/hebben เพราะอะไร?", answer: "zijn — vallen is movement/change", options: ["hebben — it's irregular", "zijn — vallen is movement/change", "hebben — all past tense uses hebben", "zijn — all verbs use zijn"] },
           ]
         }
       ]
@@ -3923,7 +3924,7 @@ let installBannerDismissed = false;
 if ('serviceWorker' in navigator) {
   // Inline service worker via blob URL
   const swCode = `
-    const CACHE = 'leer-nl-v0.7.12';
+    const CACHE = 'leer-nl-v0.8.1';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -4466,7 +4467,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.7.12 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.8.1 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -4624,7 +4625,7 @@ function renderSettings() {
         <button class="voice-test-btn" onclick="speakDutch('Goedemorgen. Ik kom uit Thailand en ik woon in Nederland.')">Test Sentence</button>
         <button class="voice-test-btn" onclick="speakDutch('Scheveningen is een mooie plek. De gracht is groot.')">Test Hard Sounds</button>
         <button class="voice-test-btn" onclick="stopAllAudio()">Stop</button>
-        <button class="voice-test-btn" onclick="(function(){const all=speechSynthesis.getVoices();const nl=all.filter(v=>v.lang.startsWith('nl'));const msg=nl.length>0?'Dutch voices ('+nl.length+'):\n'+nl.map(v=>v.name+' ['+v.lang+']'+(v.localService?' local':' cloud')).join('\n'):'No Dutch voices found.\nTotal voices: '+all.length;alert(msg)})()">🔍 Show All Dutch Voices</button>
+        <button class="voice-test-btn" onclick="(function(){function show(){const all=speechSynthesis.getVoices();const nl=all.filter(v=>v.lang.startsWith('nl'));const msg=nl.length>0?'Dutch voices ('+nl.length+'):\n'+nl.map(v=>v.name+' ['+v.lang+']'+(v.localService?' local':' ☁️')).join('\n'):'No Dutch voices found.\nTotal loaded: '+all.length+'\n(Try again in a moment)';alert(msg)}const v=speechSynthesis.getVoices();if(v.length>0){show()}else{speechSynthesis.onvoiceschanged=show;speechSynthesis.getVoices()}})()">🔍 Show All Dutch Voices</button>
       </div>
 
       <div style="margin-bottom:4px">
@@ -4677,37 +4678,59 @@ function renderSettings() {
     </div>
 
     <div class="card">
-      <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับ</h3>
-      <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 12px">
-        <strong>Leer Nederlands v0.7.12</strong> — Dutch for Thai speakers preparing for the
-        <strong>Basisexamen Inburgering Buitenland</strong> (A1 level).
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับแอป</h3>
+      <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 8px">
+        <strong>Leer Nederlands v0.8.1</strong> is a Dutch language learning app for Thai speakers
+        preparing for the <strong>Basisexamen Inburgering Buitenland</strong> — the Dutch civic integration
+        exam taken at the embassy in Bangkok before moving to the Netherlands.
       </p>
-      <p style="font-size:13px;color:#555;line-height:1.7;margin:0 0 12px">
-        หลักสูตรภาษาดัตช์สำหรับคนไทย เตรียมสอบ Inburgering ระดับ A1
+      <p style="font-size:13px;color:#555;line-height:1.7;margin:0 0 8px">
+        แอปเรียนภาษาดัตช์สำหรับคนไทย เตรียมสอบ <strong>Basisexamen Inburgering Buitenland</strong>
+        — การสอบรวมเข้าสังคม ที่สถานทูตเนเธอร์แลนด์ในกรุงเทพฯ ก่อนย้ายไปเนเธอร์แลนด์
       </p>
-      <div style="font-size:13px;color:#666;line-height:1.8;margin:0 0 12px">
-        <strong>Features · ฟีเจอร์:</strong><br>
-        <span style="color:#444">Vocabulary</span> — ${getAllVocab().length}+ words with Dutch, Thai, English, phonetics<br>
-        <span style="color:#444">Flash Cards</span> — Swipeable cards with emoji illustrations<br>
-        <span style="color:#444">Listen</span> — Audio playback for all words and dialogues<br>
-        <span style="color:#444">Speak</span> — Pronunciation practice with speech recognition<br>
-        <span style="color:#444">Dialogue</span> — Realistic conversations per topic<br>
-        <span style="color:#444">Grammar</span> — Rules and examples per lesson<br>
-        <span style="color:#444">Practice</span> — Multiple choice quizzes (60% to pass)<br>
-        <span style="color:#444">Exercises</span> — Cloze, reorder, matching, dictation, and context drills<br>
-        <span style="color:#444">SRS Review</span> — Spaced repetition (Leitner 5-box system)<br>
-        <span style="color:#444">Test Exam</span> — Timed exam simulation (6 exam types incl. A2 & B1)<br>
-        <span style="color:#444">Streak & XP</span> — Daily streak tracking and level progression<br>
-        <span style="color:#444">PWA</span> — Installable as app, works offline
+      <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 12px">
+        The course covers A1 level Dutch (required for the Basisexamen) and extends to A2 and B1
+        for those continuing to the full Inburgeringsexamen after arriving in the Netherlands.
+        All content includes Dutch, English, Thai translation, and phonetic pronunciation.<br>
+        <span style="color:#888">หลักสูตรครอบคลุมระดับ A1 (สำหรับ Basisexamen) ถึง A2 และ B1
+        เนื้อหาทุกส่วนมีภาษาดัตช์ อังกฤษ ไทย และการออกเสียง</span>
+      </p>
+
+      <div style="font-size:13px;color:#666;line-height:1.9;margin:0 0 12px">
+        <strong>Features · ฟีเจอร์</strong><br>
+        <span style="color:#21468B">📚 Vocabulary · คำศัพท์</span> — ${getAllVocab().length}+ words with Dutch, English, Thai & phonetics · คำศัพท์พร้อมดัตช์ อังกฤษ ไทย และการออกเสียง<br>
+        <span style="color:#21468B">🃏 Flashcards · การ์ดคำศัพท์</span> — Swipeable cards with emoji illustrations and SRS tracking · การ์ดปัดพร้อมภาพและระบบทบทวน<br>
+        <span style="color:#21468B">🔊 Listen · ฟัง</span> — Audio playback for all vocabulary, dialogues and grammar · เสียงคำศัพท์ บทสนทนา และไวยากรณ์ทั้งหมด<br>
+        <span style="color:#21468B">🎤 Speak · พูด</span> — Pronunciation practice with speech recognition · ฝึกออกเสียงด้วยการรู้จำเสียงพูด<br>
+        <span style="color:#21468B">💬 Dialogue · บทสนทนา</span> — Realistic conversations per topic with Thai translation · บทสนทนาจริงพร้อมคำแปลภาษาไทย<br>
+        <span style="color:#21468B">📐 Grammar · ไวยากรณ์</span> — Grammar rules with examples and Thai explanations · กฎไวยากรณ์พร้อมตัวอย่างและคำอธิบายภาษาไทย<br>
+        <span style="color:#21468B">✏️ Practice · แบบฝึกหัด</span> — Multiple choice quizzes, pass at 60% to complete · แบบทดสอบหลายตัวเลือก ผ่าน 60% เพื่อจบบทเรียน<br>
+        <span style="color:#21468B">🧩 Exercises · แบบฝึก</span> — Cloze, reorder, matching, dictation & context drills · เติมคำ เรียงประโยค จับคู่ เขียนตาม และฝึกบริบท<br>
+        <span style="color:#21468B">🔁 SRS Review · ทบทวน</span> — Spaced repetition using the Leitner 5-box system · ระบบทบทวนช่วงเวลา 5 กล่อง<br>
+        <span style="color:#21468B">📝 Exam Simulator · จำลองสอบ</span> — Timed practice exams (6 types incl. A2 & B1) · สอบจับเวลา 6 แบบ รวมระดับ A2 และ B1<br>
+        <span style="color:#21468B">🔥 Streak & XP</span> — Daily learning streak and 7-level XP progression · เรียนต่อเนื่องและระบบ XP 7 ระดับ<br>
+        <span style="color:#21468B">🔍 Dictionary · พจนานุกรม</span> — Searchable dictionary across all vocabulary · ค้นหาคำศัพท์ทั้งหมด<br>
+        <span style="color:#21468B">📲 PWA</span> — Installable as an app, works fully offline · ติดตั้งเป็นแอปได้ ใช้ออฟไลน์ได้
       </div>
-      <div style="font-size:13px;color:#666;line-height:1.8;margin:0 0 12px">
-        <strong>Curriculum · หลักสูตร:</strong><br>
-        <span style="color:#444">Taal A1</span> — 21 modules: greetings, house, weather, time, food, daily life, family, health, transport, shopping, sports, communication, and more<br>
-        <span style="color:#444">KNS</span> — 7 modules: geography, history, politics, language, education, healthcare, work & law<br>
-        <span style="color:#444">Uitspraak</span> — 2 modules: difficult sounds, vowel length & spelling<br>
-        <span style="color:#444">A2</span> — 3 modules: past tense (perfectum), modal verbs, conjunctions & word order<br>
-        <span style="color:#444">B1</span> — 5 modules: passive voice, conditionals, relative clauses, indirect speech, reading & writing
+
+      <div style="font-size:13px;color:#666;line-height:1.9;margin:0 0 12px">
+        <strong>Curriculum · หลักสูตร</strong><br>
+        <span style="color:#21468B">Taal A1</span> — 21 modules: greetings, registration, numbers, house, weather, months, days, time, food, meals, household, body, health, transport, countries, modals, directions, hobbies, past tense, family, formal writing · 21 บทเรียน ครอบคลุมชีวิตประจำวัน<br>
+        <span style="color:#21468B">KNS</span> — 7 modules: geography, history, government, language, education, healthcare, work & law · 7 บท: ภูมิศาสตร์ ประวัติศาสตร์ รัฐบาล ภาษา การศึกษา สุขภาพ กฎหมาย<br>
+        <span style="color:#21468B">Uitspraak</span> — 2 modules: Dutch sounds, vowel length & spelling · 2 บท: เสียงดัตช์และการสะกด<br>
+        <span style="color:#21468B">A2</span> — 3 modules: perfect tense, modal verbs, conjunctions · 3 บท: อดีตกาล กริยาช่วย คำเชื่อม<br>
+        <span style="color:#21468B">B1</span> — 5 modules: passive voice, conditionals, relative clauses, indirect speech, reading & writing · 5 บท: ประโยคถูกกระทำ เงื่อนไข อนุประโยค ประโยคอ้อม การอ่านเขียน
       </div>
+
+      <div style="font-size:13px;color:#666;line-height:1.9;margin:0 0 12px">
+        <strong>Voice & Audio · เสียงและเสียงพูด</strong><br>
+        Uses Google TTS for high-quality Dutch pronunciation when online (recommended). · ใช้ Google TTS เมื่อออนไลน์ (แนะนำ)<br>
+        Falls back to installed browser voices (Xander, Ellen) when offline. · ใช้เสียงในเครื่อง (Xander, Ellen) เมื่อออฟไลน์<br>
+        Download <em>Xander (Enhanced)</em> or <em>Ellen (Enhanced)</em> from
+        iOS Settings → Accessibility → Spoken Content → Voices → Dutch for better offline quality. ·
+        ดาวน์โหลด Xander (Enhanced) หรือ Ellen (Enhanced) จาก iOS Settings → Accessibility → Spoken Content → Voices → Dutch เพื่อคุณภาพเสียงที่ดีขึ้นแบบออฟไลน์
+      </div>
+
       <p style="font-size:12px;color:#aaa;margin:12px 0 0">by @trippledutch — built with Claude · February 2026</p>
     </div>
   `;
