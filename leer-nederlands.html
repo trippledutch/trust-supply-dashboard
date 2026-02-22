@@ -4057,8 +4057,63 @@ function playOneTTS(text, onDone) {
     return playOneBrowser(text, voiceIdx, seqId, onDone);
   }
 
+  // Azure Neural TTS path
+  if (engine === 'azure-maarten' || engine === 'azure-fenna') {
+    return playAzureTTS(text, engine, seqId, onDone);
+  }
+
   // Google TTS path (default for 'auto' when no native clip, or explicit 'auto')
   playGoogleTTS(text, seqId, onDone);
+}
+
+// Azure Cognitive Services Neural TTS
+async function playAzureTTS(text, voice, seqId, onDone) {
+  if (ttsSequenceId !== seqId || playAborted) { if (onDone) onDone(); return; }
+  const key    = localStorage.getItem('azureTTSKey') || '';
+  const region = localStorage.getItem('azureTTSRegion') || 'westeurope';
+  if (!key) {
+    // No key configured — fall back to Google
+    return playGoogleTTS(text, seqId, onDone);
+  }
+  // Azure voice names
+  const voiceName = voice === 'azure-fenna'
+    ? 'nl-NL-FennaNeural'
+    : 'nl-NL-MaartenNeural';
+  const ssml = `<speak version='1.0' xml:lang='nl-NL'><voice name='${voiceName}'><prosody rate='${state.speechRate < 0.8 ? "slow" : "medium"}'>${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</prosody></voice></speak>`;
+  try {
+    const resp = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': key,
+        'Content-Type': 'application/ssml+xml',
+        'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3'
+      },
+      body: ssml
+    });
+    if (!resp.ok) throw new Error('Azure TTS HTTP ' + resp.status);
+    if (ttsSequenceId !== seqId || playAborted) { if (onDone) onDone(); return; }
+    const blob = await resp.blob();
+    const url  = URL.createObjectURL(blob);
+    const audio = unlockedAudio || new Audio();
+    audio.src = url;
+    currentAudio = audio;
+    let done = false;
+    function finish() {
+      if (done) return; done = true;
+      URL.revokeObjectURL(url);
+      currentAudio = null; ttsBusy = false;
+      if (!playAborted && ttsSequenceId === seqId && onDone) onDone();
+    }
+    const t = setTimeout(() => { if (!done) { audio.pause(); finish(); } }, 15000);
+    audio.onended = () => { clearTimeout(t); finish(); };
+    audio.onerror = () => { clearTimeout(t); finish(); };
+    ttsBusy = true;
+    const p = audio.play();
+    if (p && p.catch) p.catch(() => { clearTimeout(t); finish(); });
+  } catch(e) {
+    console.warn('Azure TTS error:', e);
+    playGoogleTTS(text, seqId, onDone);
+  }
 }
 
 
@@ -4291,6 +4346,208 @@ function setTtsEngine(val) {
   speakDutch('Hallo, dit is uw nieuwe Nederlandse stem.');
 }
 
+function shareProgressCard() {
+  const totalLessons = COURSE_DATA.modules.reduce((s,m) => s + m.lessons.length, 0);
+  const completedCount = Object.keys(state.completedLessons).length;
+  const pct = Math.round(completedCount / totalLessons * 100);
+  const xp = getXP();
+  const lvl = getLevel(xp);
+  const streak = getStreakData();
+  // Exam score if available
+  const examPct = (state.examFinished && state.examQuestions)
+    ? Math.round(state.examQuestions.filter((q,i) => state.examAnswers[i] === q.answer).length / state.examQuestions.length * 100)
+    : null;
+
+  const canvas = document.createElement('canvas');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const W = 640, H = 360;
+  canvas.width  = W * DPR;
+  canvas.height = H * DPR;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(DPR, DPR);
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#1a2d6b');
+  grad.addColorStop(1, '#2d5016');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Flag stripe overlay (subtle)
+  ctx.fillStyle = 'rgba(174,28,40,0.18)';
+  ctx.fillRect(0, 0, W, H/3);
+  ctx.fillStyle = 'rgba(255,255,255,0.07)';
+  ctx.fillRect(0, H/3, W, H/3);
+  ctx.fillStyle = 'rgba(33,70,139,0.18)';
+  ctx.fillRect(0, 2*H/3, W, H/3);
+
+  // Card panel
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  roundRect(ctx, 24, 24, W-48, H-48, 20);
+  ctx.fill();
+
+  // Flag emoji
+  ctx.font = '48px serif';
+  ctx.fillText('🇳🇱', 44, 90);
+
+  // Title
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 28px sans-serif';
+  ctx.fillText('Leer Nederlands', 110, 70);
+  ctx.font = '16px sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.fillText('Dutch for Thai Speakers · ภาษาดัตช์สำหรับคนไทย', 110, 95);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(44, 112); ctx.lineTo(W-44, 112); ctx.stroke();
+
+  // Stats grid
+  const stats = [
+    { label: 'Lessons', labelTh: 'บทเรียน', value: `${completedCount}/${totalLessons}`, sub: `${pct}% done` },
+    { label: 'Streak',  labelTh: 'วันต่อเนื่อง', value: `${streak.days}d`, sub: streak.days > 0 ? '🔥 on fire!' : 'start today' },
+    { label: 'XP',      labelTh: 'คะแนน', value: `${xp}`, sub: lvl.emoji + ' ' + lvl.name },
+    examPct !== null
+      ? { label: 'Last Exam', labelTh: 'สอบล่าสุด', value: `${examPct}%`, sub: examPct >= 60 ? '✅ Passed' : '📖 Keep going' }
+      : { label: 'SRS Words', labelTh: 'คำที่ทบทวน', value: `${Object.keys(state.srsData).length}`, sub: 'tracked' }
+  ];
+
+  stats.forEach((s, i) => {
+    const x = 44 + i * (W - 88) / 4;
+    const colW = (W - 88) / 4 - 8;
+    // Box
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    roundRect(ctx, x, 126, colW, 100, 12);
+    ctx.fill();
+    // Value
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 26px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(s.value, x + colW/2, 168);
+    // Label
+    ctx.font = '13px sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.fillText(s.label, x + colW/2, 188);
+    // Thai label
+    ctx.font = '11px sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillText(s.labelTh, x + colW/2, 204);
+    // Sub
+    ctx.font = '12px sans-serif';
+    ctx.fillStyle = 'rgba(255,200,50,0.9)';
+    ctx.fillText(s.sub, x + colW/2, 220);
+    ctx.textAlign = 'left';
+  });
+
+  // Progress bar
+  const barX = 44, barY = 246, barW = W - 88, barH2 = 10;
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  roundRect(ctx, barX, barY, barW, barH2, 5); ctx.fill();
+  if (pct > 0) {
+    const fillGrad = ctx.createLinearGradient(barX, 0, barX + barW*pct/100, 0);
+    fillGrad.addColorStop(0, '#5E9B4E');
+    fillGrad.addColorStop(1, '#a8d08d');
+    ctx.fillStyle = fillGrad;
+    roundRect(ctx, barX, barY, barW * pct / 100, barH2, 5); ctx.fill();
+  }
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '12px sans-serif';
+  ctx.fillText(`Course progress: ${pct}%`, barX, barY + 28);
+
+  // Date + watermark
+  const today = new Date().toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' });
+  ctx.font = '12px sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.textAlign = 'right';
+  ctx.fillText(today + ' · leer-nederlands.html', W - 44, H - 36);
+  ctx.textAlign = 'left';
+
+  // Helper to draw rounded rects
+  function roundRect(c, x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x+r, y);
+    c.lineTo(x+w-r, y); c.arcTo(x+w, y, x+w, y+r, r);
+    c.lineTo(x+w, y+h-r); c.arcTo(x+w, y+h, x+w-r, y+h, r);
+    c.lineTo(x+r, y+h); c.arcTo(x, y+h, x, y+h-r, r);
+    c.lineTo(x, y+r); c.arcTo(x, y, x+r, y, r);
+    c.closePath();
+  }
+
+  canvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    // Try Web Share API first (mobile)
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], 'leer-nederlands-progress.png', { type:'image/png' })] })) {
+      navigator.share({
+        title: 'Mijn Nederlandse Voortgang 🇳🇱',
+        text: `Ik heb ${completedCount}/${totalLessons} lessen gedaan — ${pct}% klaar! ${lvl.emoji}`,
+        files: [new File([blob], 'leer-nederlands-progress.png', { type:'image/png' })]
+      }).catch(() => fallbackDownload(url));
+    } else {
+      fallbackDownload(url);
+    }
+    function fallbackDownload(u) {
+      const a = document.createElement('a');
+      a.href = u;
+      a.download = 'leer-nederlands-progress.png';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(u), 5000);
+    }
+  }, 'image/png');
+}
+
+function requestNotifPermission() {
+  if (!('Notification' in window)) { alert('Notifications not supported in this browser.'); return; }
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      const t = localStorage.getItem('dutchNotifTime') || '09:00';
+      scheduleNotification(t);
+    }
+    render(true);
+  });
+}
+
+function testNotification() {
+  if (Notification.permission !== 'granted') return;
+  const streak = getStreakData();
+  new Notification('🇳🇱 Tijd om Nederlands te leren!', {
+    body: streak.days > 0
+      ? `Je bent ${streak.days} dag${streak.days>1?'en':''} op rij bezig! Hou vol! 💪`
+      : 'Start je leerstreak vandaag! Hoe gaat het met u?',
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🇳🇱</text></svg>',
+    badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🇳🇱</text></svg>',
+    tag: 'leer-nederlands-daily'
+  });
+}
+
+function scheduleNotification(timeStr) {
+  // Store the time; a simple approach — on page load, check if today's notification is due
+  localStorage.setItem('dutchNotifTime', timeStr);
+  // Immediate feedback
+  if (Notification.permission === 'granted') {
+    const [h, m] = timeStr.split(':').map(Number);
+    const now = new Date();
+    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+    let delay = target - now;
+    if (delay < 0) delay += 86400000; // next day
+    clearTimeout(window._notifTimer);
+    window._notifTimer = setTimeout(() => {
+      testNotification();
+      scheduleNotification(timeStr); // reschedule for next day
+    }, delay);
+  }
+}
+
+// Auto-schedule on load if permission already granted
+(function() {
+  const t = localStorage.getItem('dutchNotifTime');
+  if (t && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+    scheduleNotification(t);
+  }
+})();
+
 function resetProgress() {
   if (confirm('Weet je het zeker? / Are you sure you want to reset all progress?\nThis includes SRS, streak, and XP data.')) {
     state.completedLessons = {};
@@ -4486,7 +4743,7 @@ if ('serviceWorker' in navigator) {
     caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
   }
   // Step 3: register a fresh network-first SW
-  const CACHE = 'leer-nl-v0.9.4';
+  const CACHE = 'leer-nl-v0.9.5';
   const swCode = `
     const CACHE = '${CACHE}';
     self.addEventListener('install', e => { self.skipWaiting(); });
@@ -5047,7 +5304,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.9.4 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.9.5 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -5193,12 +5450,41 @@ function renderSettings() {
             <option value="browser-auto" ${state.ttsEngine === 'browser-auto' ? 'selected' : ''}>Auto-select voice</option>
             ${browserVoiceOptions}
           </optgroup>` : ''}
+          <optgroup label="Azure Neural Voices ⚡ (API key required)">
+            <option value="azure-maarten" ${state.ttsEngine === 'azure-maarten' ? 'selected' : ''}>Maarten Neural — male, natural (nl-NL)</option>
+            <option value="azure-fenna"   ${state.ttsEngine === 'azure-fenna'   ? 'selected' : ''}>Fenna Neural — female, natural (nl-NL)</option>
+          </optgroup>
         </select>
         <div style="font-size:12px;color:#888;margin-top:6px;line-height:1.5">
           ใช้อยู่: <strong>${escHtml(currentVoiceLabel)}</strong><br>
-          Google = เสียงสังเคราะห์ ต้องใช้อินเทอร์เน็ต · Browser = ใช้ได้ออฟไลน์
+          Google = เสียงสังเคราะห์ ต้องใช้อินเทอร์เน็ต · Browser = ใช้ได้ออฟไลน์<br>
+          Azure Neural = เสียงธรรมชาติที่สุด ต้องมี API key จาก Azure
         </div>
       </div>
+
+      ${(state.ttsEngine === 'azure-maarten' || state.ttsEngine === 'azure-fenna') ? `
+        <div style="background:#EEF4FF;border:1px solid #C5D8FF;border-radius:10px;padding:14px 16px;margin-bottom:16px">
+          <div style="font-size:13px;font-weight:600;color:#1565C0;margin-bottom:10px">⚡ Azure Neural TTS Configuration</div>
+          <div style="margin-bottom:10px">
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px">Azure Speech API Key</label>
+            <input type="password" id="azure-key-input" placeholder="Paste your Azure key here"
+              value="${localStorage.getItem('azureTTSKey') || ''}"
+              oninput="localStorage.setItem('azureTTSKey', this.value)"
+              style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid #C5D8FF;border-radius:8px;font-size:13px;font-family:inherit">
+          </div>
+          <div style="margin-bottom:10px">
+            <label style="font-size:12px;color:#555;display:block;margin-bottom:4px">Azure Region (e.g. westeurope)</label>
+            <input type="text" id="azure-region-input" placeholder="westeurope"
+              value="${localStorage.getItem('azureTTSRegion') || 'westeurope'}"
+              oninput="localStorage.setItem('azureTTSRegion', this.value)"
+              style="width:100%;box-sizing:border-box;padding:8px 12px;border:1px solid #C5D8FF;border-radius:8px;font-size:13px;font-family:inherit">
+          </div>
+          <div style="font-size:11px;color:#888;line-height:1.6">
+            Get a free key at <strong>portal.azure.com</strong> → Create Resource → Speech → Free F0 tier (5M chars/month free).<br>
+            ขอ API key ฟรีที่ portal.azure.com → Speech → F0 tier (5 ล้านตัวอักษร/เดือนฟรี)
+          </div>
+        </div>
+      ` : ''}
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
         <button class="voice-test-btn" onclick="speakDutch('Hallo, ik ben uw Nederlandse stem. Hoe gaat het met u?')">Test Greeting</button>
@@ -5237,6 +5523,38 @@ function renderSettings() {
     </div>
 
     <div class="card">
+      <h3 class="serif" style="margin:0 0 12px;color:#21468B">📣 Daily Reminder · การแจ้งเตือนประจำวัน</h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 12px">
+        Get a daily nudge to study Dutch. · รับการแจ้งเตือนทุกวันให้เรียนภาษาดัตช์
+      </p>
+      ${(typeof Notification !== 'undefined' && Notification.permission === 'granted') ? `
+        <div style="background:#E8F5E9;border:1px solid #A5D6A7;border-radius:10px;padding:12px 16px;font-size:14px;color:#2E7D32;font-weight:600;margin-bottom:10px">
+          🔔 Notifications enabled · เปิดการแจ้งเตือนแล้ว
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:13px;color:#555">Remind me at:</label>
+          <input type="time" id="notif-time" value="${localStorage.getItem('dutchNotifTime') || '09:00'}"
+            onchange="localStorage.setItem('dutchNotifTime', this.value); scheduleNotification(this.value)"
+            style="padding:6px 10px;border:1px solid #ccc;border-radius:8px;font-size:14px;font-family:inherit">
+          <button onclick="testNotification()" style="padding:7px 14px;border:1px solid #21468B;border-radius:8px;background:#fff;color:#21468B;font-size:13px;cursor:pointer;font-family:inherit">
+            Test · ทดสอบ
+          </button>
+        </div>
+      ` : (typeof Notification !== 'undefined' && Notification.permission === 'denied') ? `
+        <div style="background:#FFF3E0;border:1px solid #FFB74D;border-radius:10px;padding:12px 16px;font-size:14px;color:#E65100">
+          ❌ Notifications blocked in browser settings.<br>
+          <span style="font-size:12px;color:#888">เปิดใน Settings > Safari/Chrome > Notifications</span>
+        </div>
+      ` : `
+        <button onclick="requestNotifPermission()"
+          style="background:#21468B;color:white;border:none;border-radius:10px;padding:13px 24px;font-weight:700;cursor:pointer;font-family:inherit;font-size:15px;width:100%">
+          🔔 Enable Daily Reminders · เปิดการแจ้งเตือน
+        </button>
+        <p style="font-size:12px;color:#888;margin:6px 0 0;text-align:center">กด Allow ในป็อปอัพที่ขึ้นมา</p>
+      `}
+    </div>
+
+    <div class="card">
       <h3 class="serif" style="margin:0 0 16px;color:#21468B">Microphone · ไมโครโฟน</h3>
       <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 12px">
         ใช้ไมโครโฟนในแท็บ Speak เพื่อฝึกออกเสียง
@@ -5271,16 +5589,23 @@ function renderSettings() {
       <div style="font-size:13px;color:#888;margin-bottom:16px">
         Streak: ${streak.days} days · SRS vocabulary: ${Object.keys(state.srsData).length} words tracked
       </div>
-      ${completedCount > 0 ? `
-        <button onclick="resetProgress()" style="background:#fff;border:2px solid #E74C3C;border-radius:8px;padding:10px 20px;font-size:14px;color:#E74C3C;cursor:pointer;font-family:inherit;font-weight:600">Reset All Progress · รีเซ็ตทั้งหมด</button>
-        <p style="font-size:12px;color:#999;margin:8px 0 0">ลบข้อมูลทั้งหมด: บทเรียน SRS Streak XP</p>
-      ` : `<p style="font-size:14px;color:#999">ยังไม่ได้เรียน เริ่มเรียนเลย!</p>`}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        <button onclick="shareProgressCard()" style="background:#21468B;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:600;flex:1">
+          📤 Share Progress Card · แชร์ความก้าวหน้า
+        </button>
+        ${completedCount > 0 ? `
+          <button onclick="resetProgress()" style="background:#fff;border:2px solid #E74C3C;border-radius:8px;padding:10px 16px;font-size:14px;color:#E74C3C;cursor:pointer;font-family:inherit;font-weight:600">
+            🗑️ Reset
+          </button>
+        ` : ''}
+      </div>
+      ${completedCount === 0 ? `<p style="font-size:14px;color:#999">ยังไม่ได้เรียน เริ่มเรียนเลย!</p>` : `<p style="font-size:12px;color:#999;margin:0">ลบข้อมูลทั้งหมด: Reset ลบ บทเรียน SRS Streak XP ทั้งหมด</p>`}
     </div>
 
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับแอป</h3>
       <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 8px">
-        <strong>Leer Nederlands v0.9.4</strong> is a Dutch language learning app for Thai speakers
+        <strong>Leer Nederlands v0.9.5</strong> is a Dutch language learning app for Thai speakers
         preparing for the <strong>Basisexamen Inburgering Buitenland</strong> — the Dutch civic integration
         exam taken at the embassy in Bangkok before moving to the Netherlands.
       </p>
@@ -6757,6 +7082,39 @@ function renderExamActive() {
   `;
 }
 
+function renderSectionBreakdown(sec, data) {
+  const secPct = Math.round(data.correct / data.total * 100);
+  const labels = { taal:'🇳🇱 Taal A1', kns:'🏛️ KNS', a2:'📈 A2 Grammar', b1:'🎯 B1 Skills', uitspraak:'🗣️ Uitspraak' };
+  const label  = labels[sec] || sec;
+  const tips   = { taal:'Review vocab in Taal A1 modules 1–21', kns:'Study KNS modules — Dutch society & law', a2:'Practise past tense & modal verbs (A2)', b1:'Read the B1 reading texts & formal writing', uitspraak:'Practise Dutch sounds — module Uitspraak' };
+  const status = secPct >= 70 ? '✅' : secPct >= 50 ? '⚠️' : '❌';
+  const color  = secPct >= 60 ? '#5E9B4E' : secPct >= 40 ? '#F39C12' : '#E74C3C';
+  const tip    = secPct < 60 ? (tips[sec] || '') : '';
+  let html = '<div style="margin-bottom:12px">';
+  html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">';
+  html += '<span style="font-size:13px;min-width:110px;font-weight:600">' + status + ' ' + label + '</span>';
+  html += '<div style="flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden">';
+  html += '<div style="height:100%;width:' + secPct + '%;background:' + color + ';border-radius:4px"></div>';
+  html += '</div>';
+  html += '<span style="font-size:13px;font-weight:700;min-width:72px;text-align:right;color:' + color + '">' + data.correct + '/' + data.total + ' · ' + secPct + '%</span>';
+  html += '</div>';
+  if (tip) html += '<div style="font-size:11px;color:#E67E22;margin-left:8px">💡 ' + tip + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function renderHistoryBar(h, i, arr) {
+  const barH = Math.max(8, Math.round(h.pct * 0.6));
+  const isLast = i === arr.length - 1;
+  const bg = h.pct >= 60 ? '#5E9B4E' : '#F39C12';
+  const border = isLast ? '2px solid #21468B' : 'none';
+  const opacity = isLast ? 1 : 0.65;
+  return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">'
+    + '<div style="font-size:9px;color:#888">' + h.pct + '%</div>'
+    + '<div style="width:100%;height:' + barH + 'px;background:' + bg + ';border-radius:3px 3px 0 0;opacity:' + opacity + ';border:' + border + '"></div>'
+    + '</div>';
+}
+
 function renderExamResults() {
   const qs = state.examQuestions;
   const correct = qs.filter((q, i) => state.examAnswers[i] === q.answer).length;
@@ -6793,20 +7151,20 @@ function renderExamResults() {
 
       ${Object.keys(sections).length > 1 ? `
         <div style="margin-top:16px;text-align:left">
-          ${Object.entries(sections).map(([sec, data]) => {
-            const secPct = Math.round(data.correct / data.total * 100);
-            const label = sec === 'taal' ? '🇳🇱 Taal' : sec === 'kns' ? '🏛️ KNS' : sec === 'a2' ? '📈 A2' : sec === 'b1' ? '🎯 B1' : '🗣️ Uitspraak';
-            return `<div style="display:flex;align-items:center;gap:8px;margin-top:8px">
-              <span style="font-size:13px;min-width:80px">${label}</span>
-              <div style="flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden">
-                <div style="height:100%;width:${secPct}%;background:${secPct >= 60 ? '#5E9B4E' : '#F39C12'};border-radius:3px"></div>
-              </div>
-              <span style="font-size:12px;color:#888;min-width:60px;text-align:right">${data.correct}/${data.total} (${secPct}%)</span>
-            </div>`;
-          }).join('')}
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:10px">Score Breakdown · แบ่งตามหมวด</div>
+          ${Object.entries(sections).map(([sec, data]) => renderSectionBreakdown(sec, data)).join('')}
         </div>
       ` : ''}
-    </div>
+
+    ${state.examHistory && state.examHistory.length > 1 ? `
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;color:#21468B;margin-bottom:12px">📈 Score History · ประวัติคะแนน (last ${Math.min(state.examHistory.length, 8)} exams)</div>
+        <div style="display:flex;align-items:flex-end;gap:4px;height:60px;padding:0 4px">
+          ${state.examHistory.slice(-8).map((h, i, arr) => renderHistoryBar(h, i, arr)).join('')}
+        </div>
+        <div style="font-size:11px;color:#aaa;margin-top:6px;text-align:center">Each bar = one exam. Green ≥ 60%. Orange < 60%.</div>
+      </div>
+    ` : ''}
 
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">📝 Question Review · ทบทวนคำตอบ</h3>
@@ -6833,6 +7191,7 @@ function renderExamResults() {
     <div style="text-align:center;margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="flashcard-action-btn" style="border-color:#21468B;color:#21468B" onclick="setState({view:'exam',examFinished:false,examActive:false})">📋 New Exam</button>
       <button class="flashcard-action-btn" style="border-color:#5E9B4E;color:#5E9B4E" onclick="setState({view:'home',examFinished:false,examActive:false})">🏠 Home</button>
+      <button class="flashcard-action-btn" style="border-color:#E85D26;color:#E85D26" onclick="shareProgressCard()">📤 Share Score · แชร์คะแนน</button>
     </div>
   `;
 }
