@@ -762,6 +762,14 @@ const COURSE_DATA = {
             { type: "mc", question: "Dutch mobile numbers start with:", th: "เบอร์มือถือดัตช์เริ่มด้วย:", answer: "06", options: ["06", "07", "08", "05"] },
             { type: "mc", question: "What is 'tweehonderd' in digits?", th: "tweehonderd คือเลขอะไร?", answer: "200", options: ["20", "200", "2000", "120"] },
             { type: "mc", question: "'Honderd plus twintig' is:", th: "honderd plus twintig คือ:", answer: "120", options: ["102", "120", "100", "220"] },
+            { type: "cloze", sentence: "Goedemorgen! Hoe ___ het met u?", answer: "gaat", distractors: ["bent", "heeft", "doet"], th: "เติม: Goedemorgen! Hoe ___ het met u?", hint: "How ___ it with you?" },
+            { type: "cloze", sentence: "Mijn naam ___ Niran. Aangenaam!", answer: "is", distractors: ["ben", "heeft", "zijn"], th: "เติม: ฉันชื่อนิรันทร์", hint: "My name ___ Niran." },
+            { type: "cloze", sentence: "Ik kom ___ Thailand.", answer: "uit", distractors: ["van", "naar", "in"], th: "เติม: ฉันมาจากประเทศไทย", hint: "I come ___ Thailand." },
+            { type: "cloze", sentence: "Spreekt u ___?", answer: "Nederlands", distractors: ["Engels", "goed", "ook"], th: "เติม: คุณพูดภาษาดัตช์ได้ไหม?", hint: "Do you speak ___?" },
+            { type: "cloze", sentence: "Mijn telefoonnummer is ___-12345678.", answer: "06", distractors: ["07", "08", "05"], th: "เติม: เบอร์มือถือดัตช์ขึ้นต้นด้วยอะไร?", hint: "Dutch mobile numbers start with ___." },
+            { type: "cloze", sentence: "De postcode is 1234 ___.", answer: "AB", distractors: ["12", "NL", "XX"], th: "เติม: รหัสไปรษณีย์ดัตช์ลงท้ายด้วยอะไร?", hint: "Dutch postcodes end with 2 letters, e.g. ___." },
+            { type: "cloze", sentence: "Tien plus twintig is ___.", answer: "dertig", distractors: ["twintig", "veertig", "twaalf"], th: "เติม: 10 + 20 = ?", hint: "10 + 20 = ___." },
+            { type: "cloze", sentence: "Hoe ___ je?", answer: "heet", distractors: ["bent", "gaat", "kom"], th: "เติม: ถามชื่อแบบไม่ทางการ", hint: "What's your name? (informal) Hoe ___ je?" },
           ]
         }
       ]
@@ -823,6 +831,9 @@ const COURSE_DATA = {
             { type: "mc", question: "Which article: ___ huis?", th: "ใช้คำนำหน้าอะไร: ___ huis?", answer: "het", options: ["de", "het", "een", "die"] },
             { type: "mc", question: "What does 'slaapkamer' literally mean?", th: "'Slaapkamer' แปลตรงตัวว่าอะไร?", answer: "sleep room", options: ["living room", "sleep room", "wash room", "sitting room"] },
             { type: "mc", question: "Fill in: De badkamer is boven, ___", th: "เติมคำในช่องว่าง: De badkamer is boven, ___", answer: "links", options: ["boven", "beneden", "links", "buiten"] },
+            { type: "cloze", sentence: "De ___ is groot en licht.", answer: "kamer", distractors: ["tuin", "stad", "straat"], th: "เติม: ห้องนั้นใหญ่และสว่าง", hint: "The ___ is big and bright." },
+            { type: "cloze", sentence: "Wij ___ in een huurwoning.", answer: "wonen", distractors: ["gaan", "hebben", "zijn"], th: "เติม: เราอาศัยอยู่ในบ้านเช่า", hint: "We ___ in a rental home." },
+            { type: "cloze", sentence: "De sleutel ligt op de ___.", answer: "tafel", distractors: ["deur", "kamer", "trap"], th: "เติม: กุญแจวางอยู่บนโต๊ะ", hint: "The key is on the ___." },
           ]
         }
       ]
@@ -930,6 +941,9 @@ const COURSE_DATA = {
             { type: "mc", question: "How many months are there?", th: "มีทั้งหมดกี่เดือน?", answer: "twaalf", options: ["tien", "elf", "twaalf", "dertien"] },
             { type: "mc", question: "'Dicht' means...?", th: "'Dicht' แปลว่า...?", answer: "closed", options: ["open", "closed", "far", "near"] },
             { type: "mc", question: "When does winter start in the Netherlands?", th: "หน้าหนาวในเนเธอร์แลนด์เริ่มเมื่อไหร่?", answer: "december", options: ["oktober", "november", "december", "januari"] },
+            { type: "cloze", sentence: "In de ___ zijn de dagen kort.", answer: "winter", distractors: ["zomer", "lente", "herfst"], th: "เติม: ในฤดูหนาว วันจะสั้น", hint: "In ___ the days are short." },
+            { type: "cloze", sentence: "Het is ___ graden vandaag.", answer: "tien", distractors: ["warm", "koud", "mooi"], th: "เติม: วันนี้อุณหภูมิสิบองศา", hint: "It is ___ degrees today." },
+            { type: "cloze", sentence: "In de zomer schijnt de ___ veel.", answer: "zon", distractors: ["regen", "wind", "sneeuw"], th: "เติม: ในฤดูร้อน ดวงอาทิตย์ส่องแสงมาก", hint: "In summer the ___ shines a lot." },
           ]
         }
       ]
@@ -1030,6 +1044,9 @@ const COURSE_DATA = {
             { type: "mc", question: "What does 'klaar' mean?", th: "'klaar' แปลว่าอะไร?", answer: "finished / ready", options: ["late", "clear", "finished / ready", "early"] },
             { type: "mc", question: "'Kwart voor drie' is...?", th: "'Kwart voor drie' คือ...?", answer: "2:45", options: ["3:15", "2:45", "3:45", "2:15"] },
             { type: "mc", question: "How do you say 7:30?", th: "7:30 ภาษาดัตช์พูดว่าอย่างไร?", answer: "half acht", options: ["half zeven", "half acht", "zeven uur", "kwart over zeven"] },
+            { type: "cloze", sentence: "Het is half ___. (12:30)", answer: "één", distractors: ["twee", "twaalf", "drie"], th: "เติม: เวลา 12:30 = half ___", hint: "12:30 = half ___. (half past twelve)" },
+            { type: "cloze", sentence: "Maandag is de ___ dag van de week.", answer: "eerste", distractors: ["tweede", "laatste", "zevende"], th: "เติม: วันจันทร์เป็นวันแรกของสัปดาห์", hint: "Monday is the ___ day of the week." },
+            { type: "cloze", sentence: "De vergadering is om ___ uur.", answer: "negen", distractors: ["veel", "lang", "vroeg"], th: "เติม: การประชุมอยู่ที่เก้าโมง", hint: "The meeting is at ___ o'clock." },
           ]
         }
       ]
@@ -1135,6 +1152,9 @@ const COURSE_DATA = {
             { type: "mc", question: "The diminutive of 'kop' is...?", th: "รูปย่อ (คำเล็ก) ของ 'kop' คืออะไร?", answer: "kopje", options: ["koppen", "kopje", "kopje's", "kleine kop"] },
             { type: "mc", question: "Where does a Dutch family usually eat dinner?", th: "ครอบครัวดัตช์มักกินมื้อเย็นที่ไหน?", answer: "thuis", options: ["in een restaurant", "thuis", "op school", "bij collega's"] },
             { type: "mc", question: "What does 'meestal' mean?", th: "'meestal' แปลว่าอะไร?", answer: "usually", options: ["always", "never", "usually", "sometimes"] },
+            { type: "cloze", sentence: "Ik ___ graag koffie met melk.", answer: "drink", distractors: ["eet", "kook", "bestel"], th: "เติม: ฉันชอบดื่มกาแฟใส่นม", hint: "I ___ coffee with milk gladly." },
+            { type: "cloze", sentence: "Wat wil je ___? Brood of rijst?", answer: "eten", distractors: ["drinken", "kopen", "maken"], th: "เติม: อยากกินอะไร? ขนมปังหรือข้าว?", hint: "What do you want to ___? Bread or rice?" },
+            { type: "cloze", sentence: "De rekening, ___!", answer: "alstublieft", distractors: ["dankuwel", "graag", "even"], th: "เติม: เช็คบิลด้วยค่ะ/ครับ!", hint: "The bill, ___! (please, formal)" },
           ]
         }
       ]
@@ -1204,6 +1224,9 @@ const COURSE_DATA = {
             { question: "'Klaarmaken' means:", options: ["to prepare", "to clean", "to wake up", "to leave"], th: "หมายถึง:", answer: "to prepare" },
             { question: "What does 'iedereen' mean?", options: ["everyone", "everything", "every day", "every time"], th: "แปลว่าอะไร:", answer: "everyone" },
             { question: "'Ik ___ de kamer op' (tidy up)", options: ["maak", "ruim", "trek", "breng"], th: "เติมคำในช่องว่าง:", answer: "ruim" },
+            { type: "cloze", sentence: "Ik ___ elke dag om zeven uur op.", answer: "sta", distractors: ["ga", "doe", "ben"], th: "เติม: ฉันตื่นนอนตอนเจ็ดโมงทุกวัน", hint: "I ___ up every day at seven. (opstaan)" },
+            { type: "cloze", sentence: "Na het ontbijt ga ik ___ de trein.", answer: "met", distractors: ["op", "naar", "van"], th: "เติม: หลังอาหารเช้า ฉันไปด้วยรถไฟ", hint: "After breakfast I go ___ the train." },
+            { type: "cloze", sentence: "Ik poets mijn ___ voor het slapengaan.", answer: "tanden", distractors: ["haar", "handen", "ogen"], th: "เติม: ฉันแปรงฟันก่อนนอน", hint: "I brush my ___ before going to sleep." },
           ]
         }
       ]
@@ -1272,6 +1295,9 @@ const COURSE_DATA = {
             { question: "'Aardig' means:", options: ["kind/nice", "angry", "boring", "strange"], th: "หมายถึง:", answer: "kind/nice" },
             { question: "Our garden = ___", options: ["onze tuin", "ons tuin", "onze huis", "ons buurt"], th: "เติมคำในช่องว่าง:", answer: "onze tuin" },
             { question: "What does 'misschien' mean?", options: ["maybe", "always", "never", "together"], th: "แปลว่าอะไร:", answer: "maybe" },
+            { type: "cloze", sentence: "Mijn ___ woont in Bangkok.", answer: "moeder", distractors: ["buurman", "baas", "dokter"], th: "เติม: แม่ของฉันอาศัยอยู่ที่กรุงเทพ", hint: "My ___ lives in Bangkok." },
+            { type: "cloze", sentence: "Hij is de ___ van mijn moeder.", answer: "broer", distractors: ["vader", "zoon", "neef"], th: "เติม: เขาเป็นพี่ชายของแม่ฉัน", hint: "He is the ___ of my mother." },
+            { type: "cloze", sentence: "Wij zijn ___. Wij hebben dezelfde ouders.", answer: "broers", distractors: ["buren", "vrienden", "collega's"], th: "เติม: เราเป็นพี่น้องกัน มีพ่อแม่เดียวกัน", hint: "We are ___. We have the same parents." },
           ]
         }
       ]
@@ -1387,6 +1413,9 @@ const COURSE_DATA = {
             { question: "'Buikpijn' is pain in your:", options: ["stomach", "back", "head", "throat"], th: "ปวดตรงไหน:", answer: "stomach" },
             { question: "The plural of 'hand' is:", options: ["handen", "hands", "handes", "handjes"], th: "พหูพจน์ของ:", answer: "handen" },
             { question: "What do you do at 'de wachtkamer'?", options: ["wait", "eat", "sleep", "cook"], th: "ทำอะไร:", answer: "wait" },
+            { type: "cloze", sentence: "Ik heb ___ aan mijn keel.", answer: "pijn", distractors: ["zin", "tijd", "last"], th: "เติม: ฉันเจ็บคอ", hint: "I have ___ in my throat. (pain)" },
+            { type: "cloze", sentence: "De ___ schrijft een recept voor.", answer: "dokter", distractors: ["tandarts", "apotheker", "verpleegster"], th: "เติม: หมอเขียนใบสั่งยา", hint: "The ___ writes a prescription." },
+            { type: "cloze", sentence: "Ik voel me niet ___.", answer: "goed", distractors: ["ziek", "beter", "moe"], th: "เติม: ฉันรู้สึกไม่ดี", hint: "I don't feel ___." },
           ]
         }
       ]
@@ -1454,6 +1483,9 @@ const COURSE_DATA = {
             { question: "'Voordeel' is the opposite of:", options: ["nadeel", "voordeel", "afstand", "gelijk"], th: "ตรงข้ามของ:", answer: "nadeel" },
             { question: "What does 'goedkoper' mean?", options: ["cheaper", "bigger", "faster", "better"], th: "แปลว่าอะไร:", answer: "cheaper" },
             { question: "'Je hebt gelijk' means:", options: ["You're right", "You're wrong", "You're late", "You're sick"], th: "หมายถึง:", answer: "You're right" },
+            { type: "cloze", sentence: "De trein naar Amsterdam ___ om 9:15.", answer: "vertrekt", distractors: ["aankomt", "rijdt", "stopt"], th: "เติม: รถไฟไปอัมสเตอร์ดัมออกตอน 9:15", hint: "The train to Amsterdam ___ at 9:15. (departs)" },
+            { type: "cloze", sentence: "Ik heb een ___ naar Den Haag gekocht.", answer: "kaartje", distractors: ["tas", "fiets", "auto"], th: "เติม: ฉันซื้อตั๋วไปเดนฮาก", hint: "I bought a ___ to The Hague. (ticket)" },
+            { type: "cloze", sentence: "Op welk ___ vertrekt de trein?", answer: "perron", distractors: ["station", "stoel", "wagon"], th: "เติม: รถไฟออกจากชานชาลาไหน?", hint: "From which ___ does the train depart? (platform)" },
           ]
         }
       ]
@@ -2277,6 +2309,10 @@ const COURSE_DATA = {
             { type: "mc", question: "'Tegenover' means:", th: "tegenover หมายถึง:", answer: "opposite / across from", options: ["next to", "behind", "opposite / across from", "above"] },
             { type: "mc", question: "How do you say 'I am lost' in Dutch?", th: "ฉันหลงทางพูดว่า:", answer: "Ik ben verdwaald", options: ["Ik ben verdwaald", "Ik ben moe", "Ik ben ziek", "Ik ben klaar"] },
             { type: "mc", question: "The imperative of 'gaan' (to go) is:", th: "รูปคำสั่งของ gaan คือ:", answer: "Ga!", options: ["Ga!", "Gaan!", "Gegaan!", "Ging!"] },
+            { type: "cloze", sentence: "Ga ___ tot het stoplicht, dan rechts.", answer: "rechtdoor", distractors: ["links", "terug", "snel"], th: "เติม: เดิน___จนถึงสัญญาณไฟ แล้วเลี้ยวขวา", hint: "Go ___ to the traffic light, then right." },
+            { type: "cloze", sentence: "Het station is ___ het plein.", answer: "tegenover", distractors: ["naast", "achter", "langs"], th: "เติม: สถานีอยู่ตรงข้ามจัตุรัส", hint: "The station is ___ the square. (opposite)" },
+            { type: "cloze", sentence: "Sla ___ af bij de hoek.", answer: "links", distractors: ["rechtdoor", "rechts", "door"], th: "เติม: เลี้ยวซ้ายที่มุม", hint: "Turn ___ at the corner." },
+            { type: "cloze", sentence: "Het is ongeveer vijf minuten ___.", answer: "lopen", distractors: ["fietsen", "rijden", "ver"], th: "เติม: ประมาณห้านาทีเดิน", hint: "It is about five minutes ___. (walking)" },
           ]
         }
       ]
@@ -2346,6 +2382,17 @@ const COURSE_DATA = {
             { question: "Neighboring countries:", options: ["Germany & Belgium", "France & UK", "Sweden & Denmark", "Spain & Italy"], th: "ประเทศเพื่อนบ้าน", answer: "Germany & Belgium" },
             { question: "For public transport you need:", options: ["OV-chipkaart", "passport", "rijbewijs", "creditcard"], th: "สำหรับขนส่งสาธารณะ", answer: "OV-chipkaart" },
             { question: "A 'huurwoning' is:", options: ["rental home", "owned home", "holiday home", "office"], th: "แปลว่าอะไร", answer: "rental home" },
+            { type: "form", title: "Gemeente Inschrijving", titleTh: "แบบฟอร์มลงทะเบียน", th: "กรอกแบบฟอร์มลงทะเบียนที่เทศบาล",
+              fields: [
+                { label: "Achternaam (surname)", answer: "Wongchai", placeholder: "e.g. Jansen", hint: "Your family name / achternaam" },
+                { label: "Voornaam (first name)", answer: "Niran", placeholder: "e.g. Jan", hint: "Your first name / voornaam" },
+                { label: "Geboortedatum (date of birth)", answer: "15-03-1990", placeholder: "DD-MM-JJJJ", hint: "Day-Month-Year format in NL" },
+                { label: "Nationaliteit (nationality)", answer: "Thais", placeholder: "e.g. Nederlands", hint: "Thai = Thais in Dutch" },
+                { label: "BSN-nummer (citizen number)", answer: "123456789", placeholder: "9 cijfers", hint: "9-digit Burgerservicenummer" },
+                { label: "Adres (address)", answer: "Keizersgracht 123", placeholder: "Straatnaam + huisnummer", hint: "Street name + house number" },
+                { label: "Postcode", answer: "1016 EW", placeholder: "1234 AB", hint: "4 digits + space + 2 capital letters" },
+              ]
+            },
           ]
         }
       ]
@@ -2643,6 +2690,15 @@ const COURSE_DATA = {
             { question: "To see a specialist you need:", options: ["verwijzing from huisarts", "money", "passport", "nothing"], th: "เพื่อพบผู้เชี่ยวชาญ", answer: "verwijzing from huisarts" },
             { question: "'Eigen risico' is approximately:", options: ["€385/year", "€10/month", "€5000/year", "€0"], th: "ค่าส่วนเกิน", answer: "€385/year" },
             { question: "Child health checkups (0-4) are:", options: ["free at consultatiebureau", "very expensive", "only at hospital", "not available"], th: "ตรวจสุขภาพเด็ก", answer: "free at consultatiebureau" },
+            { type: "form", title: "Zorgverzekering Aanvraag", titleTh: "แบบฟอร์มประกันสุขภาพ", th: "กรอกแบบฟอร์มสมัครประกันสุขภาพ",
+              fields: [
+                { label: "Verzekeraar (insurer)", answer: "Zilveren Kruis", placeholder: "e.g. VGZ / CZ / Menzis", hint: "Choose a Dutch health insurer" },
+                { label: "Soort pakket (type of package)", answer: "basispakket", placeholder: "basis / aanvullend", hint: "Basic is mandatory for everyone 18+" },
+                { label: "Eigen risico (deductible)", answer: "€385", placeholder: "€385 - €885", hint: "Minimum is €385 per year" },
+                { label: "Ingangsdatum (start date)", answer: "01-01-2026", placeholder: "DD-MM-JJJJ", hint: "Insurance must start within 4 months of registration" },
+                { label: "DigiD nodig? (DigiD needed?)", answer: "Ja", placeholder: "Ja / Nee", hint: "You need DigiD to apply online" },
+              ]
+            },
           ]
         }
       ]
@@ -2710,6 +2766,16 @@ const COURSE_DATA = {
             { question: "'Bruto' means:", options: ["gross (before tax)", "net (after tax)", "broken", "brown"], th: "หมายถึง", answer: "gross (before tax)" },
             { question: "Good way to integrate in NL:", options: ["vrijwilligerswerk (volunteering)", "staying home", "only speaking Thai", "watching TV"], th: "วิธีปรับตัวที่ดี", answer: "vrijwilligerswerk (volunteering)" },
             { question: "For unemployment benefits go to:", options: ["UWV", "huisarts", "school", "apotheek"], th: "สวัสดิการว่างงาน", answer: "UWV" },
+            { type: "form", title: "Arbeidscontract Overzicht", titleTh: "สรุปสัญญาจ้างงาน", th: "อ่านและตอบคำถามเกี่ยวกับสัญญาจ้าง",
+              fields: [
+                { label: "Naam werknemer (employee name)", answer: "Niran Wongchai", placeholder: "Voornaam Achternaam", hint: "The employee's full name" },
+                { label: "Functie (job title)", answer: "Software ontwikkelaar", placeholder: "e.g. verkoopmedewerker", hint: "Your job title / functie" },
+                { label: "Bruto maandloon (gross monthly salary)", answer: "€3.200", placeholder: "€ ____", hint: "Gross = before tax deductions" },
+                { label: "Contracttype (contract type)", answer: "bepaalde tijd", placeholder: "bepaalde / onbepaalde tijd", hint: "bepaalde tijd = fixed term, onbepaalde = permanent" },
+                { label: "Startdatum (start date)", answer: "01-02-2026", placeholder: "DD-MM-JJJJ", hint: "When does the contract start?" },
+                { label: "Werkuren per week (hours per week)", answer: "40", placeholder: "bijv. 32 of 40", hint: "Full-time = 40 hours, part-time = 32 or less" },
+              ]
+            },
           ]
         }
       ]
@@ -2978,6 +3044,12 @@ const COURSE_DATA = {
             { type: "mc", question: "Which verb uses 'zijn'?", th: "กริยาใดใช้ zijn?", answer: "komen → gekomen", options: ["koken → gekookt", "komen → gekomen", "kopen → gekocht", "kennen → gekend"] },
             { type: "mc", question: "'Zij heeft een brief geschreven' means:", th: "แปลว่า:", answer: "She wrote a letter", options: ["She is writing a letter", "She wrote a letter", "She will write a letter", "She reads a letter"] },
             { type: "mc", question: "'Ik ben gevallen' — which auxiliary and why?", th: "ใช้ zijn/hebben เพราะอะไร?", answer: "zijn — vallen is movement/change", options: ["hebben — it's irregular", "zijn — vallen is movement/change", "hebben — all past tense uses hebben", "zijn — all verbs use zijn"] },
+            { type: "reorder", words: ["Ik", "heb", "gisteren", "gekookt"], correctOrder: ["Ik", "heb", "gisteren", "gekookt"], th: "เรียงประโยค: ฉันทำอาหารเมื่อวาน", hint: "I cooked yesterday. (perfectum)" },
+            { type: "reorder", words: ["Heeft", "zij", "Nederlands", "geleerd"], correctOrder: ["Heeft", "zij", "Nederlands", "geleerd"], th: "เรียงประโยค: เธอเรียนภาษาดัตช์แล้ว?", hint: "Has she learned Dutch? (question)" },
+            { type: "reorder", words: ["Wij", "hebben", "de", "hele", "dag", "gewerkt"], correctOrder: ["Wij", "hebben", "de", "hele", "dag", "gewerkt"], th: "เรียงประโยค: เราทำงานทั้งวัน", hint: "We worked all day." },
+            { type: "reorder", words: ["Zijn", "jullie", "naar", "Amsterdam", "gegaan"], correctOrder: ["Zijn", "jullie", "naar", "Amsterdam", "gegaan"], th: "เรียงประโยค: คุณทั้งหลายไปอัมสเตอร์ดัมไหม?", hint: "Did you (plural) go to Amsterdam? (zijn verb)" },
+            { type: "reorder", words: ["Hij", "is", "om", "acht", "uur", "opgestaan"], correctOrder: ["Hij", "is", "om", "acht", "uur", "opgestaan"], th: "เรียงประโยค: เขาตื่นนอนตอนแปดโมง", hint: "He got up at eight o'clock. (separable verb + zijn)" },
+            { type: "reorder", words: ["Ze", "hebben", "thee", "gedronken"], correctOrder: ["Ze", "hebben", "thee", "gedronken"], th: "เรียงประโยค: พวกเขาดื่มชา", hint: "They drank tea." },
           ]
         }
       ]
@@ -3034,6 +3106,9 @@ const COURSE_DATA = {
             { type: "mc", question: "Fill in: Je ___ hier niet parkeren.", th: "เติม (ห้ามจอดรถที่นี่):", answer: "mag", options: ["kan", "wil", "mag", "zal"] },
             { type: "mc", question: "'Hoeven' is used for:", th: "hoeven ใช้สำหรับ:", answer: "Negative necessity (don't need to)", options: ["Positive ability", "Negative necessity (don't need to)", "Future tense", "Past tense"] },
             { type: "mc", question: "Fill in: ___ we samen koffie drinken?", th: "เติม (เราไปดื่มกาแฟด้วยกันไหม?):", answer: "Zullen", options: ["Moeten", "Hoeven", "Zullen", "Kunnen"] },
+            { type: "reorder", words: ["Ik", "kan", "morgen", "niet", "komen"], correctOrder: ["Ik", "kan", "morgen", "niet", "komen"], th: "เรียงประโยค: ฉันไม่สามารถมาพรุ่งนี้ได้", hint: "I cannot come tomorrow. (kan + infinitive at end)" },
+            { type: "reorder", words: ["Zij", "moet", "elke", "dag", "Nederlands", "oefenen"], correctOrder: ["Zij", "moet", "elke", "dag", "Nederlands", "oefenen"], th: "เรียงประโยค: เธอต้องฝึกภาษาดัตช์ทุกวัน", hint: "She must practice Dutch every day." },
+            { type: "reorder", words: ["Wil", "jij", "een", "kopje", "koffie", "drinken"], correctOrder: ["Wil", "jij", "een", "kopje", "koffie", "drinken"], th: "เรียงประโยค: คุณอยากดื่มกาแฟสักถ้วยไหม?", hint: "Do you want to drink a cup of coffee?" },
           ]
         }
       ]
@@ -3087,6 +3162,9 @@ const COURSE_DATA = {
             { type: "mc", question: "In 'omdat ik moet werken', the verb order is:", th: "ลำดับกริยาคือ:", answer: "moet werken (both at end)", options: ["werken moet", "moet werken (both at end)", "moet werken (normal)", "werken (only main verb)"] },
             { type: "mc", question: "'Als het mooi weer is, ...' means:", th: "แปลว่า:", answer: "If the weather is nice, ...", options: ["Because the weather is nice", "If the weather is nice, ...", "When it was nice", "Although it is nice"] },
             { type: "mc", question: "'Daarom' causes:", th: "daarom ทำให้:", answer: "Inversion (verb before subject)", options: ["Normal order", "Verb to end", "Inversion (verb before subject)", "No change"] },
+            { type: "reorder", words: ["Ik", "blijf", "thuis", "omdat", "ik", "ziek", "ben"], correctOrder: ["Ik", "blijf", "thuis", "omdat", "ik", "ziek", "ben"], th: "เรียงประโยค: ฉันอยู่บ้านเพราะป่วย (omdat → กริยาท้าย)", hint: "I stay home because I am sick. (verb to end after omdat)" },
+            { type: "reorder", words: ["Hij", "zegt", "dat", "hij", "morgen", "komt"], correctOrder: ["Hij", "zegt", "dat", "hij", "morgen", "komt"], th: "เรียงประโยค: เขาบอกว่าเขาจะมาพรุ่งนี้", hint: "He says that he comes tomorrow. (verb to end after dat)" },
+            { type: "reorder", words: ["Als", "het", "regent", "blijf", "ik", "thuis"], correctOrder: ["Als", "het", "regent", "blijf", "ik", "thuis"], th: "เรียงประโยค: ถ้าฝนตก ฉันอยู่บ้าน (als clause + inversion)", hint: "If it rains I stay home. (als = inversion in main clause)" },
           ]
         }
       ]
@@ -3199,6 +3277,10 @@ const COURSE_DATA = {
             { type: "mc", question: "Which sentence has correct inversion?", th: "ประโยคไหนใช้ inversion ถูก?", answer: "Elke dag eet ik brood.", options: ["Elke dag ik eet brood.", "Elke dag eet ik brood.", "Elke dag brood eet ik.", "Elke dag ik brood eet."] },
             { type: "mc", question: "In a bijzin (subordinate clause), the verb goes to:", th: "ใน bijzin กริยาไป:", answer: "The end", options: ["2nd position", "1st position", "The end", "After the subject"] },
             { type: "mc", question: "Fill in: ___ ga jij naar de dokter? (morgen — inversion)", th: "เติม (พรุ่งนี้คุณจะไปหาหมอ):", answer: "Morgen ga jij naar de dokter.", options: ["Morgen jij gaat naar de dokter.", "Morgen ga jij naar de dokter.", "Morgen gaat jij naar de dokter.", "Morgen naar de dokter ga jij."] },
+            { type: "reorder", words: ["Elke", "dag", "fiets", "ik", "naar", "het", "werk"], correctOrder: ["Elke", "dag", "fiets", "ik", "naar", "het", "werk"], th: "เรียงประโยค: ทุกวันฉันปั่นจักรยานไปทำงาน (inversion)", hint: "Every day I cycle to work. (Elke dag fronted → inversion)" },
+            { type: "reorder", words: ["Morgen", "gaat", "hij", "naar", "Amsterdam"], correctOrder: ["Morgen", "gaat", "hij", "naar", "Amsterdam"], th: "เรียงประโยค: พรุ่งนี้เขาไปอัมสเตอร์ดัม", hint: "Tomorrow he goes to Amsterdam. (Morgen fronted → inversion)" },
+            { type: "reorder", words: ["Dan", "koop", "ik", "een", "nieuwe", "fiets"], correctOrder: ["Dan", "koop", "ik", "een", "nieuwe", "fiets"], th: "เรียงประโยค: งั้นฉันจะซื้อจักรยานใหม่ (dan → inversion)", hint: "Then I will buy a new bike. (Dan fronted → inversion)" },
+            { type: "reorder", words: ["Gisteren", "hebben", "we", "lekker", "gegeten"], correctOrder: ["Gisteren", "hebben", "we", "lekker", "gegeten"], th: "เรียงประโยค: เมื่อวานเรากินอร่อยมาก", hint: "Yesterday we ate well. (Gisteren fronted → inversion + perfectum)" },
           ]
         }
       ]
@@ -3579,6 +3661,71 @@ const COURSE_DATA = {
             { type: "mc", question: "'Hierbij' means:", th: "hierbij แปลว่า:", answer: "Hereby / Enclosed", options: ["Here", "Hereby / Enclosed", "Beside", "About this"] },
             { type: "mc", question: "Which is most formal?", th: "คำใดทางการที่สุด?", answer: "Hoogachtend", options: ["Groetjes", "Tot ziens", "Hoogachtend", "Doei"] },
             { type: "mc", question: "'De bijlage' means:", th: "de bijlage แปลว่า:", answer: "Attachment/enclosure", options: ["The letter", "Attachment/enclosure", "The complaint", "The form"] },
+            { type: "template",
+              title: "Formele Klachtbrief",
+              titleTh: "จดหมายร้องเรียนทางการ",
+              scenario: "You rent a flat. Your landlord has increased your rent by 15% without proper notice. Write a formal complaint letter.",
+              scenarioTh: "คุณเช่าอพาร์ทเม้นท์ เจ้าของที่พักขึ้นค่าเช่า 15% โดยไม่แจ้งล่วงหน้าตามกฎ เขียนจดหมายร้องเรียน",
+              template: ["Geachte heer/mevrouw [naam verhuurder],", "", "Betreft: [1] over huurverhoging", "", "Hierbij schrijf ik u over de huurverhoging van [2] procent die u heeft doorgevoerd per 1 maart 2026. Deze verhoging is [3] het toegestane percentage.", "", "Bovendien heeft u mij niet [4] van tevoren schriftelijk [5] van deze verhoging, zoals wettelijk verplicht.", "", "Ik verzoek u dan ook de huurverhoging [4] te herzien en mij hierover te [6].", "", "In [7] van uw reactie,", "", "Met vriendelijke groet,", "[Uw naam]"],
+              blanks: {
+                "1": { answer: "klacht", hint: "complaint", options: ["klacht", "vraag", "brief", "aanvraag"] },
+                "2": { answer: "vijftien", hint: "15 (written out)", options: ["vijftien", "tien", "acht", "twintig"] },
+                "3": { answer: "hoger dan", hint: "higher than (the allowed percentage)", options: ["hoger dan", "gelijk aan", "lager dan", "hetzelfde als"] },
+                "4": { answer: "twee maanden", hint: "2 months (required notice period)", options: ["twee maanden", "twee weken", "één week", "één maand"] },
+                "5": { answer: "geïnformeerd", hint: "informed (past participle)", options: ["geïnformeerd", "gevraagd", "geschreven", "gebeld"] },
+                "6": { answer: "informeren", hint: "to inform/notify", options: ["informeren", "bellen", "bezoeken", "betalen"] },
+                "7": { answer: "afwachting", hint: "awaiting (In afwachting van = Awaiting)", options: ["afwachting", "verwachting", "hoop", "naam"] },
+              }
+            },
+            { type: "template",
+              title: "Huursubsidie Aanvraag (Email)",
+              titleTh: "อีเมลขอเงินช่วยเหลือค่าเช่า",
+              scenario: "You want to apply for huurtoeslag. Write an email to the Belastingdienst asking how to apply.",
+              scenarioTh: "คุณต้องการขอ huurtoeslag เขียนอีเมลถามวิธีสมัครไปยัง Belastingdienst",
+              template: ["Aan: toeslagen@belastingdienst.nl", "Betreft: Vraag over [1] voor huurtoeslag", "", "Geachte mevrouw/mijnheer,", "", "Mijn naam is [naam] en ik woon op [adres]. Ik huur een woning voor € 850,— per maand en ik wil graag weten of ik in [2] kom voor huurtoeslag.", "", "Ik heb de informatie op uw website gelezen, maar het is mij niet duidelijk welke [3] ik moet [4].", "", "Zou u mij kunnen [5] welke stappen ik moet ondernemen? Ik heb een [6] en kan inloggen via [7].", "", "Alvast bedankt voor uw reactie.", "", "Met vriendelijke groet,", "[Naam]"],
+              blanks: {
+                "1": { answer: "aanvraag", hint: "application", options: ["aanvraag", "klacht", "betaling", "informatie"] },
+                "2": { answer: "aanmerking", hint: "in aanmerking komen = to qualify for", options: ["aanmerking", "contact", "orde", "behandeling"] },
+                "3": { answer: "documenten", hint: "documents", options: ["documenten", "formulieren", "vragen", "bewijzen"] },
+                "4": { answer: "indienen", hint: "to submit", options: ["indienen", "invullen", "ophalen", "betalen"] },
+                "5": { answer: "uitleggen", hint: "to explain", options: ["uitleggen", "schrijven", "bellen", "bezoeken"] },
+                "6": { answer: "DigiD", hint: "digital identity for Dutch government sites", options: ["DigiD", "BSN", "paspoort", "OV-chipkaart"] },
+                "7": { answer: "toeslagen.nl", hint: "the toeslagen website", options: ["toeslagen.nl", "belasting.nl", "mijnoverheid.nl", "rijksoverheid.nl"] },
+              }
+            },
+            { type: "template",
+              title: "Sollicitatiebrief (Vacature Reactie)",
+              titleTh: "จดหมายสมัครงาน",
+              scenario: "You are applying for a job as a warehouse worker (magazijnmedewerker). Write a short formal application letter.",
+              scenarioTh: "คุณสมัครงานเป็นพนักงานคลังสินค้า เขียนจดหมายสมัครงานสั้นๆ",
+              template: ["[Naam]", "[Adres]", "[Datum]", "", "Betreft: [1] op vacature magazijnmedewerker (ref. 2026-045)", "", "Geachte heer/mevrouw,", "", "Met grote [2] reageer ik op uw vacature voor magazijnmedewerker. Ik ben [3] op zoek naar een functie waarbij ik mijn ervaring kan inzetten.", "", "Ik heb twee jaar [4] als logistiek medewerker bij een distributiecentrum in Thailand. Ik ben [5], betrouwbaar en werk graag in [6].", "", "Mijn [7] en mijn motivatiebrief vindt u in de bijlage.", "", "Ik zie uw reactie met [2] tegemoet.", "", "Met vriendelijke groet,"],
+              blanks: {
+                "1": { answer: "Sollicitatie", hint: "application / job application", options: ["Sollicitatie", "Klacht", "Vraag", "Aanvraag"] },
+                "2": { answer: "interesse", hint: "interest (Met grote interesse = With great interest)", options: ["interesse", "enthousiasme", "kennis", "motivatie"] },
+                "3": { answer: "momenteel", hint: "currently / at this moment", options: ["momenteel", "vroeger", "soms", "nooit"] },
+                "4": { answer: "werkervaring", hint: "work experience", options: ["werkervaring", "opleiding", "vakantie", "vrije tijd"] },
+                "5": { answer: "flexibel", hint: "flexible (key quality for warehouse work)", options: ["flexibel", "langzaam", "zelfstandig", "creatief"] },
+                "6": { answer: "teamverband", hint: "in a team setting", options: ["teamverband", "stilte", "kantoor", "het buitenland"] },
+                "7": { answer: "CV", hint: "curriculum vitae / resume", options: ["CV", "paspoort", "rijbewijs", "diploma"] },
+              }
+            },
+            { type: "template",
+              title: "Afspraak Verzetten (Email)",
+              titleTh: "อีเมลเลื่อนนัด",
+              scenario: "You have a doctor's appointment on Tuesday but you cannot make it. Write an email to reschedule.",
+              scenarioTh: "คุณมีนัดหมอวันอังคารแต่ไปไม่ได้ เขียนอีเมลขอเลื่อนนัด",
+              template: ["Aan: praktijk.derooy@huisarts.nl", "Betreft: [1] afspraak dinsdag 24 februari", "", "Geachte mevrouw De Rooy,", "", "Ik heb een [2] op dinsdag 24 februari om 10:30 uur. Helaas [3] ik deze afspraak niet [4] vanwege een dringende werkverplichting.", "", "Zou het mogelijk zijn de afspraak te [5] naar een ander [6]? Ik ben beschikbaar op woensdag 25 februari of donderdag 26 februari, [7] voor 15:00 uur.", "", "Ik [8] u bij voorbaat voor uw begrip.", "", "Met vriendelijke groet,", "[Naam]"],
+              blanks: {
+                "1": { answer: "Verzetten", hint: "Rescheduling (verzetten = to move/reschedule)", options: ["Verzetten", "Annuleren", "Bevestigen", "Vragen"] },
+                "2": { answer: "afspraak", hint: "appointment", options: ["afspraak", "vergadering", "les", "bezoek"] },
+                "3": { answer: "kan", hint: "can (modal verb, 1st person)", options: ["kan", "wil", "moet", "mag"] },
+                "4": { answer: "nakomen", hint: "to keep/honour (an appointment)", options: ["nakomen", "maken", "annuleren", "bevestigen"] },
+                "5": { answer: "verzetten", hint: "to reschedule/move", options: ["verzetten", "annuleren", "bevestigen", "plannen"] },
+                "6": { answer: "tijdstip", hint: "time/moment (een ander tijdstip = another time slot)", options: ["tijdstip", "dag", "moment", "week"] },
+                "7": { answer: "bij voorkeur", hint: "preferably", options: ["bij voorkeur", "altijd", "zeker", "alleen"] },
+                "8": { answer: "dank", hint: "I thank (dank u = thank you)", options: ["dank", "vraag", "bel", "schrijf"] },
+              }
+            },
           ]
         },
         {
@@ -3624,6 +3771,76 @@ const COURSE_DATA = {
             { type: "mc", question: "'De conclusie' appears:", th: "conclusie มักปรากฏ:", answer: "At the end of a text", options: ["At the beginning", "In the title", "At the end of a text", "In a footnote"] },
             { type: "mc", question: "'Mening' vs 'feit': 'Ik vind Amsterdam mooi' is:", th: "ประโยคนี้คือ:", answer: "Mening (opinion)", options: ["Feit (fact)", "Mening (opinion)", "Conclusie", "Voorbeeld"] },
             { type: "mc", question: "B1 reading strategy: first you should:", th: "กลยุทธ์ B1: ก่อนอื่นควร:", answer: "Read the questions first", options: ["Read the whole text", "Read the questions first", "Look up every word", "Write a summary"] },
+            { type: "reading",
+              title: "Brief van de Gemeente",
+              titleTh: "จดหมายจากเทศบาล",
+              text: "Gemeente Rotterdam\nAfdeling Burgerzaken\nPostbus 1011, 3000 BA Rotterdam\n\nBetreft: Verlenging verblijfsvergunning\n\nGeachte heer/mevrouw Wongchai,\n\nWij informeren u dat uw verblijfsvergunning op 15 maart 2026 verloopt. U dient uiterlijk vier weken voor deze datum een aanvraag voor verlenging in te dienen bij de IND.\n\nVoor de aanvraag heeft u de volgende documenten nodig:\n— een geldig paspoort\n— een recent overzicht van uw inkomsten\n— een ingevuld aanvraagformulier (beschikbaar op ind.nl)\n\nVoor vragen kunt u contact opnemen met onze afdeling Burgerzaken op telefoonnummer 14010, maandag tot en met vrijdag van 09:00 tot 16:00 uur.\n\nMet vriendelijke groet,\nGemeente Rotterdam",
+              textTh: "จดหมายจากเทศบาลรอตเทอร์ดัมเรื่องต่อใบอนุญาตพำนัก",
+              questions: [
+                { question: "What is the letter about?", th: "จดหมายเรื่องอะไร?", answer: "Renewing a residence permit", options: ["A new passport", "Renewing a residence permit", "Paying taxes", "Registering at the gemeente"] },
+                { question: "When does the permit expire?", th: "ใบอนุญาตหมดอายุเมื่อไหร่?", answer: "15 March 2026", options: ["15 January 2026", "15 March 2026", "15 April 2026", "4 weeks from now"] },
+                { question: "How long before the deadline must you apply?", th: "ต้องยื่นก่อนกี่สัปดาห์?", answer: "At least 4 weeks before", options: ["1 week before", "2 weeks before", "At least 4 weeks before", "6 months before"] },
+                { question: "Where can you find the application form?", th: "หาแบบฟอร์มได้ที่ไหน?", answer: "ind.nl", options: ["At the post office", "ind.nl", "rotterdam.nl", "At the police station"] },
+                { question: "What does 'verloopt' mean in this context?", th: "'verloopt' ในบริบทนี้หมายถึง?", answer: "expires", options: ["starts", "expires", "is renewed", "is cancelled"] },
+                { question: "The phone line is available:", th: "โทรศัพท์เปิดบริการ:", answer: "Monday to Friday 09:00–16:00", options: ["7 days a week", "Monday to Friday 09:00–16:00", "Only on weekdays 10:00–14:00", "24 hours a day"] },
+              ]
+            },
+            { type: "reading",
+              title: "Nieuws: Huurprijzen Stijgen",
+              titleTh: "ข่าว: ค่าเช่าพุ่งสูง",
+              text: "AMSTERDAM — Huurprijzen in de vier grote steden stijgen dit jaar met gemiddeld 8 procent, blijkt uit onderzoek van het Centraal Bureau voor de Statistiek (CBS). In Amsterdam is de stijging het grootst: gemiddeld 11 procent.\n\nDoor het tekort aan betaalbare woningen zoeken steeds meer mensen naar een sociale huurwoning. De wachtlijst voor een sociale huurwoning in Amsterdam is inmiddels opgelopen tot gemiddeld twaalf jaar.\n\nHuurders die moeite hebben met betalen, kunnen zorgtoeslag of huurtoeslag aanvragen bij de Belastingdienst. 'Veel mensen weten niet dat ze recht hebben op toeslag,' zegt een woordvoerder van de gemeente.\n\nDe minister heeft aangekondigd dat er de komende vijf jaar 100.000 nieuwe woningen gebouwd zullen worden.",
+              textTh: "ข่าวเกี่ยวกับราคาเช่าที่พุ่งสูงในเมืองใหญ่ของเนเธอร์แลนด์",
+              questions: [
+                { question: "By how much do rents rise on average this year?", th: "ค่าเช่าเพิ่มขึ้นเฉลี่ยเท่าไหร่?", answer: "8 percent", options: ["5 percent", "8 percent", "11 percent", "12 percent"] },
+                { question: "Which city has the biggest increase?", th: "เมืองไหนราคาขึ้นมากที่สุด?", answer: "Amsterdam", options: ["Rotterdam", "Utrecht", "Amsterdam", "Den Haag"] },
+                { question: "How long is the waiting list for social housing in Amsterdam?", th: "รายชื่อรอบ้านพักราคาถูกในอัมสเตอร์ดัมยาวแค่ไหน?", answer: "12 years on average", options: ["2 years", "5 years", "8 years", "12 years on average"] },
+                { question: "What can tenants who struggle to pay apply for?", th: "ผู้เช่าที่จ่ายลำบากสามารถขออะไรได้?", answer: "Huurtoeslag or zorgtoeslag", options: ["Free housing", "Huurtoeslag or zorgtoeslag", "A bank loan", "A social huurwoning immediately"] },
+                { question: "'Tekort' means:", th: "'tekort' หมายถึง:", answer: "shortage", options: ["surplus", "shortage", "increase", "decrease"] },
+                { question: "This text is an example of:", th: "ข้อความนี้เป็นตัวอย่างของ:", answer: "A newspaper article (feit-based)", options: ["A formal letter", "A newspaper article (feit-based)", "A personal opinion piece", "An advertisement"] },
+              ]
+            },
+            { type: "reading",
+              title: "Huurcontract — Artikel 4",
+              titleTh: "สัญญาเช่า — มาตรา 4",
+              text: "HUUROVEREENKOMST\nArtikel 4 — Huurprijs en Servicekosten\n\n4.1 De huurprijs bedraagt € 950,— per maand. De huurder betaalt de huur uiterlijk op de eerste van elke maand.\n\n4.2 Naast de huurprijs betaalt de huurder een voorschot op de servicekosten van € 75,— per maand. De servicekosten omvatten: gas, water en elektriciteit (GWE), schoonmaak van gemeenschappelijke ruimten en glasbewassing.\n\n4.3 De verhuurder kan de huurprijs jaarlijks verhogen met maximaal het door de overheid vastgestelde percentage. De huurder ontvangt hierover minimaal twee maanden van tevoren een schriftelijke kennisgeving.\n\n4.4 Bij te late betaling is de huurder een vertragingsrente verschuldigd van 1% per maand over het verschuldigde bedrag.",
+              textTh: "บทความจากสัญญาเช่า เรื่องค่าเช่าและค่าบริการ",
+              questions: [
+                { question: "What is the monthly rent?", th: "ค่าเช่าต่อเดือนเท่าไหร่?", answer: "€950", options: ["€75", "€950", "€1025", "€875"] },
+                { question: "By when must the rent be paid each month?", th: "ต้องจ่ายค่าเช่าภายในเมื่อไหร่?", answer: "By the 1st of each month", options: ["By the 15th", "By the last day", "By the 1st of each month", "Any time in the month"] },
+                { question: "What do the service costs NOT include?", th: "ค่าบริการไม่รวมอะไร?", answer: "Internet", options: ["Gas", "Water", "Cleaning common areas", "Internet"] },
+                { question: "How much notice before a rent increase?", th: "ต้องแจ้งล่วงหน้าเท่าไหร่ก่อนขึ้นค่าเช่า?", answer: "At least 2 months", options: ["1 week", "1 month", "At least 2 months", "6 months"] },
+                { question: "'Verhuurder' means:", th: "'verhuurder' หมายถึง:", answer: "landlord", options: ["tenant", "landlord", "agent", "government"] },
+                { question: "Late payment results in:", th: "จ่ายล่าช้าส่งผลให้:", answer: "1% interest per month", options: ["Immediate eviction", "1% interest per month", "A warning letter", "Loss of deposit"] },
+              ]
+            },
+            { type: "reading",
+              title: "Brief van School",
+              titleTh: "จดหมายจากโรงเรียน",
+              text: "Basisschool De Regenboog\nBuiksloterweg 85\n1031 CC Amsterdam\n\nAmsterdam, 10 februari 2026\n\nGeachte ouders/verzorgers,\n\nOp woensdag 25 februari 2026 is er geen school vanwege de studiedag voor leerkrachten. Uw kind hoeft die dag niet naar school te komen.\n\nDe week daarna, van maandag 2 tot en met vrijdag 6 maart, is de school gesloten voor de voorjaarsvakantie.\n\nWilt u ook weten wanneer andere vrije dagen zijn? Het volledige jaarrooster staat op onze website: www.regenboogschool.nl.\n\nOok herinneren wij u eraan dat het schoolfotograaf op dinsdag 17 februari plaatsvindt. Wij vragen alle kinderen die dag goed gekleed te komen.\n\nVoor vragen kunt u contact opnemen met de administratie.\n\nMet vriendelijke groet,\nDe directie",
+              textTh: "จดหมายจากโรงเรียนแจ้งกำหนดการและวันหยุด",
+              questions: [
+                { question: "Why is there no school on 25 February?", th: "ทำไมวันที่ 25 กุมภาพันธ์ไม่มีเรียน?", answer: "Teacher training day (studiedag)", options: ["Public holiday", "Teacher training day (studiedag)", "School trip", "Building maintenance"] },
+                { question: "When is the spring holiday?", th: "วันหยุดฤดูใบไม้ผลิคือเมื่อไหร่?", answer: "2–6 March", options: ["25 February", "2–6 March", "17 February", "The whole month of March"] },
+                { question: "Where can parents find the full school calendar?", th: "พ่อแม่หารายละเอียดวันหยุดได้ที่ไหน?", answer: "www.regenboogschool.nl", options: ["At the school office", "www.regenboogschool.nl", "In a letter each month", "At the gemeente"] },
+                { question: "What happens on 17 February?", th: "วันที่ 17 กุมภาพันธ์มีอะไร?", answer: "School photos", options: ["Spring holiday", "No school", "School photos", "Parent evening"] },
+                { question: "'Verzorgers' means:", th: "'verzorgers' หมายถึง:", answer: "carers/guardians", options: ["teachers", "carers/guardians", "cleaners", "doctors"] },
+                { question: "This letter is addressed to:", th: "จดหมายถึงใคร?", answer: "Parents and guardians", options: ["Teachers", "The municipality", "Parents and guardians", "Older students"] },
+              ]
+            },
+            { type: "reading",
+              title: "Zorgverzekering — Uitleg Eigen Risico",
+              titleTh: "ประกันสุขภาพ — คำอธิบายเงินส่วนเกิน",
+              text: "Wat is het eigen risico?\n\nAls u in Nederland verzekerd bent, betaalt u een deel van de zorgkosten zelf. Dit heet het eigen risico. In 2026 is het verplichte eigen risico € 385,— per jaar.\n\nHoe werkt het?\nAls u naar de huisarts gaat, hoeft u het eigen risico niet te betalen. Maar als u naar een specialist gaat, in het ziekenhuis wordt opgenomen of medicijnen haalt bij de apotheek, dan telt dat wel mee.\n\nKunt u het eigen risico verhogen?\nJa, u kunt vrijwillig kiezen voor een hoger eigen risico: € 485, € 585, € 685, € 785 of € 885. Hoe hoger het eigen risico, hoe lager uw maandelijkse premie.\n\nNo-claimkorting\nAls u aan het einde van het jaar het eigen risico niet volledig heeft gebruikt, ontvangt u mogelijk een korting op uw premie voor het volgende jaar.",
+              textTh: "ข้อความอธิบายระบบประกันสุขภาพของเนเธอร์แลนด์",
+              questions: [
+                { question: "What is the mandatory eigen risico in 2026?", th: "เงินส่วนเกินบังคับปี 2026 คือเท่าไหร่?", answer: "€385 per year", options: ["€185 per year", "€385 per year", "€485 per year", "€385 per month"] },
+                { question: "Going to the huisarts (GP):", th: "การไปหาหมอประจำตัว:", answer: "Does NOT count towards eigen risico", options: ["Counts towards eigen risico", "Does NOT count towards eigen risico", "Costs €50 extra", "Requires insurance approval first"] },
+                { question: "If you choose a higher eigen risico:", th: "ถ้าเลือกเงินส่วนเกินสูงขึ้น:", answer: "Your monthly premium is lower", options: ["Your monthly premium is higher", "Your monthly premium is lower", "Your coverage is better", "You get free dental care"] },
+                { question: "What is the maximum voluntary eigen risico?", th: "เงินส่วนเกินสูงสุดที่เลือกได้คือเท่าไหร่?", answer: "€885", options: ["€685", "€785", "€885", "€985"] },
+                { question: "'Premie' means:", th: "'premie' หมายถึง:", answer: "insurance premium (monthly payment)", options: ["bonus", "insurance premium (monthly payment)", "deductible", "discount"] },
+                { question: "No-claimkorting means:", th: "no-claimkorting หมายถึง:", answer: "A discount if you didn't use your full eigen risico", options: ["Free healthcare for one year", "A discount if you didn't use your full eigen risico", "Extra coverage at no cost", "A refund of your premie"] },
+              ]
+            },
           ]
         }
       ]
@@ -4258,31 +4475,41 @@ let deferredInstallPrompt = null;
 let installBannerDismissed = false;
 
 // Register service worker for offline capability
+// ── Service Worker: unregister any stale SW, wipe all caches, then re-register ──
 if ('serviceWorker' in navigator) {
-  // Inline service worker via blob URL
+  // Step 1: unregister every existing SW so no stale blob-URL SW can intercept
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(r => r.unregister());
+  });
+  // Step 2: delete every cache entry so the browser always fetches fresh
+  if (window.caches) {
+    caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+  }
+  // Step 3: register a fresh network-first SW
+  const CACHE = 'leer-nl-v0.9.4';
   const swCode = `
-    const CACHE = 'leer-nl-v0.9.2';
+    const CACHE = '${CACHE}';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
-      e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+      e.waitUntil(
+        caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
+          .then(() => self.clients.claim())
+      );
     });
     self.addEventListener('fetch', e => {
       if (e.request.method !== 'GET') return;
       e.respondWith(
-        caches.match(e.request).then(cached => {
-          const fetchPromise = fetch(e.request).then(response => {
-            if (response && response.status === 200) {
-              const clone = response.clone();
-              caches.open(CACHE).then(c => c.put(e.request, clone));
-            }
-            return response;
-          }).catch(() => cached);
-          return cached || fetchPromise;
-        })
+        fetch(e.request).then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE).then(c => c.put(e.request, clone));
+          }
+          return response;
+        }).catch(() => caches.match(e.request))
       );
     });
   `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+  const swBlob = new Blob([swCode.replace(/\$\{CACHE\}/g, CACHE)], { type: 'application/javascript' });
   const swUrl = URL.createObjectURL(swBlob);
   navigator.serviceWorker.register(swUrl, { scope: '/' }).catch(() => {});
 }
@@ -4695,17 +4922,33 @@ function fisherYatesShuffle(arr, rng) {
 const exerciseCache = {};
 function getGeneratedExercises(lesson) {
   if (exerciseCache[lesson.id]) return exerciseCache[lesson.id];
-  // Use seeded random for stability
   const rng = seededRandom(lesson.id + '_v7');
   const origRandom = Math.random;
   Math.random = rng;
-  const cloze = generateClozeExercises(lesson);
-  const reorder = generateReorderExercises(lesson);
+  const genCloze = generateClozeExercises(lesson);
+  const genReorder = generateReorderExercises(lesson);
   const match = generateMatchExercises(lesson);
   const dictation = generateDictationExercises(lesson);
   const context = generateContextExercises(lesson);
   Math.random = origRandom;
-  exerciseCache[lesson.id] = { cloze, reorder, match, dictation, context };
+  // Merge authored exercises (cloze/reorder/form) with generated ones
+  const authored = lesson.exercises || [];
+  const authoredCloze = authored.filter(e => e.type === 'cloze').map(e => ({
+    sentence: e.sentence, answer: e.answer,
+    full: e.sentence.replace('___', e.answer),
+    hint: e.hint || '', hintTh: e.th || '',
+    distractors: e.distractors || []
+  }));
+  const authoredReorder = authored.filter(e => e.type === 'reorder').map(e => ({
+    correctOrder: e.correctOrder || e.words,
+    hint: e.hint || '', hintTh: e.th || ''
+  }));
+  const form    = authored.filter(e => e.type === 'form');
+  const reading = authored.filter(e => e.type === 'reading');
+  const template = authored.filter(e => e.type === 'template');
+  const cloze   = [...authoredCloze, ...genCloze];
+  const reorder = [...authoredReorder, ...genReorder];
+  exerciseCache[lesson.id] = { cloze, reorder, match, dictation, context, form, reading, template };
   return exerciseCache[lesson.id];
 }
 
@@ -4804,7 +5047,7 @@ function renderHome() {
       <h1 class="serif">Leer Nederlands</h1>
       <p class="sub">Dutch for Thai Speakers · A1 Inburgering Preparation</p>
       <p class="sub2">เรียนภาษาดัตช์ · เตรียมสอบ Inburgering ระดับ A1</p>
-      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.9.2 · February 2026</p>
+      <p style="margin:8px 0 0;font-size:11px;color:rgba(255,255,255,0.45)">by @trippledutch — built with Claude v0.9.4 · February 2026</p>
     </div>
 
     ${renderInstallBanner()}
@@ -5037,7 +5280,7 @@ function renderSettings() {
     <div class="card">
       <h3 class="serif" style="margin:0 0 12px;color:#21468B">About · เกี่ยวกับแอป</h3>
       <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 8px">
-        <strong>Leer Nederlands v0.9.2</strong> is a Dutch language learning app for Thai speakers
+        <strong>Leer Nederlands v0.9.4</strong> is a Dutch language learning app for Thai speakers
         preparing for the <strong>Basisexamen Inburgering Buitenland</strong> — the Dutch civic integration
         exam taken at the embassy in Bangkok before moving to the Netherlands.
       </p>
@@ -5654,8 +5897,11 @@ function renderNewExercises(mod, lesson) {
   const hasMatch = gen.match.length > 0;
   const hasDictation = gen.dictation.length > 0;
   const hasContext = gen.context.length > 0;
+  const hasForm     = gen.form     && gen.form.length     > 0;
+  const hasReading  = gen.reading  && gen.reading.length  > 0;
+  const hasTemplate = gen.template && gen.template.length > 0;
 
-  if (!hasCloze && !hasReorder && !hasMatch && !hasDictation && !hasContext) {
+  if (!hasCloze && !hasReorder && !hasMatch && !hasDictation && !hasContext && !hasForm && !hasReading && !hasTemplate) {
     return `<div style="text-align:center;padding:40px 20px;color:#888">
       <div style="font-size:48px;margin-bottom:12px">📝</div>
       <p>No interactive exercises available for this lesson yet.</p>
@@ -5691,6 +5937,21 @@ function renderNewExercises(mod, lesson) {
     ${hasMatch ? `
       <div class="exercise-section-title">🔗 Match Words · จับคู่คำศัพท์</div>
       ${gen.match.map((ex, i) => renderMatchExercise(ex, i, mod, lesson)).join('')}
+    ` : ''}
+
+    ${hasForm ? `
+      <div class="exercise-section-title">📋 Form Practice · กรอกแบบฟอร์ม</div>
+      ${gen.form.map((ex, i) => renderFormExercise(ex, i, mod, lesson)).join('')}
+    ` : ''}
+
+    ${hasReading ? `
+      <div class="exercise-section-title">📖 Reading Comprehension · ทำความเข้าใจบทอ่าน</div>
+      ${gen.reading.map((ex, i) => renderReadingExercise(ex, i, mod, lesson)).join('')}
+    ` : ''}
+
+    ${hasTemplate ? `
+      <div class="exercise-section-title">✉️ Letter & Email Templates · แบบฝึกจดหมาย</div>
+      ${gen.template.map((ex, i) => renderTemplateExercise(ex, i, mod, lesson)).join('')}
     ` : ''}
   `;
 }
@@ -5730,9 +5991,187 @@ function renderClozeExercise(ex, idx, mod) {
   `;
 }
 
+function renderReadingExercise(ex, idx, mod, lesson) {
+  const sk = `reading_${lesson.id}_${idx}`;
+  if (!state.readingState) state.readingState = {};
+  if (!state.readingState[sk]) state.readingState[sk] = { answers: {}, checked: false, showText: true };
+  const rs = state.readingState[sk];
+
+  // Format text: newlines → <br>, blank lines → paragraph break
+  const formattedText = escHtml(ex.text)
+    .replace(/\n\n/g, '</p><p style="margin:8px 0">')
+    .replace(/\n/g, '<br>');
+
+  const questionsHtml = ex.questions.map((q, qi) => {
+    const ans = rs.answers[qi];
+    const checked = rs.checked;
+    const correct = checked && ans === q.answer;
+    const wrong   = checked && ans !== undefined && !correct;
+    return `
+      <div style="margin-bottom:14px">
+        <div style="font-size:14px;font-weight:600;margin-bottom:6px">${qi+1}. ${escHtml(q.question)}</div>
+        <div style="font-size:12px;color:#888;margin-bottom:8px">${escHtml(q.th)}</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${q.options.map(opt => {
+            let bg = '#fff', border = '#ddd', color = '#333', icon = '';
+            if (checked) {
+              if (opt === q.answer)             { bg='#F0FFF4'; border='#5E9B4E'; color='#2d7a2d'; icon='✓ '; }
+              else if (opt === ans && wrong)    { bg='#FFF0F0'; border='#E74C3C'; color='#c0392b'; icon='✗ '; }
+            } else if (ans === opt)             { bg='#EEF4FF'; border=mod.color; }
+            return `<button onclick="if(!state.readingState)state.readingState={};if(!state.readingState['${sk}'])state.readingState['${sk}']={answers:{},checked:false,showText:true};if(!state.readingState['${sk}'].checked)state.readingState['${sk}'].answers[${qi}]='${opt.replace(/'/g,"\\'")}';render(true)"
+              style="text-align:left;padding:8px 12px;border:2px solid ${border};border-radius:8px;background:${bg};color:${color};font-size:13px;cursor:pointer;font-family:inherit;font-weight:${checked && opt===q.answer?'600':'400'}"
+              ${checked ? 'disabled' : ''}>${icon}${escHtml(opt)}</button>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  const totalQ   = ex.questions.length;
+  const correctN = rs.checked ? ex.questions.filter((q,qi) => rs.answers[qi] === q.answer).length : 0;
+
+  return `
+    <div class="exercise-card" style="border-left-color:${rs.checked ? (correctN===totalQ?'#5E9B4E':'#E67E22') : mod.color};margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <div style="font-weight:700;font-size:15px">${escHtml(ex.title)}</div>
+          <div style="font-size:12px;color:#888">${escHtml(ex.titleTh||'')}</div>
+        </div>
+        <button onclick="if(!state.readingState)state.readingState={};if(!state.readingState['${sk}'])state.readingState['${sk}']={answers:{},checked:false,showText:true};state.readingState['${sk}'].showText=!state.readingState['${sk}'].showText;render(true)"
+          style="padding:6px 12px;border:1px solid #ddd;border-radius:8px;background:#f8f8f8;font-size:12px;cursor:pointer;font-family:inherit">
+          ${rs.showText ? '▲ Hide text' : '▼ Show text'}
+        </button>
+      </div>
+      ${rs.showText ? `
+        <div style="background:#F8F9FF;border:1px solid #E0E4F0;border-radius:8px;padding:14px 16px;margin-bottom:16px;font-size:14px;line-height:1.8;white-space:pre-wrap;font-family:inherit">
+          <p style="margin:8px 0">${formattedText}</p>
+        </div>` : ''}
+      <div style="margin-bottom:14px">${questionsHtml}</div>
+      ${!rs.checked ? `
+        <button onclick="if(!state.readingState)state.readingState={};if(!state.readingState['${sk}'])state.readingState['${sk}']={answers:{},checked:false,showText:true};state.readingState['${sk}'].checked=true;render(true)"
+          style="padding:10px 20px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">
+          ✓ Check Answers · ตรวจ
+        </button>` : `
+        <div style="padding:10px 16px;border-radius:8px;background:${correctN===totalQ?'#F0FFF4':'#FFF8F0'};font-size:14px;font-weight:600;color:${correctN===totalQ?'#5E9B4E':'#E67E22'}">
+          ${correctN}/${totalQ} correct ${correctN===totalQ?'🎉':'— review the highlighted answers above'}
+        </div>`}
+    </div>`;
+}
+
+function renderTemplateExercise(ex, idx, mod, lesson) {
+  const sk = `template_${lesson.id}_${idx}`;
+  if (!state.templateState) state.templateState = {};
+  if (!state.templateState[sk]) state.templateState[sk] = { answers: {}, checked: false };
+  const ts = state.templateState[sk];
+
+  const blankNums = Object.keys(ex.blanks).sort();
+  const totalBlanks = blankNums.length;
+  const correctN = ts.checked ? blankNums.filter(n => (ts.answers[n]||'').trim().toLowerCase() === ex.blanks[n].answer.toLowerCase()).length : 0;
+
+  // Render template lines, substituting [N] with select dropdowns or result badges
+  const templateHtml = ex.template.map(line => {
+    let rendered = escHtml(line);
+    blankNums.forEach(n => {
+      const blank = ex.blanks[n];
+      const ans = ts.answers[n] || '';
+      const correct = ts.checked && ans.toLowerCase() === blank.answer.toLowerCase();
+      const wrong   = ts.checked && ans && !correct;
+      const placeholder = `[${n}]`;
+      const escapedPH = escHtml(placeholder);
+      let widget;
+      if (!ts.checked) {
+        const opts = blank.options.map(o =>
+          `<option value="${escHtml(o)}" ${ans===o?'selected':''}>${escHtml(o)}</option>`
+        ).join('');
+        widget = `<select onchange="if(!state.templateState)state.templateState={};if(!state.templateState['${sk}'])state.templateState['${sk}']={answers:{},checked:false};state.templateState['${sk}'].answers['${n}']=this.value;render(true)"
+          style="display:inline-block;padding:2px 6px;border:2px solid ${ans?mod.color:'#ccc'};border-radius:6px;font-size:13px;font-family:inherit;background:#fff;cursor:pointer;max-width:160px">
+          <option value="">— [${n}] —</option>${opts}</select>`;
+      } else {
+        widget = `<span style="display:inline-block;padding:2px 8px;border-radius:6px;font-weight:700;font-size:13px;background:${correct?'#E8F8E8':'#FFE8E8'};color:${correct?'#2d7a2d':'#c0392b'};border:2px solid ${correct?'#5E9B4E':'#E74C3C'}">${escHtml(ans||'?')}${wrong?` <span style="font-size:11px;color:#888">→ ${escHtml(blank.answer)}</span>`:''}</span>`;
+      }
+      rendered = rendered.replace(escapedPH, widget);
+    });
+    return `<div style="min-height:22px;line-height:2">${rendered}</div>`;
+  }).join('');
+
+  return `
+    <div class="exercise-card" style="border-left-color:${ts.checked?(correctN===totalBlanks?'#5E9B4E':'#E67E22'):mod.color};margin-bottom:20px">
+      <div style="font-weight:700;font-size:15px;margin-bottom:2px">${escHtml(ex.title)}</div>
+      <div style="font-size:12px;color:#888;margin-bottom:8px">${escHtml(ex.titleTh||'')}</div>
+      <div style="background:#FFFBF0;border:1px solid #F5DEC0;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px">
+        📋 ${escHtml(ex.scenario)}<br>
+        <span style="color:#888;font-size:12px">${escHtml(ex.scenarioTh||'')}</span>
+      </div>
+      <div style="background:#F8F9FF;border:1px solid #E0E4F0;border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:2.2">
+        ${templateHtml}
+      </div>
+      <div style="margin-bottom:12px">
+        ${blankNums.map(n => `<div style="font-size:12px;color:#888;margin-bottom:3px">[${n}] = ${escHtml(ex.blanks[n].hint)}</div>`).join('')}
+      </div>
+      ${!ts.checked ? `
+        <button onclick="if(!state.templateState)state.templateState={};if(!state.templateState['${sk}'])state.templateState['${sk}']={answers:{},checked:false};state.templateState['${sk}'].checked=true;render(true)"
+          style="padding:10px 20px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">
+          ✓ Check Letter · ตรวจจดหมาย
+        </button>` : `
+        <div style="padding:10px 16px;border-radius:8px;background:${correctN===totalBlanks?'#F0FFF4':'#FFF8F0'};font-size:14px;font-weight:600;color:${correctN===totalBlanks?'#5E9B4E':'#E67E22'}">
+          ${correctN}/${totalBlanks} blanks correct ${correctN===totalBlanks?'🎉 Perfect letter!':'— see corrections above'}
+        </div>`}
+    </div>`;
+}
+
 function checkCloze(stateKey, answer) {
   state.clozeAnswers[stateKey + '_checked'] = true;
   render(true);
+}
+
+function renderFormExercise(ex, idx, mod, lesson) {
+  const stateKey = `form_${lesson.id}_${idx}`;
+  if (!state.formState) state.formState = {};
+  if (!state.formState[stateKey]) state.formState[stateKey] = { answers: {}, checked: false };
+  const fs = state.formState[stateKey];
+
+  const fieldsHtml = ex.fields.map((field, fi) => {
+    const val = fs.answers[fi] || '';
+    const checked = fs.checked;
+    const correct = checked && val.trim().toLowerCase() === field.answer.toLowerCase();
+    const wrong = checked && !correct;
+    return `
+      <div style="margin-bottom:14px">
+        <div style="font-size:13px;font-weight:600;color:#444;margin-bottom:4px">${escHtml(field.label)}</div>
+        <div style="font-size:12px;color:#888;margin-bottom:6px">💡 ${escHtml(field.hint)}</div>
+        <input type="text"
+          style="width:100%;box-sizing:border-box;padding:8px 12px;border:2px solid ${checked ? (correct ? '#5E9B4E' : '#E74C3C') : '#ddd'};border-radius:8px;font-size:14px;font-family:inherit;background:${checked ? (correct ? '#F0FFF4' : '#FFF0F0') : '#fff'}"
+          placeholder="${escHtml(field.placeholder || '')}"
+          value="${escHtml(val)}"
+          ${checked ? 'disabled' : ''}
+          oninput="if(!state.formState['${stateKey}'])state.formState['${stateKey}']={answers:{},checked:false};state.formState['${stateKey}'].answers[${fi}]=this.value"
+        >
+        ${checked && wrong ? `<div style="font-size:12px;color:#E74C3C;margin-top:3px">✗ Answer: <strong>${escHtml(field.answer)}</strong></div>` : ''}
+        ${checked && correct ? `<div style="font-size:12px;color:#5E9B4E;margin-top:3px">✓ Correct!</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  const allCorrect = fs.checked && ex.fields.every((f, fi) =>
+    (fs.answers[fi] || '').trim().toLowerCase() === f.answer.toLowerCase()
+  );
+
+  return `
+    <div class="exercise-card" style="border-left-color:${fs.checked ? (allCorrect ? '#5E9B4E' : '#E74C3C') : mod.color}">
+      <div style="font-weight:700;font-size:15px;margin-bottom:4px">${escHtml(ex.title)}</div>
+      <div style="font-size:13px;color:#888;margin-bottom:14px">${escHtml(ex.titleTh || '')} ${ex.th ? '· ' + escHtml(ex.th) : ''}</div>
+      ${fieldsHtml}
+      ${!fs.checked ? `
+        <button style="margin-top:6px;padding:10px 20px;border-radius:8px;border:2px solid ${mod.color};background:#fff;color:${mod.color};font-weight:700;cursor:pointer;font-family:inherit;font-size:14px"
+          onclick="if(!state.formState)state.formState={};if(!state.formState['${stateKey}'])state.formState['${stateKey}']={answers:{},checked:false};state.formState['${stateKey}'].checked=true;render(true)">
+          ✓ Check Form · ตรวจแบบฟอร์ม
+        </button>
+      ` : `
+        <div style="margin-top:10px;padding:10px;border-radius:8px;background:${allCorrect ? '#F0FFF4' : '#FFF8F0'};font-size:14px;font-weight:600;color:${allCorrect ? '#5E9B4E' : '#E67E22'}">
+          ${allCorrect ? '🎉 Perfect form! · กรอกฟอร์มถูกต้องทั้งหมด!' : '📝 Review the corrections above · ตรวจดูคำตอบที่ถูกต้องด้านบน'}
+        </div>
+      `}
+    </div>
+  `;
 }
 
 function renderReorderExercise(ex, idx, mod, lesson) {
