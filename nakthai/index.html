@@ -367,8 +367,8 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
     </div>
     <div class="nav-logged-in" id="nav-logged-in" style="display:none;">
       <span class="logged-in-name" id="nav-username"></span>
-      <a href="nakthai-app.html" class="btn-enter-app en">Enter the Realm →</a>
-      <a href="nakthai-app.html" class="btn-enter-app th" style="display:none;">เข้าแอป →</a>
+      <a href="pp.html" class="btn-enter-app en">Enter the Realm →</a>
+      <a href="app.html" class="btn-enter-app th" style="display:none;">เข้าแอป →</a>
     </div>
   </div>
 </nav>
@@ -391,8 +391,8 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
     <p class="en">Welcome back, <span id="hero-username-en">Devotee</span> 🙏 The Naga King awaits you.</p>
     <p class="th" style="font-family:'Noto Serif Thai',serif;display:none;">ยินดีต้อนรับกลับ, <span id="hero-username-th">ลูกหลาน</span> 🙏 พ่อปู่ศรีสุทโธรอท่านอยู่</p>
     <br>
-    <a href="nakthai-app.html" class="btn-enter-realm en">Enter the Realm →</a>
-    <a href="nakthai-app.html" class="btn-enter-realm th" style="display:none;">เข้าสู่อาณาจักรนาค →</a>
+    <a href="app.html" class="btn-enter-realm en">Enter the Realm →</a>
+    <a href="app.html" class="btn-enter-realm th" style="display:none;">เข้าสู่อาณาจักรนาค →</a>
   </div>
 
   <p class="hero-kicker en">Sacred Numbers from the Naga King</p>
@@ -805,7 +805,7 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
     </div>
   </div>
   <div class="footer-bottom">
-    <div>© 2025 NakThai · นาคทาย</div>
+    <div>© 2026 NakThai · นาคทาย</div>
     <div class="footer-disclaimer en">For entertainment and spiritual purposes only. Numbers are channeled in good faith through traditional Isan spirit medium practices. No guarantee of lottery outcomes is made or implied.</div>
     <div class="footer-disclaimer th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เพื่อความบันเทิงและจิตใจเท่านั้น ไม่มีการรับประกันผลรางวัลใดๆ</div>
   </div>
@@ -1028,7 +1028,7 @@ function doLogin() {
   // save session so app knows user is logged in
   localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
   setTimeout(() => {
-    window.location.href = 'nakthai-app.html';
+    window.location.href = 'app.html';
   }, 900);
 }
 
@@ -1066,7 +1066,7 @@ function doRegister() {
     ? '✓ Account created! Welcome, ' + name + '. Entering the realm…'
     : '✓ สร้างบัญชีสำเร็จ! ยินดีต้อนรับ, ' + name + ' กำลังเข้าสู่อาณาจักร…');
   localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
-  setTimeout(() => { window.location.href = 'nakthai-app.html'; }, 1200);
+  setTimeout(() => { window.location.href = 'app.html'; }, 1200);
 }
 
 // close on overlay click
