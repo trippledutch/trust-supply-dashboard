@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NakThai App · นาคทาย</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Sarabun:wght@300;400;500;600&family=Noto+Serif+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#060709; --deep:#0c0f1a; --panel:#0f1220; --card:#131726; --card2:#161a2a;
+  --gold:#c9952a; --gold-light:#efc050; --gold-pale:#f5e4aa;
+  --jade:#1a6b4a; --jade-light:#2db87a;
+  --red:#c0392b; --red-light:#e05040;
+  --text:#ddd4bc; --text-dim:#8a8070;
+  --border:rgba(201,149,42,0.12); --border2:rgba(255,255,255,0.05);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--black);color:var(--text);font-family:'Sarabun','Noto Serif Thai',sans-serif;font-weight:300;display:flex;flex-direction:column;min-height:100vh;}
+
+/* Lang */
+body:not(.lang-th) .th{display:none;}
+body.lang-th .en{display:none;}
+
+/* ─── AUTH SCREEN ─── */
+.auth-screen{position:fixed;inset:0;background:linear-gradient(160deg,#060709 0%,#0a1220 50%,#060f0a 100%);z-index:500;display:flex;align-items:center;justify-content:center;}
+.auth-screen.hidden{display:none;}
+.auth-box{background:linear-gradient(160deg,#0f1220,#090d12);border:1px solid rgba(201,149,42,0.22);padding:2.2rem;max-width:400px;width:92%;position:relative;}
+.auth-logo{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--gold-light);text-align:center;margin-bottom:0.2rem;}
+.auth-logo-sub{font-size:0.62rem;letter-spacing:0.2em;color:var(--jade-light);text-align:center;font-family:'Cinzel',serif;text-transform:uppercase;margin-bottom:1.6rem;}
+.auth-lang-row{display:flex;justify-content:center;gap:0.5rem;margin-bottom:1.4rem;}
+.flag-btn{background:none;border:1px solid rgba(255,255,255,0.1);padding:0.25rem 0.6rem;border-radius:3px;cursor:pointer;font-size:1.1rem;transition:all 0.2s;line-height:1;}
+.flag-btn.active{border-color:var(--gold);background:rgba(201,149,42,0.1);}
+.auth-tabs{display:flex;border-bottom:1px solid rgba(201,149,42,0.15);margin-bottom:1.5rem;}
+.auth-tab{flex:1;background:none;border:none;padding:0.6rem;font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.1em;color:var(--text-dim);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent;margin-bottom:-1px;text-transform:uppercase;}
+.auth-tab.active{color:var(--gold-light);border-bottom-color:var(--gold);}
+.auth-panel{display:none;}
+.auth-panel.active{display:block;}
+.field-group{margin-bottom:0.85rem;}
+.field-label{font-family:'Cinzel',serif;font-size:0.57rem;letter-spacing:0.14em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.32rem;display:block;}
+.field-label-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;letter-spacing:0;text-transform:none;color:var(--text-dim);margin-bottom:0.32rem;display:block;}
+.field-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(201,149,42,0.18);color:var(--text);font-size:0.88rem;padding:0.58rem 0.78rem;font-family:'Sarabun',sans-serif;transition:border-color 0.2s;outline:none;}
+.field-input:focus{border-color:rgba(201,149,42,0.45);background:rgba(201,149,42,0.03);}
+.field-input::placeholder{color:var(--text-dim);opacity:0.42;font-size:0.78rem;}
+.field-hint{font-size:0.63rem;color:var(--text-dim);margin-top:0.28rem;line-height:1.5;}
+.field-hint-th{font-family:'Noto Serif Thai',serif;font-size:0.73rem;}
+.auth-submit{display:block;width:100%;text-align:center;padding:0.72rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.14em;border:none;cursor:pointer;transition:all 0.2s;margin-top:1.1rem;font-weight:700;}
+.auth-submit:hover{background:linear-gradient(135deg,var(--gold-light),var(--gold));}
+.auth-switch{text-align:center;margin-top:0.7rem;font-size:0.7rem;color:var(--text-dim);}
+.auth-switch a{color:var(--gold);cursor:pointer;}
+.auth-error{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.28);color:#e07070;font-size:0.73rem;padding:0.52rem 0.72rem;margin-top:0.65rem;display:none;}
+.auth-success{background:rgba(26,138,90,0.12);border:1px solid rgba(26,138,90,0.28);color:var(--jade-light);font-size:0.73rem;padding:0.52rem 0.72rem;margin-top:0.65rem;display:none;}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--deep);border-bottom:1px solid var(--border);padding:0.6rem 1.1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;gap:0.5rem;}
+.app-logo{font-family:'Cinzel Decorative',serif;font-size:0.92rem;color:var(--gold-light);letter-spacing:0.1em;white-space:nowrap;}
+.app-logo span{color:var(--jade-light);font-size:0.78rem;}
+.topbar-right{display:flex;align-items:center;gap:0.5rem;flex-shrink:0;}
+.flag-toggle{display:flex;gap:0.25rem;}
+.flag-toggle .flag-btn{padding:0.2rem 0.45rem;font-size:1rem;}
+.user-chip{display:flex;align-items:center;gap:0.4rem;background:rgba(201,149,42,0.06);border:1px solid var(--border);padding:0.28rem 0.65rem;cursor:pointer;white-space:nowrap;transition:all 0.2s;border-radius:2px;}
+.user-chip:hover{background:rgba(201,149,42,0.14);border-color:rgba(201,149,42,0.45);}
+.user-chip-name{font-family:'Cinzel',serif;font-size:0.63rem;letter-spacing:0.08em;color:var(--gold);}
+.logout-btn{background:none;border:1px solid rgba(255,255,255,0.08);padding:0.26rem 0.6rem;font-size:0.63rem;color:var(--text-dim);font-family:'Cinzel',serif;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s;white-space:nowrap;}
+.logout-btn:hover{border-color:rgba(201,149,42,0.3);color:var(--gold);}
+.admin-topbtn{background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);padding:0.26rem 0.65rem;font-size:0.62rem;color:#e07060;font-family:'Cinzel',serif;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s;white-space:nowrap;}
+.admin-topbtn:hover{background:rgba(192,57,43,0.25);color:#f09080;}
+
+/* ─── LAYOUT ─── */
+.app-layout{display:flex;flex:1;min-height:0;}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:205px;background:var(--deep);border-right:1px solid var(--border2);display:flex;flex-direction:column;padding:1rem 0;flex-shrink:0;}
+.sidebar-sec{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.24em;color:var(--text-dim);text-transform:uppercase;padding:0.65rem 1.1rem 0.32rem;}
+.nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.58rem 1.1rem;cursor:pointer;border-left:2px solid transparent;transition:all 0.2s;font-size:0.78rem;color:var(--text-dim);}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.02);}
+.nav-item.active{color:var(--gold-light);border-left-color:var(--gold);background:rgba(201,149,42,0.05);}
+.nav-icon{font-size:0.95rem;width:17px;text-align:center;}
+.nav-badge{margin-left:auto;background:var(--jade);color:white;font-size:0.56rem;padding:0.08rem 0.36rem;border-radius:8px;font-family:'Cinzel',serif;}
+.sidebar-footer{margin-top:auto;padding:0.85rem 1.1rem;border-top:1px solid var(--border2);}
+.balance-card{background:rgba(201,149,42,0.05);border:1px solid rgba(201,149,42,0.14);padding:0.72rem;}
+.balance-label{font-size:0.56rem;letter-spacing:0.14em;color:var(--text-dim);font-family:'Cinzel',serif;text-transform:uppercase;}
+.balance-label-th{font-family:'Noto Serif Thai',serif;font-size:0.65rem;letter-spacing:0;color:var(--text-dim);}
+.balance-amount{font-family:'Cinzel Decorative',serif;font-size:1.18rem;color:var(--gold-light);margin-top:0.15rem;}
+.topup-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.32rem;margin-top:0.55rem;}
+.topup-btn{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.2);color:var(--gold);font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.06em;padding:0.28rem 0;cursor:pointer;transition:all 0.2s;text-align:center;}
+.topup-btn:hover{background:var(--gold);color:var(--black);}
+
+/* ─── BOTTOM NAV (mobile) ─── */
+.bottom-nav{display:none;}
+
+/* ─── MAIN ─── */
+.main-content{flex:1;overflow-y:auto;padding:1.3rem;background:var(--black);}
+.view{display:none;}
+.view.active{display:block;}
+
+/* ─── MOBILE ─── */
+@media(max-width:767px){
+  .topbar{padding:0.5rem 0.85rem;}
+  .app-logo{font-size:0.78rem;}
+
+  /* hide desktop sidebar */
+  .sidebar{display:none;}
+
+  /* main fills full width, pad bottom for nav bar */
+  .main-content{padding:1rem 0.85rem 5.5rem;}
+
+  /* stats row: 2 columns on mobile */
+  .stats-row{grid-template-columns:1fr 1fr;}
+
+  /* shop grid: single column */
+  .shop-grid{grid-template-columns:1fr;}
+
+  /* releases grid: single column */
+  .releases-grid{grid-template-columns:1fr;}
+
+  /* medium layout: stack */
+  #view-medium > div[style*="grid"]{display:block!important;}
+  #view-medium > div[style*="grid"] > div:first-child{margin-bottom:1rem;}
+
+  /* profile wrap full width */
+  .profile-wrap{max-width:100%;}
+  .topup-big-grid{grid-template-columns:repeat(4,1fr);}
+
+  /* ─── bottom nav bar ─── */
+  .bottom-nav{
+    display:flex;
+    position:fixed;bottom:0;left:0;right:0;
+    background:var(--deep);
+    border-top:1px solid var(--border);
+    z-index:60;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .bn-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:0.55rem 0.2rem 0.45rem;
+    cursor:pointer;color:var(--text-dim);
+    transition:color 0.18s;
+    position:relative;
+    gap:0.2rem;
+    border-top:2px solid transparent;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .bn-item.active{color:var(--gold-light);border-top-color:var(--gold);}
+  .bn-item:active{background:rgba(255,255,255,0.03);}
+  .bn-icon{font-size:1.25rem;line-height:1;}
+  .bn-label{font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.06em;text-transform:uppercase;line-height:1;}
+  .bn-label-th{font-family:'Noto Serif Thai',serif;font-size:0.58rem;letter-spacing:0;text-transform:none;line-height:1;}
+  .bn-badge{
+    position:absolute;top:0.3rem;right:calc(50% - 1.1rem);
+    background:var(--jade);color:white;
+    font-size:0.5rem;padding:0.06rem 0.3rem;border-radius:8px;
+    font-family:'Cinzel',serif;min-width:14px;text-align:center;
+  }
+}
+
+/* headings */
+.dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem;}
+.dash-title{font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold-light);}
+.dash-title-th{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:1.15rem;color:var(--gold-light);}
+.dash-sub{font-size:0.74rem;color:var(--text-dim);margin-top:0.15rem;}
+.dash-sub-th{font-family:'Noto Serif Thai',serif;font-size:0.82rem;}
+.sec-heading{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.65rem;}
+.sec-heading::after{content:'';flex:1;height:1px;background:var(--border2);}
+.sec-heading-th{font-family:'Noto Serif Thai',serif;font-size:0.8rem;letter-spacing:0;text-transform:none;}
+
+/* stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.85rem;margin-bottom:1.2rem;}
+.stat-card{background:var(--panel);border:1px solid var(--border2);padding:0.85rem;}
+.stat-val{font-family:'Cinzel Decorative',serif;font-size:1.35rem;color:var(--gold-light);}
+.stat-label{font-size:0.6rem;color:var(--text-dim);margin-top:0.22rem;font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase;}
+.stat-label-th{font-family:'Noto Serif Thai',serif;font-size:0.76rem;letter-spacing:0;text-transform:none;}
+.stat-delta{font-size:0.66rem;color:var(--jade-light);margin-top:0.12rem;}
+
+/* medium status */
+.medium-status{background:linear-gradient(135deg,rgba(26,107,74,0.1),rgba(13,18,48,0.35));border:1px solid rgba(45,184,122,0.13);padding:0.85rem 1.1rem;margin-bottom:1.2rem;display:flex;gap:0.85rem;align-items:center;}
+.med-avatar{font-size:1.6rem;flex-shrink:0;}
+.med-info{flex:1;}
+.med-name{font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.1em;color:var(--gold);}
+.med-name-th{font-family:'Noto Serif Thai',serif;font-weight:600;font-size:0.82rem;color:var(--gold);}
+.med-status-txt{font-size:0.73rem;color:var(--text-dim);margin-top:0.15rem;}
+.med-status-txt-th{font-family:'Noto Serif Thai',serif;font-size:0.8rem;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--jade-light);box-shadow:0 0 7px var(--jade-light);animation:pdot 2s ease-in-out infinite;flex-shrink:0;}
+@keyframes pdot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.cd-pill{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;}
+.cd-label{font-size:0.54rem;letter-spacing:0.14em;color:var(--text-dim);font-family:'Cinzel',serif;text-transform:uppercase;}
+.cd-label-th{font-family:'Noto Serif Thai',serif;font-size:0.62rem;letter-spacing:0;text-transform:none;color:var(--text-dim);}
+.cd-time{font-family:'Cinzel Decorative',serif;font-size:0.95rem;color:var(--gold-light);margin-top:0.08rem;}
+
+/* ─── RELEASE CARDS ─── */
+.releases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1rem;margin-bottom:1.6rem;}
+.rcard{background:var(--card);border:1px solid var(--border);padding:1.05rem;position:relative;transition:all 0.22s;cursor:pointer;}
+.rcard:hover{border-color:rgba(201,149,42,0.32);box-shadow:0 4px 18px rgba(0,0,0,0.38);}
+.rcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.7rem;}
+.type-badge{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.1em;padding:0.17rem 0.52rem;border:1px solid;text-transform:uppercase;}
+.badge-dream{color:#7eb8f7;border-color:rgba(126,184,247,0.28);background:rgba(126,184,247,0.05);}
+.badge-prayer{color:#f5c842;border-color:rgba(245,200,66,0.28);background:rgba(245,200,66,0.05);}
+.badge-sign{color:#82e0a0;border-color:rgba(130,224,160,0.28);background:rgba(130,224,160,0.05);}
+.badge-offering{color:#f09070;border-color:rgba(240,144,112,0.28);background:rgba(240,144,112,0.05);}
+.lottery-tag{font-size:0.6rem;color:var(--jade-light);font-family:'Cinzel',serif;letter-spacing:0.08em;}
+.lottery-tag-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;letter-spacing:0;color:var(--jade-light);}
+.rcard-name{font-family:'Cinzel',serif;font-size:0.88rem;color:var(--gold-light);margin-bottom:0.2rem;}
+.rcard-name-th{font-family:'Noto Serif Thai',serif;font-weight:600;font-size:0.93rem;color:var(--gold-light);}
+.rcard-when{font-size:0.66rem;color:var(--text-dim);margin-bottom:0.7rem;}
+.rcard-when-th{font-family:'Noto Serif Thai',serif;font-size:0.74rem;}
+
+/* number display with flip indicators */
+.number-display{margin:0.85rem 0;}
+.main-number-row{display:flex;gap:0.45rem;flex-wrap:wrap;align-items:center;}
+.num-chip{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.2);padding:0.36rem 0.72rem;font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--gold-pale);letter-spacing:0.14em;min-width:56px;text-align:center;transition:all 0.2s;position:relative;}
+.num-chip.blurred{filter:blur(5px);user-select:none;}
+.num-chip.has-flip{border-color:rgba(201,149,42,0.4);background:rgba(201,149,42,0.1);}
+.flip-section{margin-top:0.6rem;}
+.flip-label{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.35rem;}
+.flip-label-th{font-family:'Noto Serif Thai',serif;font-size:0.67rem;letter-spacing:0;text-transform:none;color:var(--text-dim);margin-bottom:0.35rem;}
+.flip-variants{display:flex;gap:0.35rem;flex-wrap:wrap;}
+.flip-chip{background:rgba(240,192,80,0.06);border:1px solid rgba(240,192,80,0.22);padding:0.28rem 0.6rem;font-family:'Cinzel Decorative',serif;font-size:0.9rem;color:rgba(240,192,80,0.75);letter-spacing:0.12em;position:relative;}
+.flip-chip::after{content:'~';position:absolute;top:-0.5rem;left:50%;transform:translateX(-50%);font-size:0.55rem;color:rgba(240,192,80,0.4);font-family:'Cinzel',serif;}
+.flip-pair-tag{font-size:0.58rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.06em;margin-top:0.32rem;}
+.flip-pair-tag-th{font-family:'Noto Serif Thai',serif;font-size:0.68rem;letter-spacing:0;color:var(--text-dim);}
+
+/* usage tags */
+.usage-tags{display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.7rem;}
+.usage-tag{background:rgba(45,184,122,0.07);border:1px solid rgba(45,184,122,0.18);color:var(--jade-light);font-size:0.6rem;padding:0.17rem 0.45rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.usage-tag-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;letter-spacing:0;}
+
+.rcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:0.7rem;border-top:1px solid var(--border2);padding-top:0.7rem;}
+.rcard-expiry{font-size:0.63rem;color:var(--text-dim);}
+.rcard-expiry.urgent{color:#e07040;}
+.buy-btn{background:var(--gold);color:var(--black);border:none;font-family:'Cinzel',serif;font-size:0.63rem;letter-spacing:0.1em;padding:0.3rem 0.82rem;cursor:pointer;transition:all 0.2s;}
+.buy-btn:hover{background:var(--gold-light);}
+.purchased-mark{font-size:0.63rem;color:var(--jade-light);font-family:'Cinzel',serif;letter-spacing:0.08em;}
+
+/* my numbers */
+.my-list{display:flex;flex-direction:column;gap:0.95rem;}
+.mycard{background:var(--card);border:1px solid var(--border);padding:1.05rem;}
+.mycard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.85rem;}
+.mycard-name{font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);}
+.mycard-name-th{font-family:'Noto Serif Thai',serif;font-weight:600;font-size:0.9rem;color:var(--gold-light);}
+.mycard-date{font-size:0.6rem;color:var(--text-dim);}
+.my-numbers{display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.85rem;}
+.my-num{background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.24);font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold-pale);padding:0.42rem 0.9rem;letter-spacing:0.18em;}
+.validity-bar{background:rgba(255,255,255,0.04);height:3px;border-radius:2px;margin-bottom:0.38rem;}
+.validity-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--jade),var(--jade-light));}
+.validity-text{font-size:0.6rem;color:var(--text-dim);}
+.validity-text-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;}
+.my-flip-section{margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border2);}
+.empty-state{text-align:center;padding:3.2rem 2rem;color:var(--text-dim);}
+.empty-icon{font-size:2.6rem;margin-bottom:0.85rem;opacity:0.32;}
+.empty-cta{display:inline-block;padding:0.52rem 1.35rem;background:var(--gold);color:var(--black);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;border:none;cursor:pointer;transition:all 0.2s;margin-top:1.1rem;}
+.empty-cta:hover{background:var(--gold-light);}
+
+/* shop */
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.05rem;}
+.shop-card{background:var(--card2);border:1px solid var(--border);padding:1.35rem;position:relative;transition:all 0.22s;}
+.shop-card:hover{border-color:rgba(201,149,42,0.38);transform:translateY(-2px);}
+.shop-card.featured{border-color:rgba(201,149,42,0.45);}
+.shop-icon{font-size:1.65rem;margin-bottom:0.7rem;}
+.shop-name{font-family:'Cinzel',serif;font-size:0.92rem;color:var(--gold-light);margin-bottom:0.2rem;}
+.shop-name-th{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:0.97rem;color:var(--gold-light);}
+.shop-desc{font-size:0.74rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.85rem;}
+.shop-desc-th{font-family:'Noto Serif Thai',serif;font-size:0.83rem;}
+.shop-tag-row{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.7rem;}
+.shop-tag{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.18);color:var(--gold-pale);font-size:0.6rem;padding:0.18rem 0.48rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.shop-price{display:flex;align-items:baseline;gap:0.28rem;margin-bottom:0.85rem;}
+.shop-cur{font-family:'Cinzel',serif;font-size:0.82rem;color:var(--gold);}
+.shop-amt{font-family:'Cinzel Decorative',serif;font-size:1.85rem;color:var(--gold-light);}
+.shop-per{font-size:0.68rem;color:var(--text-dim);}
+.shop-buy{display:block;width:100%;text-align:center;padding:0.6rem;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;}
+.shop-buy:hover,.shop-card.featured .shop-buy{background:var(--gold);color:var(--black);}
+
+/* history */
+.hist-table{width:100%;border-collapse:collapse;}
+.hist-table th{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.14em;color:var(--text-dim);text-transform:uppercase;padding:0.52rem 0.72rem;text-align:left;border-bottom:1px solid var(--border2);}
+.hist-table td{padding:0.72rem;border-bottom:1px solid var(--border2);font-size:0.78rem;vertical-align:middle;}
+.hist-table tr:hover td{background:rgba(255,255,255,0.01);}
+.win-badge{background:rgba(26,138,90,0.14);border:1px solid rgba(26,138,90,0.28);color:var(--jade-light);font-size:0.6rem;padding:0.17rem 0.46rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.pending-badge{font-size:0.68rem;color:var(--text-dim);font-style:italic;}
+
+/* profile */
+.profile-wrap{max-width:460px;}
+.profile-card{background:var(--card);border:1px solid var(--border);padding:1.35rem;margin-bottom:0.85rem;}
+.profile-header{display:flex;gap:0.85rem;align-items:center;margin-bottom:1.2rem;}
+.profile-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--jade),var(--deep));border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+.profile-name{font-family:'Cinzel',serif;font-size:0.92rem;color:var(--gold-light);}
+.profile-bank{font-size:0.66rem;color:var(--text-dim);margin-top:0.15rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.pf-label{font-size:0.58rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;}
+.pf-label-th{font-family:'Noto Serif Thai',serif;font-size:0.68rem;letter-spacing:0;text-transform:none;color:var(--text-dim);margin-bottom:0.25rem;}
+.pf-value{font-size:0.83rem;color:var(--text);margin-bottom:0.65rem;}
+.topup-big-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-top:0.85rem;}
+.topup-big-btn{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.22);color:var(--gold);font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.06em;padding:0.5rem 0;cursor:pointer;transition:all 0.2s;text-align:center;}
+.topup-big-btn:hover{background:var(--gold);color:var(--black);}
+.notify-row{display:flex;justify-content:space-between;align-items:center;padding:0.62rem 0;border-bottom:1px solid var(--border2);}
+.notify-label{font-size:0.78rem;color:var(--text);}
+.notify-label-th{font-family:'Noto Serif Thai',serif;font-size:0.86rem;}
+.toggle-sw{position:relative;width:33px;height:18px;}
+.toggle-sw input{opacity:0;width:0;height:0;}
+.toggle-sl{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:10px;cursor:pointer;transition:0.28s;}
+.toggle-sl:before{content:'';position:absolute;width:12px;height:12px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.28s;}
+input:checked + .toggle-sl{background:var(--jade);}
+input:checked + .toggle-sl:before{transform:translateX(15px);}
+
+/* ─── ADMIN PANEL ─── */
+.admin-panel{background:linear-gradient(160deg,rgba(192,57,43,0.06),rgba(13,18,48,0.4));border:1px solid rgba(192,57,43,0.2);padding:1.5rem;margin-bottom:1.4rem;}
+.admin-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:#e07060;margin-bottom:0.3rem;}
+.admin-sub{font-size:0.72rem;color:var(--text-dim);margin-bottom:1.3rem;}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-bottom:1.2rem;}
+.admin-card{background:rgba(255,255,255,0.02);border:1px solid rgba(192,57,43,0.15);padding:1.1rem;}
+.admin-card-title{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.14em;color:#e07060;text-transform:uppercase;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+.admin-card-title::after{content:'';flex:1;height:1px;background:rgba(192,57,43,0.18);}
+.admin-row{margin-bottom:0.7rem;}
+.admin-label{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.28rem;display:block;}
+.admin-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(192,57,43,0.2);color:var(--text);font-size:0.85rem;padding:0.5rem 0.7rem;font-family:'Sarabun',sans-serif;outline:none;transition:border-color 0.2s;letter-spacing:0.1em;}
+.admin-input:focus{border-color:rgba(192,57,43,0.45);}
+.admin-input::placeholder{color:var(--text-dim);opacity:0.4;font-size:0.76rem;}
+.admin-select{width:100%;background:var(--panel);border:1px solid rgba(192,57,43,0.2);color:var(--text);font-size:0.8rem;padding:0.5rem 0.7rem;font-family:'Sarabun',sans-serif;outline:none;cursor:pointer;}
+.admin-checkbox-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.45rem;cursor:pointer;}
+.admin-checkbox-row input{accent-color:var(--red-light);}
+.admin-checkbox-label{font-size:0.76rem;color:var(--text-dim);}
+.admin-save{display:block;width:100%;text-align:center;padding:0.62rem;background:linear-gradient(135deg,#c0392b,#8a1a10);color:white;font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.14em;border:none;cursor:pointer;transition:all 0.2s;margin-top:0.9rem;font-weight:700;}
+.admin-save:hover{background:linear-gradient(135deg,#e04030,#c0392b);}
+.admin-preview{background:rgba(255,255,255,0.02);border:1px solid var(--border2);padding:1rem;margin-top:1.2rem;}
+.admin-preview-title{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.8rem;}
+.admin-current-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;}
+.admin-num-item{background:var(--card);border:1px solid var(--border);padding:0.8rem;text-align:center;}
+.admin-num-type{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.4rem;}
+.admin-num-val{font-family:'Cinzel Decorative',serif;font-size:1.4rem;color:var(--gold-pale);}
+.admin-num-flips{font-size:0.62rem;color:rgba(240,192,80,0.6);margin-top:0.25rem;}
+.admin-num-lottery{font-size:0.6rem;color:var(--jade-light);font-family:'Cinzel',serif;margin-top:0.25rem;}
+.admin-published{font-size:0.6rem;color:var(--jade-light);margin-top:0.3rem;}
+.admin-source-badge{display:inline-block;font-size:0.56rem;letter-spacing:0.08em;padding:0.15rem 0.45rem;border:1px solid;margin-top:0.3rem;text-transform:uppercase;font-family:'Cinzel',serif;}
+.admin-users-table{width:100%;border-collapse:collapse;margin-top:0.5rem;}
+.admin-users-table th{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.12em;color:rgba(224,112,96,0.7);text-transform:uppercase;padding:0.45rem 0.65rem;text-align:left;border-bottom:1px solid rgba(192,57,43,0.15);}
+.admin-users-table td{padding:0.62rem 0.65rem;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.76rem;vertical-align:middle;}
+.admin-users-table tr:hover td{background:rgba(255,255,255,0.01);}
+
+/* ─── BUY MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.86);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--panel);border:1px solid rgba(201,149,42,0.22);padding:1.9rem;max-width:420px;width:92%;position:relative;animation:mIn 0.25s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(0.94)translateY(10px);}to{opacity:1;transform:scale(1)translateY(0);}}
+.modal-close{position:absolute;top:0.82rem;right:0.88rem;background:none;border:none;color:var(--text-dim);font-size:1.05rem;cursor:pointer;}
+.modal-title{font-family:'Cinzel Decorative',serif;font-size:0.97rem;color:var(--gold-light);margin-bottom:0.2rem;}
+.modal-sub{font-size:0.72rem;color:var(--text-dim);margin-bottom:1.2rem;line-height:1.6;}
+.modal-sub-th{font-family:'Noto Serif Thai',serif;font-size:0.8rem;}
+.modal-num-preview{display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.85rem;}
+.preview-chip{background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.28);font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold-pale);padding:0.42rem 0.88rem;letter-spacing:0.18em;}
+.preview-flip{background:rgba(240,192,80,0.06);border:1px solid rgba(240,192,80,0.22);font-family:'Cinzel Decorative',serif;font-size:0.95rem;color:rgba(240,192,80,0.7);padding:0.42rem 0.88rem;letter-spacing:0.18em;}
+.preview-flip-label{font-size:0.6rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.06em;align-self:center;}
+.modal-price-row{display:flex;justify-content:space-between;align-items:center;padding:0.85rem;background:rgba(201,149,42,0.04);border:1px solid var(--border);margin-bottom:0.85rem;}
+.modal-price-label{font-size:0.73rem;color:var(--text-dim);}
+.modal-price-label-th{font-family:'Noto Serif Thai',serif;font-size:0.8rem;}
+.modal-price-val{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--gold-light);}
+.modal-confirm{display:block;width:100%;text-align:center;padding:0.72rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.74rem;letter-spacing:0.14em;border:none;cursor:pointer;transition:all 0.2s;font-weight:700;}
+.modal-confirm:hover{background:linear-gradient(135deg,var(--gold-light),var(--gold));}
+.modal-cancel{display:block;width:100%;text-align:center;padding:0.52rem;background:transparent;color:var(--text-dim);font-size:0.68rem;border:none;cursor:pointer;margin-top:0.42rem;}
+.modal-cancel:hover{color:var(--text);}
+.modal-error{background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.25);color:#e07070;font-size:0.72rem;padding:0.48rem 0.68rem;display:none;margin-top:0.65rem;}
+
+/* toast */
+.toast{position:fixed;bottom:1.7rem;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--jade);padding:0.68rem 1.25rem;font-size:0.76rem;color:var(--jade-light);z-index:300;opacity:0;transition:opacity 0.28s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+
+
+/* ─── LOTTERY SCHEDULE BAR ─── */
+.lottery-schedule-bar{background:linear-gradient(135deg,rgba(13,18,48,0.85),rgba(11,61,46,0.25));border:1px solid rgba(201,149,42,0.2);padding:1rem 1.2rem;margin-bottom:1rem;}
+.ls-title{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:0.65rem;}
+.ls-entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.65rem;}
+.ls-entry{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);padding:0.65rem 0.85rem;display:flex;align-items:center;gap:0.75rem;}
+.ls-flag{font-size:1.1rem;flex-shrink:0;}
+.ls-info{flex:1;min-width:0;}
+.ls-name{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.08em;color:var(--gold-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ls-name-th{font-family:'Noto Serif Thai',serif;font-size:0.72rem;color:var(--gold-light);}
+.ls-date{font-size:0.68rem;color:var(--text-dim);margin-top:0.12rem;}
+.ls-countdown{font-family:'Cinzel Decorative',serif;font-size:0.72rem;color:var(--jade-light);white-space:nowrap;flex-shrink:0;}
+.ls-expired{color:rgba(192,57,43,0.8);font-size:0.6rem;}
+
+/* ─── DISCLAIMER ─── */
+.disclaimer-block{background:rgba(192,57,43,0.05);border:1px solid rgba(192,57,43,0.18);padding:1rem 1.2rem;margin-bottom:1rem;display:flex;gap:0.85rem;}
+.disc-icon{font-size:1.2rem;flex-shrink:0;margin-top:0.1rem;opacity:0.7;}
+.disc-body{flex:1;}
+.disc-heading{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(224,112,96,0.9);text-transform:uppercase;margin-bottom:0.55rem;}
+.disc-list{list-style:disc;padding-left:1.1rem;}
+.disc-list li{font-size:0.7rem;color:var(--text-dim);line-height:1.7;margin-bottom:0.28rem;}
+.disc-list li strong{color:var(--text);}
+.disc-list li em{color:var(--jade-light);font-style:normal;}
+
+/* ─── NUMBER VARIANTS TABLE ─── */
+.variants-table{width:100%;border-collapse:collapse;margin-top:0.7rem;margin-bottom:0.2rem;}
+.variants-table th{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;padding:0.38rem 0.55rem;text-align:left;border-bottom:1px solid var(--border2);}
+.variants-table td{padding:0.42rem 0.55rem;border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:middle;}
+.variants-table tr:last-child td{border-bottom:none;}
+.vt-label{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.08em;color:var(--text-dim);}
+.vt-num{font-family:'Cinzel Decorative',serif;font-size:1.05rem;letter-spacing:0.15em;color:var(--gold-pale);}
+.vt-num.flip-69{color:#7eb8f7;}
+.vt-num.flip-17{color:#b8d4a0;}
+.vt-num.flip-38{color:#f0b870;}
+.vt-flip-reason{font-size:0.58rem;color:var(--text-dim);margin-left:0.4rem;opacity:0.7;}
+.vt-badge{font-size:0.52rem;padding:0.1rem 0.35rem;border:1px solid;border-radius:2px;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.vt-play-tags{display:flex;gap:0.28rem;flex-wrap:wrap;}
+.play-tag{font-size:0.56rem;padding:0.12rem 0.38rem;border:1px solid rgba(201,149,42,0.22);color:var(--gold-pale);font-family:'Cinzel',serif;letter-spacing:0.06em;background:rgba(201,149,42,0.06);}
+.play-tag.flip-color{border-color:rgba(126,184,247,0.3);color:#7eb8f7;background:rgba(126,184,247,0.05);}
+.flip-legend{font-size:0.62rem;color:var(--text-dim);line-height:1.7;margin-top:0.55rem;padding:0.6rem 0.75rem;background:rgba(255,255,255,0.02);border:1px solid var(--border2);}
+.flip-legend span{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:0.3rem;vertical-align:middle;}
+.fl-69{background:#7eb8f7;}
+.fl-17{background:#b8d4a0;}
+.fl-38{background:#f0b870;}
+
+/* ─── TIP BUTTON ─── */
+.tip-btn{display:flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,rgba(45,184,122,0.12),rgba(26,107,74,0.08));border:1px solid rgba(45,184,122,0.3);padding:0.6rem 1rem;cursor:pointer;transition:all 0.22s;margin-top:0.65rem;width:100%;}
+.tip-btn:hover{border-color:rgba(45,184,122,0.6);background:linear-gradient(135deg,rgba(45,184,122,0.2),rgba(26,107,74,0.14));}
+.tip-btn-icon{font-size:1.1rem;}
+.tip-btn-text{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--jade-light);}
+.tip-btn-sub{font-size:0.58rem;color:var(--text-dim);margin-top:0.08rem;}
+
+/* ─── TIP MODAL ─── */
+.tip-modal-inner{max-width:360px;}
+.tip-amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin:0.85rem 0;}
+.tip-amt-btn{background:rgba(45,184,122,0.08);border:1px solid rgba(45,184,122,0.22);color:var(--jade-light);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.06em;padding:0.45rem 0;cursor:pointer;transition:all 0.2s;text-align:center;}
+.tip-amt-btn:hover,.tip-amt-btn.selected{background:var(--jade);color:white;border-color:var(--jade);}
+.tip-msg{font-size:0.72rem;color:var(--jade-light);text-align:center;margin-top:0.65rem;padding:0.5rem;background:rgba(45,184,122,0.06);border:1px solid rgba(45,184,122,0.15);}
+
+/* ─── SHOP ENHANCEMENTS ─── */
+.shop-expiry{font-size:0.62rem;color:var(--text-dim);margin-top:0.42rem;padding-top:0.42rem;border-top:1px solid var(--border2);}
+.shop-expiry.urgent{color:rgba(224,112,96,0.9);}
+.shop-source-row{display:flex;flex-wrap:wrap;gap:0.28rem;margin-bottom:0.55rem;}
+.shop-src-chip{font-size:0.56rem;padding:0.1rem 0.38rem;border:1px solid;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+
+/* responsive */
+@media(max-width:780px){
+  .sidebar{display:none;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .releases-grid{grid-template-columns:1fr;}
+  .shop-grid{grid-template-columns:1fr;}
+  .admin-grid{grid-template-columns:1fr;}
+  .admin-current-numbers{grid-template-columns:1fr 1fr;}
+  .topup-big-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .main-content{padding:0.9rem;}
+  .topup-big-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body class="lang-en">
+
+<!-- ─── AUTH SCREEN ─── -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">NakThai · นาคทาย</div>
+    <div class="auth-logo-sub">Sacred Numbers · เลขนาคศักดิ์สิทธิ์</div>
+    <div class="auth-lang-row">
+      <button class="flag-btn active" id="auth-flag-en" onclick="setLang('en')">🇬🇧</button>
+      <button class="flag-btn" id="auth-flag-th" onclick="setLang('th')">🇹🇭</button>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="atab-login" onclick="switchAuthTab('login')">
+        <span class="en">Login</span><span class="th">เข้าสู่ระบบ</span>
+      </button>
+      <button class="auth-tab" id="atab-register" onclick="switchAuthTab('register')">
+        <span class="en">Register</span><span class="th">สมัครสมาชิก</span>
+      </button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="auth-panel active" id="apanel-login">
+      <div class="field-group">
+        <label class="field-label en">Username</label>
+        <label class="field-label-th th">ชื่อผู้ใช้ (เลขบัญชี)</label>
+        <div style="position:relative;">
+          <input class="field-input" id="l-bank" type="text" inputmode="numeric" maxlength="20" placeholder="Your bank account number" autocomplete="username" style="padding-right:2.4rem;">
+          <div id="remembered-hint" style="font-size:0.6rem;color:var(--jade-light);margin-top:0.22rem;display:none;">✓ <span class="en">Remembered from last login</span><span class="th">จำจากการเข้าสู่ระบบครั้งก่อน</span></div>
+        </div>
+        <label style="display:flex;align-items:center;gap:0.4rem;margin-top:0.38rem;cursor:pointer;">
+          <input type="checkbox" id="remember-me" style="accent-color:var(--gold);width:13px;height:13px;">
+          <span style="font-size:0.62rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.08em;" class="en">Remember my username</span>
+          <span style="font-size:0.72rem;color:var(--text-dim);font-family:'Noto Serif Thai',serif;" class="th">จำชื่อผู้ใช้ของฉัน</span>
+        </label>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Password</label>
+        <label class="field-label-th th">รหัสผ่าน</label>
+        <div style="position:relative;">
+          <input class="field-input" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:2.6rem;">
+          <button type="button" onclick="togglePwd('l-pass',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;line-height:1;padding:0;">👁</button>
+        </div>
+      </div>
+      <div class="auth-error" id="l-err"></div>
+      <div class="auth-success" id="l-ok"></div>
+      <button class="auth-submit" onclick="doLogin()">
+        <span class="en">Enter the Realm</span><span class="th">เข้าสู่ระบบ</span>
+      </button>
+      <div class="auth-switch" style="margin-top:0.4rem;">
+        <span class="en">No account? <a onclick="switchAuthTab('register')">Register here</a></span>
+        <span class="th" style="font-family:'Noto Serif Thai',serif;">ยังไม่มีบัญชี? <a onclick="switchAuthTab('register')">สมัครที่นี่</a></span>
+      </div>
+      <div style="margin-top:0.85rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:0.85rem;text-align:center;">
+        <button onclick="showAdminLoginPanel()" style="background:none;border:1px solid rgba(201,149,42,0.2);padding:0.32rem 1rem;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:var(--text-dim);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,149,42,0.5)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,149,42,0.2)';this.style.color='var(--text-dim)'">⚙ Admin</button>
+      </div>
+      <!-- Admin login sub-panel -->
+      <div id="admin-login-panel" style="display:none;margin-top:0.85rem;border:1px solid rgba(201,149,42,0.2);padding:0.85rem;background:rgba(201,149,42,0.03);">
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:0.65rem;">MEDIUM PANEL LOGIN</div>
+        <div class="field-group" style="margin-bottom:0.55rem;">
+          <input class="field-input" id="admin-user-input" type="text" placeholder="Username" autocomplete="off" style="margin-bottom:0.35rem;">
+          <input class="field-input" id="admin-pass-input" type="password" placeholder="Password">
+        </div>
+        <div class="auth-error" id="admin-login-err" style="margin-top:0.4rem;"></div>
+        <button onclick="doAdminLogin()" style="display:block;width:100%;margin-top:0.55rem;padding:0.55rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;border:none;cursor:pointer;font-weight:700;">Enter</button>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-panel" id="apanel-register">
+      <div class="field-group">
+        <label class="field-label en">Full Name</label>
+        <label class="field-label-th th">ชื่อ-นามสกุล</label>
+        <input class="field-input" id="r-name" type="text" placeholder="Your name">
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Username (Bank Account Number)</label>
+        <label class="field-label-th th">ชื่อผู้ใช้ (เลขบัญชีธนาคาร)</label>
+        <input class="field-input" id="r-bank" type="text" inputmode="numeric" maxlength="20" placeholder="e.g. 123-4-56789-0" autocomplete="username">
+        <div class="field-hint en">Your bank account number is your unique username — kept private and safe.</div>
+        <div class="field-hint field-hint-th th">เลขบัญชีธนาคารคือชื่อผู้ใช้เฉพาะของคุณ — ปลอดภัยและเป็นความลับ</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Password</label>
+        <label class="field-label-th th">รหัสผ่าน</label>
+        <div style="position:relative;">
+          <input class="field-input" id="r-pass" type="password" placeholder="Min 8 characters" autocomplete="new-password" style="padding-right:2.6rem;">
+          <button type="button" onclick="togglePwd('r-pass',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;line-height:1;padding:0;">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Confirm Password</label>
+        <label class="field-label-th th">ยืนยันรหัสผ่าน</label>
+        <div style="position:relative;">
+          <input class="field-input" id="r-pass2" type="password" placeholder="Repeat password" autocomplete="new-password" style="padding-right:2.6rem;">
+          <button type="button" onclick="togglePwd('r-pass2',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;line-height:1;padding:0;">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Phone (optional)</label>
+        <label class="field-label-th th">โทรศัพท์ (ไม่บังคับ)</label>
+        <input class="field-input" id="r-phone" type="tel" placeholder="08X-XXX-XXXX">
+      </div>
+      <div class="auth-error" id="r-err"></div>
+      <div class="auth-success" id="r-ok"></div>
+      <button class="auth-submit" onclick="doRegister()">
+        <span class="en">Create Account</span><span class="th">สร้างบัญชี</span>
+      </button>
+      <div class="auth-switch">
+        <span class="en">Already registered? <a onclick="switchAuthTab('login')">Login here</a></span>
+        <span class="th" style="font-family:'Noto Serif Thai',serif;">มีบัญชีแล้ว? <a onclick="switchAuthTab('login')">เข้าสู่ระบบ</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOPBAR ─── -->
+<div class="topbar">
+  <div class="app-logo">NakThai <span>· นาคทาย</span></div>
+  <div class="topbar-right">
+    <button class="admin-topbtn" id="admin-topbtn" onclick="showView('admin')" style="display:none;">
+      ⚙ <span class="en">Admin</span><span class="th">แอดมิน</span>
+    </button>
+    <div class="flag-toggle">
+      <button class="flag-btn active" id="flag-en" onclick="setLang('en')">🇬🇧</button>
+      <button class="flag-btn" id="flag-th" onclick="setLang('th')">🇹🇭</button>
+    </div>
+    <div class="user-chip" onclick="showView('profile')" title="View profile &amp; balance">
+      <span style="font-size:0.85rem;">👤</span>
+      <span class="user-chip-name" id="topbar-username">—</span>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">
+      <span class="en">Logout</span><span class="th">ออก</span>
+    </button>
+  </div>
+</div>
+
+<div class="app-layout">
+  <!-- ─── SIDEBAR ─── -->
+  <nav class="sidebar">
+    <div class="sidebar-sec en">Main</div>
+    <div class="sidebar-sec th" style="font-family:'Noto Serif Thai',serif;font-size:0.62rem;letter-spacing:0;">หลัก</div>
+    <div class="nav-item active" onclick="showView('dashboard')">
+      <span class="nav-icon">🐉</span><span class="en">Dashboard</span><span class="th">หน้าหลัก</span>
+    </div>
+    <div class="nav-item" onclick="showView('numbers')">
+      <span class="nav-icon">🔢</span><span class="en">My Numbers</span><span class="th">เลขของฉัน</span>
+      <span class="nav-badge" id="badge-my">0</span>
+    </div>
+    <div class="nav-item" onclick="showView('shop')">
+      <span class="nav-icon">🛒</span><span class="en">Buy Numbers</span><span class="th">ซื้อเลข</span>
+    </div>
+    <div class="nav-item" onclick="showView('history')">
+      <span class="nav-icon">📜</span><span class="en">History</span><span class="th">ประวัติ</span>
+    </div>
+    <div class="nav-item" onclick="showView('medium')">
+      <span class="nav-icon">🧿</span><span class="en">Mae Wan Fah</span><span class="th">แม่วันฟ้า</span>
+    </div>
+    <div class="nav-item" id="nav-admin" onclick="showView('admin')" style="display:none;">
+      <span class="nav-icon">⚙</span><span class="en">Admin</span><span class="th">แอดมิน</span>
+    </div>
+    <div class="nav-item" onclick="showView('profile')">
+      <span class="nav-icon">👤</span><span class="en">Profile</span><span class="th">โปรไฟล์</span>
+    </div>
+    <div class="sidebar-footer">
+      <div class="balance-card">
+        <div class="balance-label en">Balance</div>
+        <div class="balance-label-th th">ยอดเงิน</div>
+        <div class="balance-amount" id="bal-display">฿0</div>
+        <div class="topup-grid">
+          <button class="topup-btn" onclick="topUp(100)">+100</button>
+          <button class="topup-btn" onclick="topUp(250)">+250</button>
+          <button class="topup-btn" onclick="topUp(500)">+500</button>
+          <button class="topup-btn" onclick="topUp(1000)">+1000</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── MAIN ─── -->
+  <main class="main-content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="view active" id="view-dashboard">
+      <div class="dash-header">
+        <div>
+          <div class="dash-title en">Sacred Numbers</div>
+          <div class="dash-title-th th">เลขศักดิ์สิทธิ์</div>
+          <div class="dash-sub en">Latest numbers from Pu Sri Suttho via Mae Wan Fah</div>
+          <div class="dash-sub dash-sub-th th">เลขล่าสุดจากพ่อปู่ศรีสุทโธผ่านแม่วันฟ้า</div>
+        </div>
+        <div class="cd-pill">
+          <div class="cd-label en">Next Thai Gov Draw</div>
+          <div class="cd-label-th th">งวดสลากถัดไป</div>
+          <div class="cd-time" id="countdown">--:--:--</div>
+        </div>
+      </div>
+
+      <div class="medium-status">
+        <div class="med-avatar">🧿</div>
+        <div class="med-info">
+          <div class="med-name en">Mae Wan Fah · Spirit Vessel of Pu Sri Suttho</div>
+          <div class="med-name-th th">แม่วันฟ้า · ร่างทรงพ่อปู่ศรีสุทโธ</div>
+          <div class="med-status-txt en">🌙 Numbers received — 3 sets now available</div>
+          <div class="med-status-txt med-status-txt-th th">🌙 รับเลขแล้ว — มี 3 ชุดพร้อมใช้งาน</div>
+        </div>
+        <div class="status-dot"></div>
+        <div class="cd-pill">
+          <div class="cd-label en">Laos Draw</div>
+          <div class="cd-label-th th">หวยลาว</div>
+          <div class="cd-time">Today 20:30</div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-val">3</div>
+          <div class="stat-label en">Available</div>
+          <div class="stat-label stat-label-th th">ชุดที่มี</div>
+          <div class="stat-delta">2 · 3 · 4 digit</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-mine">0</div>
+          <div class="stat-label en">Purchased</div>
+          <div class="stat-label stat-label-th th">ซื้อแล้ว</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">3</div>
+          <div class="stat-label en">Days to Draw</div>
+          <div class="stat-label stat-label-th th">วันถึงงวด</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-bal">฿0</div>
+          <div class="stat-label en">Balance</div>
+          <div class="stat-label stat-label-th th">ยอดเงิน</div>
+        </div>
+      </div>
+
+      <div class="sec-heading en">Available Now · 1 per type</div>
+      <div class="sec-heading th sec-heading-th">ชุดที่มีให้ · อย่างละ 1 ชุด</div>
+
+      <div class="releases-grid" id="releases-grid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ═══ MY NUMBERS ═══ -->
+    <div class="view" id="view-numbers">
+      <div class="dash-header" style="margin-bottom:1.2rem;">
+        <div>
+          <div class="dash-title en">My Numbers</div>
+          <div class="dash-title-th th">เลขของฉัน</div>
+          <div class="dash-sub en">Purchased sets with all play variants</div>
+          <div class="dash-sub dash-sub-th th">ชุดที่ซื้อพร้อมทุกรูปแบบการเล่น</div>
+        </div>
+      </div>
+
+      <!-- Lottery Schedule -->
+      <div class="lottery-schedule-bar" id="lottery-schedule-bar">
+        <div class="ls-title en">🗓 Upcoming Draws</div>
+        <div class="ls-title th" style="font-family:'Noto Serif Thai',serif;">🗓 งวดที่กำลังจะถึง</div>
+        <div class="ls-entries" id="ls-entries"></div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="disclaimer-block" id="numbers-disclaimer">
+        <div class="disc-icon">⚠</div>
+        <div class="disc-body">
+          <div class="disc-heading en">Important Notice</div>
+          <div class="disc-heading th" style="font-family:'Noto Serif Thai',serif;">ข้อความสำคัญ</div>
+          <ul class="disc-list en">
+            <li>NakThai provides sacred numbers believed to carry spiritual blessing. We offer a number we believe has a <strong>high likelihood of winning</strong>, but <strong>no guarantee</strong> of any lottery outcome is made or implied.</li>
+            <li>We recommend <strong>only official lotteries</strong>: the <em>สลากกินแบ่งรัฐบาล</em> (Thai Government Lottery, issued by the Government Lottery Office) and the <em>ສະຫຼາກພັດທະນາ</em> (Laos Development Lottery). We are not responsible if you use numbers on unofficial, underground, or illegal lotteries.</li>
+            <li>Playing any lottery involves financial risk. Never spend money you cannot afford to lose. This is for entertainment and spiritual purposes only.</li>
+            <li>NakThai is not affiliated with the Government Lottery Office of Thailand, the Laos Development Lottery, or any government agency.</li>
+            <li>Results are not guaranteed. Past performance of numbers does not guarantee future results.</li>
+          </ul>
+          <ul class="disc-list th" style="font-family:'Noto Serif Thai',serif;">
+            <li>NakThai มอบเลขศักดิ์สิทธิ์ที่เชื่อว่ามีโอกาสถูกรางวัลสูง แต่<strong>ไม่มีการรับประกันผลรางวัลใดๆ</strong></li>
+            <li>เราแนะนำเฉพาะ<strong>สลากที่ถูกกฎหมาย</strong>: <em>สลากกินแบ่งรัฐบาล</em> และ <em>ສະຫຼາກພັດທະນາ</em> (หวยลาว) เท่านั้น เราไม่รับผิดชอบหากนำเลขไปใช้กับหวยใต้ดินหรือสลากผิดกฎหมาย</li>
+            <li>การเล่นสลากมีความเสี่ยงทางการเงิน อย่าใช้เงินที่ไม่สามารถสูญเสียได้</li>
+            <li>NakThai ไม่มีความเกี่ยวข้องกับสำนักงานสลากกินแบ่งรัฐบาลหรือหน่วยงานรัฐใดๆ</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="my-list" id="my-numbers-list"></div>
+    </div>
+
+    <!-- ═══ SHOP ═══ -->
+    <div class="view" id="view-shop">
+      <div class="dash-header" style="margin-bottom:1.2rem;">
+        <div>
+          <div class="dash-title en">Buy Numbers</div>
+          <div class="dash-title-th th">ซื้อเลขนาค</div>
+          <div class="dash-sub en">One set per number type · Valid 1 week · Thai Gov & Laos</div>
+          <div class="dash-sub dash-sub-th th">อย่างละ 1 ชุด · ใช้ได้ 1 สัปดาห์ · สลากไทยและหวยลาว</div>
+        </div>
+      </div>
+      <div class="shop-grid">
+        <div class="shop-card">
+          <div class="shop-icon">2️⃣</div>
+          <div class="shop-name en">Silver Naga</div>
+          <div class="shop-name-th th">นาคเงิน</div>
+          <div class="shop-desc en">One 2-digit number. Play top, bottom or 6/9 flip.</div>
+          <div class="shop-desc shop-desc-th th">เลข 2 ตัว เล่นบน ล่าง หรือกลับ 6/9</div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 2-digit</span><span class="shop-tag en">Top · Bottom · Flip</span><span class="shop-tag th">บน · ล่าง · กลับ</span></div>
+          <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">99</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
+          <button class="shop-buy en" onclick="openBuy('2digit')">Buy Now</button>
+          <button class="shop-buy th" style="display:none;" onclick="openBuy('2digit')">ซื้อเลย</button>
+        </div>
+        <div class="shop-card featured">
+          <div class="shop-icon">3️⃣</div>
+          <div class="shop-name en">Gold Naga</div>
+          <div class="shop-name-th th">นาคทอง</div>
+          <div class="shop-desc en">One 3-digit number. Play top, toad or 6/9 flip.</div>
+          <div class="shop-desc shop-desc-th th">เลข 3 ตัว เล่นบน โต๊ด หรือกลับ 6/9</div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 3-digit</span><span class="shop-tag en">Top · Toad · Flip</span><span class="shop-tag th">บน · โต๊ด · กลับ</span></div>
+          <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">199</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
+          <button class="shop-buy en" onclick="openBuy('3digit')">Buy Now</button>
+          <button class="shop-buy th" style="display:none;" onclick="openBuy('3digit')">ซื้อเลย</button>
+        </div>
+        <div class="shop-card">
+          <div class="shop-icon">4️⃣</div>
+          <div class="shop-name en">Jade Naga</div>
+          <div class="shop-name-th th">นาคมรกต</div>
+          <div class="shop-desc en">One 4-digit number. Play top, toad or 6/9 flip.</div>
+          <div class="shop-desc shop-desc-th th">เลข 4 ตัว เล่นบน โต๊ด หรือกลับ 6/9</div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 4-digit</span><span class="shop-tag en">Top · Toad · Flip</span><span class="shop-tag th">บน · โต๊ด · กลับ</span></div>
+          <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">299</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
+          <button class="shop-buy en" onclick="openBuy('4digit')">Buy Now</button>
+          <button class="shop-buy th" style="display:none;" onclick="openBuy('4digit')">ซื้อเลย</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ HISTORY ═══ -->
+    <div class="view" id="view-history">
+      <div class="dash-header" style="margin-bottom:1.2rem;">
+        <div>
+          <div class="dash-title en">History</div>
+          <div class="dash-title-th th">ประวัติ</div>
+        </div>
+      </div>
+      <div id="history-content"></div>
+    </div>
+
+    <!-- ═══ MAE WAN FAH ═══ -->
+    <div class="view" id="view-medium">
+      <div class="dash-header" style="margin-bottom:1.2rem;">
+        <div>
+          <div class="dash-title en">Mae Wan Fah</div>
+          <div class="dash-title-th th">แม่วันฟ้า</div>
+          <div class="dash-sub en">Spirit vessel · Ban Dung, Udon Thani</div>
+          <div class="dash-sub dash-sub-th th">ร่างทรงพ่อปู่ศรีสุทโธ · บ้านดุง อุดรธานี</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:1.3rem;align-items:start;">
+        <div>
+          <div style="background:linear-gradient(160deg,#1a0a2e,#0b1a2e,#051a10);border:1px solid var(--border);aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;">
+            🧿
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:0.7rem;background:linear-gradient(to top,rgba(5,6,8,0.95),transparent);text-align:center;">
+              <div style="font-family:'Cinzel Decorative',serif;font-size:0.8rem;color:var(--gold-light);">Mae Wan Fah</div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:0.75rem;color:var(--jade-light);margin-top:0.12rem;">แม่วันฟ้า</div>
+            </div>
+          </div>
+          <div style="background:var(--panel);border:1px solid var(--border);padding:0.85rem;margin-top:0.85rem;">
+            <div style="font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.65rem;" class="en">Number Sources</div>
+            <div style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;color:var(--text-dim);margin-bottom:0.65rem;" class="th">ที่มาของเลข</div>
+            <div style="font-size:0.76rem;color:var(--text);line-height:2.05;">🌙 <span class="en">Dreams</span><span class="th" style="font-family:'Noto Serif Thai',serif;">ฝัน</span><br>🌺 <span class="en">Morning prayers</span><span class="th" style="font-family:'Noto Serif Thai',serif;">สวดมนต์เช้า</span><br>🌊 <span class="en">Signs from nature</span><span class="th" style="font-family:'Noto Serif Thai',serif;">นิมิตธรรมชาติ</span><br>🪷 <span class="en">Shrine offerings</span><span class="th" style="font-family:'Noto Serif Thai',serif;">เครื่องบูชา</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="mycard" style="background:var(--card);border:1px solid var(--border);padding:1.05rem;">
+            <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.85rem;" class="en">Latest Message</div>
+            <div style="font-family:'Noto Serif Thai',serif;font-size:0.73rem;color:var(--text-dim);margin-bottom:0.85rem;" class="th">ข้อความล่าสุด</div>
+            <div style="font-style:italic;font-size:0.86rem;color:var(--text);line-height:1.9;border-left:2px solid var(--gold);padding-left:0.95rem;" class="en">"Last night Pu Sri Suttho came to me in the hour before dawn. He appeared as a vast emerald serpent coiling through dark water, and the numbers formed in the light of his scales. I woke immediately and wrote them down. Use them with faith."</div>
+            <div style="font-family:'Noto Serif Thai',serif;font-size:0.9rem;color:var(--text);line-height:2;border-left:2px solid var(--gold);padding-left:0.95rem;" class="th">"เมื่อคืนพ่อปู่ศรีสุทโธเสด็จมาหาฉันในยามก่อนรุ่งสาง พระองค์ปรากฏเป็นพญานาคมรกตองค์ใหญ่ ตัวเลขก่อตัวขึ้นในแสงจากเกล็ดของพระองค์ ฉันตื่นทันทีและจดไว้ ใช้ด้วยศรัทธา"</div>
+            <div style="font-size:0.63rem;color:var(--text-dim);margin-top:0.85rem;">— Mae Wan Fah · <span class="en">Today, 04:30 AM</span><span class="th" style="font-family:'Noto Serif Thai',serif;">วันนี้ 04:30 น.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PROFILE ═══ -->
+    <div class="view" id="view-profile">
+      <div class="dash-header" style="margin-bottom:1.2rem;">
+        <div>
+          <div class="dash-title en">My Profile</div>
+          <div class="dash-title-th th">โปรไฟล์ของฉัน</div>
+        </div>
+      </div>
+      <div class="profile-wrap">
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div>
+              <div class="profile-name" id="p-name">—</div>
+              <div class="profile-bank" id="p-bank">—</div>
+            </div>
+          </div>
+          <div class="pf-label en">Balance</div>
+          <div class="pf-label-th th">ยอดเงิน</div>
+          <div class="pf-value" id="p-bal" style="margin-bottom:0.9rem;">฿0</div>
+          <div class="pf-label en">Top up balance</div>
+          <div class="pf-label-th th">เติมเงิน</div>
+          <div class="topup-big-grid">
+            <button class="topup-big-btn" onclick="topUp(100)">+฿100</button>
+            <button class="topup-big-btn" onclick="topUp(250)">+฿250</button>
+            <button class="topup-big-btn" onclick="topUp(500)">+฿500</button>
+            <button class="topup-big-btn" onclick="topUp(1000)">+฿1000</button>
+          </div>
+          <div style="margin-top:1rem;">
+            <div class="pf-label en">Phone</div><div class="pf-label-th th">เบอร์โทร</div>
+            <div class="pf-value" id="p-phone" style="margin-bottom:0.65rem;">—</div>
+            <div class="pf-label en">Member since</div><div class="pf-label-th th">สมาชิกตั้งแต่</div>
+            <div class="pf-value" id="p-joined">—</div>
+          </div>
+        </div>
+        <div class="profile-card">
+          <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.85rem;" class="en">Notifications</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:0.78rem;color:var(--text-dim);margin-bottom:0.85rem;" class="th">การแจ้งเตือน</div>
+          <div class="notify-row"><span class="notify-label en">New number release</span><span class="notify-label-th th">มีเลขใหม่ประกาศ</span><label class="toggle-sw"><input type="checkbox" checked><span class="toggle-sl"></span></label></div>
+          <div class="notify-row"><span class="notify-label en">Draw countdown</span><span class="notify-label-th th">แจ้งเตือนก่อนงวด</span><label class="toggle-sw"><input type="checkbox" checked><span class="toggle-sl"></span></label></div>
+          <div class="notify-row" style="border:none;"><span class="notify-label en">Expiry reminders</span><span class="notify-label-th th">เตือนหมดอายุ</span><label class="toggle-sw"><input type="checkbox"><span class="toggle-sl"></span></label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ADMIN / MEDIUM PANEL ═══ -->
+    <div class="view" id="view-admin">
+      <div class="dash-header" style="margin-bottom:1.4rem;">
+        <div style="display:flex;align-items:center;gap:0.9rem;">
+          <div style="font-size:2rem;">🧿</div>
+          <div>
+            <div class="dash-title en" style="color:var(--gold-light);">Medium Panel — Mae Wan Fah</div>
+            <div class="dash-title-th th" style="color:var(--gold-light);">แผงแม่วันฟ้า</div>
+            <div class="dash-sub en">Publish sacred numbers received from Pu Sri Suttho · admin / naga</div>
+            <div class="dash-sub dash-sub-th th">ประกาศเลขศักดิ์สิทธิ์จากพ่อปู่ศรีสุทโธ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- number entry -->
+      <div class="admin-panel" style="border-color:rgba(201,149,42,0.25);background:linear-gradient(160deg,rgba(13,18,48,0.6),rgba(11,61,46,0.15));">
+        <div class="admin-title" style="color:var(--gold-light);font-family:'Cinzel Decorative',serif;font-size:1rem;margin-bottom:0.3rem;">🐉 Publish Sacred Numbers</div>
+        <div class="admin-sub en">Enter numbers, price, source, flip variants and expiry. Published immediately to all subscribers on the Buy Numbers page.</div>
+
+        <div class="admin-grid">
+
+          <!-- helper macro: source checkboxes -->
+          <!-- 2-digit -->
+          <div class="admin-card" style="border-color:rgba(201,149,42,0.2);">
+            <div class="admin-card-title" style="color:var(--gold);">2️⃣ 2-Digit · เลข 2 ตัว</div>
+            <div class="admin-row">
+              <label class="admin-label">Number</label>
+              <input class="admin-input" id="a-num-2" type="text" inputmode="numeric" maxlength="2" placeholder="e.g. 47" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(201,149,42,0.35);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Price (฿)</label>
+              <input class="admin-input" id="a-price-2" type="number" min="1" value="99" style="font-size:1rem;text-align:center;border-color:rgba(201,149,42,0.25);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Source (check all that apply)</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-dream" checked><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-prayer"><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Flip pairs (6↔9 most common)</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Lotteries</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Expiry Date</label>
+              <input class="admin-input" id="a-exp-2" type="date" style="border-color:rgba(201,149,42,0.25);">
+            </div>
+          </div>
+
+          <!-- 3-digit -->
+          <div class="admin-card" style="border-color:rgba(201,149,42,0.2);">
+            <div class="admin-card-title" style="color:var(--gold);">3️⃣ 3-Digit · เลข 3 ตัว</div>
+            <div class="admin-row">
+              <label class="admin-label">Number</label>
+              <input class="admin-input" id="a-num-3" type="text" inputmode="numeric" maxlength="3" placeholder="e.g. 492" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(201,149,42,0.35);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Price (฿)</label>
+              <input class="admin-input" id="a-price-3" type="number" min="1" value="199" style="font-size:1rem;text-align:center;border-color:rgba(201,149,42,0.25);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Source (check all that apply)</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-dream"><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-prayer" checked><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Flip pairs</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Lotteries</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Expiry Date</label>
+              <input class="admin-input" id="a-exp-3" type="date" style="border-color:rgba(201,149,42,0.25);">
+            </div>
+          </div>
+
+          <!-- 4-digit -->
+          <div class="admin-card" style="border-color:rgba(45,184,122,0.2);">
+            <div class="admin-card-title" style="color:var(--jade-light);">4️⃣ 4-Digit · เลข 4 ตัว</div>
+            <div class="admin-row">
+              <label class="admin-label">Number</label>
+              <input class="admin-input" id="a-num-4" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 8361" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(45,184,122,0.35);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Price (฿)</label>
+              <input class="admin-input" id="a-price-4" type="number" min="1" value="299" style="font-size:1rem;text-align:center;border-color:rgba(45,184,122,0.25);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Source (check all that apply)</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-dream"><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-prayer"><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-merit" checked><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Flip pairs</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Lotteries</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Expiry Date</label>
+              <input class="admin-input" id="a-exp-4" type="date" style="border-color:rgba(45,184,122,0.25);">
+            </div>
+          </div>
+        </div>
+
+        <button class="admin-save" onclick="adminPublish()" style="background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-size:0.82rem;padding:0.85rem;margin-top:1.2rem;">
+          🐉 Publish Sacred Numbers Now
+        </button>
+
+        <!-- current numbers preview -->
+        <div class="admin-preview" style="margin-top:1.4rem;">
+          <div class="admin-preview-title">Currently Published Numbers</div>
+          <div class="admin-current-numbers" id="admin-current-preview"></div>
+        </div>
+      </div>
+
+      <!-- users table -->
+      <div class="admin-panel" style="margin-top:1.1rem;">
+        <div class="admin-title en">👥 Registered Users</div>
+        <div class="admin-sub en">Accounts registered on this device. In production this would be a server database.</div>
+        <div id="admin-users-list"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ─── BOTTOM NAV (mobile only) ─── -->
+<nav class="bottom-nav" id="bottom-nav">
+  <div class="bn-item active" id="bn-dashboard" onclick="showView('dashboard')">
+    <span class="bn-icon">🐉</span>
+    <span class="bn-label en">Home</span>
+    <span class="bn-label-th th">หลัก</span>
+  </div>
+  <div class="bn-item" id="bn-numbers" onclick="showView('numbers')">
+    <span class="bn-icon">🔢</span>
+    <span class="bn-label en">Mine</span>
+    <span class="bn-label-th th">เลขฉัน</span>
+    <span class="bn-badge" id="bn-badge-my" style="display:none;">0</span>
+  </div>
+  <div class="bn-item" id="bn-shop" onclick="showView('shop')">
+    <span class="bn-icon">🛒</span>
+    <span class="bn-label en">Buy</span>
+    <span class="bn-label-th th">ซื้อ</span>
+  </div>
+  <div class="bn-item" id="bn-medium" onclick="showView('medium')">
+    <span class="bn-icon">🧿</span>
+    <span class="bn-label en">Medium</span>
+    <span class="bn-label-th th">แม่วันฟ้า</span>
+  </div>
+  <div class="bn-item" id="bn-profile" onclick="showView('profile')">
+    <span class="bn-icon">👤</span>
+    <span class="bn-label en">Profile</span>
+    <span class="bn-label-th th">โปรไฟล์</span>
+  </div>
+</nav>
+
+<!-- ─── BUY MODAL ─── -->
+<div class="modal-overlay" id="buy-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeBuyModal()">✕</button>
+    <div class="modal-title" id="m-name">Package</div>
+    <div class="modal-sub en">Numbers revealed immediately after purchase. Valid up to 1 week.</div>
+    <div class="modal-sub modal-sub-th th">เปิดเผยเลขทันทีหลังซื้อ ใช้ได้สูงสุด 1 สัปดาห์</div>
+    <div class="modal-num-preview" id="m-preview"></div>
+    <div class="modal-price-row">
+      <span class="modal-price-label en">Total</span>
+      <span class="modal-price-label-th th">รวม</span>
+      <span class="modal-price-val" id="m-price">฿0</span>
+    </div>
+    <div class="modal-error" id="m-err"></div>
+    <button class="modal-confirm" onclick="confirmBuy()">
+      <span class="en">Confirm — Deduct from Balance</span>
+      <span class="th">ยืนยัน — หักจากยอดเงิน</span>
+    </button>
+    <button class="modal-cancel" onclick="closeBuyModal()">
+      <span class="en">Cancel</span><span class="th">ยกเลิก</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- ─── TIP MODAL ─── -->
+<div class="modal-overlay" id="tip-modal">
+  <div class="modal tip-modal-inner">
+    <button class="modal-close" onclick="closeTipModal()">✕</button>
+    <div style="text-align:center;margin-bottom:0.5rem;font-size:1.8rem;">🙏</div>
+    <div class="modal-title en" style="text-align:center;">You Won! Send Gratitude</div>
+    <div class="modal-title th" style="text-align:center;font-family:'Noto Serif Thai',serif;font-weight:700;">คุณถูกรางวัล! ส่งความกตัญญู</div>
+    <div class="modal-sub en">If Pu Sri Suttho's number blessed you with a win, consider offering a tip to Mae Wan Fah as an expression of gratitude for her service.</div>
+    <div class="modal-sub modal-sub-th th">หากเลขของพ่อปู่ศรีสุทโธทำให้คุณถูกรางวัล ลองส่งน้ำใจให้แม่วันฟ้าเป็นการขอบคุณ</div>
+    <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:var(--text-dim);margin-bottom:0.5rem;text-transform:uppercase;" class="en">Select tip amount</div>
+    <div style="font-family:'Noto Serif Thai',serif;font-size:0.72rem;color:var(--text-dim);margin-bottom:0.5rem;" class="th">เลือกจำนวนน้ำใจ</div>
+    <div class="tip-amounts">
+      <button class="tip-amt-btn" onclick="selectTip(50)">฿50</button>
+      <button class="tip-amt-btn" onclick="selectTip(100)">฿100</button>
+      <button class="tip-amt-btn" onclick="selectTip(200)">฿200</button>
+      <button class="tip-amt-btn" onclick="selectTip(500)">฿500</button>
+    </div>
+    <div class="modal-error" id="tip-err"></div>
+    <button class="modal-confirm" id="tip-confirm-btn" onclick="confirmTip()" style="background:linear-gradient(135deg,var(--jade),#1a6b4a);margin-top:0.5rem;">
+      <span class="en">🙏 Send Gratitude</span>
+      <span class="th">🙏 ส่งน้ำใจ</span>
+    </button>
+    <button class="modal-cancel" onclick="closeTipModal()">
+      <span class="en">Maybe later</span><span class="th">ไว้คราวหน้า</span>
+    </button>
+    <div style="font-size:0.62rem;color:var(--text-dim);text-align:center;margin-top:0.65rem;line-height:1.6;" class="en">Tips are deducted from your NakThai balance and go directly to Mae Wan Fah as an offering of thanks. This is entirely voluntary.</div>
+    <div style="font-family:'Noto Serif Thai',serif;font-size:0.72rem;color:var(--text-dim);text-align:center;margin-top:0.65rem;line-height:1.7;" class="th">น้ำใจจะหักจากยอดเงิน NakThai ของคุณ และส่งตรงถึงแม่วันฟ้า การส่งน้ำใจเป็นเรื่องสมัครใจทั้งสิ้น</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONSTANTS ───
+const USERS_KEY = 'nakthai_users_v2';
+const NUMBERS_KEY = 'nakthai_numbers_v2';
+const NAMES_EN = { '2digit': 'Silver Naga — 2-Digit', '3digit': 'Gold Naga — 3-Digit', '4digit': 'Jade Naga — 4-Digit' };
+const NAMES_TH = { '2digit': 'นาคเงิน — เลข 2 ตัว', '3digit': 'นาคทอง — เลข 3 ตัว', '4digit': 'นาคมรกต — เลข 4 ตัว' };
+
+// Source labels (new: dream, incense, prayer, merit)
+const SOURCE_ICONS = { dream:'🌙', incense:'🪔', prayer:'🌺', merit:'🙏' };
+const SOURCE_LABELS_SINGLE = { dream:'Dream / ฝัน', incense:'Incense / เลขธูป', prayer:'Prayer / สวดมนต์', merit:'Merit / บุญ' };
+const SOURCE_BADGE_COLORS = { dream:'color:#7eb8f7;border-color:rgba(126,184,247,0.3);background:rgba(126,184,247,0.06)', incense:'color:#f0b870;border-color:rgba(240,184,112,0.3);background:rgba(240,184,112,0.06)', prayer:'color:#f5c842;border-color:rgba(245,200,66,0.3);background:rgba(245,200,66,0.06)', merit:'color:#c8a6f7;border-color:rgba(200,166,247,0.3);background:rgba(200,166,247,0.06)' };
+
+// Official lotteries
+const LOTTERIES = [
+  { id:'thai', flag:'🇹🇭', nameEN:'Thai Government Lottery', nameTH:'สลากกินแบ่งรัฐบาล', orgEN:'Government Lottery Office', orgTH:'สำนักงานสลากกินแบ่งรัฐบาล', schedule:'1st & 16th of each month' },
+  { id:'laos', flag:'🇱🇦', nameEN:'Laos Development Lottery', nameTH:'ສະຫຼາກພັດທະນາ', orgEN:'Ministry of Finance, Lao PDR', orgTH:'กระทรวงการคลัง สปป.ลาว', schedule:'Every Monday & Thursday' }
+];
+
+// Flip pairs: 69, 17, 38
+const FLIP_PAIRS = { '69':['6','9'], '17':['1','7'], '38':['3','8'] };
+const FLIP_COLORS = { '69':'flip-69', '17':'flip-17', '38':'flip-38' };
+const FLIP_REASONS = {
+  '69': '6↔9 — identical when rotated 180°',
+  '17': '1↔7 — Thai 7 with crossbar resembles 1',
+  '38': '3↔8 — obscured/poorly printed 8 can look like 3'
+};
+
+// ─── STATE ───
+let currentUser = null;
+let isAdmin = false;
+let currentLang = localStorage.getItem('nakthai-lang') || 'en';
+let balance = 500;
+let purchases = {};
+let historyLog = [];
+let buyTarget = null;
+
+// ─── NUMBERS STORE ───
+function getNumbers() {
+  try {
+    const d = JSON.parse(localStorage.getItem(NUMBERS_KEY));
+    if (d) return d;
+  } catch {}
+  const exp = new Date(); exp.setDate(exp.getDate() + 7);
+  const expStr = exp.toISOString().split('T')[0];
+  return {
+    '2digit': { number: '47', sources: ['dream'], price: 99, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr },
+    '3digit': { number: '492', sources: ['prayer'], price: 199, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr },
+    '4digit': { number: '8361', sources: ['merit'], price: 299, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr }
+  };
+}
+function saveNumbers(n) { localStorage.setItem(NUMBERS_KEY, JSON.stringify(n)); }
+
+// ─── FLIP ENGINE ───
+function applyFlips(num, flips) {
+  if (!flips || !flips.length) return [];
+  const digits = num.split('');
+  const variants = new Set();
+
+  // check which flip pairs are relevant to this number
+  const relevantPairs = [];
+  flips.forEach(f => {
+    const [a, b] = FLIP_PAIRS[f];
+    if (digits.includes(a) || digits.includes(b)) relevantPairs.push([a, b, f]);
+  });
+  if (!relevantPairs.length) return [];
+
+  // generate all combinations
+  function generate(current, pairIdx) {
+    if (pairIdx >= relevantPairs.length) {
+      const v = current.join('');
+      if (v !== num) variants.add(v);
+      return;
+    }
+    generate(current, pairIdx + 1);
+    const [a, b] = relevantPairs[pairIdx];
+    const flipped = current.map(d => d === a ? b : d === b ? a : d);
+    if (flipped.join('') !== current.join('')) {
+      generate(flipped, pairIdx + 1);
+    }
+  }
+  generate(digits, 0);
+  return [...variants].slice(0, 6); // cap at 6 variants
+}
+
+function getFlipPairLabel(flips, num) {
+  const relevant = [];
+  const digits = num.split('');
+  (flips||[]).forEach(f => {
+    const pair = FLIP_PAIRS[f];
+    if (!pair) return;
+    const [a, b] = pair;
+    if (digits.includes(a) || digits.includes(b)) {
+      relevant.push(f === '69' ? '6↔9' : f === '17' ? '1↔7' : '3↔8');
+    }
+  });
+  return relevant.join(' · ');
+}
+
+// ─── STORAGE ───
+function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)||'{}'); } catch { return {}; } }
+function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function normBank(s) { return s.replace(/[-\s]/g,''); }
+
+// ─── REMEMBER USERNAME ───
+function loadRememberedUsername() {
+  const saved = localStorage.getItem('nakthai_remembered_user');
+  if (saved) {
+    const el = document.getElementById('l-bank');
+    if (el) el.value = saved;
+    const cb = document.getElementById('remember-me');
+    if (cb) cb.checked = true;
+    const hint = document.getElementById('remembered-hint');
+    if (hint) hint.style.display = '';
+  }
+}
+function saveRememberedUsername(bank) {
+  const cb = document.getElementById('remember-me');
+  if (cb && cb.checked) localStorage.setItem('nakthai_remembered_user', bank);
+  else localStorage.removeItem('nakthai_remembered_user');
+}
+
+// ─── SHOW/HIDE PASSWORD ───
+function togglePwd(fieldId, btn) {
+  const f = document.getElementById(fieldId);
+  if (!f) return;
+  if (f.type === 'password') { f.type = 'text'; btn.textContent = '🙈'; }
+  else { f.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ─── LANG ───
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = 'lang-' + lang;
+  // flags
+  ['en','th'].forEach(l => {
+    const f1 = document.getElementById('flag-' + l);
+    const f2 = document.getElementById('auth-flag-' + l);
+    if (f1) f1.classList.toggle('active', l === lang);
+    if (f2) f2.classList.toggle('active', l === lang);
+  });
+  // shop buttons
+  document.querySelectorAll('.shop-buy').forEach(b => {
+    if (b.classList.contains('en') || b.classList.contains('th')) {
+      b.style.display = b.classList.contains(lang) ? 'block' : 'none';
+    }
+  });
+  localStorage.setItem('nakthai-lang', lang);
+}
+
+// ─── AUTH ───
+function switchAuthTab(t) {
+  ['login','register'].forEach(x => {
+    document.getElementById('atab-' + x).classList.toggle('active', x === t);
+    document.getElementById('apanel-' + x).classList.toggle('active', x === t);
+  });
+  clearAuthMsgs();
+}
+function clearAuthMsgs() {
+  ['l-err','l-ok','r-err','r-ok'].forEach(id => { const el=document.getElementById(id); if(el){el.style.display='none';el.textContent='';} });
+}
+function showAuthErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
+function showAuthOk(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
+
+function showAdminLoginPanel() {
+  const panel = document.getElementById('admin-login-panel');
+  if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function doAdminLogin() {
+  const user = (document.getElementById('admin-user-input').value||'').trim().toLowerCase();
+  const pass = document.getElementById('admin-pass-input').value;
+  const errEl = document.getElementById('admin-login-err');
+  if (user !== 'admin' || pass !== 'naga') {
+    errEl.textContent = 'Incorrect credentials.';
+    errEl.style.display = 'block';
+    setTimeout(() => errEl.style.display = 'none', 2500);
+    return;
+  }
+  isAdmin = true;
+  currentUser = { name: 'Mae Wan Fah (Admin)', bank: 'ADMIN', phone: '', joined: new Date().toISOString(), balance: 0 };
+  balance = 0;
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('topbar-username').textContent = '🧿 Mae Wan Fah';
+  document.getElementById('admin-topbtn').style.display = '';
+  document.getElementById('nav-admin').style.display = '';
+  updateBalanceDisplay();
+  populateAdminDefaults();
+  renderAdminPreview();
+  renderAdminUsers();
+  setLang(currentLang);
+  showView('admin');
+}
+
+function populateAdminDefaults() {
+  // Pre-fill admin form with currently published numbers
+  const nums = getNumbers();
+  ['2','3','4'].forEach(d => {
+    const n = nums[d + 'digit'];
+    const numEl = document.getElementById('a-num-' + d);
+    const priceEl = document.getElementById('a-price-' + d);
+    const expEl = document.getElementById('a-exp-' + d);
+    if (numEl) numEl.value = n.number || '';
+    if (priceEl) priceEl.value = n.price || (d==='2'?99:d==='3'?199:299);
+    if (expEl && n.expiry) expEl.value = n.expiry;
+    // sources
+    ['dream','incense','prayer','merit'].forEach(s => {
+      const cb = document.getElementById('a-src' + d + '-' + s);
+      if (cb) cb.checked = (n.sources||[]).includes(s);
+    });
+    // flips
+    ['69','17','38'].forEach(f => {
+      const cb = document.getElementById('a-flip' + d + '-' + f);
+      if (cb) cb.checked = (n.flips||[]).includes(f);
+    });
+    // lotteries
+    ['thai','laos'].forEach(l => {
+      const cb = document.getElementById('a-lot' + d + '-' + l);
+      if (cb) cb.checked = (n.lotteries||[]).includes(l);
+    });
+  });
+}
+
+function doLogin() {
+  const bank = normBank(document.getElementById('l-bank').value.trim());
+  const pass = document.getElementById('l-pass').value;
+  if (!bank || !pass) { showAuthErr('l-err', currentLang==='en'?'Please fill all fields.':'กรุณากรอกข้อมูลให้ครบ'); return; }
+  const users = getUsers();
+  if (!users[bank]) { showAuthErr('l-err', currentLang==='en'?'Account not found. Please register.':'ไม่พบบัญชี กรุณาสมัครก่อน'); return; }
+  if (users[bank].password !== btoa(pass)) { showAuthErr('l-err', currentLang==='en'?'Incorrect password.':'รหัสผ่านไม่ถูกต้อง'); return; }
+  showAuthOk('l-ok', (currentLang==='en'?'✓ Welcome back, ':'✓ ยินดีต้อนรับ, ') + users[bank].name + '!');
+  setTimeout(() => loginSuccess(bank, users[bank]), 900);
+}
+
+function doRegister() {
+  const name = document.getElementById('r-name').value.trim();
+  const bank = normBank(document.getElementById('r-bank').value.trim());
+  const pass = document.getElementById('r-pass').value;
+  const pass2 = document.getElementById('r-pass2').value;
+  const phone = document.getElementById('r-phone').value.trim();
+  if (!name||!bank||!pass||!pass2) { showAuthErr('r-err', currentLang==='en'?'Please fill all required fields.':'กรุณากรอกข้อมูลที่จำเป็น'); return; }
+  if (!/^\d{7,20}$/.test(bank)) { showAuthErr('r-err', currentLang==='en'?'Bank number: 7–20 digits only.':'เลขบัญชี 7–20 หลักตัวเลขเท่านั้น'); return; }
+  if (pass.length < 8) { showAuthErr('r-err', currentLang==='en'?'Password must be at least 8 characters.':'รหัสผ่านอย่างน้อย 8 ตัว'); return; }
+  if (pass !== pass2) { showAuthErr('r-err', currentLang==='en'?'Passwords do not match.':'รหัสผ่านไม่ตรงกัน'); return; }
+  const users = getUsers();
+  if (users[bank]) { showAuthErr('r-err', currentLang==='en'?'This bank number is already registered.':'เลขบัญชีนี้ถูกลงทะเบียนแล้ว'); return; }
+  users[bank] = { name, password: btoa(pass), phone, joined: new Date().toISOString(), balance: 500 };
+  saveUsers(users);
+  showAuthOk('r-ok', (currentLang==='en'?'✓ Account created! Welcome, ':'✓ สร้างบัญชีสำเร็จ! ยินดีต้อนรับ, ') + name);
+  setTimeout(() => { switchAuthTab('login'); clearAuthMsgs(); }, 1400);
+}
+
+function loginSuccess(bank, userData) {
+  currentUser = { bank, ...userData };
+  isAdmin = false;
+  balance = userData.balance || 500;
+  localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
+  saveRememberedUsername(bank);
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('topbar-username').textContent = userData.name.split(' ')[0];
+  document.getElementById('admin-topbtn').style.display = 'none';
+  document.getElementById('nav-admin').style.display = 'none';
+  updateBalanceDisplay();
+  updateProfile();
+  renderReleases();
+  renderShop();
+  renderMyNumbers();
+  renderHistory();
+  setLang(currentLang);
+  showView('dashboard');
+}
+
+function doLogout() {
+  currentUser = null;
+  isAdmin = false;
+  purchases = {};
+  historyLog = [];
+  localStorage.removeItem('nakthai_session');
+  document.getElementById('auth-screen').classList.remove('hidden');
+  document.getElementById('admin-topbtn').style.display = 'none';
+  document.getElementById('nav-admin').style.display = 'none';
+  ['l-bank','l-pass','r-name','r-bank','r-pass','r-pass2','r-phone'].forEach(id => { const el=document.getElementById(id); if(el)el.value=''; });
+  clearAuthMsgs();
+  showView('dashboard');
+}
+
+// ─── NAV ───
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  const map = {dashboard:0,numbers:1,shop:2,history:3,medium:4,admin:-1,profile:6};
+  const items = document.querySelectorAll('.nav-item');
+  const idx = map[name];
+  if (idx >= 0 && items[idx]) items[idx].classList.add('active');
+  if (name === 'profile') updateProfile();
+  if (name === 'admin') { renderAdminPreview(); renderAdminUsers(); }
+  // sync bottom nav
+  ['dashboard','numbers','shop','medium','profile'].forEach(n => {
+    const el = document.getElementById('bn-' + n);
+    if (el) el.classList.toggle('active', n === name);
+  });
+}
+
+// ─── BALANCE ───
+function updateBalanceDisplay() {
+  const fmt = '฿' + balance.toLocaleString();
+  ['bal-display','stat-bal','p-bal'].forEach(id => { const el=document.getElementById(id); if(el)el.textContent=fmt; });
+  if (currentUser && currentUser.bank !== 'ADMIN') {
+    const users = getUsers();
+    if (users[currentUser.bank]) { users[currentUser.bank].balance = balance; saveUsers(users); }
+  }
+}
+function topUp(amount) {
+  balance += amount;
+  updateBalanceDisplay();
+  showToast((currentLang==='en'?'✓ +฿':'✓ +฿') + amount.toLocaleString() + (currentLang==='en'?' added!':' เติมเงินสำเร็จ!'));
+}
+
+// ─── RENDER RELEASES ───
+function renderReleases() {
+  const nums = getNumbers();
+  const grid = document.getElementById('releases-grid');
+  if (!grid) return;
+
+  grid.innerHTML = ['2digit','3digit','4digit'].map(type => {
+    const n = nums[type];
+    const purchased = !!purchases[type];
+    const flips = applyFlips(n.number, n.flips);
+    const hasFlips = flips.length > 0;
+    const flipLabel = getFlipPairLabel(n.flips, n.number);
+    const lotteryEN = n.lotteries.map(l => l === 'thai' ? 'Thai Gov' : 'Laos').join(' · ');
+    const lotteryTH = n.lotteries.map(l => l === 'thai' ? 'สลากฯ' : 'ลาว').join(' · ');
+    const srcs = (n.sources||[n.source||'dream']);
+    const srcChips = srcs.map(s=>`<span class="admin-source-badge" style="${SOURCE_BADGE_COLORS[s]||SOURCE_BADGE_COLORS.dream};font-size:0.52rem;padding:0.08rem 0.3rem;">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`).join(' ');
+    const usageEN = type==='2digit' ? 'Top บน · Bottom ล่าง · Flip กลับ' : 'Top บน · Toad โต๊ด · Flip กลับ';
+    const usageTH = type==='2digit' ? 'บน · ล่าง · กลับ' : 'บน · โต๊ด · กลับ';
+    const price = n.price || (type==='2digit'?99:type==='3digit'?199:299);
+    const priceStr = '฿' + price;
+
+    const numDisplay = purchased
+      ? `<div class="main-number-row"><div class="num-chip has-flip">${n.number}</div></div>`
+      : `<div class="main-number-row"><div class="num-chip blurred">${n.number}</div></div>`;
+
+    const flipSection = purchased && hasFlips ? `
+      <div class="flip-section">
+        <div class="flip-label en">Flip variants (${flipLabel})</div>
+        <div class="flip-label-th th">ตัวเลขกลับ (${flipLabel})</div>
+        <div class="flip-variants">${flips.map(f => `<div class="flip-chip">${f}</div>`).join('')}</div>
+      </div>` : (hasFlips && !purchased ? `
+      <div class="flip-section">
+        <div class="flip-label en">Has flip variants — revealed after purchase</div>
+        <div class="flip-label-th th">มีตัวเลขกลับ — เปิดเผยหลังซื้อ</div>
+      </div>` : '');
+
+    return `<div class="rcard" onclick="handleRcardClick('${type}')">
+      <div class="rcard-top">
+        <div style="display:flex;gap:0.25rem;flex-wrap:wrap;">${srcChips}</div>
+        <span class="lottery-tag en">${lotteryEN}</span>
+        <span class="lottery-tag-th th">${lotteryTH}</span>
+      </div>
+      <div class="rcard-name en">${NAMES_EN[type]}</div>
+      <div class="rcard-name-th th">${NAMES_TH[type]}</div>
+      <div class="number-display">
+        ${numDisplay}
+        ${flipSection}
+      </div>
+      <div class="usage-tags">
+        <span class="usage-tag en">${usageEN}</span>
+        <span class="usage-tag usage-tag-th th">${usageTH}</span>
+      </div>
+      <div class="rcard-footer">
+        <span class="rcard-expiry en">⏱ ${n.expiry ? 'Exp: '+new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short'}) : 'Valid 7 days'} · ${lotteryEN}</span>
+        <span class="rcard-expiry th" style="font-family:'Noto Serif Thai',serif;">⏱ ${n.expiry ? 'หมด: '+new Date(n.expiry).toLocaleDateString('th',{day:'numeric',month:'short'}) : 'ใช้ได้ 7 วัน'} · ${lotteryTH}</span>
+        ${purchased
+          ? `<span class="purchased-mark">✓ PURCHASED</span>`
+          : `<button class="buy-btn en" onclick="openBuy('${type}');event.stopPropagation()">${priceStr}</button>
+             <button class="buy-btn th" style="display:${currentLang==='th'?'inline-block':'none'};" onclick="openBuy('${type}');event.stopPropagation()">ซื้อ ${priceStr}</button>`
+        }
+      </div>
+    </div>`;
+  }).join('');
+
+  // update stat
+  const purchaseCount = Object.keys(purchases).length;
+  document.getElementById('stat-mine').textContent = purchaseCount;
+  // sync sidebar badge
+  const sideBadge = document.getElementById('badge-my');
+  if (sideBadge) sideBadge.textContent = purchaseCount;
+  // sync bottom nav badge
+  const bnBadge = document.getElementById('bn-badge-my');
+  if (bnBadge) { bnBadge.textContent = purchaseCount; bnBadge.style.display = purchaseCount > 0 ? '' : 'none'; }
+}
+
+function handleRcardClick(type) {
+  if (purchases[type]) showView('numbers');
+}
+
+// ─── BUY MODAL ───
+function openBuy(type) {
+  buyTarget = type;
+  const nums = getNumbers();
+  const n = nums[type];
+  const flips = applyFlips(n.number, n.flips);
+  const hasFlips = flips.length > 0;
+
+  const numsForBuy = getNumbers();
+  const nForBuy = numsForBuy[type];
+  const priceForBuy = nForBuy ? (nForBuy.price || [99,199,299][['2digit','3digit','4digit'].indexOf(type)]) : 99;
+  document.getElementById('m-name').textContent = currentLang === 'en' ? NAMES_EN[type] : NAMES_TH[type];
+  document.getElementById('m-price').textContent = '฿' + priceForBuy;
+  document.getElementById('m-err').style.display = 'none';
+
+  let preview = `<div class="preview-chip">???</div>`;
+  if (hasFlips) {
+    preview += `<span class="preview-flip-label en">+ flips after reveal</span>`;
+    preview += `<span class="preview-flip-label th" style="font-family:'Noto Serif Thai',serif;display:${currentLang==='th'?'flex':'none'};">+ ตัวเลขกลับ</span>`;
+  }
+  document.getElementById('m-preview').innerHTML = preview;
+  document.getElementById('buy-modal').classList.add('open');
+}
+function closeBuyModal() { document.getElementById('buy-modal').classList.remove('open'); }
+
+function confirmBuy() {
+  const nums = getNumbers();
+  const n = nums[buyTarget];
+  const price = n.price || [99,199,299][['2digit','3digit','4digit'].indexOf(buyTarget)];
+  if (balance < price) {
+    const el = document.getElementById('m-err');
+    el.textContent = currentLang==='en'?'Insufficient balance. Please top up.':'ยอดเงินไม่พอ กรุณาเติมเงิน';
+    el.style.display = 'block';
+    return;
+  }
+  balance -= price;
+  updateBalanceDisplay();
+  purchases[buyTarget] = { ...n, name_en: NAMES_EN[buyTarget], name_th: NAMES_TH[buyTarget], price, date: new Date() };
+  historyLog.unshift({ ...purchases[buyTarget], type: buyTarget });
+  document.getElementById('badge-my').textContent = Object.keys(purchases).length;
+  renderReleases();
+  renderMyNumbers();
+  renderHistory();
+  closeBuyModal();
+  showToast(currentLang==='en'?'✓ Number revealed! Check My Numbers.':'✓ เปิดเผยเลขแล้ว ดูที่เลขของฉัน');
+}
+
+// ─── MY NUMBERS ───
+function buildVariantsTable(num, flips, lotteries) {
+  const is2 = num.length === 2;
+  const is3 = num.length === 3;
+  const lotEN = (lotteries||[]).map(l => l==='thai'?'สลากฯ':'ลาว').join('/');
+
+  // Build all variant rows: main number + all flip combos
+  const rows = [];
+
+  // Main number row
+  rows.push({ num, label: 'Main · หลัก', plays: is2 ? ['Top บน','Bottom ล่าง'] : ['Top บน','Toad โต๊ด'], flipClass: '', reason: '' });
+
+  // Generate flip variants
+  const allFlips = applyFlips(num, flips||[]);
+  allFlips.forEach(fnum => {
+    // Determine which flip rule(s) caused this
+    let usedFlips = [];
+    (flips||[]).forEach(f => {
+      const [a,b] = FLIP_PAIRS[f]||[];
+      const orig = num.split('');
+      const changed = fnum.split('');
+      for (let i=0;i<orig.length;i++) {
+        if ((orig[i]===a&&changed[i]===b)||(orig[i]===b&&changed[i]===a)) {
+          if (!usedFlips.includes(f)) usedFlips.push(f);
+        }
+      }
+    });
+    const primaryFlip = usedFlips[0] || '69';
+    const colorClass = FLIP_COLORS[primaryFlip] || 'flip-69';
+    const reason = usedFlips.map(f => FLIP_REASONS[f]||'').join('; ');
+    rows.push({ num: fnum, label: 'Flip · กลับ', plays: is2 ? ['Top บน','Bottom ล่าง'] : ['Top บน','Toad โต๊ด'], flipClass: colorClass, reason });
+  });
+
+  const flipLegend = (flips||[]).length ? `
+    <div class="flip-legend">
+      <strong>Flip key:</strong>
+      ${(flips).map(f => `<span class="fl-${f}"></span> ${FLIP_REASONS[f]||f}`).join(' &nbsp;·&nbsp; ')}
+    </div>` : '';
+
+  return `<table class="variants-table">
+    <thead><tr>
+      <th class="en">Type</th>
+      <th class="en">Number</th>
+      <th class="en">Play as</th>
+      <th class="en">Lottery</th>
+    </tr></thead>
+    <tbody>
+    ${rows.map(r => `<tr>
+      <td class="vt-label">${r.label}</td>
+      <td><span class="vt-num ${r.flipClass}">${r.num}</span>${r.reason?`<span class="vt-flip-reason" title="${r.reason}">ℹ</span>`:''}</td>
+      <td><div class="vt-play-tags">${r.plays.map(p=>`<span class="play-tag ${r.flipClass?'flip-color':''}">${p}</span>`).join('')}</div></td>
+      <td class="vt-label" style="font-size:0.62rem;color:var(--jade-light);">${lotEN}</td>
+    </tr>`).join('')}
+    </tbody>
+  </table>${flipLegend}`;
+}
+
+function renderMyNumbers() {
+  const list = document.getElementById('my-numbers-list');
+  const keys = Object.keys(purchases);
+  if (!keys.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🐉</div>
+      <div class="en" style="font-size:0.86rem;">No numbers yet.</div>
+      <div class="th" style="font-family:'Noto Serif Thai',serif;font-size:0.93rem;">ยังไม่มีเลข</div>
+      <button class="empty-cta" onclick="showView('shop')"><span class="en">Buy Numbers</span><span class="th">ซื้อเลข</span></button></div>`;
+    renderLotterySchedule();
+    return;
+  }
+
+  list.innerHTML = keys.map(type => {
+    const p = purchases[type];
+    const lotEN = (p.lotteries||['thai','laos']).map(l=>l==='thai'?'Thai Gov Lottery':'Laos Dev Lottery').join(' · ');
+    const lotTH = (p.lotteries||['thai','laos']).map(l=>l==='thai'?'สลากกินแบ่งรัฐบาล':'ສະຫຼາກພັດທະນາ').join(' · ');
+    const sourceTags = (p.sources||['dream']).map(s =>
+      `<span class="shop-src-chip" style="${SOURCE_BADGE_COLORS[s]||''}">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`
+    ).join('');
+    const varTable = buildVariantsTable(p.number, p.flips||[], p.lotteries||[]);
+    const pct = p.expiry ? Math.max(4, Math.min(100, Math.round((new Date(p.expiry) - new Date()) / (7*24*3600000) * 100))) : 60;
+    const expiryStr = p.expiry ? new Date(p.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '7 days';
+
+    return `<div class="mycard">
+      <div class="mycard-top">
+        <div>
+          <div class="mycard-name en">${p.name_en||NAMES_EN[type]}</div>
+          <div class="mycard-name-th th">${p.name_th||NAMES_TH[type]}</div>
+          <div class="shop-source-row" style="margin-top:0.35rem;">${sourceTags}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="mycard-date">${new Date(p.date).toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
+          <div style="font-size:0.6rem;color:var(--gold);font-family:'Cinzel',serif;margin-top:0.15rem;">฿${p.price||99}</div>
+        </div>
+      </div>
+
+      ${varTable}
+
+      <div class="validity-bar" style="margin-top:0.75rem;"><div class="validity-fill" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:0.28rem;">
+        <span class="validity-text en">Valid until ${expiryStr}</span>
+        <span class="validity-text validity-text-th th">ใช้ได้ถึง ${expiryStr}</span>
+        <span class="validity-text en">${lotEN}</span>
+      </div>
+
+      <button class="tip-btn" onclick="openTipModal('${type}')">
+        <span class="tip-btn-icon">🎉</span>
+        <div>
+          <div class="tip-btn-text en">I won! Send gratitude to Mae Wan Fah</div>
+          <div class="tip-btn-text th" style="font-family:'Noto Serif Thai',serif;">ถูกรางวัล! ส่งน้ำใจให้แม่วันฟ้า</div>
+          <div class="tip-btn-sub en">Voluntary tip from your balance · 100% goes to the medium</div>
+          <div class="tip-btn-sub th" style="font-family:'Noto Serif Thai',serif;">น้ำใจสมัครใจ หักจากยอดเงิน</div>
+        </div>
+      </button>
+    </div>`;
+  }).join('');
+
+  renderLotterySchedule();
+}
+
+// ─── HISTORY ───
+function renderHistory() {
+  const el = document.getElementById('history-content');
+  if (!historyLog.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📜</div><div class="en" style="font-size:0.86rem;">No purchases yet.</div><div class="th" style="font-family:'Noto Serif Thai',serif;">ยังไม่มีรายการ</div></div>`;
+    return;
+  }
+  el.innerHTML = `<table class="hist-table"><thead><tr>
+    <th class="en">Package</th><th class="th" style="font-family:'Noto Serif Thai',serif;">ชุด</th>
+    <th class="en">Number</th><th class="th" style="font-family:'Noto Serif Thai',serif;">เลข</th>
+    <th class="en">Flips</th><th class="th" style="font-family:'Noto Serif Thai',serif;">กลับ</th>
+    <th class="en">Lottery</th><th class="th" style="font-family:'Noto Serif Thai',serif;">หวย</th>
+    <th class="en">Time</th><th class="th" style="font-family:'Noto Serif Thai',serif;">เวลา</th>
+    <th>฿</th>
+    <th class="en">Status</th><th class="th" style="font-family:'Noto Serif Thai',serif;">สถานะ</th>
+  </tr></thead><tbody>
+  ${historyLog.map(h => {
+    const flips = applyFlips(h.number, h.flips || []);
+    const lotteryEN = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+    const lotteryTH = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    return `<tr>
+      <td class="en">${h.name_en}</td><td class="th" style="font-family:'Noto Serif Thai',serif;">${h.name_th}</td>
+      <td><span style="font-family:'Cinzel Decorative',serif;color:var(--gold-pale);letter-spacing:0.1em;">${h.number}</span></td>
+      <td style="font-size:0.7rem;color:rgba(240,192,80,0.65);letter-spacing:0.06em;">${flips.length ? flips.join(' ') : '—'}</td>
+      <td class="en" style="font-size:0.7rem;">${lotteryEN}</td><td class="th" style="font-family:'Noto Serif Thai',serif;font-size:0.73rem;">${lotteryTH}</td>
+      <td style="font-size:0.68rem;color:var(--text-dim);">${new Date(h.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
+      <td style="color:var(--gold);">฿${h.price}</td>
+      <td><span class="pending-badge en">Pending draw</span><span class="pending-badge th" style="font-family:'Noto Serif Thai',serif;">รอออกรางวัล</span></td>
+    </tr>`;
+  }).join('')}
+  </tbody></table>`;
+}
+
+// ─── PROFILE ───
+function updateProfile() {
+  if (!currentUser) return;
+  document.getElementById('p-name').textContent = currentUser.name || '—';
+  document.getElementById('p-bank').textContent = isAdmin ? 'Admin Account' : 'Account ****' + currentUser.bank.slice(-4);
+  document.getElementById('p-phone').textContent = currentUser.phone || '—';
+  document.getElementById('p-bal').textContent = '฿' + balance.toLocaleString();
+  document.getElementById('p-joined').textContent = new Date(currentUser.joined).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ─── ADMIN ───
+function adminPublish() {
+  const n2 = document.getElementById('a-num-2').value.trim();
+  const n3 = document.getElementById('a-num-3').value.trim();
+  const n4 = document.getElementById('a-num-4').value.trim();
+
+  if (!n2 || !/^\d{2}$/.test(n2)) { showToast('⚠ 2-digit: enter exactly 2 digits'); return; }
+  if (!n3 || !/^\d{3}$/.test(n3)) { showToast('⚠ 3-digit: enter exactly 3 digits'); return; }
+  if (!n4 || !/^\d{4}$/.test(n4)) { showToast('⚠ 4-digit: enter exactly 4 digits'); return; }
+
+  const getSources = (d) => {
+    const s = [];
+    ['dream','incense','prayer','merit'].forEach(src => {
+      const cb = document.getElementById('a-src' + d + '-' + src);
+      if (cb && cb.checked) s.push(src);
+    });
+    return s.length ? s : ['dream'];
+  };
+  const getFlips = (d) => {
+    const f = [];
+    ['69','17','38'].forEach(fp => {
+      const cb = document.getElementById('a-flip' + d + '-' + fp);
+      if (cb && cb.checked) f.push(fp);
+    });
+    return f;
+  };
+  const getLotteries = (d) => {
+    const l = [];
+    ['thai','laos'].forEach(lt => {
+      const cb = document.getElementById('a-lot' + d + '-' + lt);
+      if (cb && cb.checked) l.push(lt);
+    });
+    return l;
+  };
+  const getPrice = (d, def) => {
+    const el = document.getElementById('a-price-' + d);
+    const v = parseInt(el ? el.value : def);
+    return isNaN(v) || v < 1 ? def : v;
+  };
+  const getExpiry = (d) => {
+    const el = document.getElementById('a-exp-' + d);
+    return el ? el.value : '';
+  };
+
+  const now = new Date().toISOString();
+  const nums = {
+    '2digit': { number: n2, sources: getSources('2'), price: getPrice('2',99), flips: getFlips('2'), lotteries: getLotteries('2'), published: now, expiry: getExpiry('2') },
+    '3digit': { number: n3, sources: getSources('3'), price: getPrice('3',199), flips: getFlips('3'), lotteries: getLotteries('3'), published: now, expiry: getExpiry('3') },
+    '4digit': { number: n4, sources: getSources('4'), price: getPrice('4',299), flips: getFlips('4'), lotteries: getLotteries('4'), published: now, expiry: getExpiry('4') }
+  };
+  saveNumbers(nums);
+  purchases = {};
+  document.getElementById('badge-my').textContent = 0;
+  renderReleases();
+  renderShop();
+  renderMyNumbers();
+  renderAdminPreview();
+  showToast('✓ Sacred numbers published!');
+}
+
+function renderAdminPreview() {
+  const nums = getNumbers();
+  const el = document.getElementById('admin-current-preview');
+  if (!el) return;
+  el.innerHTML = ['2digit','3digit','4digit'].map(type => {
+    const n = nums[type];
+    const flips = applyFlips(n.number, n.flips||[]);
+    const pubDate = new Date(n.published||Date.now());
+    const lotteries = (n.lotteries || []).map(l => l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    const srcs = (n.sources||[n.source||'dream']).map(s => `<span style="font-size:0.5rem;${SOURCE_BADGE_COLORS[s]||''};border:1px solid;padding:0.08rem 0.3rem;font-family:'Cinzel',serif;">${SOURCE_ICONS[s]||'🌙'}</span>`).join(' ');
+    return `<div class="admin-num-item">
+      <div class="admin-num-type">${type.replace('digit','-digit')} · ฿${n.price||99}</div>
+      <div class="admin-num-val">${n.number}</div>
+      ${flips.length ? `<div class="admin-num-flips">${flips.map(f=>'~'+applyFlips(n.number,[f]).join(' ~')).join(' ')}</div>` : '<div class="admin-num-flips" style="color:var(--text-dim);font-size:0.58rem;">no flips</div>'}
+      <div class="admin-num-lottery">${lotteries}</div>
+      <div style="margin-top:0.25rem;">${srcs}</div>
+      ${n.expiry ? `<div class="admin-published" style="color:var(--jade-light);">exp: ${n.expiry}</div>` : ''}
+      <div class="admin-published">${pubDate.toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAdminUsers() {
+  const el = document.getElementById('admin-users-list');
+  if (!el) return;
+  const users = getUsers();
+  const keys = Object.keys(users);
+  if (!keys.length) {
+    el.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No registered users yet.</div>';
+    return;
+  }
+  el.innerHTML = `<table class="admin-users-table"><thead><tr>
+    <th>Name</th><th>Account (masked)</th><th>Phone</th><th>Balance</th><th>Joined</th>
+  </tr></thead><tbody>
+  ${keys.map(bank => {
+    const u = users[bank];
+    return `<tr>
+      <td>${u.name}</td>
+      <td style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.06em;">****${bank.slice(-4)}</td>
+      <td style="color:var(--text-dim);">${u.phone || '—'}</td>
+      <td style="color:var(--gold);font-family:'Cinzel',serif;">฿${(u.balance||500).toLocaleString()}</td>
+      <td style="color:var(--text-dim);font-size:0.7rem;">${new Date(u.joined).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'})}</td>
+    </tr>`;
+  }).join('')}
+  </tbody></table>`;
+}
+
+// ─── LOTTERY SCHEDULE ───
+function getLotteryDrawDates() {
+  const now = new Date();
+  const results = [];
+  LOTTERIES.forEach(lot => {
+    let next;
+    if (lot.id === 'thai') {
+      // 1st and 16th of each month
+      const d1 = new Date(now.getFullYear(), now.getMonth(), 1);
+      const d16 = new Date(now.getFullYear(), now.getMonth(), 16);
+      const d1next = new Date(now.getFullYear(), now.getMonth()+1, 1);
+      const d16next = new Date(now.getFullYear(), now.getMonth()+1, 16);
+      if (d1 > now) next = d1;
+      else if (d16 > now) next = d16;
+      else if (d1next > now) next = d1next;
+      else next = d16next;
+    } else {
+      // Laos: every Monday (1) and Thursday (4)
+      let d = new Date(now);
+      d.setHours(0,0,0,0);
+      d.setDate(d.getDate() + 1); // start tomorrow
+      for (let i=0;i<7;i++) {
+        if (d.getDay()===1||d.getDay()===4) { next=d; break; }
+        d.setDate(d.getDate()+1);
+      }
+      if (!next) next = d;
+    }
+    const diff = next - now;
+    const days = Math.floor(diff/86400000);
+    const hrs = Math.floor((diff%86400000)/3600000);
+    results.push({ ...lot, next, days, hrs });
+  });
+  return results;
+}
+
+function renderLotterySchedule() {
+  const el = document.getElementById('ls-entries');
+  if (!el) return;
+  const draws = getLotteryDrawDates();
+  el.innerHTML = draws.map(d => {
+    const dateStr = d.next.toLocaleDateString('en',{weekday:'short',day:'numeric',month:'long'});
+    const countdown = d.days > 0 ? d.days + 'd ' + d.hrs + 'h' : d.hrs + 'h';
+    const urgent = d.days < 2;
+    return `<div class="ls-entry">
+      <span class="ls-flag">${d.flag}</span>
+      <div class="ls-info">
+        <div class="ls-name en">${d.nameEN}</div>
+        <div class="ls-name-th th">${d.nameTH}</div>
+        <div class="ls-date">${dateStr} · ${d.orgEN}</div>
+      </div>
+      <div class="ls-countdown${urgent?' ls-expired':''}">${countdown}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── TIP MODAL ───
+let tipTarget = null;
+let tipAmount = 0;
+function openTipModal(type) {
+  tipTarget = type;
+  tipAmount = 0;
+  document.querySelectorAll('.tip-amt-btn').forEach(b => b.classList.remove('selected'));
+  const errEl = document.getElementById('tip-err');
+  if (errEl) { errEl.style.display='none'; errEl.textContent=''; }
+  document.getElementById('tip-modal').classList.add('open');
+}
+function closeTipModal() { document.getElementById('tip-modal').classList.remove('open'); }
+function selectTip(amount) {
+  tipAmount = amount;
+  document.querySelectorAll('.tip-amt-btn').forEach(b => {
+    b.classList.toggle('selected', b.textContent === '฿' + amount);
+  });
+}
+function confirmTip() {
+  if (!tipAmount) { const e=document.getElementById('tip-err'); e.textContent='Please select a tip amount.'; e.style.display='block'; return; }
+  if (balance < tipAmount) { const e=document.getElementById('tip-err'); e.textContent='Insufficient balance.'; e.style.display='block'; return; }
+  balance -= tipAmount;
+  updateBalanceDisplay();
+  closeTipModal();
+  showToast('🙏 Thank you! ฿' + tipAmount + ' sent to Mae Wan Fah with gratitude.');
+}
+
+// ─── SHOP ───
+function renderShop() {
+  const nums = getNumbers();
+  const types = ['2digit','3digit','4digit'];
+  const icons = { '2digit':'2️⃣', '3digit':'3️⃣', '4digit':'4️⃣' };
+  const descsEN = { '2digit':'One 2-digit number with all flip variants.', '3digit':'One 3-digit number with all play modes.', '4digit':'One 4-digit number — rarest blessing.' };
+  const descsTH = { '2digit':'เลข 2 ตัวพร้อมตัวเลขกลับ', '3digit':'เลข 3 ตัวพร้อมทุกรูปแบบ', '4digit':'เลข 4 ตัว — พรอันหายาก' };
+  const grid = document.querySelector('.shop-grid');
+  if (!grid) return;
+  grid.innerHTML = types.map((type,i) => {
+    const n = nums[type];
+    const price = n.price || [99,199,299][i];
+    const sourceTags = (n.sources||['dream']).map(s =>
+      `<span class="shop-src-chip" style="${SOURCE_BADGE_COLORS[s]||''}">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`
+    ).join('');
+    const lotEN = (n.lotteries||[]).map(l=>l==='thai'?'สลากกินแบ่งรัฐบาล':'ສະຫຼາກພັດທະນາ').join(' · ');
+    const expiryStr = n.expiry ? new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '';
+    const daysLeft = n.expiry ? Math.ceil((new Date(n.expiry)-new Date())/86400000) : 7;
+    const urgent = daysLeft <= 2;
+    const featured = type === '3digit';
+    return `<div class="shop-card${featured?' featured':''}">
+      <div class="shop-icon">${icons[type]}</div>
+      <div class="shop-name en">${NAMES_EN[type]}</div>
+      <div class="shop-name-th th">${NAMES_TH[type]}</div>
+      <div class="shop-desc en">${descsEN[type]}</div>
+      <div class="shop-desc shop-desc-th th">${descsTH[type]}</div>
+      <div class="shop-source-row">${sourceTags}</div>
+      <div class="shop-tag-row">
+        <span class="shop-tag">${type.replace('digit','-digit')}</span>
+        <span class="shop-tag en">${(n.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ')}</span>
+      </div>
+      <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">${price}</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
+      <button class="shop-buy en" onclick="openBuy('${type}')">Buy Now</button>
+      <button class="shop-buy th" style="display:none;" onclick="openBuy('${type}')">ซื้อเลย</button>
+      ${expiryStr ? `<div class="shop-expiry${urgent?' urgent':''}">⏱ ${urgent?'⚠ ':''}Expires: ${expiryStr}${daysLeft>0?' ('+daysLeft+'d left)':' (expired)'}</div>` : ''}
+    </div>`;
+  }).join('');
+  // reapply lang to shop buttons
+  document.querySelectorAll('.shop-buy').forEach(b => {
+    if (b.classList.contains('en')||b.classList.contains('th'))
+      b.style.display = b.classList.contains(currentLang) ? 'block' : 'none';
+  });
+}
+
+// ─── COUNTDOWN ───
+function updateCountdown() {
+  const now = new Date();
+  let next = new Date(now);
+  if (now.getDate() < 16) next.setDate(16); else { next.setMonth(next.getMonth()+1); next.setDate(1); }
+  next.setHours(0,0,0,0);
+  const diff = next - now;
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  const el = document.getElementById('countdown');
+  if (el) el.textContent = d + 'd ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ─── TOAST ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── MODAL CLOSE ───
+document.getElementById('buy-modal').addEventListener('click', function(e) { if(e.target===this)closeBuyModal(); });
+document.getElementById('tip-modal').addEventListener('click', function(e) { if(e.target===this)closeTipModal(); });
+
+// ─── INIT ───
+loadRememberedUsername();
+// Auto-login from session if present
+(function() {
+  try {
+    const session = localStorage.getItem('nakthai_session');
+    if (!session) return;
+    const { bank } = JSON.parse(session);
+    const users = getUsers();
+    if (bank && users[bank]) {
+      loginSuccess(bank, users[bank]);
+    }
+  } catch(e) {}
+})();
+setLang(currentLang);
+renderReleases();
+renderShop();
+</script>
+</body>
+</html>

@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>นาคทาย · Nak Thai — Sacred Numbers from Pu Sri Suttho</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Sarabun:wght@300;400;500;600&family=Noto+Serif+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #050608;
+  --deep: #0a0c14;
+  --emerald: #0b3d2e;
+  --gold: #c9952a;
+  --gold-light: #f0c060;
+  --gold-pale: #f7e8b0;
+  --jade: #1a6b4a;
+  --jade-light: #2d9e6e;
+  --text: #e8dfc8;
+  --text-dim: #9a8f7a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--black); color:var(--text); font-family:'Sarabun','Noto Serif Thai',sans-serif; font-weight:300; overflow-x:hidden; }
+
+/* ─── LANG ─── */
+body:not(.lang-th) .th { display:none; }
+body.lang-th .en { display:none; }
+
+/* ─── NAV ─── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1rem 2.5rem;
+  background:linear-gradient(to bottom, rgba(5,6,8,0.97), transparent);
+  backdrop-filter:blur(4px);
+}
+.nav-logo { font-family:'Cinzel Decorative',serif; font-size:1rem; color:var(--gold-light); letter-spacing:0.12em; text-decoration:none; }
+.nav-logo span { color:var(--jade-light); }
+.nav-right { display:flex; align-items:center; gap:1rem; }
+.nav-links { display:flex; gap:1.5rem; list-style:none; }
+.nav-links a { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); text-decoration:none; transition:color 0.2s; font-family:'Cinzel',serif; }
+.nav-links a:hover { color:var(--gold-light); }
+.lang-toggle { display:flex; border:1px solid rgba(201,149,42,0.3); border-radius:3px; overflow:hidden; }
+.lang-btn { background:none; border:none; padding:0.3rem 0.65rem; font-size:0.7rem; letter-spacing:0.08em; cursor:pointer; color:var(--text-dim); font-family:'Cinzel',serif; transition:all 0.2s; }
+.lang-btn.active { background:var(--gold); color:var(--black); font-weight:700; }
+.nav-auth-btns { display:flex; gap:0.5rem; }
+.btn-nav-login { background:transparent; border:1px solid rgba(201,149,42,0.4); color:var(--gold); font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.1em; padding:0.35rem 0.9rem; cursor:pointer; transition:all 0.2s; }
+.btn-nav-login:hover { border-color:var(--gold); background:rgba(201,149,42,0.08); }
+.btn-nav-register { background:var(--gold); border:none; color:var(--black); font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.1em; padding:0.35rem 0.9rem; cursor:pointer; transition:all 0.2s; font-weight:700; }
+.btn-nav-register:hover { background:var(--gold-light); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height:100vh;
+  position:relative;
+  display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;
+  padding:5rem 1.5rem 3rem;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 28%, rgba(13,62,46,0.32) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 80%, rgba(13,18,48,0.5) 0%, transparent 70%),
+    linear-gradient(180deg, #050608 0%, #08111a 40%, #0a1a0f 70%, #050608 100%);
+}
+.scales-bg {
+  position:absolute; inset:0; opacity:0.04;
+  background-image:radial-gradient(ellipse 28px 18px at 50% 50%, var(--jade-light) 70%, transparent 71%);
+  background-size:42px 28px;
+  animation:scalePulse 7s ease-in-out infinite;
+}
+@keyframes scalePulse { 0%,100%{opacity:0.04;} 50%{opacity:0.07;} }
+
+.hero-orb {
+  position:absolute; width:420px; height:420px; border-radius:50%;
+  background:radial-gradient(circle, rgba(26,107,74,0.13) 0%, transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-55%);
+  animation:orbFloat 6s ease-in-out infinite;
+}
+@keyframes orbFloat { 0%,100%{transform:translate(-50%,-55%) scale(1);} 50%{transform:translate(-50%,-58%) scale(1.04);} }
+
+.hero-vline { position:absolute; top:12%; bottom:4%; width:1px; background:linear-gradient(to bottom,transparent,var(--jade) 20%,var(--jade) 80%,transparent); opacity:0.3; }
+.hero-vline.l { left:8%; }
+.hero-vline.r { right:8%; }
+
+/* emblem */
+.hero-emblem { position:relative; margin-bottom:1.8rem; animation:fadeUp 1s ease both; }
+.emblem-ring { width:100px; height:100px; border-radius:50%; border:1px solid rgba(201,149,42,0.35); display:flex; align-items:center; justify-content:center; margin:0 auto; animation:rotateSlow 18s linear infinite; }
+.emblem-ring::before { content:''; position:absolute; width:88px; height:88px; border-radius:50%; border:1px solid rgba(45,158,110,0.25); }
+.emblem-symbol { font-size:3rem; animation:rotateSlow 18s linear infinite reverse; filter:drop-shadow(0 0 18px rgba(45,158,110,0.55)); }
+@keyframes rotateSlow { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(25px);} to{opacity:1;transform:translateY(0);} }
+
+.hero-kicker { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.35em; color:var(--jade-light); text-transform:uppercase; margin-bottom:1rem; animation:fadeUp 1s 0.15s ease both; }
+.hero-title { font-family:'Cinzel Decorative',serif; font-size:clamp(2.4rem,6vw,4.8rem); line-height:1.0; color:var(--gold-light); text-shadow:0 0 50px rgba(201,149,42,0.35); margin-bottom:0.3rem; animation:fadeUp 1s 0.25s ease both; }
+.hero-title-th { font-family:'Noto Serif Thai',serif; font-size:clamp(1.8rem,4.5vw,3.4rem); font-weight:700; color:var(--gold-light); text-shadow:0 0 50px rgba(201,149,42,0.35); margin-bottom:0.3rem; animation:fadeUp 1s 0.25s ease both; }
+.hero-sub { font-family:'Cinzel',serif; font-size:clamp(0.75rem,1.8vw,0.95rem); letter-spacing:0.22em; color:var(--gold); margin-bottom:1.8rem; animation:fadeUp 1s 0.35s ease both; }
+
+/* tagline constrained to fit inside the decorative lines */
+.hero-tagline-wrap {
+  width:min(560px, calc(100vw - 4rem));
+  margin:0 auto 2.5rem;
+  animation:fadeUp 1s 0.45s ease both;
+}
+.hero-tagline { font-size:clamp(0.9rem,2.2vw,1.1rem); color:var(--text); line-height:1.85; font-style:italic; }
+.hero-tagline-th { font-family:'Noto Serif Thai',serif; font-size:clamp(0.92rem,2.2vw,1.1rem); line-height:2.0; font-style:normal; }
+
+.hero-cta { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; animation:fadeUp 1s 0.6s ease both; }
+.btn-primary { padding:0.85rem 2.2rem; background:linear-gradient(135deg,var(--gold) 0%,#a87820 100%); color:var(--black); border:none; font-family:'Cinzel',serif; font-size:0.82rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
+.btn-primary:hover { background:linear-gradient(135deg,var(--gold-light),var(--gold)); transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,149,42,0.35); }
+.btn-secondary { padding:0.85rem 2.2rem; background:transparent; color:var(--jade-light); border:1px solid var(--jade); font-family:'Cinzel',serif; font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.3s; clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%); }
+.btn-secondary:hover { background:rgba(26,107,74,0.12); border-color:var(--jade-light); transform:translateY(-2px); }
+.hero-scroll { position:absolute; bottom:1.8rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.4rem; color:var(--text-dim); font-size:0.6rem; letter-spacing:0.18em; font-family:'Cinzel',serif; animation:bounce 2s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(5px);} }
+
+/* particles */
+.particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.particle { position:absolute; width:2px; height:2px; border-radius:50%; background:var(--gold); animation:particleFloat linear infinite; opacity:0; }
+@keyframes particleFloat { 0%{transform:translateY(100vh);opacity:0;} 10%{opacity:0.5;} 90%{opacity:0.5;} 100%{transform:translateY(-10vh);opacity:0;} }
+
+/* ─── SECTIONS ─── */
+.section-wrap { max-width:1080px; margin:0 auto; padding:5rem 2rem; }
+.section-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--jade-light); margin-bottom:0.8rem; display:flex; align-items:center; gap:0.8rem; }
+.section-label::after { content:''; flex:1; max-width:50px; height:1px; background:var(--jade); }
+.section-title { font-family:'Cinzel Decorative',serif; font-size:clamp(1.5rem,3.5vw,2.5rem); color:var(--gold-light); line-height:1.2; margin-bottom:0.4rem; }
+.section-title-th { font-family:'Noto Serif Thai',serif; font-size:clamp(1.4rem,3.5vw,2.2rem); font-weight:700; color:var(--gold-light); line-height:1.4; margin-bottom:0.4rem; }
+.section-body { font-size:1rem; line-height:1.95; color:var(--text); max-width:700px; margin-top:1.4rem; }
+.section-body-th { font-family:'Noto Serif Thai',serif; font-size:1.05rem; line-height:2.05; }
+.pull-quote { border-left:2px solid var(--gold); padding:1rem 1.3rem; margin:1.8rem 0; background:rgba(201,149,42,0.04); }
+.pull-quote p { font-style:italic; font-size:1rem; line-height:1.85; color:var(--gold-pale); }
+.pull-quote-th p { font-family:'Noto Serif Thai',serif; }
+
+/* ─── ABOUT GRID ─── */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.image-frame { width:100%; aspect-ratio:3/4; background:linear-gradient(135deg,var(--emerald) 0%,#051a10 100%); border:1px solid rgba(201,149,42,0.22); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.image-frame::before { content:''; position:absolute; inset:10px; border:1px solid rgba(45,158,110,0.18); }
+.image-placeholder { font-size:7rem; opacity:0.55; filter:drop-shadow(0 0 28px rgba(45,158,110,0.45)); }
+.image-caption { position:absolute; bottom:0; left:0; right:0; padding:0.8rem; background:linear-gradient(to top,rgba(5,6,8,0.95),transparent); font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.18em; color:var(--gold); text-align:center; text-transform:uppercase; }
+.frame-corner { position:absolute; width:18px; height:18px; border-color:var(--gold); border-style:solid; opacity:0.45; }
+.frame-corner.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;} .frame-corner.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;} .frame-corner.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;} .frame-corner.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+
+/* ─── KHAM CHANOT BANNER ─── */
+.kc-banner { background:linear-gradient(135deg,rgba(11,61,46,0.14),rgba(13,18,48,0.28)); border-top:1px solid rgba(45,158,110,0.1); border-bottom:1px solid rgba(45,158,110,0.1); padding:4rem 2rem; }
+.kc-inner { max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.kc-facts { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.8rem; }
+.fact-card { background:rgba(255,255,255,0.02); border:1px solid rgba(45,158,110,0.14); padding:1.1rem; text-align:center; }
+.fact-number { font-family:'Cinzel Decorative',serif; font-size:1.8rem; color:var(--jade-light); display:block; }
+.fact-label { font-size:0.72rem; color:var(--text-dim); margin-top:0.25rem; }
+.fact-label-th { font-family:'Noto Serif Thai',serif; font-size:0.82rem; }
+
+/* ─── MEDIUM ─── */
+.medium-block { background:linear-gradient(135deg,rgba(13,18,48,0.4),rgba(11,61,46,0.18)); border:1px solid rgba(201,149,42,0.1); padding:3.5rem; max-width:1080px; margin:0 auto; display:grid; grid-template-columns:280px 1fr; gap:3.5rem; align-items:start; }
+.portrait-frame { width:100%; aspect-ratio:3/4; background:linear-gradient(160deg,#1a0a2e 0%,#0b1a2e 50%,#051a10 100%); border:1px solid rgba(201,149,42,0.28); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.portrait-frame::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,transparent 50%,rgba(5,6,8,0.65)); }
+.portrait-emoji { font-size:6rem; filter:drop-shadow(0 0 18px rgba(180,130,200,0.35)); }
+.portrait-name { position:absolute; bottom:1rem; left:0; right:0; text-align:center; z-index:2; font-family:'Cinzel Decorative',serif; font-size:0.92rem; color:var(--gold-light); }
+.portrait-name small { display:block; font-family:'Noto Serif Thai',serif; font-size:0.85rem; color:var(--jade-light); margin-top:0.18rem; }
+
+.sources-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.9rem; margin-top:1.5rem; }
+.source-card { background:rgba(255,255,255,0.02); border:1px solid rgba(201,149,42,0.1); padding:1.1rem; transition:all 0.25s; }
+.source-card:hover { border-color:rgba(201,149,42,0.3); background:rgba(201,149,42,0.03); }
+.source-icon { font-size:1.3rem; margin-bottom:0.5rem; }
+.source-title { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.35rem; }
+.source-title-th { font-family:'Noto Serif Thai',serif; font-size:0.88rem; font-weight:600; color:var(--gold); margin-bottom:0.35rem; }
+.source-desc { font-size:0.78rem; color:var(--text-dim); line-height:1.6; }
+.source-desc-th { font-family:'Noto Serif Thai',serif; font-size:0.86rem; }
+
+/* ─── PACKAGES ─── */
+.packages-section { text-align:center; max-width:1080px; margin:0 auto; padding:5rem 2rem; }
+.packages-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-top:2.5rem; text-align:left; }
+.package-card { background:linear-gradient(160deg,rgba(13,18,48,0.6),rgba(5,6,8,0.8)); border:1px solid rgba(201,149,42,0.2); padding:1.8rem; position:relative; transition:all 0.28s; overflow:hidden; }
+.package-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0; transition:opacity 0.3s; }
+.package-card:hover { border-color:rgba(201,149,42,0.45); transform:translateY(-3px); box-shadow:0 16px 48px rgba(0,0,0,0.45); }
+.package-card:hover::before { opacity:1; }
+.package-card.featured { border-color:rgba(201,149,42,0.5); background:linear-gradient(160deg,rgba(13,18,48,0.75),rgba(11,61,46,0.25)); }
+.package-card.featured::before { opacity:1; }
+.pkg-badge { position:absolute; top:0.85rem; right:0.85rem; background:var(--gold); color:var(--black); font-family:'Cinzel',serif; font-size:0.52rem; letter-spacing:0.12em; padding:0.2rem 0.55rem; font-weight:700; }
+.pkg-icon { font-size:1.8rem; margin-bottom:0.9rem; }
+.pkg-name { font-family:'Cinzel Decorative',serif; font-size:1rem; color:var(--gold-light); line-height:1.3; margin-bottom:0.25rem; }
+.pkg-name-th { font-family:'Noto Serif Thai',serif; font-size:1.05rem; font-weight:700; color:var(--gold-light); margin-bottom:0.25rem; }
+.pkg-lottery { font-size:0.68rem; color:var(--jade-light); letter-spacing:0.1em; font-family:'Cinzel',serif; margin-bottom:1.1rem; }
+.pkg-what { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.2rem; }
+.pkg-tag { background:rgba(201,149,42,0.09); border:1px solid rgba(201,149,42,0.2); color:var(--gold-pale); font-family:'Cinzel',serif; font-size:0.65rem; padding:0.25rem 0.6rem; letter-spacing:0.08em; }
+.pkg-features { list-style:none; margin-bottom:1.4rem; }
+.pkg-features li { font-size:0.8rem; color:var(--text-dim); padding:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:baseline; gap:0.55rem; line-height:1.5; }
+.pkg-features-th li { font-family:'Noto Serif Thai',serif; font-size:0.88rem; }
+.pkg-features li::before { content:'◆'; color:var(--jade-light); font-size:0.45rem; flex-shrink:0; margin-top:0.35rem; }
+.pkg-price { display:flex; align-items:baseline; gap:0.35rem; margin-bottom:1.1rem; }
+.price-cur { font-family:'Cinzel',serif; font-size:0.82rem; color:var(--gold); }
+.price-amt { font-family:'Cinzel Decorative',serif; font-size:1.9rem; color:var(--gold-light); }
+.price-per { font-size:0.72rem; color:var(--text-dim); }
+.pkg-cta { display:block; text-align:center; padding:0.7rem; background:transparent; border:1px solid var(--gold); color:var(--gold); font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.25s; width:100%; }
+.pkg-cta:hover, .package-card.featured .pkg-cta { background:var(--gold); color:var(--black); }
+.pkg-validity { font-size:0.65rem; color:var(--text-dim); text-align:center; margin-top:0.65rem; font-style:italic; }
+
+/* Usage pills */
+.usage-pills { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.1rem; }
+.usage-pill { background:rgba(45,158,110,0.09); border:1px solid rgba(45,158,110,0.2); color:var(--jade-light); font-size:0.63rem; padding:0.22rem 0.55rem; font-family:'Cinzel',serif; letter-spacing:0.06em; }
+
+/* ─── HOW IT WORKS ─── */
+.how-section { max-width:1080px; margin:0 auto; padding:5rem 2rem; }
+.steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1.8rem; margin-top:2.5rem; position:relative; }
+.steps::before { content:''; position:absolute; top:2rem; left:10%; right:10%; height:1px; background:linear-gradient(90deg,transparent,var(--jade),transparent); }
+.step { text-align:center; position:relative; }
+.step-num { width:60px; height:60px; border-radius:50%; border:1px solid rgba(201,149,42,0.38); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold); background:var(--black); position:relative; z-index:1; }
+.step-title { font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.1em; color:var(--gold-light); margin-bottom:0.55rem; text-transform:uppercase; }
+.step-title-th { font-family:'Noto Serif Thai',serif; font-size:0.9rem; font-weight:600; color:var(--gold-light); margin-bottom:0.55rem; }
+.step-desc { font-size:0.78rem; color:var(--text-dim); line-height:1.7; }
+.step-desc-th { font-family:'Noto Serif Thai',serif; font-size:0.85rem; }
+
+/* ─── TESTIMONIALS ─── */
+.testimonials { background:linear-gradient(180deg,transparent,rgba(13,18,48,0.25),transparent); padding:5rem 2rem; }
+.testimonials-inner { max-width:1080px; margin:0 auto; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.3rem; margin-top:2.5rem; }
+.tcard { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:1.8rem; position:relative; }
+.tcard::before { content:'"'; position:absolute; top:0.8rem; right:1.2rem; font-family:'Cinzel Decorative',serif; font-size:3.5rem; color:rgba(201,149,42,0.09); line-height:1; }
+.tcard-text { font-style:italic; font-size:0.87rem; line-height:1.82; color:var(--text); margin-bottom:1.1rem; }
+.tcard-text-th { font-family:'Noto Serif Thai',serif; font-size:0.93rem; }
+.tcard-author { display:flex; align-items:center; gap:0.75rem; }
+.author-av { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--emerald),var(--deep)); border:1px solid rgba(201,149,42,0.28); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+.author-name { font-family:'Cinzel',serif; font-size:0.72rem; color:var(--gold); letter-spacing:0.08em; }
+.author-loc { font-size:0.68rem; color:var(--text-dim); margin-top:0.18rem; }
+.win-tag { margin-left:auto; background:rgba(45,158,110,0.13); border:1px solid rgba(45,158,110,0.28); padding:0.22rem 0.55rem; font-family:'Cinzel',serif; font-size:0.62rem; color:var(--jade-light); letter-spacing:0.08em; white-space:nowrap; }
+
+/* ─── FOOTER ─── */
+footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; max-width:1080px; margin:0 auto; }
+.footer-top { display:grid; grid-template-columns:1fr 1fr 1fr; gap:3rem; margin-bottom:2.5rem; }
+.footer-brand { font-family:'Cinzel Decorative',serif; font-size:1.2rem; color:var(--gold-light); margin-bottom:0.7rem; }
+.footer-tagline { font-size:0.78rem; color:var(--text-dim); line-height:1.75; }
+.footer-tagline-th { font-family:'Noto Serif Thai',serif; font-size:0.88rem; }
+.footer-col-title { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; color:var(--gold); text-transform:uppercase; margin-bottom:0.9rem; }
+.footer-links { list-style:none; }
+.footer-links li { margin-bottom:0.55rem; }
+.footer-links a { font-size:0.78rem; color:var(--text-dim); text-decoration:none; transition:color 0.2s; }
+.footer-links a:hover { color:var(--gold); }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.04); padding-top:1.3rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; font-size:0.68rem; color:var(--text-dim); }
+.footer-disclaimer { font-size:0.64rem; color:rgba(154,143,122,0.45); max-width:480px; line-height:1.6; }
+
+/* ─── AUTH MODAL ─── */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:200; display:none; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
+.modal-overlay.open { display:flex; }
+.modal { background:linear-gradient(160deg,#0f1220,#080d12); border:1px solid rgba(201,149,42,0.25); padding:2.2rem; max-width:400px; width:92%; position:relative; animation:modalIn 0.28s ease; }
+@keyframes modalIn { from{opacity:0;transform:scale(0.94) translateY(12px);} to{opacity:1;transform:scale(1) translateY(0);} }
+.modal-close { position:absolute; top:0.9rem; right:1rem; background:none; border:none; color:var(--text-dim); font-size:1.1rem; cursor:pointer; transition:color 0.2s; }
+.modal-close:hover { color:var(--gold); }
+.modal-tabs { display:flex; border-bottom:1px solid rgba(201,149,42,0.15); margin-bottom:1.8rem; }
+.modal-tab { flex:1; background:none; border:none; padding:0.7rem; font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.12em; color:var(--text-dim); cursor:pointer; transition:all 0.2s; border-bottom:2px solid transparent; margin-bottom:-1px; text-transform:uppercase; }
+.modal-tab.active { color:var(--gold-light); border-bottom-color:var(--gold); }
+.modal-tab-panel { display:none; }
+.modal-tab-panel.active { display:block; }
+.modal-title { font-family:'Cinzel Decorative',serif; font-size:1.05rem; color:var(--gold-light); margin-bottom:0.25rem; }
+.modal-sub { font-size:0.76rem; color:var(--text-dim); margin-bottom:1.5rem; line-height:1.6; }
+.modal-sub-th { font-family:'Noto Serif Thai',serif; font-size:0.85rem; }
+.field-group { margin-bottom:1rem; }
+.field-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.15em; color:var(--text-dim); text-transform:uppercase; margin-bottom:0.4rem; display:block; }
+.field-input { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(201,149,42,0.18); color:var(--text); font-size:0.88rem; padding:0.65rem 0.85rem; font-family:'Sarabun',sans-serif; transition:border-color 0.2s; outline:none; }
+.field-input:focus { border-color:rgba(201,149,42,0.5); background:rgba(201,149,42,0.03); }
+.field-input::placeholder { color:var(--text-dim); opacity:0.5; font-size:0.8rem; }
+.field-hint { font-size:0.68rem; color:var(--text-dim); margin-top:0.35rem; line-height:1.5; }
+.field-hint-th { font-family:'Noto Serif Thai',serif; font-size:0.78rem; }
+.modal-submit { display:block; width:100%; text-align:center; padding:0.8rem; background:linear-gradient(135deg,var(--gold),#a07018); color:var(--black); font-family:'Cinzel',serif; font-size:0.78rem; letter-spacing:0.14em; border:none; cursor:pointer; transition:all 0.2s; margin-top:1.3rem; font-weight:700; }
+.modal-submit:hover { background:linear-gradient(135deg,var(--gold-light),var(--gold)); }
+.modal-switch { text-align:center; margin-top:0.9rem; font-size:0.72rem; color:var(--text-dim); }
+.modal-switch a { color:var(--gold); text-decoration:none; cursor:pointer; }
+.modal-switch a:hover { color:var(--gold-light); }
+.modal-error { background:rgba(192,57,43,0.12); border:1px solid rgba(192,57,43,0.3); color:#e07070; font-size:0.76rem; padding:0.6rem 0.8rem; margin-top:0.8rem; display:none; }
+.modal-success { background:rgba(26,138,90,0.12); border:1px solid rgba(26,138,90,0.3); color:var(--jade-light); font-size:0.76rem; padding:0.6rem 0.8rem; margin-top:0.8rem; display:none; }
+
+/* ─── TOAST ─── */
+.toast { position:fixed; bottom:1.8rem; left:50%; transform:translateX(-50%); background:var(--deep); border:1px solid var(--jade); padding:0.75rem 1.4rem; font-size:0.8rem; color:var(--jade-light); z-index:300; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast.show { opacity:1; }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px) {
+  .about-grid { grid-template-columns:1fr; }
+  .kc-inner { grid-template-columns:1fr; }
+  .medium-block { grid-template-columns:1fr; }
+  .medium-portrait-wrap { max-width:260px; margin:0 auto; }
+  .steps { grid-template-columns:1fr 1fr; }
+  .steps::before { display:none; }
+  .footer-top { grid-template-columns:1fr; gap:2rem; }
+  nav { padding:0.9rem 1.4rem; }
+  .nav-links { display:none; }
+  .packages-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:620px) {
+  .packages-section { padding:4rem 0 4rem 1.2rem; }
+  .packages-section > * { padding-right:1.2rem; }
+  .packages-grid {
+    display:flex; flex-direction:row; overflow-x:auto;
+    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    gap:1rem; margin-top:2rem; padding-bottom:1.2rem; padding-right:1.2rem;
+    scrollbar-width:none;
+  }
+  .packages-grid::-webkit-scrollbar { display:none; }
+  .package-card { flex:0 0 80vw; max-width:300px; scroll-snap-align:start; }
+  .steps { grid-template-columns:1fr; }
+  .sources-grid { grid-template-columns:1fr; }
+  .medium-block { padding:2rem; }
+  .hero-vline { display:none; }
+  .btn-nav-login, .btn-nav-register { font-size:0.65rem; padding:0.3rem 0.7rem; }
+  .kc-facts { grid-template-columns:1fr 1fr; }
+  .footer-top { grid-template-columns:1fr; }
+  .footer-bottom { flex-direction:column; text-align:center; }
+}
+.pkg-scroll-hint { display:none; align-items:center; gap:0.5rem; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.14em; color:var(--text-dim); margin-top:0.8rem; }
+/* ─── LOGGED-IN NAV STATE ─── */
+.nav-logged-in { display:flex; align-items:center; gap:0.75rem; }
+.logged-in-name { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.1em; color:var(--gold); opacity:0.85; }
+.btn-enter-app { padding:0.38rem 1rem; background:linear-gradient(135deg,var(--gold),#a07018); color:var(--black); font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.12em; font-weight:700; text-decoration:none; transition:all 0.2s; white-space:nowrap; border:none; cursor:pointer; }
+.btn-enter-app:hover { background:linear-gradient(135deg,var(--gold-light),var(--gold)); }
+
+/* ─── LOGGED-IN HERO BANNER ─── */
+.hero-logged-in-banner { display:none; background:rgba(26,107,74,0.12); border:1px solid rgba(45,158,110,0.25); padding:0.75rem 1.6rem; margin-bottom:1.8rem; text-align:center; animation:fadeUp 1s 0.5s ease both; }
+.hero-logged-in-banner.visible { display:inline-block; }
+.hero-logged-in-banner p { font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.1em; color:var(--jade-light); }
+.hero-logged-in-banner p span { color:var(--gold-light); }
+.btn-enter-realm { display:inline-block; margin-top:0.5rem; padding:0.55rem 1.5rem; background:linear-gradient(135deg,var(--gold),#a07018); color:var(--black); font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.14em; font-weight:700; text-decoration:none; transition:all 0.2s; }
+.btn-enter-realm:hover { background:linear-gradient(135deg,var(--gold-light),var(--gold)); }
+
+/* ─── MAE WAN FAH PHOTO FRAME ─── */
+.portrait-photo { width:100%; aspect-ratio:3/4; position:relative; overflow:hidden; border:1px solid rgba(201,149,42,0.32); }
+.portrait-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; filter:saturate(0.85) contrast(1.05); }
+.portrait-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 55%, rgba(5,6,8,0.82) 100%), linear-gradient(160deg, rgba(26,107,74,0.08) 0%, transparent 50%); }
+.portrait-photo-caption { position:absolute; bottom:1rem; left:0; right:0; text-align:center; z-index:2; }
+.portrait-photo-caption strong { display:block; font-family:'Cinzel Decorative',serif; font-size:0.88rem; color:var(--gold-light); }
+.portrait-photo-caption small { display:block; font-family:'Noto Serif Thai',serif; font-size:0.82rem; color:var(--jade-light); margin-top:0.18rem; }
+.portrait-photo .frame-corner { position:absolute; width:18px; height:18px; border-color:var(--gold); border-style:solid; opacity:0.5; z-index:3; }
+.portrait-photo .frame-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px;}
+.portrait-photo .frame-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0;}
+.portrait-photo .frame-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px;}
+.portrait-photo .frame-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0;}
+
+/* lang-btn flag style */
+.lang-btn { font-size:1.1rem; padding:0.25rem 0.55rem; }
+.lang-btn.active { background:var(--gold); }
+
+@media(max-width:620px) { .pkg-scroll-hint { display:flex; } }
+.scroll-dots { display:flex; gap:3px; }
+.scroll-dot { width:18px; height:3px; background:var(--gold); border-radius:2px; transition:all 0.2s; }
+.scroll-dot.dim { width:5px; background:rgba(201,149,42,0.22); }
+</style>
+</head>
+<body class="lang-en">
+
+<div class="particles" id="particles"></div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#" class="nav-logo">Nak<span>Thai</span> · นาคทาย</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about" class="en">The Legend</a><a href="#about" class="th">ตำนาน</a></li>
+      <li><a href="#medium" class="en">The Medium</a><a href="#medium" class="th">ร่างทรง</a></li>
+      <li><a href="#packages" class="en">Numbers</a><a href="#packages" class="th">เลขนาค</a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="langbtn-en" onclick="setLang('en')">🇬🇧</button>
+      <button class="lang-btn" id="langbtn-th" onclick="setLang('th')">🇹🇭</button>
+    </div>
+    <div class="nav-auth-btns" id="nav-auth-btns">
+      <button class="btn-nav-login en" onclick="openAuth('login')">Login</button>
+      <button class="btn-nav-login th" onclick="openAuth('login')">เข้าสู่ระบบ</button>
+      <button class="btn-nav-register en" onclick="openAuth('register')">Register</button>
+      <button class="btn-nav-register th" onclick="openAuth('register')">สมัครสมาชิก</button>
+    </div>
+    <div class="nav-logged-in" id="nav-logged-in" style="display:none;">
+      <span class="logged-in-name" id="nav-username"></span>
+      <a href="nakthai-app.html" class="btn-enter-app en">Enter the Realm →</a>
+      <a href="nakthai-app.html" class="btn-enter-app th" style="display:none;">เข้าแอป →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="scales-bg"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-vline l"></div>
+  <div class="hero-vline r"></div>
+
+  <div class="hero-emblem">
+    <div class="emblem-ring"><div class="emblem-symbol">🐉</div></div>
+  </div>
+
+
+  <!-- logged-in welcome banner (shown via JS if session found) -->
+  <div class="hero-logged-in-banner" id="hero-logged-banner">
+    <p class="en">Welcome back, <span id="hero-username-en">Devotee</span> 🙏 The Naga King awaits you.</p>
+    <p class="th" style="font-family:'Noto Serif Thai',serif;display:none;">ยินดีต้อนรับกลับ, <span id="hero-username-th">ลูกหลาน</span> 🙏 พ่อปู่ศรีสุทโธรอท่านอยู่</p>
+    <br>
+    <a href="nakthai-app.html" class="btn-enter-realm en">Enter the Realm →</a>
+    <a href="nakthai-app.html" class="btn-enter-realm th" style="display:none;">เข้าสู่อาณาจักรนาค →</a>
+  </div>
+
+  <p class="hero-kicker en">Sacred Numbers from the Naga King</p>
+  <p class="hero-kicker th">เลขศักดิ์สิทธิ์จากพ่อปู่ศรีสุทโธ</p>
+
+  <h1 class="hero-title en">Nak Thai</h1>
+  <h1 class="hero-title-th th">นาคทาย</h1>
+
+  <p class="hero-sub en">นาคทาย · Naga Prophecy</p>
+  <p class="hero-sub th">นาคทาย · คำทำนายของพญานาค</p>
+
+  <div class="hero-tagline-wrap">
+    <p class="hero-tagline en">"The Serpent King speaks from beneath the sacred waters of Kham Chanot. Through Mae Wan Fah, his devoted vessel — his numbers reach you."</p>
+    <p class="hero-tagline hero-tagline-th th">"พ่อปู่ศรีสุทโธทรงประทานเลขจากใต้น้ำศักดิ์สิทธิ์แห่งคำชะโนด ผ่านแม่วันฟ้า ร่างทรงผู้ศักดิ์สิทธิ์ — เลขของพระองค์มาถึงคุณ"</p>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#packages" class="btn-primary en">Receive the Numbers</a>
+    <a href="#packages" class="btn-primary th">รับเลขนาค</a>
+    <a href="#about" class="btn-secondary en">The Legend</a>
+    <a href="#about" class="btn-secondary th">ตำนานพ่อปู่</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="en">scroll</span><span class="th">เลื่อนลง</span>
+    <span>↓</span>
+  </div>
+</div>
+
+<!-- ─── ABOUT PU SRI SUTTHO ─── -->
+<div id="about" class="section-wrap">
+  <div class="about-grid">
+    <div>
+      <div class="image-frame">
+        <div class="frame-corner tl"></div><div class="frame-corner tr"></div>
+        <div class="frame-corner bl"></div><div class="frame-corner br"></div>
+        <div class="image-placeholder">🐍</div>
+        <div class="image-caption en">Naga King Sri Suttho · Kham Chanot, Udon Thani</div>
+        <div class="image-caption th">พ่อปู่ศรีสุทโธ · คำชะโนด อุดรธานี</div>
+      </div>
+    </div>
+    <div>
+      <p class="section-label en">The Legend</p>
+      <p class="section-label th" style="font-family:'Noto Serif Thai',serif;">ตำนาน</p>
+      <h2 class="section-title en">Naga King Sri Suttho</h2>
+      <h2 class="section-title-th th">พ่อปู่พญาศรีสุทโธ</h2>
+
+      <div class="pull-quote en">
+        <p>"Deep beneath the sacred waters of Kham Chanot forest in Udon Thani, the great Naga King Sri Suttho has watched over the northeastern lands of Thailand since ancient times."</p>
+      </div>
+      <div class="pull-quote pull-quote-th th">
+        <p>"ใต้ห้วงน้ำศักดิ์สิทธิ์แห่งป่าคำชะโนด จังหวัดอุดรธานี พ่อปู่พญาศรีสุทโธทรงดูแลแผ่นดินอีสานมาแต่โบราณกาล"</p>
+      </div>
+
+      <p class="section-body en">According to Isan tradition, Sri Suttho is the Naga King of the Thai side of the Mekong — a single-headed serpent of immense wisdom and compassion. Every lunar month, for 15 days during the waxing phase, he and his followers transform into human form at Kham Chanot. During the waning phase, they return to their underground Naga realm through the sacred unfathomable pond at the heart of the forest.<br><br>The Naga is master of earth's hidden treasures and the waters that sustain all life. To receive his numbers is to open a channel to his blessing.</p>
+      <p class="section-body section-body-th th">ตามความเชื่อของชาวอีสาน พ่อปู่ศรีสุทโธคือพญานาคเศียรเดียวแห่งฝั่งไทย ทรงปัญญาและเมตตาธรรมอันยิ่งใหญ่ ทุกเดือนจันทรคติในช่วง 15 วันข้างขึ้น พระองค์และบริวารจะจำแลงเป็นมนุษย์ประทับ ณ คำชะโนด ส่วนช่วงข้างแรมจะเสด็จกลับเมืองบาดาล ผ่านบ่อน้ำศักดิ์สิทธิ์อันไม่มีก้นแห่งป่าคำชะโนด<br><br>พ่อปู่คือนายแห่งสมบัติใต้พิภพและน้ำทั้งปวงที่หล่อเลี้ยงชีวิต การได้รับเลขจากพระองค์คือการเปิดประตูสู่พรของพระองค์</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── KHAM CHANOT ─── -->
+<div class="kc-banner">
+  <div class="kc-inner">
+    <div>
+      <p class="section-label en">The Sacred Site</p>
+      <p class="section-label th" style="font-family:'Noto Serif Thai',serif;">สถานที่ศักดิ์สิทธิ์</p>
+      <h2 class="section-title en">Kham Chanot</h2>
+      <h2 class="section-title-th th">คำชะโนด</h2>
+      <p class="section-body en">Kham Chanot is a mystical island forest in Ban Dung district, Udon Thani — surrounded by river tributaries of the Mekong. At its heart lies an unfathomable sacred pond believed to be the portal between the human world and the Naga realm. In 1976, massive Mekong floods surrounded every village — yet Kham Chanot forest remained untouched.</p>
+      <p class="section-body section-body-th th">คำชะโนดคือเกาะป่าศักดิ์สิทธิ์ในอำเภอบ้านดุง จังหวัดอุดรธานี ล้อมรอบด้วยสาขาแม่น้ำโขง ใจกลางมีบ่อน้ำศักดิ์สิทธิ์อันหยั่งไม่ถึงก้น ในปี พ.ศ. 2519 น้ำโขงท่วมใหญ่ท่วมทุกหมู่บ้าน แต่ป่าคำชะโนดกลับไม่ถูกน้ำท่วม</p>
+    </div>
+    <div class="kc-facts">
+      <div class="fact-card">
+        <span class="fact-number">15</span>
+        <div class="fact-label en">Days/month Sri Suttho walks as human</div>
+        <div class="fact-label fact-label-th th">วัน/เดือนที่พ่อปู่จำแลงเป็นมนุษย์</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-number">∞</span>
+        <div class="fact-label en">Depth of the Sacred Naga Pond</div>
+        <div class="fact-label fact-label-th th">ความลึกของบ่อน้ำนาคไม่มีก้น</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-number">1976</span>
+        <div class="fact-label en">Great flood spared Kham Chanot</div>
+        <div class="fact-label fact-label-th th">น้ำท่วมใหญ่แต่คำชะโนดรอด</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-number">5,000</span>
+        <div class="fact-label en">Naga followers guard each realm side</div>
+        <div class="fact-label fact-label-th th">บริวารพญานาคแต่ละฝั่ง</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MEDIUM ─── -->
+<div id="medium" class="medium-block" style="margin:5rem auto;">
+  <div class="medium-portrait-wrap">
+    <div class="portrait-photo">
+      <div class="frame-corner tl"></div><div class="frame-corner tr"></div>
+      <div class="frame-corner bl"></div><div class="frame-corner br"></div>
+      <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&q=85&fit=crop&crop=faces,top"
+           alt="Mae Wan Fah — Spirit Vessel"
+           onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(160deg,#1a0a2e,#0b1a2e,#051a10);display:flex;align-items:center;justify-content:center;font-size:6rem;&quot;>🧿</div>' + this.parentElement.innerHTML">
+      <div class="portrait-photo-caption">
+        <strong>Mae Wan Fah</strong>
+        <small>แม่วันฟ้า</small>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p class="section-label en">The Vessel</p>
+    <p class="section-label th" style="font-family:'Noto Serif Thai',serif;">ร่างทรง</p>
+    <h2 class="section-title en">Mae Wan Fah</h2>
+    <h2 class="section-title-th th">แม่วันฟ้า</h2>
+    <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.14em;color:var(--jade-light);margin-bottom:1.3rem;" class="en">Lady of the Heavenly Day · Spirit Vessel of Sri Suttho</p>
+    <p style="font-family:'Noto Serif Thai',serif;font-size:0.88rem;color:var(--jade-light);margin-bottom:1.3rem;" class="th">ผู้เป็นร่างทรงของพ่อปู่ศรีสุทโธ · บ้านดุง อุดรธานี</p>
+    <p class="section-body en">Born near the sacred forest of Kham Chanot in Ban Dung, Udon Thani, Mae Wan Fah grew up with the river, the forest, and the deep belief of her grandmother — herself a spirit vessel before her. At age 19 she had her first vision: a great emerald serpent rising from dark water, speaking numbers across the surface of the lake. Since that night, Pu Sri Suttho has spoken through her.<br><br>She maintains a home shrine with daily offerings and documents every number she receives before sharing it with her subscribers.</p>
+    <p class="section-body section-body-th th">แม่วันฟ้าเกิดและเติบโตใกล้ป่าคำชะโนด อำเภอบ้านดุง อุดรธานี เมื่ออายุ 19 ปี เธอได้รับนิมิตแรก — พญานาคสีมรกตโผล่จากน้ำลึก เปล่งเสียงบอกตัวเลขบนผิวน้ำ นับแต่คืนนั้น พ่อปู่ศรีสุทโธทรงสื่อผ่านเธอ<br><br>เธอตั้งหิ้งบูชาที่บ้าน บูชาพ่อปู่ทุกวัน และบันทึกทุกตัวเลขที่ได้รับก่อนส่งต่อให้ลูกศิษย์</p>
+
+    <div class="sources-grid" style="margin-top:1.8rem;">
+      <div class="source-card">
+        <div class="source-icon">🌙</div>
+        <div class="source-title en">Dream Numbers</div>
+        <div class="source-title-th th">เลขจากฝัน</div>
+        <div class="source-desc en">Numbers received when Pu Sri Suttho visits Mae Wan Fah's dreams as a luminous serpent.</div>
+        <div class="source-desc source-desc-th th">ตัวเลขที่ได้รับระหว่างหลับเมื่อพ่อปู่เสด็จมาในฝันเป็นพญานาคเรืองแสง</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🌺</div>
+        <div class="source-title en">Prayer Numbers</div>
+        <div class="source-title-th th">เลขจากบทสวด</div>
+        <div class="source-desc en">During morning offerings, numbers manifest in incense smoke patterns or as a sudden inner knowing.</div>
+        <div class="source-desc source-desc-th th">ระหว่างการบูชายามเช้า ตัวเลขปรากฏในลวดลายควันธูปหรือเป็นความรู้สึกภายใน</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🌊</div>
+        <div class="source-title en">Sign Numbers</div>
+        <div class="source-title-th th">เลขจากนิมิต</div>
+        <div class="source-desc en">Omens in nature — patterns in water, clouds, the movement of a snake — sent as sacred signs.</div>
+        <div class="source-desc source-desc-th th">นิมิตจากธรรมชาติ — ลวดลายในน้ำ เมฆ การเคลื่อนที่ของงู ที่พ่อปู่ทรงส่งมา</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🪷</div>
+        <div class="source-title en">Offering Numbers</div>
+        <div class="source-title-th th">เลขจากเครื่องบูชา</div>
+        <div class="source-desc en">Numbers revealed through the ritual arrangement of flowers, candles and lotus offerings at the shrine.</div>
+        <div class="source-desc source-desc-th th">ตัวเลขที่เปิดเผยผ่านการจัดเครื่องบูชา ดอกไม้ เทียน และดอกบัวที่หิ้ง</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PACKAGES ─── -->
+<div id="packages" class="packages-section">
+  <p class="section-label en" style="justify-content:center;">Sacred Number Sets</p>
+  <p class="section-label th" style="justify-content:center;font-family:'Noto Serif Thai',serif;font-size:0.95rem;">ชุดเลขนาคศักดิ์สิทธิ์</p>
+  <h2 class="section-title en">Choose Your Blessing</h2>
+  <h2 class="section-title-th th">เลือกรับพรพ่อปู่</h2>
+  <p style="color:var(--text-dim);font-size:0.87rem;margin-top:0.7rem;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.7;" class="en">Numbers are released by Mae Wan Fah when received. Valid up to 1 week — use for top (บน), bottom (ล่าง), or the 6/9 flip variation.</p>
+  <p style="color:var(--text-dim);font-family:'Noto Serif Thai',serif;font-size:0.92rem;margin-top:0.7rem;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.75;" class="th">เลขจะประกาศเมื่อแม่วันฟ้าได้รับจากพ่อปู่ ใช้ได้สูงสุด 1 สัปดาห์ — เล่นบน ล่าง หรือกลับ 6/9 ได้</p>
+
+  <div class="packages-grid">
+
+    <!-- 2-digit -->
+    <div class="package-card">
+      <div class="pkg-icon">2️⃣</div>
+      <div class="pkg-name en">Silver Naga</div>
+      <div class="pkg-name-th th">นาคเงิน</div>
+      <div class="pkg-lottery en">2-Digit Number</div>
+      <div class="pkg-lottery th">เลข 2 ตัว</div>
+      <div class="pkg-what">
+        <span class="pkg-tag">1 × 2-digit</span>
+      </div>
+      <div class="usage-pills">
+        <span class="usage-pill en">Top บน</span>
+        <span class="usage-pill en">Bottom ล่าง</span>
+        <span class="usage-pill en">6/9 flip</span>
+        <span class="usage-pill th">บน</span>
+        <span class="usage-pill th">ล่าง</span>
+        <span class="usage-pill th">กลับ 6/9</span>
+      </div>
+      <ul class="pkg-features en">
+        <li>One 2-digit number from Pu Sri Suttho</li>
+        <li>Thai Government Lottery</li>
+        <li>Laos Lottery</li>
+        <li>Valid up to 1 week / next draw</li>
+      </ul>
+      <ul class="pkg-features pkg-features-th th">
+        <li>เลข 2 ตัวหนึ่งชุดจากพ่อปู่ศรีสุทโธ</li>
+        <li>สลากกินแบ่งรัฐบาล</li>
+        <li>หวยลาว</li>
+        <li>ใช้ได้สูงสุด 1 สัปดาห์ / งวดถัดไป</li>
+      </ul>
+      <div class="pkg-price">
+        <span class="price-cur">฿</span>
+        <span class="price-amt">99</span>
+        <span class="price-per en">/ draw</span>
+        <span class="price-per th">/ งวด</span>
+      </div>
+      <a href="#" class="pkg-cta en" onclick="openAuth('register');return false;">Get Numbers</a>
+      <a href="#" class="pkg-cta th" onclick="openAuth('register');return false;">รับเลขนี้</a>
+      <div class="pkg-validity en">Valid up to 1 week from release</div>
+      <div class="pkg-validity th">ใช้ได้ 1 สัปดาห์นับจากวันประกาศ</div>
+    </div>
+
+    <!-- 3-digit -->
+    <div class="package-card featured">
+      <div class="pkg-badge en">POPULAR</div>
+      <div class="pkg-badge th">ยอดนิยม</div>
+      <div class="pkg-icon">3️⃣</div>
+      <div class="pkg-name en">Gold Naga</div>
+      <div class="pkg-name-th th">นาคทอง</div>
+      <div class="pkg-lottery en">3-Digit Number</div>
+      <div class="pkg-lottery th">เลข 3 ตัว</div>
+      <div class="pkg-what">
+        <span class="pkg-tag">1 × 3-digit</span>
+      </div>
+      <div class="usage-pills">
+        <span class="usage-pill en">Top บน</span>
+        <span class="usage-pill en">Toad โต๊ด</span>
+        <span class="usage-pill en">6/9 flip</span>
+        <span class="usage-pill th">บน</span>
+        <span class="usage-pill th">โต๊ด</span>
+        <span class="usage-pill th">กลับ 6/9</span>
+      </div>
+      <ul class="pkg-features en">
+        <li>One 3-digit number from Pu Sri Suttho</li>
+        <li>Thai Government Lottery</li>
+        <li>Laos Lottery</li>
+        <li>Valid up to 1 week / next draw</li>
+      </ul>
+      <ul class="pkg-features pkg-features-th th">
+        <li>เลข 3 ตัวหนึ่งชุดจากพ่อปู่ศรีสุทโธ</li>
+        <li>สลากกินแบ่งรัฐบาล</li>
+        <li>หวยลาว</li>
+        <li>ใช้ได้สูงสุด 1 สัปดาห์ / งวดถัดไป</li>
+      </ul>
+      <div class="pkg-price">
+        <span class="price-cur">฿</span>
+        <span class="price-amt">199</span>
+        <span class="price-per en">/ draw</span>
+        <span class="price-per th">/ งวด</span>
+      </div>
+      <a href="#" class="pkg-cta en" onclick="openAuth('register');return false;">Get Numbers</a>
+      <a href="#" class="pkg-cta th" onclick="openAuth('register');return false;">รับเลขนี้</a>
+      <div class="pkg-validity en">Valid up to 1 week from release</div>
+      <div class="pkg-validity th">ใช้ได้ 1 สัปดาห์นับจากวันประกาศ</div>
+    </div>
+
+    <!-- 4-digit -->
+    <div class="package-card">
+      <div class="pkg-icon">4️⃣</div>
+      <div class="pkg-name en">Jade Naga</div>
+      <div class="pkg-name-th th">นาคมรกต</div>
+      <div class="pkg-lottery en">4-Digit Number</div>
+      <div class="pkg-lottery th">เลข 4 ตัว</div>
+      <div class="pkg-what">
+        <span class="pkg-tag">1 × 4-digit</span>
+      </div>
+      <div class="usage-pills">
+        <span class="usage-pill en">Top บน</span>
+        <span class="usage-pill en">Toad โต๊ด</span>
+        <span class="usage-pill en">6/9 flip</span>
+        <span class="usage-pill th">บน</span>
+        <span class="usage-pill th">โต๊ด</span>
+        <span class="usage-pill th">กลับ 6/9</span>
+      </div>
+      <ul class="pkg-features en">
+        <li>One 4-digit number from Pu Sri Suttho</li>
+        <li>Thai Government Lottery</li>
+        <li>Laos Lottery</li>
+        <li>Valid up to 1 week / next draw</li>
+      </ul>
+      <ul class="pkg-features pkg-features-th th">
+        <li>เลข 4 ตัวหนึ่งชุดจากพ่อปู่ศรีสุทโธ</li>
+        <li>สลากกินแบ่งรัฐบาล</li>
+        <li>หวยลาว</li>
+        <li>ใช้ได้สูงสุด 1 สัปดาห์ / งวดถัดไป</li>
+      </ul>
+      <div class="pkg-price">
+        <span class="price-cur">฿</span>
+        <span class="price-amt">299</span>
+        <span class="price-per en">/ draw</span>
+        <span class="price-per th">/ งวด</span>
+      </div>
+      <a href="#" class="pkg-cta en" onclick="openAuth('register');return false;">Get Numbers</a>
+      <a href="#" class="pkg-cta th" onclick="openAuth('register');return false;">รับเลขนี้</a>
+      <div class="pkg-validity en">Valid up to 1 week from release</div>
+      <div class="pkg-validity th">ใช้ได้ 1 สัปดาห์นับจากวันประกาศ</div>
+    </div>
+
+  </div>
+  <div class="pkg-scroll-hint">
+    <div class="scroll-dots">
+      <div class="scroll-dot" id="dot0"></div>
+      <div class="scroll-dot dim" id="dot1"></div>
+      <div class="scroll-dot dim" id="dot2"></div>
+    </div>
+    <span class="en">swipe for all packages</span>
+    <span class="th" style="font-family:'Noto Serif Thai',serif;">เลื่อนดูทุกชุด</span>
+  </div>
+</div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<div class="how-section">
+  <p class="section-label en">Process</p>
+  <p class="section-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.95rem;">ขั้นตอน</p>
+  <h2 class="section-title en">How It Works</h2>
+  <h2 class="section-title-th th">วิธีการรับเลขนาค</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title en">Mae Wan Fah Receives</div>
+      <div class="step-title-th th">แม่วันฟ้ารับเลข</div>
+      <div class="step-desc en">Numbers arrive through dream, prayer or signs from Pu Sri Suttho — she writes them down immediately.</div>
+      <div class="step-desc step-desc-th th">ตัวเลขมาถึงผ่านฝัน บทสวด หรือนิมิตจากพ่อปู่ — เธอจดไว้ทันที</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title en">Published on App</div>
+      <div class="step-title-th th">ประกาศในแอป</div>
+      <div class="step-desc en">Each number is documented and published — 2-digit, 3-digit and 4-digit — one per category.</div>
+      <div class="step-desc step-desc-th th">เลขแต่ละชุดถูกบันทึกและประกาศ — เลข 2 ตัว 3 ตัว และ 4 ตัว อย่างละชุด</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title en">You Register & Buy</div>
+      <div class="step-title-th th">สมัครและซื้อ</div>
+      <div class="step-desc en">Register with your bank number + password. Choose your package and receive the number instantly.</div>
+      <div class="step-desc step-desc-th th">สมัครด้วยเลขบัญชีธนาคารและรหัสผ่าน เลือกชุดเลขและรับทันที</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title en">Play & Win</div>
+      <div class="step-title-th th">เล่นและรับโชค</div>
+      <div class="step-desc en">Use the number for top (บน), bottom (ล่าง), or the 6/9 flip. Valid up to 1 week on Thai or Laos draws.</div>
+      <div class="step-desc step-desc-th th">เล่นบน ล่าง หรือกลับ 6/9 ใช้ได้สูงสุด 1 สัปดาห์ สำหรับสลากไทยหรือหวยลาว</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TESTIMONIALS ─── -->
+<div class="testimonials">
+  <div class="testimonials-inner">
+    <p class="section-label en">Believers</p>
+    <p class="section-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.95rem;">เสียงจากลูกหลานพ่อปู่</p>
+    <h2 class="section-title en">Those Who Believed</h2>
+    <h2 class="section-title-th th">ผู้ที่ศรัทธา</h2>
+    <div class="testimonials-grid">
+      <div class="tcard">
+        <p class="tcard-text en">"I've visited Kham Chanot every year for 15 years. When I found Mae Wan Fah's 3-digit number, it felt like Pu Sri Suttho himself handed me the slip. It came in straight."</p>
+        <p class="tcard-text tcard-text-th th">"ไปคำชะโนดทุกปีมา 15 ปี พอได้เลข 3 ตัวของแม่วันฟ้า รู้สึกเหมือนพ่อปู่ส่งเลขมาให้เอง ถูกตรงเลย"</p>
+        <div class="tcard-author">
+          <div class="author-av">🙏</div>
+          <div><div class="author-name">Nongkhai, 52</div><div class="author-loc">Udon Thani</div></div>
+          <div class="win-tag">3-digit ✓</div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p class="tcard-text en">"The 2-digit came in twice in a row on the Laos draw. I played the 6/9 flip too and that also hit. Something real is happening here."</p>
+        <p class="tcard-text tcard-text-th th">"เลข 2 ตัวถูกหวยลาวติดกัน 2 รอบ เล่นกลับ 6/9 ด้วยก็ถูก มีอะไรบางอย่างที่แท้จริงเกิดขึ้นที่นี่"</p>
+        <div class="tcard-author">
+          <div class="author-av">🌸</div>
+          <div><div class="author-name">Malee, 38</div><div class="author-loc">Khon Kaen</div></div>
+          <div class="win-tag">2× Laos ✓</div>
+        </div>
+      </div>
+      <div class="tcard">
+        <p class="tcard-text en">"I was skeptical. Then the 4-digit number hit on the Thai Government Lottery. I'm a believer now. The Naga does not lie."</p>
+        <p class="tcard-text tcard-text-th th">"ตอนแรกยังสงสัยอยู่ แต่พอเลข 4 ตัวถูกสลากกินแบ่งรัฐบาล ตอนนี้เชื่อแล้ว พญานาคไม่โกหก"</p>
+        <div class="tcard-author">
+          <div class="author-av">🐍</div>
+          <div><div class="author-name">Somchai, 45</div><div class="author-loc">Nakhon Phanom</div></div>
+          <div class="win-tag">4-digit ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">NakThai · นาคทาย</div>
+      <p class="footer-tagline en">Sacred numbers from Naga King Sri Suttho, channeled through Mae Wan Fah from the land of Kham Chanot.</p>
+      <p class="footer-tagline footer-tagline-th th">เลขศักดิ์สิทธิ์จากพ่อปู่ศรีสุทโธ ผ่านแม่วันฟ้าแห่งแผ่นดินคำชะโนด</p>
+    </div>
+    <div>
+      <div class="footer-col-title en">Packages</div>
+      <div class="footer-col-title th" style="font-family:'Noto Serif Thai',serif;">ชุดเลข</div>
+      <ul class="footer-links">
+        <li><a href="#packages"><span class="en">Silver Naga — 2-digit · ฿99</span><span class="th">นาคเงิน — เลข 2 ตัว · ฿99</span></a></li>
+        <li><a href="#packages"><span class="en">Gold Naga — 3-digit · ฿199</span><span class="th">นาคทอง — เลข 3 ตัว · ฿199</span></a></li>
+        <li><a href="#packages"><span class="en">Jade Naga — 4-digit · ฿299</span><span class="th">นาคมรกต — เลข 4 ตัว · ฿299</span></a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title en">Account</div>
+      <div class="footer-col-title th" style="font-family:'Noto Serif Thai',serif;">บัญชี</div>
+      <ul class="footer-links">
+        <li><a href="#" onclick="openAuth('register');return false;"><span class="en">Register</span><span class="th">สมัครสมาชิก</span></a></li>
+        <li><a href="#" onclick="openAuth('login');return false;"><span class="en">Login</span><span class="th">เข้าสู่ระบบ</span></a></li>
+        <li><a href="#about"><span class="en">About Sri Suttho</span><span class="th">เกี่ยวกับพ่อปู่</span></a></li>
+        <li><a href="#medium"><span class="en">Mae Wan Fah</span><span class="th">แม่วันฟ้า</span></a></li>
+        <li><a href="#"><span class="en">Terms of Use</span><span class="th">ข้อกำหนด</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 NakThai · นาคทาย</div>
+    <div class="footer-disclaimer en">For entertainment and spiritual purposes only. Numbers are channeled in good faith through traditional Isan spirit medium practices. No guarantee of lottery outcomes is made or implied.</div>
+    <div class="footer-disclaimer th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เพื่อความบันเทิงและจิตใจเท่านั้น ไม่มีการรับประกันผลรางวัลใดๆ</div>
+  </div>
+</footer>
+
+<!-- ─── AUTH MODAL ─── -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">
+        <span class="en">Login</span><span class="th">เข้าสู่ระบบ</span>
+      </button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">
+        <span class="en">Register</span><span class="th">สมัครสมาชิก</span>
+      </button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="modal-tab-panel active" id="panel-login">
+      <div class="modal-title en">Welcome Back</div>
+      <div class="modal-title th" style="font-family:'Noto Serif Thai',serif;font-weight:700;">ยินดีต้อนรับกลับ</div>
+      <div class="modal-sub en">Login with your bank account number and password.</div>
+      <div class="modal-sub modal-sub-th th">เข้าสู่ระบบด้วยเลขบัญชีธนาคารและรหัสผ่าน</div>
+
+      <div class="field-group">
+        <label class="field-label en">Bank Account Number</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เลขบัญชีธนาคาร</label>
+        <input class="field-input" id="login-bank" type="text" inputmode="numeric" maxlength="20"
+          placeholder="e.g. 123-4-56789-0" autocomplete="off">
+        <div class="field-hint en">Your bank account number is your unique username</div>
+        <div class="field-hint field-hint-th th">เลขบัญชีธนาคารของคุณคือชื่อผู้ใช้ที่ไม่ซ้ำกัน</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Password</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">รหัสผ่าน</label>
+        <div style="position:relative;">
+          <input class="field-input" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:2.6rem;">
+          <button type="button" onclick="togglePwdLP('login-pass',this)" style="position:absolute;right:0.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.9rem;line-height:1;padding:0;">👁</button>
+        </div>
+      </div>
+
+      <div class="modal-error" id="login-error"></div>
+      <div class="modal-success" id="login-success"></div>
+
+      <button class="modal-submit en" onclick="doLogin()">Enter the Realm</button>
+      <button class="modal-submit th" style="display:none;" onclick="doLogin()">เข้าสู่ระบบ</button>
+
+      <div class="modal-switch en">No account? <a onclick="switchTab('register')">Register here</a></div>
+      <div class="modal-switch th" style="font-family:'Noto Serif Thai',serif;display:none;">ยังไม่มีบัญชี? <a onclick="switchTab('register')">สมัครที่นี่</a></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="modal-tab-panel" id="panel-register">
+      <div class="modal-title en">Join NakThai</div>
+      <div class="modal-title th" style="font-family:'Noto Serif Thai',serif;font-weight:700;">สมัครนาคทาย</div>
+      <div class="modal-sub en">Register with your bank account number — this becomes your secure login ID.</div>
+      <div class="modal-sub modal-sub-th th">สมัครด้วยเลขบัญชีธนาคาร — ใช้เป็น ID เข้าสู่ระบบของคุณ</div>
+
+      <div class="field-group">
+        <label class="field-label en">Full Name</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">ชื่อ-นามสกุล</label>
+        <input class="field-input" id="reg-name" type="text" placeholder="Your name · ชื่อของคุณ">
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Bank Account Number</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เลขบัญชีธนาคาร</label>
+        <input class="field-input" id="reg-bank" type="text" inputmode="numeric" maxlength="20"
+          placeholder="e.g. 123-4-56789-0" autocomplete="off">
+        <div class="field-hint en">This is your unique login ID — keep it safe. We never store your full account details.</div>
+        <div class="field-hint field-hint-th th">นี่คือ ID เข้าสู่ระบบของคุณ — เก็บไว้ให้ดี เราไม่เก็บรายละเอียดบัญชีเต็มรูปแบบ</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Password</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">รหัสผ่าน</label>
+        <input class="field-input" id="reg-pass" type="password" placeholder="Min 8 characters · อย่างน้อย 8 ตัว" autocomplete="new-password">
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Confirm Password</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">ยืนยันรหัสผ่าน</label>
+        <input class="field-input" id="reg-pass2" type="password" placeholder="Repeat password · ยืนยัน" autocomplete="new-password">
+      </div>
+      <div class="field-group">
+        <label class="field-label en">Phone Number (optional)</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เบอร์โทรศัพท์ (ไม่บังคับ)</label>
+        <input class="field-input" id="reg-phone" type="tel" placeholder="08X-XXX-XXXX">
+        <div class="field-hint en">For number release notifications via SMS</div>
+        <div class="field-hint field-hint-th th">สำหรับแจ้งเตือนเลขใหม่ทาง SMS</div>
+      </div>
+
+      <div class="modal-error" id="reg-error"></div>
+      <div class="modal-success" id="reg-success"></div>
+
+      <button class="modal-submit en" onclick="doRegister()">Create My Account</button>
+      <button class="modal-submit th" style="display:none;" onclick="doRegister()">สร้างบัญชีของฉัน</button>
+
+      <div class="modal-switch en">Already registered? <a onclick="switchTab('login')">Login here</a></div>
+      <div class="modal-switch th" style="font-family:'Noto Serif Thai',serif;display:none;">มีบัญชีแล้ว? <a onclick="switchTab('login')">เข้าสู่ระบบที่นี่</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STORAGE (demo — localStorage) ───
+const USERS_KEY = 'nakthai_users_v2'; // unified with app storage
+function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); } catch { return {}; } }
+function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function normBank(s) { return s.replace(/[-\s]/g,''); }
+function togglePwdLP(id, btn) {
+  const f = document.getElementById(id);
+  if (!f) return;
+  if (f.type === 'password') { f.type = 'text'; btn.textContent = '🙈'; }
+  else { f.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ─── LANG ───
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = 'lang-' + lang;
+  ['en','th'].forEach(l => {
+    const b = document.getElementById('langbtn-' + l);
+    if (b) b.classList.toggle('active', l === lang);
+  });
+  document.querySelectorAll('.btn-nav-login,.btn-nav-register,.modal-submit,.modal-switch,.modal-sub,.modal-title,.btn-enter-app,.btn-enter-realm').forEach(el => {
+    if (el.classList.contains('en') || el.classList.contains('th')) {
+      el.style.display = el.classList.contains(lang) ? (el.tagName === 'BUTTON' || el.tagName === 'A' ? 'inline-block' : '') : 'none';
+    }
+  });
+  const hbEn = document.querySelector('#hero-logged-banner .en');
+  const hbTh = document.querySelector('#hero-logged-banner .th');
+  if (hbEn) hbEn.style.display = lang === 'en' ? '' : 'none';
+  if (hbTh) hbTh.style.display = lang === 'th' ? '' : 'none';
+  localStorage.setItem('nakthai-lang', lang);
+}
+
+// ─── CHECK LOGGED IN ───
+// uses USERS_KEY above
+function checkLoggedIn() {
+  try {
+    const session = localStorage.getItem('nakthai_session');
+    if (!session) return;
+    const { bank } = JSON.parse(session);
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+    if (!bank || !users[bank]) return;
+    const name = users[bank].name || 'Devotee';
+    const firstName = name.split(' ')[0];
+    const authBtns = document.getElementById('nav-auth-btns');
+    const loggedIn = document.getElementById('nav-logged-in');
+    const navName = document.getElementById('nav-username');
+    if (authBtns) authBtns.style.display = 'none';
+    if (loggedIn) loggedIn.style.display = 'flex';
+    if (navName) navName.textContent = firstName;
+    const banner = document.getElementById('hero-logged-banner');
+    const heroNameEn = document.getElementById('hero-username-en');
+    const heroNameTh = document.getElementById('hero-username-th');
+    if (heroNameEn) heroNameEn.textContent = firstName;
+    if (heroNameTh) heroNameTh.textContent = firstName;
+    if (banner) banner.classList.add('visible');
+  } catch(e) {}
+}
+
+// ─── AUTH MODAL ───
+let currentLang = localStorage.getItem('nakthai-lang') || 'en';
+
+function openAuth(tab) {
+  document.getElementById('auth-modal').classList.add('open');
+  switchTab(tab);
+}
+function closeModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+}
+function switchTab(tab) {
+  ['login','register'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+    document.getElementById('panel-' + t).classList.toggle('active', t === tab);
+  });
+  // clear errors
+  ['login-error','login-success','reg-error','reg-success'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.display = 'none'; el.textContent = ''; }
+  });
+}
+
+function showFieldError(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function showFieldSuccess(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function normBank(s) { return s.replace(/[-\s]/g,''); }
+
+function doLogin() {
+  const bank = normBank(document.getElementById('login-bank').value.trim());
+  const pass = document.getElementById('login-pass').value;
+  if (!bank || !pass) {
+    showFieldError('login-error', currentLang === 'en' ? 'Please fill in all fields.' : 'กรุณากรอกข้อมูลให้ครบถ้วน');
+    return;
+  }
+  const users = getUsers();
+  if (!users[bank]) {
+    showFieldError('login-error', currentLang === 'en' ? 'Account not found. Please register first.' : 'ไม่พบบัญชี กรุณาสมัครสมาชิกก่อน');
+    return;
+  }
+  if (users[bank].password !== btoa(pass)) {
+    showFieldError('login-error', currentLang === 'en' ? 'Incorrect password.' : 'รหัสผ่านไม่ถูกต้อง');
+    return;
+  }
+  showFieldSuccess('login-success', currentLang === 'en'
+    ? '✓ Welcome back, ' + users[bank].name + '! Redirecting…'
+    : '✓ ยินดีต้อนรับ, ' + users[bank].name + '! กำลังเข้าสู่ระบบ…');
+  // save session so app knows user is logged in
+  localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
+  setTimeout(() => {
+    window.location.href = 'nakthai-app.html';
+  }, 900);
+}
+
+function doRegister() {
+  const name = document.getElementById('reg-name').value.trim();
+  const bank = normBank(document.getElementById('reg-bank').value.trim());
+  const pass = document.getElementById('reg-pass').value;
+  const pass2 = document.getElementById('reg-pass2').value;
+  const errId = 'reg-error';
+
+  if (!name || !bank || !pass || !pass2) {
+    showFieldError(errId, currentLang === 'en' ? 'Please fill in all required fields.' : 'กรุณากรอกข้อมูลที่จำเป็นให้ครบ');
+    return;
+  }
+  if (!/^\d{7,20}$/.test(bank)) {
+    showFieldError(errId, currentLang === 'en' ? 'Bank number must be 7–20 digits (numbers only).' : 'เลขบัญชีต้องมี 7–20 หลัก (ตัวเลขเท่านั้น)');
+    return;
+  }
+  if (pass.length < 8) {
+    showFieldError(errId, currentLang === 'en' ? 'Password must be at least 8 characters.' : 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร');
+    return;
+  }
+  if (pass !== pass2) {
+    showFieldError(errId, currentLang === 'en' ? 'Passwords do not match.' : 'รหัสผ่านไม่ตรงกัน');
+    return;
+  }
+  const users = getUsers();
+  if (users[bank]) {
+    showFieldError(errId, currentLang === 'en' ? 'This bank number is already registered.' : 'เลขบัญชีนี้ถูกลงทะเบียนแล้ว');
+    return;
+  }
+  users[bank] = { name, password: btoa(pass), phone: document.getElementById('reg-phone').value.trim(), joined: new Date().toISOString() };
+  saveUsers(users);
+  showFieldSuccess('reg-success', currentLang === 'en'
+    ? '✓ Account created! Welcome, ' + name + '. Entering the realm…'
+    : '✓ สร้างบัญชีสำเร็จ! ยินดีต้อนรับ, ' + name + ' กำลังเข้าสู่อาณาจักร…');
+  localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
+  setTimeout(() => { window.location.href = 'nakthai-app.html'; }, 1200);
+}
+
+// close on overlay click
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ─── TOAST ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── PARTICLES ───
+(function() {
+  const c = document.getElementById('particles');
+  const colors = ['#c9952a','#2d9e6e','#f0c060','#1a6b4a'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.width = p.style.height = (Math.random() * 2 + 1) + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDuration = (Math.random() * 14 + 10) + 's';
+    p.style.animationDelay = (Math.random() * 14) + 's';
+    c.appendChild(p);
+  }
+})();
+
+// ─── SCROLL DOTS ───
+const pgrid = document.querySelector('.packages-grid');
+if (pgrid) {
+  pgrid.addEventListener('scroll', () => {
+    const pct = pgrid.scrollLeft / Math.max(1, pgrid.scrollWidth - pgrid.clientWidth);
+    const active = Math.round(pct * 2);
+    [0,1,2].forEach(i => {
+      const d = document.getElementById('dot'+i);
+      if (d) d.classList.toggle('dim', i !== active);
+    });
+  });
+}
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+
+// ─── INIT ───
+const savedLang = localStorage.getItem('nakthai-lang') || 'en';
+currentLang = savedLang;
+setLang(savedLang);
+checkLoggedIn();
+
+// ─── OBSERVE FADE-INS ───
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.package-card,.tcard,.source-card,.fact-card,.step').forEach(el => {
+  el.style.opacity='0'; el.style.transform='translateY(18px)';
+  el.style.transition='opacity 0.55s ease, transform 0.55s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
