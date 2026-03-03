@@ -19,8 +19,8 @@
   --text-dim: #9a8f7a;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { background:var(--black); color:var(--text); font-family:'Sarabun','Noto Serif Thai',sans-serif; font-weight:300; overflow-x:hidden; }
+html { scroll-behavior:smooth; } * { box-sizing:border-box; }
+body { background:var(--black); color:var(--text); font-family:'Sarabun','Noto Serif Thai',sans-serif; font-weight:300; overflow-x:hidden; font-size:16px; }
 
 /* ─── LANG ─── */
 body:not(.lang-th) .th { display:none; }
@@ -38,7 +38,7 @@ nav {
 .nav-logo span { color:var(--jade-light); }
 .nav-right { display:flex; align-items:center; gap:1rem; }
 .nav-links { display:flex; gap:1.5rem; list-style:none; }
-.nav-links a { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); text-decoration:none; transition:color 0.2s; font-family:'Cinzel',serif; }
+.nav-links a { font-size:0.88rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); text-decoration:none; transition:color 0.2s; font-family:'Cinzel',serif; }
 .nav-links a:hover { color:var(--gold-light); }
 .lang-toggle { display:flex; border:1px solid rgba(201,149,42,0.3); border-radius:3px; overflow:hidden; }
 .lang-btn { background:none; border:none; padding:0.3rem 0.65rem; font-size:0.7rem; letter-spacing:0.08em; cursor:pointer; color:var(--text-dim); font-family:'Cinzel',serif; transition:all 0.2s; }
@@ -125,7 +125,7 @@ nav {
 .section-label::after { content:''; flex:1; max-width:50px; height:1px; background:var(--jade); }
 .section-title { font-family:'Cinzel Decorative',serif; font-size:clamp(1.5rem,3.5vw,2.5rem); color:var(--gold-light); line-height:1.2; margin-bottom:0.4rem; }
 .section-title-th { font-family:'Noto Serif Thai',serif; font-size:clamp(1.4rem,3.5vw,2.2rem); font-weight:700; color:var(--gold-light); line-height:1.4; margin-bottom:0.4rem; }
-.section-body { font-size:1rem; line-height:1.95; color:var(--text); max-width:700px; margin-top:1.4rem; }
+.section-body { font-size:1.05rem; line-height:2; color:var(--text); max-width:700px; margin-top:1.4rem; }
 .section-body-th { font-family:'Noto Serif Thai',serif; font-size:1.05rem; line-height:2.05; }
 .pull-quote { border-left:2px solid var(--gold); padding:1rem 1.3rem; margin:1.8rem 0; background:rgba(201,149,42,0.04); }
 .pull-quote p { font-style:italic; font-size:1rem; line-height:1.85; color:var(--gold-pale); }
@@ -146,7 +146,7 @@ nav {
 .kc-facts { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.8rem; }
 .fact-card { background:rgba(255,255,255,0.02); border:1px solid rgba(45,158,110,0.14); padding:1.1rem; text-align:center; }
 .fact-number { font-family:'Cinzel Decorative',serif; font-size:1.8rem; color:var(--jade-light); display:block; }
-.fact-label { font-size:0.72rem; color:var(--text-dim); margin-top:0.25rem; }
+.fact-label { font-size:0.84rem; color:var(--text-dim); margin-top:0.25rem; }
 .fact-label-th { font-family:'Noto Serif Thai',serif; font-size:0.82rem; }
 
 /* ─── MEDIUM ─── */
@@ -163,7 +163,7 @@ nav {
 .source-icon { font-size:1.3rem; margin-bottom:0.5rem; }
 .source-title { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.35rem; }
 .source-title-th { font-family:'Noto Serif Thai',serif; font-size:0.88rem; font-weight:600; color:var(--gold); margin-bottom:0.35rem; }
-.source-desc { font-size:0.78rem; color:var(--text-dim); line-height:1.6; }
+.source-desc { font-size:0.88rem; color:var(--text-dim); line-height:1.7; }
 .source-desc-th { font-family:'Noto Serif Thai',serif; font-size:0.86rem; }
 
 /* ─── PACKAGES ─── */
@@ -183,7 +183,7 @@ nav {
 .pkg-what { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1.2rem; }
 .pkg-tag { background:rgba(201,149,42,0.09); border:1px solid rgba(201,149,42,0.2); color:var(--gold-pale); font-family:'Cinzel',serif; font-size:0.65rem; padding:0.25rem 0.6rem; letter-spacing:0.08em; }
 .pkg-features { list-style:none; margin-bottom:1.4rem; }
-.pkg-features li { font-size:0.8rem; color:var(--text-dim); padding:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:baseline; gap:0.55rem; line-height:1.5; }
+.pkg-features li { font-size:0.9rem; color:var(--text-dim); padding:0.3rem 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:baseline; gap:0.55rem; line-height:1.6; }
 .pkg-features-th li { font-family:'Noto Serif Thai',serif; font-size:0.88rem; }
 .pkg-features li::before { content:'◆'; color:var(--jade-light); font-size:0.45rem; flex-shrink:0; margin-top:0.35rem; }
 .pkg-price { display:flex; align-items:baseline; gap:0.35rem; margin-bottom:1.1rem; }
@@ -192,7 +192,7 @@ nav {
 .price-per { font-size:0.72rem; color:var(--text-dim); }
 .pkg-cta { display:block; text-align:center; padding:0.7rem; background:transparent; border:1px solid var(--gold); color:var(--gold); font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; text-decoration:none; transition:all 0.25s; width:100%; }
 .pkg-cta:hover, .package-card.featured .pkg-cta { background:var(--gold); color:var(--black); }
-.pkg-validity { font-size:0.65rem; color:var(--text-dim); text-align:center; margin-top:0.65rem; font-style:italic; }
+.pkg-validity { font-size:0.78rem; color:var(--text-dim); text-align:center; margin-top:0.65rem; font-style:italic; }
 
 /* Usage pills */
 .usage-pills { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:1.1rem; }
@@ -206,7 +206,7 @@ nav {
 .step-num { width:60px; height:60px; border-radius:50%; border:1px solid rgba(201,149,42,0.38); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-family:'Cinzel Decorative',serif; font-size:1.1rem; color:var(--gold); background:var(--black); position:relative; z-index:1; }
 .step-title { font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.1em; color:var(--gold-light); margin-bottom:0.55rem; text-transform:uppercase; }
 .step-title-th { font-family:'Noto Serif Thai',serif; font-size:0.9rem; font-weight:600; color:var(--gold-light); margin-bottom:0.55rem; }
-.step-desc { font-size:0.78rem; color:var(--text-dim); line-height:1.7; }
+.step-desc { font-size:0.9rem; color:var(--text-dim); line-height:1.7; }
 .step-desc-th { font-family:'Noto Serif Thai',serif; font-size:0.85rem; }
 
 /* ─── TESTIMONIALS ─── */
@@ -256,8 +256,8 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
 .field-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.15em; color:var(--text-dim); text-transform:uppercase; margin-bottom:0.4rem; display:block; }
 .field-input { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(201,149,42,0.18); color:var(--text); font-size:0.88rem; padding:0.65rem 0.85rem; font-family:'Sarabun',sans-serif; transition:border-color 0.2s; outline:none; }
 .field-input:focus { border-color:rgba(201,149,42,0.5); background:rgba(201,149,42,0.03); }
-.field-input::placeholder { color:var(--text-dim); opacity:0.5; font-size:0.8rem; }
-.field-hint { font-size:0.68rem; color:var(--text-dim); margin-top:0.35rem; line-height:1.5; }
+.field-input::placeholder { color:var(--text-dim); opacity:0.5; font-size:0.92rem; }
+.field-hint { font-size:0.8rem; color:var(--text-dim); margin-top:0.35rem; line-height:1.5; }
 .field-hint-th { font-family:'Noto Serif Thai',serif; font-size:0.78rem; }
 .modal-submit { display:block; width:100%; text-align:center; padding:0.8rem; background:linear-gradient(135deg,var(--gold),#a07018); color:var(--black); font-family:'Cinzel',serif; font-size:0.78rem; letter-spacing:0.14em; border:none; cursor:pointer; transition:all 0.2s; margin-top:1.3rem; font-weight:700; }
 .modal-submit:hover { background:linear-gradient(135deg,var(--gold-light),var(--gold)); }
@@ -590,7 +590,7 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
       </ul>
       <div class="pkg-price">
         <span class="price-cur">฿</span>
-        <span class="price-amt">99</span>
+        <span class="price-amt" id="pkg-price-2digit">99</span>
         <span class="price-per en">/ draw</span>
         <span class="price-per th">/ งวด</span>
       </div>
@@ -634,7 +634,7 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
       </ul>
       <div class="pkg-price">
         <span class="price-cur">฿</span>
-        <span class="price-amt">199</span>
+        <span class="price-amt" id="pkg-price-3digit">199</span>
         <span class="price-per en">/ draw</span>
         <span class="price-per th">/ งวด</span>
       </div>
@@ -676,7 +676,7 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
       </ul>
       <div class="pkg-price">
         <span class="price-cur">฿</span>
-        <span class="price-amt">299</span>
+        <span class="price-amt" id="pkg-price-4digit">299</span>
         <span class="price-per en">/ draw</span>
         <span class="price-per th">/ งวด</span>
       </div>
@@ -723,8 +723,8 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
       <div class="step-num">3</div>
       <div class="step-title en">You Register & Buy</div>
       <div class="step-title-th th">สมัครและซื้อ</div>
-      <div class="step-desc en">Register with your bank number + password. Choose your package and receive the number instantly.</div>
-      <div class="step-desc step-desc-th th">สมัครด้วยเลขบัญชีธนาคารและรหัสผ่าน เลือกชุดเลขและรับทันที</div>
+      <div class="step-desc en">Register with your phone number + password. Choose your package and receive the number instantly.</div>
+      <div class="step-desc step-desc-th th">สมัครด้วยเบอร์โทรศัพท์และรหัสผ่าน เลือกชุดเลขและรับทันที</div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
@@ -787,9 +787,9 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
       <div class="footer-col-title en">Packages</div>
       <div class="footer-col-title th" style="font-family:'Noto Serif Thai',serif;">ชุดเลข</div>
       <ul class="footer-links">
-        <li><a href="#packages"><span class="en">Silver Naga — 2-digit · ฿99</span><span class="th">นาคเงิน — เลข 2 ตัว · ฿99</span></a></li>
-        <li><a href="#packages"><span class="en">Gold Naga — 3-digit · ฿199</span><span class="th">นาคทอง — เลข 3 ตัว · ฿199</span></a></li>
-        <li><a href="#packages"><span class="en">Jade Naga — 4-digit · ฿299</span><span class="th">นาคมรกต — เลข 4 ตัว · ฿299</span></a></li>
+        <li><a href="#packages"><span class="en">Silver Naga — 2-digit · <span id="footer-price-2digit">฿99</span></span><span class="th">นาคเงิน — เลข 2 ตัว · <span id="footer-price-2digit-th">฿99</span></span></a></li>
+        <li><a href="#packages"><span class="en">Gold Naga — 3-digit · <span id="footer-price-3digit">฿199</span></span><span class="th">นาคทอง — เลข 3 ตัว · <span id="footer-price-3digit-th">฿199</span></span></a></li>
+        <li><a href="#packages"><span class="en">Jade Naga — 4-digit · <span id="footer-price-4digit">฿299</span></span><span class="th">นาคมรกต — เลข 4 ตัว · <span id="footer-price-4digit-th">฿299</span></span></a></li>
       </ul>
     </div>
     <div>
@@ -829,16 +829,16 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
     <div class="modal-tab-panel active" id="panel-login">
       <div class="modal-title en">Welcome Back</div>
       <div class="modal-title th" style="font-family:'Noto Serif Thai',serif;font-weight:700;">ยินดีต้อนรับกลับ</div>
-      <div class="modal-sub en">Login with your bank account number and password.</div>
-      <div class="modal-sub modal-sub-th th">เข้าสู่ระบบด้วยเลขบัญชีธนาคารและรหัสผ่าน</div>
+      <div class="modal-sub en">Login with your 10-digit phone number and password.</div>
+      <div class="modal-sub modal-sub-th th">เข้าสู่ระบบด้วยเบอร์โทรศัพท์ 10 หลักและรหัสผ่าน</div>
 
       <div class="field-group">
-        <label class="field-label en">Bank Account Number</label>
-        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เลขบัญชีธนาคาร</label>
-        <input class="field-input" id="login-bank" type="text" inputmode="numeric" maxlength="20"
-          placeholder="e.g. 123-4-56789-0" autocomplete="off">
-        <div class="field-hint en">Your bank account number is your unique username</div>
-        <div class="field-hint field-hint-th th">เลขบัญชีธนาคารของคุณคือชื่อผู้ใช้ที่ไม่ซ้ำกัน</div>
+        <label class="field-label en">Phone Number (10 digits)</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เบอร์โทรศัพท์ (10 หลัก)</label>
+        <input class="field-input" id="login-bank" type="text" inputmode="numeric" maxlength="10"
+          placeholder="e.g. 0812345678" autocomplete="off">
+        <div class="field-hint en">Your mobile number is your unique login ID</div>
+        <div class="field-hint field-hint-th th">เบอร์โทรศัพท์ของคุณคือ ID เข้าสู่ระบบ</div>
       </div>
       <div class="field-group">
         <label class="field-label en">Password</label>
@@ -863,8 +863,8 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
     <div class="modal-tab-panel" id="panel-register">
       <div class="modal-title en">Join NakThai</div>
       <div class="modal-title th" style="font-family:'Noto Serif Thai',serif;font-weight:700;">สมัครนาคทาย</div>
-      <div class="modal-sub en">Register with your bank account number — this becomes your secure login ID.</div>
-      <div class="modal-sub modal-sub-th th">สมัครด้วยเลขบัญชีธนาคาร — ใช้เป็น ID เข้าสู่ระบบของคุณ</div>
+      <div class="modal-sub en">Register with your 10-digit phone number — this becomes your secure login ID.</div>
+      <div class="modal-sub modal-sub-th th">สมัครด้วยเบอร์โทรศัพท์ 10 หลัก — ใช้เป็น ID เข้าสู่ระบบของคุณ</div>
 
       <div class="field-group">
         <label class="field-label en">Full Name</label>
@@ -872,12 +872,12 @@ footer { border-top:1px solid rgba(255,255,255,0.05); padding:4rem 3rem 2rem; ma
         <input class="field-input" id="reg-name" type="text" placeholder="Your name · ชื่อของคุณ">
       </div>
       <div class="field-group">
-        <label class="field-label en">Bank Account Number</label>
-        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เลขบัญชีธนาคาร</label>
-        <input class="field-input" id="reg-bank" type="text" inputmode="numeric" maxlength="20"
-          placeholder="e.g. 123-4-56789-0" autocomplete="off">
-        <div class="field-hint en">This is your unique login ID — keep it safe. We never store your full account details.</div>
-        <div class="field-hint field-hint-th th">นี่คือ ID เข้าสู่ระบบของคุณ — เก็บไว้ให้ดี เราไม่เก็บรายละเอียดบัญชีเต็มรูปแบบ</div>
+        <label class="field-label en">Phone Number (10 digits)</label>
+        <label class="field-label th" style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;">เบอร์โทรศัพท์ (10 หลัก)</label>
+        <input class="field-input" id="reg-bank" type="text" inputmode="numeric" maxlength="10"
+          placeholder="e.g. 0812345678" autocomplete="off">
+        <div class="field-hint en">Your mobile number is your secure login ID — digits only, no dashes.</div>
+        <div class="field-hint field-hint-th th">เบอร์โทรศัพท์มือถือของคุณคือ ID เข้าสู่ระบบ — กรอกเฉพาะตัวเลข</div>
       </div>
       <div class="field-group">
         <label class="field-label en">Password</label>
@@ -1043,8 +1043,12 @@ function doRegister() {
     showFieldError(errId, currentLang === 'en' ? 'Please fill in all required fields.' : 'กรุณากรอกข้อมูลที่จำเป็นให้ครบ');
     return;
   }
-  if (!/^\d{7,20}$/.test(bank)) {
-    showFieldError(errId, currentLang === 'en' ? 'Bank number must be 7–20 digits (numbers only).' : 'เลขบัญชีต้องมี 7–20 หลัก (ตัวเลขเท่านั้น)');
+  if (!/^\d{10}$/.test(bank)) {
+    showFieldError(errId, currentLang === 'en' ? 'Phone number must be exactly 10 digits.' : 'เบอร์โทรศัพท์ต้องมี 10 หลักเท่านั้น');
+    return;
+  }
+  if (bank === '0991461761') {
+    showFieldError(errId, currentLang === 'en' ? 'This number cannot be registered.' : 'ไม่สามารถสมัครด้วยหมายเลขนี้');
     return;
   }
   if (pass.length < 8) {
@@ -1119,11 +1123,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// ─── LOAD PRICES FROM ADMIN ───
+function loadAdminPrices() {
+  try {
+    const nums = JSON.parse(localStorage.getItem('nakthai_numbers_v2') || '{}');
+    const defaults = { '2digit': 99, '3digit': 199, '4digit': 299 };
+    ['2digit','3digit','4digit'].forEach(type => {
+      const price = nums[type] && nums[type].price ? nums[type].price : defaults[type];
+      const el = document.getElementById('pkg-price-' + type);
+      if (el) el.textContent = price;
+      const f = document.getElementById('footer-price-' + type);
+      if (f) f.textContent = '฿' + price;
+      const fth = document.getElementById('footer-price-' + type + '-th');
+      if (fth) fth.textContent = '฿' + price;
+    });
+  } catch(e) {}
+}
+
 // ─── INIT ───
 const savedLang = localStorage.getItem('nakthai-lang') || 'en';
 currentLang = savedLang;
 setLang(savedLang);
 checkLoggedIn();
+loadAdminPrices();
 
 // ─── OBSERVE FADE-INS ───
 const obs = new IntersectionObserver(entries => {

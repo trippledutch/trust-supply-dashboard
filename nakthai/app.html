@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NakThai App · นาคทาย</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Sarabun:wght@300;400;500;600&family=Noto+Serif+Thai:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -16,11 +17,11 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
-body{background:var(--black);color:var(--text);font-family:'Sarabun','Noto Serif Thai',sans-serif;font-weight:300;display:flex;flex-direction:column;min-height:100vh;}
+body{background:var(--black);color:var(--text);font-family:'Sarabun','Noto Serif Thai',sans-serif;font-weight:300;display:flex;flex-direction:column;min-height:100vh;font-size:16px;}
 
-/* Lang */
-body:not(.lang-th) .th{display:none;}
-body.lang-th .en{display:none;}
+/* Language visibility */
+body.lang-en .th{display:none!important;}
+body.lang-th .en{display:none!important;}
 
 /* ─── AUTH SCREEN ─── */
 .auth-screen{position:fixed;inset:0;background:linear-gradient(160deg,#060709 0%,#0a1220 50%,#060f0a 100%);z-index:500;display:flex;align-items:center;justify-content:center;}
@@ -72,7 +73,7 @@ body.lang-th .en{display:none;}
 /* ─── SIDEBAR ─── */
 .sidebar{width:205px;background:var(--deep);border-right:1px solid var(--border2);display:flex;flex-direction:column;padding:1rem 0;flex-shrink:0;}
 .sidebar-sec{font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.24em;color:var(--text-dim);text-transform:uppercase;padding:0.65rem 1.1rem 0.32rem;}
-.nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.58rem 1.1rem;cursor:pointer;border-left:2px solid transparent;transition:all 0.2s;font-size:0.78rem;color:var(--text-dim);}
+.nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.58rem 1.1rem;cursor:pointer;border-left:2px solid transparent;transition:all 0.2s;font-size:0.9rem;color:var(--text-dim);}
 .nav-item:hover{color:var(--text);background:rgba(255,255,255,0.02);}
 .nav-item.active{color:var(--gold-light);border-left-color:var(--gold);background:rgba(201,149,42,0.05);}
 .nav-icon{font-size:0.95rem;width:17px;text-align:center;}
@@ -90,7 +91,7 @@ body.lang-th .en{display:none;}
 .bottom-nav{display:none;}
 
 /* ─── MAIN ─── */
-.main-content{flex:1;overflow-y:auto;padding:1.3rem;background:var(--black);}
+.main-content{flex:1;overflow-y:auto;overflow-x:auto;padding:1.3rem;background:var(--black);}
 .view{display:none;}
 .view.active{display:block;}
 
@@ -158,7 +159,7 @@ body.lang-th .en{display:none;}
 .dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem;}
 .dash-title{font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold-light);}
 .dash-title-th{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:1.15rem;color:var(--gold-light);}
-.dash-sub{font-size:0.74rem;color:var(--text-dim);margin-top:0.15rem;}
+.dash-sub{font-size:0.85rem;color:var(--text-dim);margin-top:0.15rem;}
 .dash-sub-th{font-family:'Noto Serif Thai',serif;font-size:0.82rem;}
 .sec-heading{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.85rem;display:flex;align-items:center;gap:0.65rem;}
 .sec-heading::after{content:'';flex:1;height:1px;background:var(--border2);}
@@ -168,7 +169,7 @@ body.lang-th .en{display:none;}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.85rem;margin-bottom:1.2rem;}
 .stat-card{background:var(--panel);border:1px solid var(--border2);padding:0.85rem;}
 .stat-val{font-family:'Cinzel Decorative',serif;font-size:1.35rem;color:var(--gold-light);}
-.stat-label{font-size:0.6rem;color:var(--text-dim);margin-top:0.22rem;font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase;}
+.stat-label{font-size:0.72rem;color:var(--text-dim);margin-top:0.22rem;font-family:'Cinzel',serif;letter-spacing:0.08em;text-transform:uppercase;}
 .stat-label-th{font-family:'Noto Serif Thai',serif;font-size:0.76rem;letter-spacing:0;text-transform:none;}
 .stat-delta{font-size:0.66rem;color:var(--jade-light);margin-top:0.12rem;}
 
@@ -188,8 +189,8 @@ body.lang-th .en{display:none;}
 .cd-time{font-family:'Cinzel Decorative',serif;font-size:0.95rem;color:var(--gold-light);margin-top:0.08rem;}
 
 /* ─── RELEASE CARDS ─── */
-.releases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1rem;margin-bottom:1.6rem;}
-.rcard{background:var(--card);border:1px solid var(--border);padding:1.05rem;position:relative;transition:all 0.22s;cursor:pointer;}
+.releases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.6rem;}
+.rcard{background:var(--card);border:1px solid var(--border);padding:1.05rem;position:relative;transition:all 0.22s;cursor:pointer;display:flex;flex-direction:column;}
 .rcard:hover{border-color:rgba(201,149,42,0.32);box-shadow:0 4px 18px rgba(0,0,0,0.38);}
 .rcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.7rem;}
 .type-badge{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.1em;padding:0.17rem 0.52rem;border:1px solid;text-transform:uppercase;}
@@ -201,7 +202,7 @@ body.lang-th .en{display:none;}
 .lottery-tag-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;letter-spacing:0;color:var(--jade-light);}
 .rcard-name{font-family:'Cinzel',serif;font-size:0.88rem;color:var(--gold-light);margin-bottom:0.2rem;}
 .rcard-name-th{font-family:'Noto Serif Thai',serif;font-weight:600;font-size:0.93rem;color:var(--gold-light);}
-.rcard-when{font-size:0.66rem;color:var(--text-dim);margin-bottom:0.7rem;}
+.rcard-when{font-size:0.78rem;color:var(--text-dim);margin-bottom:0.7rem;}
 .rcard-when-th{font-family:'Noto Serif Thai',serif;font-size:0.74rem;}
 
 /* number display with flip indicators */
@@ -237,12 +238,12 @@ body.lang-th .en{display:none;}
 .mycard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.85rem;}
 .mycard-name{font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);}
 .mycard-name-th{font-family:'Noto Serif Thai',serif;font-weight:600;font-size:0.9rem;color:var(--gold-light);}
-.mycard-date{font-size:0.6rem;color:var(--text-dim);}
+.mycard-date{font-size:0.74rem;color:var(--text-dim);}
 .my-numbers{display:flex;gap:0.45rem;flex-wrap:wrap;margin-bottom:0.85rem;}
 .my-num{background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.24);font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold-pale);padding:0.42rem 0.9rem;letter-spacing:0.18em;}
 .validity-bar{background:rgba(255,255,255,0.04);height:3px;border-radius:2px;margin-bottom:0.38rem;}
 .validity-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--jade),var(--jade-light));}
-.validity-text{font-size:0.6rem;color:var(--text-dim);}
+.validity-text{font-size:0.78rem;color:var(--text-dim);}
 .validity-text-th{font-family:'Noto Serif Thai',serif;font-size:0.7rem;}
 .my-flip-section{margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid var(--border2);}
 .empty-state{text-align:center;padding:3.2rem 2rem;color:var(--text-dim);}
@@ -252,27 +253,27 @@ body.lang-th .en{display:none;}
 
 /* shop */
 .shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.05rem;}
-.shop-card{background:var(--card2);border:1px solid var(--border);padding:1.35rem;position:relative;transition:all 0.22s;}
+.shop-card{background:var(--card2);border:1px solid var(--border);padding:1.35rem;position:relative;transition:all 0.22s;display:flex;flex-direction:column;}
 .shop-card:hover{border-color:rgba(201,149,42,0.38);transform:translateY(-2px);}
-.shop-card.featured{border-color:rgba(201,149,42,0.45);}
+
 .shop-icon{font-size:1.65rem;margin-bottom:0.7rem;}
 .shop-name{font-family:'Cinzel',serif;font-size:0.92rem;color:var(--gold-light);margin-bottom:0.2rem;}
 .shop-name-th{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:0.97rem;color:var(--gold-light);}
-.shop-desc{font-size:0.74rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.85rem;}
+.shop-desc{font-size:0.86rem;color:var(--text-dim);line-height:1.65;margin-bottom:0.85rem;flex-grow:1;}
 .shop-desc-th{font-family:'Noto Serif Thai',serif;font-size:0.83rem;}
 .shop-tag-row{display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:0.7rem;}
-.shop-tag{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.18);color:var(--gold-pale);font-size:0.6rem;padding:0.18rem 0.48rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
+.shop-tag{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.18);color:var(--gold-pale);font-size:0.72rem;padding:0.18rem 0.52rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
 .shop-price{display:flex;align-items:baseline;gap:0.28rem;margin-bottom:0.85rem;}
 .shop-cur{font-family:'Cinzel',serif;font-size:0.82rem;color:var(--gold);}
 .shop-amt{font-family:'Cinzel Decorative',serif;font-size:1.85rem;color:var(--gold-light);}
 .shop-per{font-size:0.68rem;color:var(--text-dim);}
 .shop-buy{display:block;width:100%;text-align:center;padding:0.6rem;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;}
-.shop-buy:hover,.shop-card.featured .shop-buy{background:var(--gold);color:var(--black);}
+.shop-buy:hover{background:var(--gold);color:var(--black);}
 
 /* history */
 .hist-table{width:100%;border-collapse:collapse;}
 .hist-table th{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.14em;color:var(--text-dim);text-transform:uppercase;padding:0.52rem 0.72rem;text-align:left;border-bottom:1px solid var(--border2);}
-.hist-table td{padding:0.72rem;border-bottom:1px solid var(--border2);font-size:0.78rem;vertical-align:middle;}
+.hist-table td{padding:0.72rem;border-bottom:1px solid var(--border2);font-size:0.88rem;vertical-align:middle;}
 .hist-table tr:hover td{background:rgba(255,255,255,0.01);}
 .win-badge{background:rgba(26,138,90,0.14);border:1px solid rgba(26,138,90,0.28);color:var(--jade-light);font-size:0.6rem;padding:0.17rem 0.46rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
 .pending-badge{font-size:0.68rem;color:var(--text-dim);font-style:italic;}
@@ -284,9 +285,9 @@ body.lang-th .en{display:none;}
 .profile-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--jade),var(--deep));border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
 .profile-name{font-family:'Cinzel',serif;font-size:0.92rem;color:var(--gold-light);}
 .profile-bank{font-size:0.66rem;color:var(--text-dim);margin-top:0.15rem;font-family:'Cinzel',serif;letter-spacing:0.06em;}
-.pf-label{font-size:0.58rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;}
+.pf-label{font-size:0.72rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;}
 .pf-label-th{font-family:'Noto Serif Thai',serif;font-size:0.68rem;letter-spacing:0;text-transform:none;color:var(--text-dim);margin-bottom:0.25rem;}
-.pf-value{font-size:0.83rem;color:var(--text);margin-bottom:0.65rem;}
+.pf-value{font-size:0.97rem;color:var(--text);margin-bottom:0.65rem;}
 .topup-big-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-top:0.85rem;}
 .topup-big-btn{background:rgba(201,149,42,0.08);border:1px solid rgba(201,149,42,0.22);color:var(--gold);font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.06em;padding:0.5rem 0;cursor:pointer;transition:all 0.2s;text-align:center;}
 .topup-big-btn:hover{background:var(--gold);color:var(--black);}
@@ -303,20 +304,20 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 /* ─── ADMIN PANEL ─── */
 .admin-panel{background:linear-gradient(160deg,rgba(192,57,43,0.06),rgba(13,18,48,0.4));border:1px solid rgba(192,57,43,0.2);padding:1.5rem;margin-bottom:1.4rem;}
 .admin-title{font-family:'Cinzel Decorative',serif;font-size:1rem;color:#e07060;margin-bottom:0.3rem;}
-.admin-sub{font-size:0.72rem;color:var(--text-dim);margin-bottom:1.3rem;}
+.admin-sub{font-size:0.85rem;color:var(--text-dim);margin-bottom:1.3rem;}
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-bottom:1.2rem;}
 .admin-card{background:rgba(255,255,255,0.02);border:1px solid rgba(192,57,43,0.15);padding:1.1rem;}
-.admin-card-title{font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.14em;color:#e07060;text-transform:uppercase;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.5rem;}
+.admin-card-title{font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.5rem;}
 .admin-card-title::after{content:'';flex:1;height:1px;background:rgba(192,57,43,0.18);}
 .admin-row{margin-bottom:0.7rem;}
-.admin-label{font-family:'Cinzel',serif;font-size:0.56rem;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.28rem;display:block;}
+.admin-label{font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.3rem;display:block;}
 .admin-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(192,57,43,0.2);color:var(--text);font-size:0.85rem;padding:0.5rem 0.7rem;font-family:'Sarabun',sans-serif;outline:none;transition:border-color 0.2s;letter-spacing:0.1em;}
 .admin-input:focus{border-color:rgba(192,57,43,0.45);}
 .admin-input::placeholder{color:var(--text-dim);opacity:0.4;font-size:0.76rem;}
 .admin-select{width:100%;background:var(--panel);border:1px solid rgba(192,57,43,0.2);color:var(--text);font-size:0.8rem;padding:0.5rem 0.7rem;font-family:'Sarabun',sans-serif;outline:none;cursor:pointer;}
 .admin-checkbox-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.45rem;cursor:pointer;}
 .admin-checkbox-row input{accent-color:var(--red-light);}
-.admin-checkbox-label{font-size:0.76rem;color:var(--text-dim);}
+.admin-checkbox-label{font-size:0.88rem;color:var(--text-dim);}
 .admin-save{display:block;width:100%;text-align:center;padding:0.62rem;background:linear-gradient(135deg,#c0392b,#8a1a10);color:white;font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.14em;border:none;cursor:pointer;transition:all 0.2s;margin-top:0.9rem;font-weight:700;}
 .admin-save:hover{background:linear-gradient(135deg,#e04030,#c0392b);}
 .admin-preview{background:rgba(255,255,255,0.02);border:1px solid var(--border2);padding:1rem;margin-top:1.2rem;}
@@ -381,7 +382,7 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 .disc-body{flex:1;}
 .disc-heading{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:rgba(224,112,96,0.9);text-transform:uppercase;margin-bottom:0.55rem;}
 .disc-list{list-style:disc;padding-left:1.1rem;}
-.disc-list li{font-size:0.7rem;color:var(--text-dim);line-height:1.7;margin-bottom:0.28rem;}
+.disc-list li{font-size:0.82rem;color:var(--text-dim);line-height:1.8;margin-bottom:0.32rem;}
 .disc-list li strong{color:var(--text);}
 .disc-list li em{color:var(--jade-light);font-style:normal;}
 
@@ -410,8 +411,8 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 .tip-btn{display:flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,rgba(45,184,122,0.12),rgba(26,107,74,0.08));border:1px solid rgba(45,184,122,0.3);padding:0.6rem 1rem;cursor:pointer;transition:all 0.22s;margin-top:0.65rem;width:100%;}
 .tip-btn:hover{border-color:rgba(45,184,122,0.6);background:linear-gradient(135deg,rgba(45,184,122,0.2),rgba(26,107,74,0.14));}
 .tip-btn-icon{font-size:1.1rem;}
-.tip-btn-text{font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.1em;color:var(--jade-light);}
-.tip-btn-sub{font-size:0.58rem;color:var(--text-dim);margin-top:0.08rem;}
+.tip-btn-text{font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:0.1em;color:var(--jade-light);}
+.tip-btn-sub{font-size:0.74rem;color:var(--text-dim);margin-top:0.08rem;}
 
 /* ─── TIP MODAL ─── */
 .tip-modal-inner{max-width:360px;}
@@ -426,6 +427,12 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 .shop-source-row{display:flex;flex-wrap:wrap;gap:0.28rem;margin-bottom:0.55rem;}
 .shop-src-chip{font-size:0.56rem;padding:0.1rem 0.38rem;border:1px solid;font-family:'Cinzel',serif;letter-spacing:0.06em;}
 
+.shop-card.already-bought{opacity:0.65;pointer-events:none;}
+.shop-card.already-bought .shop-icon{filter:grayscale(0.4);}
+/* overflow for wide content */
+.hist-table,.admin-users-table,.variants-table{min-width:500px;}
+.view{overflow-x:auto;}
+
 /* responsive */
 @media(max-width:780px){
   .sidebar{display:none;}
@@ -436,7 +443,13 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
   .admin-current-numbers{grid-template-columns:1fr 1fr;}
   .topup-big-grid{grid-template-columns:repeat(4,1fr);}
 }
+@media(max-width:900px){
+  .releases-grid{grid-template-columns:repeat(2,1fr);}
+  .shop-grid{grid-template-columns:repeat(2,1fr);}
+}
 @media(max-width:480px){
+  .releases-grid{grid-template-columns:1fr;}
+  .shop-grid{grid-template-columns:1fr;}
   .stats-row{grid-template-columns:1fr 1fr;}
   .main-content{padding:0.9rem;}
   .topup-big-grid{grid-template-columns:1fr 1fr;}
@@ -466,11 +479,11 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
     <!-- LOGIN -->
     <div class="auth-panel active" id="apanel-login">
       <div class="field-group">
-        <label class="field-label en">Username</label>
-        <label class="field-label-th th">ชื่อผู้ใช้ (เลขบัญชี)</label>
+        <label class="field-label en">Phone Number</label>
+        <label class="field-label-th th">เบอร์โทรศัพท์</label>
         <div style="position:relative;">
-          <input class="field-input" id="l-bank" type="text" inputmode="numeric" maxlength="20" placeholder="Your bank account number" autocomplete="username" style="padding-right:2.4rem;">
-          <div id="remembered-hint" style="font-size:0.6rem;color:var(--jade-light);margin-top:0.22rem;display:none;">✓ <span class="en">Remembered from last login</span><span class="th">จำจากการเข้าสู่ระบบครั้งก่อน</span></div>
+          <input class="field-input" id="l-bank" type="text" inputmode="numeric" maxlength="20" placeholder="e.g. 0812345678" autocomplete="username" style="padding-right:2.4rem;">
+          
         </div>
         <label style="display:flex;align-items:center;gap:0.4rem;margin-top:0.38rem;cursor:pointer;">
           <input type="checkbox" id="remember-me" style="accent-color:var(--gold);width:13px;height:13px;">
@@ -495,19 +508,7 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         <span class="en">No account? <a onclick="switchAuthTab('register')">Register here</a></span>
         <span class="th" style="font-family:'Noto Serif Thai',serif;">ยังไม่มีบัญชี? <a onclick="switchAuthTab('register')">สมัครที่นี่</a></span>
       </div>
-      <div style="margin-top:0.85rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:0.85rem;text-align:center;">
-        <button onclick="showAdminLoginPanel()" style="background:none;border:1px solid rgba(201,149,42,0.2);padding:0.32rem 1rem;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:var(--text-dim);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,149,42,0.5)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(201,149,42,0.2)';this.style.color='var(--text-dim)'">⚙ Admin</button>
-      </div>
-      <!-- Admin login sub-panel -->
-      <div id="admin-login-panel" style="display:none;margin-top:0.85rem;border:1px solid rgba(201,149,42,0.2);padding:0.85rem;background:rgba(201,149,42,0.03);">
-        <div style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:0.65rem;">MEDIUM PANEL LOGIN</div>
-        <div class="field-group" style="margin-bottom:0.55rem;">
-          <input class="field-input" id="admin-user-input" type="text" placeholder="Username" autocomplete="off" style="margin-bottom:0.35rem;">
-          <input class="field-input" id="admin-pass-input" type="password" placeholder="Password">
-        </div>
-        <div class="auth-error" id="admin-login-err" style="margin-top:0.4rem;"></div>
-        <button onclick="doAdminLogin()" style="display:block;width:100%;margin-top:0.55rem;padding:0.55rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.12em;border:none;cursor:pointer;font-weight:700;">Enter</button>
-      </div>
+
     </div>
 
     <!-- REGISTER -->
@@ -518,11 +519,11 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         <input class="field-input" id="r-name" type="text" placeholder="Your name">
       </div>
       <div class="field-group">
-        <label class="field-label en">Username (Bank Account Number)</label>
-        <label class="field-label-th th">ชื่อผู้ใช้ (เลขบัญชีธนาคาร)</label>
-        <input class="field-input" id="r-bank" type="text" inputmode="numeric" maxlength="20" placeholder="e.g. 123-4-56789-0" autocomplete="username">
-        <div class="field-hint en">Your bank account number is your unique username — kept private and safe.</div>
-        <div class="field-hint field-hint-th th">เลขบัญชีธนาคารคือชื่อผู้ใช้เฉพาะของคุณ — ปลอดภัยและเป็นความลับ</div>
+        <label class="field-label en">Phone Number (10 digits)</label>
+        <label class="field-label-th th">เบอร์โทรศัพท์ (10 หลัก)</label>
+        <input class="field-input" id="r-bank" type="text" inputmode="numeric" maxlength="10" placeholder="e.g. 0812345678" autocomplete="username">
+        <div class="field-hint en">Your 10-digit mobile phone number becomes your login ID. Enter digits only (no dashes).</div>
+        <div class="field-hint field-hint-th th">เบอร์โทรศัพท์มือถือ 10 หลักของคุณจะเป็น ID เข้าสู่ระบบ กรอกตัวเลขเท่านั้น</div>
       </div>
       <div class="field-group">
         <label class="field-label en">Password</label>
@@ -562,14 +563,12 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 <div class="topbar">
   <div class="app-logo">NakThai <span>· นาคทาย</span></div>
   <div class="topbar-right">
-    <button class="admin-topbtn" id="admin-topbtn" onclick="showView('admin')" style="display:none;">
-      ⚙ <span class="en">Admin</span><span class="th">แอดมิน</span>
-    </button>
+    <span id="admin-topbtn" style="display:none;"></span>
     <div class="flag-toggle">
       <button class="flag-btn active" id="flag-en" onclick="setLang('en')">🇬🇧</button>
       <button class="flag-btn" id="flag-th" onclick="setLang('th')">🇹🇭</button>
     </div>
-    <div class="user-chip" onclick="showView('profile')" title="View profile &amp; balance">
+    <div class="user-chip" onclick="showView('profile')" style="cursor:pointer;" title="View profile">
       <span style="font-size:0.85rem;">👤</span>
       <span class="user-chip-name" id="topbar-username">—</span>
     </div>
@@ -587,21 +586,24 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
     <div class="nav-item active" onclick="showView('dashboard')">
       <span class="nav-icon">🐉</span><span class="en">Dashboard</span><span class="th">หน้าหลัก</span>
     </div>
-    <div class="nav-item" onclick="showView('numbers')">
-      <span class="nav-icon">🔢</span><span class="en">My Numbers</span><span class="th">เลขของฉัน</span>
-      <span class="nav-badge" id="badge-my">0</span>
-    </div>
-    <div class="nav-item" onclick="showView('shop')">
-      <span class="nav-icon">🛒</span><span class="en">Buy Numbers</span><span class="th">ซื้อเลข</span>
-    </div>
-    <div class="nav-item" onclick="showView('history')">
-      <span class="nav-icon">📜</span><span class="en">History</span><span class="th">ประวัติ</span>
-    </div>
     <div class="nav-item" onclick="showView('medium')">
       <span class="nav-icon">🧿</span><span class="en">Mae Wan Fah</span><span class="th">แม่วันฟ้า</span>
     </div>
+    <div class="nav-item nav-user-only" onclick="showView('numbers')">
+      <span class="nav-icon">🔢</span><span class="en">My Numbers</span><span class="th">เลขของฉัน</span>
+      <span class="nav-badge" id="badge-my">0</span>
+    </div>
+    <div class="nav-item nav-user-only" onclick="showView('shop')">
+      <span class="nav-icon">🛒</span><span class="en">Buy Numbers</span><span class="th">ซื้อเลข</span>
+    </div>
+    <div class="nav-item nav-user-only" onclick="showView('history')">
+      <span class="nav-icon">📜</span><span class="en">History</span><span class="th">ประวัติ</span>
+    </div>
     <div class="nav-item" id="nav-admin" onclick="showView('admin')" style="display:none;">
       <span class="nav-icon">⚙</span><span class="en">Admin</span><span class="th">แอดมิน</span>
+    </div>
+    <div class="nav-item" id="nav-history-admin" onclick="showView('history-admin')" style="display:none;">
+      <span class="nav-icon">📊</span><span class="en">History</span><span class="th">ประวัติ</span>
     </div>
     <div class="nav-item" onclick="showView('profile')">
       <span class="nav-icon">👤</span><span class="en">Profile</span><span class="th">โปรไฟล์</span>
@@ -633,10 +635,17 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
           <div class="dash-sub en">Latest numbers from Pu Sri Suttho via Mae Wan Fah</div>
           <div class="dash-sub dash-sub-th th">เลขล่าสุดจากพ่อปู่ศรีสุทโธผ่านแม่วันฟ้า</div>
         </div>
-        <div class="cd-pill">
-          <div class="cd-label en">Next Thai Gov Draw</div>
-          <div class="cd-label-th th">งวดสลากถัดไป</div>
-          <div class="cd-time" id="countdown">--:--:--</div>
+        <div style="display:flex;gap:0.85rem;align-items:flex-end;">
+          <div class="cd-pill">
+            <div class="cd-label en">Next Thai Gov Draw</div>
+            <div class="cd-label-th th">สลากถัดไป</div>
+            <div class="cd-time" id="countdown">--:--:--</div>
+          </div>
+          <div class="cd-pill" style="border-left:1px solid var(--border2);padding-left:0.85rem;">
+            <div class="cd-label en">Next Laos Draw</div>
+            <div class="cd-label-th th">หวยลาวถัดไป</div>
+            <div class="cd-time" id="laos-countdown2">--:--:--</div>
+          </div>
         </div>
       </div>
 
@@ -645,15 +654,11 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         <div class="med-info">
           <div class="med-name en">Mae Wan Fah · Spirit Vessel of Pu Sri Suttho</div>
           <div class="med-name-th th">แม่วันฟ้า · ร่างทรงพ่อปู่ศรีสุทโธ</div>
-          <div class="med-status-txt en">🌙 Numbers received — 3 sets now available</div>
-          <div class="med-status-txt med-status-txt-th th">🌙 รับเลขแล้ว — มี 3 ชุดพร้อมใช้งาน</div>
+          <div class="med-status-txt en" id="med-status-en">🌙 Numbers received — 3 sets now available</div>
+          <div class="med-status-txt med-status-txt-th th" id="med-status-th">🌙 รับเลขแล้ว — มี 3 ชุดพร้อมใช้งาน</div>
         </div>
         <div class="status-dot"></div>
-        <div class="cd-pill">
-          <div class="cd-label en">Laos Draw</div>
-          <div class="cd-label-th th">หวยลาว</div>
-          <div class="cd-time">Today 20:30</div>
-        </div>
+
       </div>
 
       <div class="stats-row">
@@ -669,7 +674,7 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
           <div class="stat-label stat-label-th th">ซื้อแล้ว</div>
         </div>
         <div class="stat-card">
-          <div class="stat-val">3</div>
+          <div class="stat-val" id="stat-days">—</div>
           <div class="stat-label en">Days to Draw</div>
           <div class="stat-label stat-label-th th">วันถึงงวด</div>
         </div>
@@ -694,8 +699,8 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         <div>
           <div class="dash-title en">My Numbers</div>
           <div class="dash-title-th th">เลขของฉัน</div>
-          <div class="dash-sub en">Purchased sets with all play variants</div>
-          <div class="dash-sub dash-sub-th th">ชุดที่ซื้อพร้อมทุกรูปแบบการเล่น</div>
+          <div class="dash-sub en">Your purchased sacred numbers</div>
+          <div class="dash-sub dash-sub-th th">เลขศักดิ์สิทธิ์ที่ซื้อแล้ว</div>
         </div>
       </div>
 
@@ -706,24 +711,26 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         <div class="ls-entries" id="ls-entries"></div>
       </div>
 
-      <!-- Disclaimer -->
-      <div class="disclaimer-block" id="numbers-disclaimer">
+      <!-- Disclaimer toggle button -->
+      <button onclick="toggleDisclaimer()" id="disclaimer-btn" style="display:flex;align-items:center;gap:0.55rem;background:rgba(192,57,43,0.06);border:1px solid rgba(192,57,43,0.22);padding:0.65rem 1rem;width:100%;cursor:pointer;margin-bottom:0.75rem;transition:all 0.2s;text-align:left;" onmouseover="this.style.background='rgba(192,57,43,0.12)'" onmouseout="this.style.background='rgba(192,57,43,0.06)'">
+        <span style="font-size:1.05rem;opacity:0.75;">⚠</span>
+        <span style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.12em;color:rgba(224,112,96,0.9);text-transform:uppercase;" class="en">Important Notice</span>
+        <span style="font-family:'Noto Serif Thai',serif;font-size:0.85rem;color:rgba(224,112,96,0.9);" class="th">ข้อความสำคัญ</span>
+        <span id="disclaimer-chevron" style="margin-left:auto;color:rgba(192,57,43,0.6);font-size:0.8rem;transition:transform 0.25s;">▼</span>
+      </button>
+      <div class="disclaimer-block" id="numbers-disclaimer" style="display:none;margin-top:-0.3rem;">
         <div class="disc-icon">⚠</div>
         <div class="disc-body">
-          <div class="disc-heading en">Important Notice</div>
-          <div class="disc-heading th" style="font-family:'Noto Serif Thai',serif;">ข้อความสำคัญ</div>
           <ul class="disc-list en">
             <li>NakThai provides sacred numbers believed to carry spiritual blessing. We offer a number we believe has a <strong>high likelihood of winning</strong>, but <strong>no guarantee</strong> of any lottery outcome is made or implied.</li>
-            <li>We recommend <strong>only official lotteries</strong>: the <em>สลากกินแบ่งรัฐบาล</em> (Thai Government Lottery, issued by the Government Lottery Office) and the <em>ສະຫຼາກພັດທະນາ</em> (Laos Development Lottery). We are not responsible if you use numbers on unofficial, underground, or illegal lotteries.</li>
-            <li>Playing any lottery involves financial risk. Never spend money you cannot afford to lose. This is for entertainment and spiritual purposes only.</li>
-            <li>NakThai is not affiliated with the Government Lottery Office of Thailand, the Laos Development Lottery, or any government agency.</li>
-            <li>Results are not guaranteed. Past performance of numbers does not guarantee future results.</li>
+            <li>We recommend <strong>only official lotteries</strong>: the <em>สลากกินแบ่งรัฐบาล</em> (Thai Government Lottery) and the <em>ສະຫຼາກພັດທະນາ</em> (Laos Development Lottery). We are not responsible if you use numbers on unofficial or illegal lotteries.</li>
+            <li>Playing any lottery involves financial risk. Never spend money you cannot afford to lose.</li>
+            <li>NakThai is not affiliated with any government lottery office or agency.</li>
           </ul>
           <ul class="disc-list th" style="font-family:'Noto Serif Thai',serif;">
             <li>NakThai มอบเลขศักดิ์สิทธิ์ที่เชื่อว่ามีโอกาสถูกรางวัลสูง แต่<strong>ไม่มีการรับประกันผลรางวัลใดๆ</strong></li>
-            <li>เราแนะนำเฉพาะ<strong>สลากที่ถูกกฎหมาย</strong>: <em>สลากกินแบ่งรัฐบาล</em> และ <em>ສະຫຼາກພັດທະນາ</em> (หวยลาว) เท่านั้น เราไม่รับผิดชอบหากนำเลขไปใช้กับหวยใต้ดินหรือสลากผิดกฎหมาย</li>
+            <li>เราแนะนำเฉพาะ<strong>สลากที่ถูกกฎหมาย</strong> เราไม่รับผิดชอบหากนำเลขไปใช้กับหวยใต้ดิน</li>
             <li>การเล่นสลากมีความเสี่ยงทางการเงิน อย่าใช้เงินที่ไม่สามารถสูญเสียได้</li>
-            <li>NakThai ไม่มีความเกี่ยวข้องกับสำนักงานสลากกินแบ่งรัฐบาลหรือหน่วยงานรัฐใดๆ</li>
           </ul>
         </div>
       </div>
@@ -746,34 +753,34 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
           <div class="shop-icon">2️⃣</div>
           <div class="shop-name en">Silver Naga</div>
           <div class="shop-name-th th">นาคเงิน</div>
-          <div class="shop-desc en">One 2-digit number. Play top, bottom or 6/9 flip.</div>
+          <div class="shop-desc en">One sacred 2-digit number for this draw.</div>
           <div class="shop-desc shop-desc-th th">เลข 2 ตัว เล่นบน ล่าง หรือกลับ 6/9</div>
-          <div class="shop-tag-row"><span class="shop-tag">1 × 2-digit</span><span class="shop-tag en">Top · Bottom · Flip</span><span class="shop-tag th">บน · ล่าง · กลับ</span></div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 2-digit</span><span class="shop-tag en">Thai Gov · Laos</span></div>
           <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">99</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
           <button class="shop-buy en" onclick="openBuy('2digit')">Buy Now</button>
-          <button class="shop-buy th" style="display:none;" onclick="openBuy('2digit')">ซื้อเลย</button>
+          <button class="shop-buy th" onclick="openBuy('2digit')">ซื้อเลย</button>
         </div>
-        <div class="shop-card featured">
+        <div class="shop-card">
           <div class="shop-icon">3️⃣</div>
           <div class="shop-name en">Gold Naga</div>
           <div class="shop-name-th th">นาคทอง</div>
-          <div class="shop-desc en">One 3-digit number. Play top, toad or 6/9 flip.</div>
+          <div class="shop-desc en">One sacred 3-digit number for this draw.</div>
           <div class="shop-desc shop-desc-th th">เลข 3 ตัว เล่นบน โต๊ด หรือกลับ 6/9</div>
-          <div class="shop-tag-row"><span class="shop-tag">1 × 3-digit</span><span class="shop-tag en">Top · Toad · Flip</span><span class="shop-tag th">บน · โต๊ด · กลับ</span></div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 3-digit</span><span class="shop-tag en">Thai Gov · Laos</span></div>
           <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">199</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
           <button class="shop-buy en" onclick="openBuy('3digit')">Buy Now</button>
-          <button class="shop-buy th" style="display:none;" onclick="openBuy('3digit')">ซื้อเลย</button>
+          <button class="shop-buy th" onclick="openBuy('3digit')">ซื้อเลย</button>
         </div>
         <div class="shop-card">
           <div class="shop-icon">4️⃣</div>
           <div class="shop-name en">Jade Naga</div>
           <div class="shop-name-th th">นาคมรกต</div>
-          <div class="shop-desc en">One 4-digit number. Play top, toad or 6/9 flip.</div>
+          <div class="shop-desc en">One sacred 4-digit number for this draw.</div>
           <div class="shop-desc shop-desc-th th">เลข 4 ตัว เล่นบน โต๊ด หรือกลับ 6/9</div>
-          <div class="shop-tag-row"><span class="shop-tag">1 × 4-digit</span><span class="shop-tag en">Top · Toad · Flip</span><span class="shop-tag th">บน · โต๊ด · กลับ</span></div>
+          <div class="shop-tag-row"><span class="shop-tag">1 × 4-digit</span><span class="shop-tag en">Thai Gov · Laos</span></div>
           <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">299</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
           <button class="shop-buy en" onclick="openBuy('4digit')">Buy Now</button>
-          <button class="shop-buy th" style="display:none;" onclick="openBuy('4digit')">ซื้อเลย</button>
+          <button class="shop-buy th" onclick="openBuy('4digit')">ซื้อเลย</button>
         </div>
       </div>
     </div>
@@ -824,6 +831,54 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
           </div>
         </div>
       </div>
+
+      <!-- Published Numbers in Medium Panel -->
+      <div id="medium-numbers-display" style="margin-top:1.4rem;padding:1rem 1.2rem;background:linear-gradient(135deg,rgba(13,18,48,0.7),rgba(11,61,46,0.2));border:1px solid rgba(201,149,42,0.2);">
+        <div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;" class="en">🐉 Sacred Numbers · This Draw</div>
+        <div style="font-family:'Noto Serif Thai',serif;font-size:0.82rem;color:var(--gold);margin-bottom:1rem;" class="th">🐉 เลขศักดิ์สิทธิ์ · งวดนี้</div>
+        <div id="medium-nums-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;"></div>
+      </div>
+      <!-- Admin message editor -->
+      <div id="medium-msg-editor" style="display:none;margin-top:1.5rem;background:var(--panel);border:1px solid var(--border);padding:1.1rem;">
+        <div style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.7rem;">✏ Edit Status Message</div>
+        <div style="margin-bottom:0.6rem;">
+          <div style="font-size:0.65rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.3rem;">ENGLISH</div>
+          <input id="med-msg-en-input" type="text" class="field-input" value="🌙 Numbers received — 3 sets now available" style="width:100%;box-sizing:border-box;">
+        </div>
+        <div style="margin-bottom:0.9rem;">
+          <div style="font-size:0.65rem;color:var(--text-dim);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.3rem;">THAI</div>
+          <input id="med-msg-th-input" type="text" class="field-input" value="🌙 รับเลขแล้ว — มี 3 ชุดพร้อมใช้งาน" style="width:100%;box-sizing:border-box;font-family:'Noto Serif Thai',serif;">
+        </div>
+        <button onclick="saveMediumMessage()" style="padding:0.6rem 1.4rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.12em;border:none;cursor:pointer;font-weight:700;">Save Message</button>
+        <span id="med-msg-saved" style="margin-left:0.8rem;color:var(--jade-light);font-size:0.72rem;font-family:'Cinzel',serif;display:none;">✓ Saved</span>
+      </div>
+    </div>
+
+    <!-- ═══ HISTORY (ADMIN) ═══ -->
+    <div class="view" id="view-history-admin">
+      <div class="dash-title en">History</div>
+      <div class="dash-title-th th">ประวัติ</div>
+
+      <!-- Registered Users -->
+      <div class="admin-panel" style="margin-bottom:1.2rem;">
+        <div class="admin-title en">👥 Registered Users</div>
+        <div class="admin-title th" style="font-family:'Noto Serif Thai',serif;">👥 ผู้ใช้งานที่ลงทะเบียน</div>
+        <div id="hadmin-users-list"><div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div></div>
+      </div>
+
+      <!-- Balance Mutations -->
+      <div class="admin-panel" style="margin-bottom:1.2rem;">
+        <div class="admin-title en">💰 Balance Mutations</div>
+        <div class="admin-title th" style="font-family:'Noto Serif Thai',serif;">💰 การเปลี่ยนแปลงยอดเงิน</div>
+        <div id="hadmin-balance-list"><div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div></div>
+      </div>
+
+      <!-- Purchased Numbers -->
+      <div class="admin-panel" style="margin-bottom:1.2rem;">
+        <div class="admin-title en" style="color:var(--jade-light);">🔢 Purchased Numbers</div>
+        <div class="admin-title th" style="font-family:'Noto Serif Thai',serif;color:var(--jade-light);">🔢 เลขที่ซื้อแล้ว</div>
+        <div id="hadmin-purchases-list"><div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div></div>
+      </div>
     </div>
 
     <!-- ═══ PROFILE ═══ -->
@@ -868,6 +923,39 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
           <div class="notify-row"><span class="notify-label en">Draw countdown</span><span class="notify-label-th th">แจ้งเตือนก่อนงวด</span><label class="toggle-sw"><input type="checkbox" checked><span class="toggle-sl"></span></label></div>
           <div class="notify-row" style="border:none;"><span class="notify-label en">Expiry reminders</span><span class="notify-label-th th">เตือนหมดอายุ</span><label class="toggle-sw"><input type="checkbox"><span class="toggle-sl"></span></label></div>
         </div>
+        <div class="profile-card">
+          <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--text-dim);text-transform:uppercase;margin-bottom:0.85rem;" class="en">Change Password</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:0.78rem;color:var(--text-dim);margin-bottom:0.85rem;" class="th">เปลี่ยนรหัสผ่าน</div>
+          <div class="field-group">
+            <span class="field-label en">Current Password</span>
+            <span class="field-label-th th">รหัสผ่านปัจจุบัน</span>
+            <div style="position:relative;">
+              <input class="field-input" id="cp-current" type="password" placeholder="Current password" autocomplete="current-password" style="padding-right:2.6rem;">
+              <button type="button" onclick="togglePwd('cp-current',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;">👁</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label en">New Password</span>
+            <span class="field-label-th th">รหัสผ่านใหม่</span>
+            <div style="position:relative;">
+              <input class="field-input" id="cp-new" type="password" placeholder="Min 8 characters" autocomplete="new-password" style="padding-right:2.6rem;">
+              <button type="button" onclick="togglePwd('cp-new',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;">👁</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <span class="field-label en">Confirm New Password</span>
+            <span class="field-label-th th">ยืนยันรหัสผ่านใหม่</span>
+            <div style="position:relative;">
+              <input class="field-input" id="cp-confirm" type="password" placeholder="Repeat new password" autocomplete="new-password" style="padding-right:2.6rem;">
+              <button type="button" onclick="togglePwd('cp-confirm',this)" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:0.88rem;">👁</button>
+            </div>
+          </div>
+          <div id="cp-err" style="background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.28);color:#e07070;font-size:0.73rem;padding:0.52rem 0.72rem;margin-bottom:0.65rem;display:none;"></div>
+          <div id="cp-ok"  style="background:rgba(26,138,90,0.12);border:1px solid rgba(26,138,90,0.28);color:var(--jade-light);font-size:0.73rem;padding:0.52rem 0.72rem;margin-bottom:0.65rem;display:none;"></div>
+          <button onclick="doChangePassword()" style="width:100%;padding:0.7rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.12em;border:none;cursor:pointer;font-weight:700;">
+            <span class="en">Update Password</span><span class="th">เปลี่ยนรหัสผ่าน</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -888,14 +976,16 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
       <!-- number entry -->
       <div class="admin-panel" style="border-color:rgba(201,149,42,0.25);background:linear-gradient(160deg,rgba(13,18,48,0.6),rgba(11,61,46,0.15));">
         <div class="admin-title" style="color:var(--gold-light);font-family:'Cinzel Decorative',serif;font-size:1rem;margin-bottom:0.3rem;">🐉 Publish Sacred Numbers</div>
-        <div class="admin-sub en">Enter numbers, price, source, flip variants and expiry. Published immediately to all subscribers on the Buy Numbers page.</div>
+        <div class="admin-sub en">Enter number, price, lotteries and expiry for each set. Published immediately to Buy Numbers.</div>
 
-        <div class="admin-grid">
+        <div id="admin-grid" class="admin-grid">
 
-          <!-- helper macro: source checkboxes -->
           <!-- 2-digit -->
-          <div class="admin-card" style="border-color:rgba(201,149,42,0.2);">
-            <div class="admin-card-title" style="color:var(--gold);">2️⃣ 2-Digit · เลข 2 ตัว</div>
+          <div class="admin-card" id="admincard-2digit" style="border-color:rgba(201,149,42,0.2);">
+            <div class="admin-card-title" style="color:var(--gold);display:flex;align-items:center;gap:0.5rem;">
+            <span>2️⃣ 2-Digit · เลข 2 ตัว</span>
+            <button onclick="toggleAdminCard('admincard-2digit')" title="Show/Hide" style="margin-left:auto;background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.25);color:var(--gold);font-size:0.7rem;padding:0.18rem 0.45rem;cursor:pointer;border-radius:2px;">👁</button>
+          </div>
             <div class="admin-row">
               <label class="admin-label">Number</label>
               <input class="admin-input" id="a-num-2" type="text" inputmode="numeric" maxlength="2" placeholder="e.g. 47" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(201,149,42,0.35);">
@@ -905,32 +995,29 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
               <input class="admin-input" id="a-price-2" type="number" min="1" value="99" style="font-size:1rem;text-align:center;border-color:rgba(201,149,42,0.25);">
             </div>
             <div class="admin-row">
-              <label class="admin-label">Source (check all that apply)</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-dream" checked><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-prayer"><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
-            </div>
-            <div class="admin-row">
-              <label class="admin-label">Flip pairs (6↔9 most common)</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip2-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
-            </div>
-            <div class="admin-row">
               <label class="admin-label">Lotteries</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-thai" onchange="updateExpiryForLottery('2')"><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot2-laos" onchange="updateExpiryForLottery('2')"><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
             </div>
             <div class="admin-row">
               <label class="admin-label">Expiry Date</label>
               <input class="admin-input" id="a-exp-2" type="date" style="border-color:rgba(201,149,42,0.25);">
             </div>
+            <div class="admin-row">
+              <label class="admin-label">Source</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-dream" checked><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-incense"><span class="admin-checkbox-label">🪔 Incense / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-prayer"><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src2-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
+            </div>
           </div>
 
           <!-- 3-digit -->
-          <div class="admin-card" style="border-color:rgba(201,149,42,0.2);">
-            <div class="admin-card-title" style="color:var(--gold);">3️⃣ 3-Digit · เลข 3 ตัว</div>
+          <div class="admin-card" id="admincard-3digit" style="border-color:rgba(201,149,42,0.2);">
+            <div class="admin-card-title" style="color:var(--gold);display:flex;align-items:center;gap:0.5rem;">
+            <span>3️⃣ 3-Digit · เลข 3 ตัว</span>
+            <button onclick="toggleAdminCard('admincard-3digit')" title="Show/Hide" style="margin-left:auto;background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.25);color:var(--gold);font-size:0.7rem;padding:0.18rem 0.45rem;cursor:pointer;border-radius:2px;">👁</button>
+          </div>
             <div class="admin-row">
               <label class="admin-label">Number</label>
               <input class="admin-input" id="a-num-3" type="text" inputmode="numeric" maxlength="3" placeholder="e.g. 492" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(201,149,42,0.35);">
@@ -940,67 +1027,58 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
               <input class="admin-input" id="a-price-3" type="number" min="1" value="199" style="font-size:1rem;text-align:center;border-color:rgba(201,149,42,0.25);">
             </div>
             <div class="admin-row">
-              <label class="admin-label">Source (check all that apply)</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-dream"><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-prayer" checked><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
-            </div>
-            <div class="admin-row">
-              <label class="admin-label">Flip pairs</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip3-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
-            </div>
-            <div class="admin-row">
               <label class="admin-label">Lotteries</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-thai" onchange="updateExpiryForLottery('3')"><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot3-laos" onchange="updateExpiryForLottery('3')"><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
             </div>
             <div class="admin-row">
               <label class="admin-label">Expiry Date</label>
               <input class="admin-input" id="a-exp-3" type="date" style="border-color:rgba(201,149,42,0.25);">
             </div>
+            <div class="admin-row">
+              <label class="admin-label">Source</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-dream" checked><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-incense" checked><span class="admin-checkbox-label">🪔 Incense / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-prayer" checked><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src3-merit"><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
+            </div>
           </div>
 
           <!-- 4-digit -->
-          <div class="admin-card" style="border-color:rgba(45,184,122,0.2);">
-            <div class="admin-card-title" style="color:var(--jade-light);">4️⃣ 4-Digit · เลข 4 ตัว</div>
+          <div class="admin-card" id="admincard-4digit" style="border-color:rgba(201,149,42,0.2);">
+            <div class="admin-card-title" style="color:var(--gold);display:flex;align-items:center;gap:0.5rem;">
+              <span>4️⃣ 4-Digit · เลข 4 ตัว</span>
+              <button onclick="toggleAdminCard('admincard-4digit')" title="Show/Hide" style="margin-left:auto;background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.25);color:var(--gold);font-size:0.7rem;padding:0.18rem 0.45rem;cursor:pointer;border-radius:2px;">👁</button>
+            </div>
             <div class="admin-row">
               <label class="admin-label">Number</label>
-              <input class="admin-input" id="a-num-4" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 8361" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(45,184,122,0.35);">
+              <input class="admin-input" id="a-num-4" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 8361" style="font-size:1.5rem;letter-spacing:0.35em;text-align:center;border-color:rgba(201,149,42,0.35);">
             </div>
             <div class="admin-row">
               <label class="admin-label">Price (฿)</label>
-              <input class="admin-input" id="a-price-4" type="number" min="1" value="299" style="font-size:1rem;text-align:center;border-color:rgba(45,184,122,0.25);">
-            </div>
-            <div class="admin-row">
-              <label class="admin-label">Source (check all that apply)</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-dream"><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-incense"><span class="admin-checkbox-label">🪔 Incense Number / เลขธูป</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-prayer"><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-merit" checked><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
-            </div>
-            <div class="admin-row">
-              <label class="admin-label">Flip pairs</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-69" checked><span class="admin-checkbox-label">6 ↔ 9</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-17"><span class="admin-checkbox-label">1 ↔ 7</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-flip4-38"><span class="admin-checkbox-label">3 ↔ 8</span></label>
+              <input class="admin-input" id="a-price-4" type="number" min="1" value="299" style="font-size:1rem;text-align:center;border-color:rgba(201,149,42,0.25);">
             </div>
             <div class="admin-row">
               <label class="admin-label">Lotteries</label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-thai" checked><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
-              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-laos" checked><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-thai" onchange="updateExpiryForLottery('4')"><span class="admin-checkbox-label">สลากกินแบ่งรัฐบาล (Thai Gov)</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-lot4-laos" onchange="updateExpiryForLottery('4')"><span class="admin-checkbox-label">ສະຫຼາກພັດທະນາ (Laos Dev)</span></label>
             </div>
             <div class="admin-row">
               <label class="admin-label">Expiry Date</label>
-              <input class="admin-input" id="a-exp-4" type="date" style="border-color:rgba(45,184,122,0.25);">
+              <input class="admin-input" id="a-exp-4" type="date" style="border-color:rgba(201,149,42,0.25);">
+            </div>
+            <div class="admin-row">
+              <label class="admin-label">Source</label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-dream" checked><span class="admin-checkbox-label">🌙 Dream / ฝัน</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-incense" checked><span class="admin-checkbox-label">🪔 Incense / เลขธูป</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-prayer" checked><span class="admin-checkbox-label">🌺 Prayer / สวดมนต์</span></label>
+              <label class="admin-checkbox-row"><input type="checkbox" id="a-src4-merit" checked><span class="admin-checkbox-label">🙏 Merit / บุญ</span></label>
             </div>
           </div>
         </div>
 
-        <button class="admin-save" onclick="adminPublish()" style="background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-size:0.82rem;padding:0.85rem;margin-top:1.2rem;">
-          🐉 Publish Sacred Numbers Now
+        <button id="publish-btn" onclick="adminPublish()" style="display:block;width:100%;margin-top:1.2rem;padding:0.8rem 1rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.78rem;letter-spacing:0.14em;border:none;cursor:pointer;font-weight:700;">
+          🐉 <span class="en">Save and Close</span><span class="th">บันทึกและปิด</span>
         </button>
 
         <!-- current numbers preview -->
@@ -1010,11 +1088,13 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
         </div>
       </div>
 
-      <!-- users table -->
-      <div class="admin-panel" style="margin-top:1.1rem;">
-        <div class="admin-title en">👥 Registered Users</div>
-        <div class="admin-sub en">Accounts registered on this device. In production this would be a server database.</div>
-        <div id="admin-users-list"></div>
+      <!-- export -->
+      <div class="admin-panel" style="margin-top:1.1rem;border-color:rgba(201,149,42,0.2);background:linear-gradient(160deg,rgba(13,18,48,0.6),rgba(11,61,46,0.1));">
+        <div class="admin-title" style="color:var(--gold-light);">💾 Export All Data</div>
+        <div class="admin-sub en">Downloads a JSON file with all accounts, balances, purchases and history. Open in any text editor or import into Excel / Google Sheets.</div>
+        <button onclick="exportAllData()" style="padding:0.65rem 1.4rem;background:linear-gradient(135deg,var(--gold),#a07018);color:var(--black);font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.12em;border:none;cursor:pointer;font-weight:700;">
+          ⬇ Download JSON
+        </button>
       </div>
     </div>
 
@@ -1107,765 +1187,1210 @@ input:checked + .toggle-sl:before{transform:translateX(15px);}
 </div>
 <div class="toast" id="toast"></div>
 
+
+
 <script>
-// ─── CONSTANTS ───
-const USERS_KEY = 'nakthai_users_v2';
+// ═══════════════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════════════════
+const SUPA_URL = 'https://vwjyrqtcyxwpmufdodyp.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3anlycXRjeXh3cG11ZmRvZHlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjE2OTQsImV4cCI6MjA4ODA5NzY5NH0.Ctpz4KbM--Lks2GMBY_mNtaf6ZxccZjqYDLQcLpirMk';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+// ═══════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════
+const ADMIN_PHONE = null; // Admin now managed via Supabase is_admin flag
 const NUMBERS_KEY = 'nakthai_numbers_v2';
-const NAMES_EN = { '2digit': 'Silver Naga — 2-Digit', '3digit': 'Gold Naga — 3-Digit', '4digit': 'Jade Naga — 4-Digit' };
-const NAMES_TH = { '2digit': 'นาคเงิน — เลข 2 ตัว', '3digit': 'นาคทอง — เลข 3 ตัว', '4digit': 'นาคมรกต — เลข 4 ตัว' };
 
-// Source labels (new: dream, incense, prayer, merit)
-const SOURCE_ICONS = { dream:'🌙', incense:'🪔', prayer:'🌺', merit:'🙏' };
+const NAMES_EN = { '2digit':'Silver Naga — 2-Digit','3digit':'Gold Naga — 3-Digit','4digit':'Jade Naga — 4-Digit' };
+const NAMES_TH = { '2digit':'เงินนาค — 2 ตัว','3digit':'ทองนาค — 3 ตัว','4digit':'หยกนาค — 4 ตัว' };
+const SOURCE_ICONS   = { dream:'🌙', incense:'🪔', prayer:'🌺', merit:'🙏' };
 const SOURCE_LABELS_SINGLE = { dream:'Dream / ฝัน', incense:'Incense / เลขธูป', prayer:'Prayer / สวดมนต์', merit:'Merit / บุญ' };
-const SOURCE_BADGE_COLORS = { dream:'color:#7eb8f7;border-color:rgba(126,184,247,0.3);background:rgba(126,184,247,0.06)', incense:'color:#f0b870;border-color:rgba(240,184,112,0.3);background:rgba(240,184,112,0.06)', prayer:'color:#f5c842;border-color:rgba(245,200,66,0.3);background:rgba(245,200,66,0.06)', merit:'color:#c8a6f7;border-color:rgba(200,166,247,0.3);background:rgba(200,166,247,0.06)' };
-
-// Official lotteries
+const SOURCE_BADGE_COLORS  = {
+  dream:   'color:#7eb8f7;border-color:rgba(126,184,247,0.35);background:rgba(126,184,247,0.07)',
+  incense: 'color:#f5c842;border-color:rgba(245,200,66,0.35);background:rgba(245,200,66,0.07)',
+  prayer:  'color:#f09070;border-color:rgba(240,144,112,0.35);background:rgba(240,144,112,0.07)',
+  merit:   'color:#82e0a0;border-color:rgba(130,224,160,0.35);background:rgba(130,224,160,0.07)'
+};
+const FLIP_PAIRS = { '69':['6','9'], '17':['1','7'], '38':['3','8'] };
 const LOTTERIES = [
-  { id:'thai', flag:'🇹🇭', nameEN:'Thai Government Lottery', nameTH:'สลากกินแบ่งรัฐบาล', orgEN:'Government Lottery Office', orgTH:'สำนักงานสลากกินแบ่งรัฐบาล', schedule:'1st & 16th of each month' },
-  { id:'laos', flag:'🇱🇦', nameEN:'Laos Development Lottery', nameTH:'ສະຫຼາກພັດທະນາ', orgEN:'Ministry of Finance, Lao PDR', orgTH:'กระทรวงการคลัง สปป.ลาว', schedule:'Every Monday & Thursday' }
+  { id:'thai', nameEN:'Thai Gov Lottery', nameTH:'สลากกินแบ่งรัฐบาล', flag:'🇹🇭', orgEN:'Govt Lottery Office' },
+  { id:'laos', nameEN:'Laos Dev Lottery', nameTH:'ສະຫຼາກພັດທະນາລາວ',  flag:'🇱🇦', orgEN:'Laos Lottery' }
 ];
 
-// Flip pairs: 69, 17, 38
-const FLIP_PAIRS = { '69':['6','9'], '17':['1','7'], '38':['3','8'] };
-const FLIP_COLORS = { '69':'flip-69', '17':'flip-17', '38':'flip-38' };
-const FLIP_REASONS = {
-  '69': '6↔9 — identical when rotated 180°',
-  '17': '1↔7 — Thai 7 with crossbar resembles 1',
-  '38': '3↔8 — obscured/poorly printed 8 can look like 3'
-};
-
-// ─── STATE ───
-let currentUser = null;
-let isAdmin = false;
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let currentUser = null;   // { id, phone, name, balance, joined_at }
+let isAdmin     = false;
+let balance     = 0;
+let purchases   = {};     // { type: purchaseRow }
+let historyLog  = [];     // array of purchase rows
 let currentLang = localStorage.getItem('nakthai-lang') || 'en';
-let balance = 500;
-let purchases = {};
-let historyLog = [];
-let buyTarget = null;
 
-// ─── NUMBERS STORE ───
-function getNumbers() {
+// ═══════════════════════════════════════════════════════════
+// SUPABASE HELPERS
+// ═══════════════════════════════════════════════════════════
+async function dbGetUser(phone) {
+  const { data, error } = await sb.from('users').select('*').eq('phone', phone).single();
+  return error ? null : data;
+}
+async function dbCreateUser(phone, name, passwordHash, balance = 500) {
+  const { data, error } = await sb.from('users').insert({
+    phone, name, password_hash: passwordHash, balance, is_active: true
+  }).select().single();
+  return { data, error };
+}
+async function dbUpdateBalance(userId, newBalance) {
+  await sb.from('users').update({ balance: newBalance }).eq('id', userId);
+}
+async function dbUpdateLastLogin(userId) {
+  await sb.from('users').update({ last_login: new Date().toISOString() }).eq('id', userId);
+}
+async function dbGetUserPurchases(userId) {
+  const { data } = await sb.from('purchases')
+    .select('*').eq('user_id', userId).order('purchased_at', { ascending: false });
+  return data || [];
+}
+async function dbInsertPurchase(row) {
+  const { data, error } = await sb.from('purchases').insert(row).select().single();
+  return { data, error };
+}
+async function dbInsertBalanceTx(row) {
+  await sb.from('balance_transactions').insert(row);
+}
+async function dbGetActiveNumbers() {
+  const { data } = await sb.from('published_numbers')
+    .select('*').eq('is_active', true).order('published_at', { ascending: false });
+  // Return as { 2digit: row, 3digit: row, 4digit: row }
+  const map = {};
+  (data || []).forEach(r => { map[r.number_type] = r; });
+  return map;
+}
+async function dbPublishNumbers(rows) {
+  // deactivate all current
+  const { error: deactivateError } = await sb.from('published_numbers').update({ is_active: false }).eq('is_active', true);
+  if (deactivateError) console.error('Deactivate error:', deactivateError);
+  // insert new
+  const { error } = await sb.from('published_numbers').insert(rows);
+  if (error) console.error('Insert error:', error);
+  return error;
+}
+async function dbGetAllBalanceTransactions() {
+  const { data } = await sb.from('balance_transactions')
+    .select('*, users(name, phone)')
+    .order('created_at', { ascending: false });
+  return data || [];
+}
+
+async function dbGetAllUsers() {
+  const { data } = await sb.from('users').select('*').order('joined_at', { ascending: false });
+  return data || [];
+}
+async function dbGetAllPurchases() {
+  const { data } = await sb.from('purchases')
+    .select('*, users(name, phone)').order('purchased_at', { ascending: false });
+  return data || [];
+}
+
+// Simple password hash (SHA-256 via SubtleCrypto — no bcrypt needed client-side)
+async function hashPassword(pass) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass + 'nakthai_salt'));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// NUMBERS (published_numbers table + localStorage fallback)
+// ═══════════════════════════════════════════════════════════
+let _cachedNumbers = null;
+
+async function loadNumbers() {
+  const dbNums = await dbGetActiveNumbers();
+  if (Object.keys(dbNums).length) {
+    // Normalise DB rows to match legacy format
+    const out = {};
+    Object.entries(dbNums).forEach(([type, r]) => {
+      out[type] = {
+        number:   r.number,
+        price:    r.price,
+        sources:  r.sources  || ['dream'],
+        lotteries: r.lotteries || ['thai','laos'],
+        flips:    r.flips    || [],
+        expiry:   r.expiry_date,
+        published: r.published_at
+      };
+    });
+    _cachedNumbers = out;
+    localStorage.setItem(NUMBERS_KEY, JSON.stringify(out)); // keep local copy
+    return out;
+  }
+  // fallback to localStorage
+  return getNumbersLocal();
+}
+
+function getNumbersLocal() {
   try {
-    const d = JSON.parse(localStorage.getItem(NUMBERS_KEY));
-    if (d) return d;
-  } catch {}
-  const exp = new Date(); exp.setDate(exp.getDate() + 7);
-  const expStr = exp.toISOString().split('T')[0];
+    const s = localStorage.getItem(NUMBERS_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  const expStr = new Date(Date.now() + 7*86400000).toISOString().split('T')[0];
   return {
-    '2digit': { number: '47', sources: ['dream'], price: 99, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr },
-    '3digit': { number: '492', sources: ['prayer'], price: 199, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr },
-    '4digit': { number: '8361', sources: ['merit'], price: 299, flips: ['69'], lotteries: ['thai','laos'], published: new Date().toISOString(), expiry: expStr }
+    '2digit': { number:'47', sources:['dream'],  price:99,  flips:['69'], lotteries:['thai','laos'], published:new Date().toISOString(), expiry:expStr },
+    '3digit': { number:'492', sources:['dream','incense','prayer'], price:199, flips:['69'], lotteries:['thai','laos'], published:new Date().toISOString(), expiry:expStr },
+    '4digit': { number:'8361', sources:['merit'], price:299, flips:['69'], lotteries:['thai','laos'], published:new Date().toISOString(), expiry:expStr }
   };
 }
-function saveNumbers(n) { localStorage.setItem(NUMBERS_KEY, JSON.stringify(n)); }
+function getNumbers() { return _cachedNumbers || getNumbersLocal(); }
+function saveNumbers(n) { _cachedNumbers = n; localStorage.setItem(NUMBERS_KEY, JSON.stringify(n)); }
 
-// ─── FLIP ENGINE ───
+// ═══════════════════════════════════════════════════════════
+// FLIP ENGINE
+// ═══════════════════════════════════════════════════════════
 function applyFlips(num, flips) {
   if (!flips || !flips.length) return [];
   const digits = num.split('');
   const variants = new Set();
-
-  // check which flip pairs are relevant to this number
   const relevantPairs = [];
   flips.forEach(f => {
-    const [a, b] = FLIP_PAIRS[f];
-    if (digits.includes(a) || digits.includes(b)) relevantPairs.push([a, b, f]);
+    const [a,b] = FLIP_PAIRS[f];
+    if (digits.includes(a) || digits.includes(b)) relevantPairs.push([a,b,f]);
   });
   if (!relevantPairs.length) return [];
-
-  // generate all combinations
   function generate(current, pairIdx) {
-    if (pairIdx >= relevantPairs.length) {
-      const v = current.join('');
-      if (v !== num) variants.add(v);
-      return;
-    }
-    generate(current, pairIdx + 1);
-    const [a, b] = relevantPairs[pairIdx];
-    const flipped = current.map(d => d === a ? b : d === b ? a : d);
-    if (flipped.join('') !== current.join('')) {
-      generate(flipped, pairIdx + 1);
-    }
+    if (pairIdx >= relevantPairs.length) { const v=current.join(''); if(v!==num) variants.add(v); return; }
+    generate(current, pairIdx+1);
+    const [a,b] = relevantPairs[pairIdx];
+    const flipped = current.map(d => d===a?b:d===b?a:d);
+    if (flipped.join('') !== current.join('')) generate(flipped, pairIdx+1);
   }
   generate(digits, 0);
-  return [...variants].slice(0, 6); // cap at 6 variants
+  return [...variants].slice(0,6);
 }
-
 function getFlipPairLabel(flips, num) {
-  const relevant = [];
   const digits = num.split('');
-  (flips||[]).forEach(f => {
-    const pair = FLIP_PAIRS[f];
-    if (!pair) return;
-    const [a, b] = pair;
-    if (digits.includes(a) || digits.includes(b)) {
-      relevant.push(f === '69' ? '6↔9' : f === '17' ? '1↔7' : '3↔8');
-    }
-  });
-  return relevant.join(' · ');
+  return (flips||[]).filter(f => { const p=FLIP_PAIRS[f]; return p&&(digits.includes(p[0])||digits.includes(p[1])); })
+    .map(f => f==='69'?'6↔9':f==='17'?'1↔7':'3↔8').join(' · ');
 }
 
-// ─── STORAGE ───
-function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)||'{}'); } catch { return {}; } }
-function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
-function normBank(s) { return s.replace(/[-\s]/g,''); }
-
-// ─── REMEMBER USERNAME ───
-function loadRememberedUsername() {
-  const saved = localStorage.getItem('nakthai_remembered_user');
-  if (saved) {
-    const el = document.getElementById('l-bank');
-    if (el) el.value = saved;
-    const cb = document.getElementById('remember-me');
-    if (cb) cb.checked = true;
-    const hint = document.getElementById('remembered-hint');
-    if (hint) hint.style.display = '';
-  }
-}
-function saveRememberedUsername(bank) {
-  const cb = document.getElementById('remember-me');
-  if (cb && cb.checked) localStorage.setItem('nakthai_remembered_user', bank);
-  else localStorage.removeItem('nakthai_remembered_user');
-}
-
-// ─── SHOW/HIDE PASSWORD ───
-function togglePwd(fieldId, btn) {
-  const f = document.getElementById(fieldId);
-  if (!f) return;
-  if (f.type === 'password') { f.type = 'text'; btn.textContent = '🙈'; }
-  else { f.type = 'password'; btn.textContent = '👁'; }
-}
-
-// ─── LANG ───
+// ═══════════════════════════════════════════════════════════
+// LANG
+// ═══════════════════════════════════════════════════════════
 function setLang(lang) {
   currentLang = lang;
   document.body.className = 'lang-' + lang;
-  // flags
   ['en','th'].forEach(l => {
-    const f1 = document.getElementById('flag-' + l);
-    const f2 = document.getElementById('auth-flag-' + l);
-    if (f1) f1.classList.toggle('active', l === lang);
-    if (f2) f2.classList.toggle('active', l === lang);
+    const f1=document.getElementById('flag-'+l);
+    const f2=document.getElementById('auth-flag-'+l);
+    if(f1) f1.classList.toggle('active',l===lang);
+    if(f2) f2.classList.toggle('active',l===lang);
   });
-  // shop buttons
-  document.querySelectorAll('.shop-buy').forEach(b => {
-    if (b.classList.contains('en') || b.classList.contains('th')) {
-      b.style.display = b.classList.contains(lang) ? 'block' : 'none';
-    }
-  });
+  // Strip any inline display overrides so CSS body.lang-* rules take over
+  document.querySelectorAll('.en, .th').forEach(el => el.style.removeProperty('display'));
   localStorage.setItem('nakthai-lang', lang);
 }
 
-// ─── AUTH ───
+// ═══════════════════════════════════════════════════════════
+// PASSWORD / USERNAME UTILS
+// ═══════════════════════════════════════════════════════════
+function normBank(s) { return s.replace(/[-\s]/g,''); }
+function togglePwd(fieldId, btn) {
+  const f=document.getElementById(fieldId);
+  if(!f) return;
+  f.type = f.type==='password' ? 'text' : 'password';
+  btn.textContent = f.type==='password' ? '👁' : '🙈';
+}
+function loadRememberedUsername() {
+  const saved = localStorage.getItem('nakthai_remembered_user');
+  if (saved) {
+    const el=document.getElementById('l-bank'); if(el) el.value=saved;
+    const cb=document.getElementById('remember-me'); if(cb) cb.checked=true;
+    const hint=document.getElementById('remembered-hint');
+    if(hint) {
+      const fmt = saved.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3');
+      hint.innerHTML = '✓ <span class="en">Remembered: ' + fmt + '</span><span class="th">จำเบอร์: ' + fmt + '</span>';
+      hint.style.display='block';
+    }
+  }
+}
+function saveRememberedUsername(phone) {
+  const cb=document.getElementById('remember-me');
+  if(cb&&cb.checked) localStorage.setItem('nakthai_remembered_user',phone);
+  else localStorage.removeItem('nakthai_remembered_user');
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════
 function switchAuthTab(t) {
   ['login','register'].forEach(x => {
-    document.getElementById('atab-' + x).classList.toggle('active', x === t);
-    document.getElementById('apanel-' + x).classList.toggle('active', x === t);
+    document.getElementById('atab-'+x).classList.toggle('active',x===t);
+    document.getElementById('apanel-'+x).classList.toggle('active',x===t);
   });
   clearAuthMsgs();
 }
 function clearAuthMsgs() {
-  ['l-err','l-ok','r-err','r-ok'].forEach(id => { const el=document.getElementById(id); if(el){el.style.display='none';el.textContent='';} });
-}
-function showAuthErr(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
-function showAuthOk(id, msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
-
-function showAdminLoginPanel() {
-  const panel = document.getElementById('admin-login-panel');
-  if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-}
-
-function doAdminLogin() {
-  const user = (document.getElementById('admin-user-input').value||'').trim().toLowerCase();
-  const pass = document.getElementById('admin-pass-input').value;
-  const errEl = document.getElementById('admin-login-err');
-  if (user !== 'admin' || pass !== 'naga') {
-    errEl.textContent = 'Incorrect credentials.';
-    errEl.style.display = 'block';
-    setTimeout(() => errEl.style.display = 'none', 2500);
-    return;
-  }
-  isAdmin = true;
-  currentUser = { name: 'Mae Wan Fah (Admin)', bank: 'ADMIN', phone: '', joined: new Date().toISOString(), balance: 0 };
-  balance = 0;
-  document.getElementById('auth-screen').classList.add('hidden');
-  document.getElementById('topbar-username').textContent = '🧿 Mae Wan Fah';
-  document.getElementById('admin-topbtn').style.display = '';
-  document.getElementById('nav-admin').style.display = '';
-  updateBalanceDisplay();
-  populateAdminDefaults();
-  renderAdminPreview();
-  renderAdminUsers();
-  setLang(currentLang);
-  showView('admin');
-}
-
-function populateAdminDefaults() {
-  // Pre-fill admin form with currently published numbers
-  const nums = getNumbers();
-  ['2','3','4'].forEach(d => {
-    const n = nums[d + 'digit'];
-    const numEl = document.getElementById('a-num-' + d);
-    const priceEl = document.getElementById('a-price-' + d);
-    const expEl = document.getElementById('a-exp-' + d);
-    if (numEl) numEl.value = n.number || '';
-    if (priceEl) priceEl.value = n.price || (d==='2'?99:d==='3'?199:299);
-    if (expEl && n.expiry) expEl.value = n.expiry;
-    // sources
-    ['dream','incense','prayer','merit'].forEach(s => {
-      const cb = document.getElementById('a-src' + d + '-' + s);
-      if (cb) cb.checked = (n.sources||[]).includes(s);
-    });
-    // flips
-    ['69','17','38'].forEach(f => {
-      const cb = document.getElementById('a-flip' + d + '-' + f);
-      if (cb) cb.checked = (n.flips||[]).includes(f);
-    });
-    // lotteries
-    ['thai','laos'].forEach(l => {
-      const cb = document.getElementById('a-lot' + d + '-' + l);
-      if (cb) cb.checked = (n.lotteries||[]).includes(l);
-    });
+  ['l-err','l-ok','r-err','r-ok'].forEach(id => {
+    const el=document.getElementById(id); if(el){el.style.display='none';el.textContent='';}
   });
 }
+function showAuthErr(id,msg){ const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
+function showAuthOk(id,msg) { const el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
 
-function doLogin() {
-  const bank = normBank(document.getElementById('l-bank').value.trim());
-  const pass = document.getElementById('l-pass').value;
-  if (!bank || !pass) { showAuthErr('l-err', currentLang==='en'?'Please fill all fields.':'กรุณากรอกข้อมูลให้ครบ'); return; }
-  const users = getUsers();
-  if (!users[bank]) { showAuthErr('l-err', currentLang==='en'?'Account not found. Please register.':'ไม่พบบัญชี กรุณาสมัครก่อน'); return; }
-  if (users[bank].password !== btoa(pass)) { showAuthErr('l-err', currentLang==='en'?'Incorrect password.':'รหัสผ่านไม่ถูกต้อง'); return; }
-  showAuthOk('l-ok', (currentLang==='en'?'✓ Welcome back, ':'✓ ยินดีต้อนรับ, ') + users[bank].name + '!');
-  setTimeout(() => loginSuccess(bank, users[bank]), 900);
+async function doLogin() {
+  const phone = normBank(document.getElementById('l-bank').value.trim());
+  const pass  = document.getElementById('l-pass').value;
+  if (!phone||!pass) { showAuthErr('l-err', currentLang==='en'?'Please fill all fields.':'กรุณากรอกข้อมูลให้ครบ'); return; }
+
+  // Admin shortcut
+  if (phone === ADMIN_PHONE && pass === ADMIN_PASS) {
+    showAuthOk('l-ok','✓ Welcome, Mae Wan Fah!');
+    isAdmin = true;
+    setTimeout(() => {
+      const savedAdminBal = parseInt(localStorage.getItem('nakthai_admin_balance') || '0');
+      currentUser = { id:'admin', name:'Mae Wan Fah', phone:ADMIN_PHONE, balance:savedAdminBal, joined_at:new Date().toISOString() };
+      balance = savedAdminBal;
+      localStorage.setItem('nakthai_session', JSON.stringify({ phone:ADMIN_PHONE, admin:true }));
+      enterApp();
+    }, 700);
+    return;
+  }
+
+  // DB login
+  const submitBtn = document.querySelector('#apanel-login .auth-submit');
+  if (submitBtn) { submitBtn.disabled=true; submitBtn.textContent='…'; }
+  const user = await dbGetUser(phone);
+  if (submitBtn) { submitBtn.disabled=false; submitBtn.innerHTML='<span class="en">Enter the Realm</span><span class="th">เข้าสู่ระบบ</span>'; setLang(currentLang); }
+
+  if (!user) { showAuthErr('l-err', currentLang==='en'?'Account not found. Please register.':'ไม่พบบัญชี กรุณาสมัครก่อน'); return; }
+  if (!user.is_active) { showAuthErr('l-err', currentLang==='en'?'Account disabled. Contact admin.':'บัญชีถูกระงับ'); return; }
+
+  const hash = await hashPassword(pass);
+  if (user.password_hash !== hash) { showAuthErr('l-err', currentLang==='en'?'Incorrect password.':'รหัสผ่านไม่ถูกต้อง'); return; }
+
+  showAuthOk('l-ok', (currentLang==='en'?'✓ Welcome back, ':'✓ ยินดีต้อนรับ, ') + user.name + '!');
+  await dbUpdateLastLogin(user.id);
+  setTimeout(() => loginSuccess(user), 900);
 }
 
-function doRegister() {
-  const name = document.getElementById('r-name').value.trim();
-  const bank = normBank(document.getElementById('r-bank').value.trim());
-  const pass = document.getElementById('r-pass').value;
+async function doRegister() {
+  const name  = document.getElementById('r-name').value.trim();
+  const phone = normBank(document.getElementById('r-bank').value.trim());
+  const pass  = document.getElementById('r-pass').value;
   const pass2 = document.getElementById('r-pass2').value;
-  const phone = document.getElementById('r-phone').value.trim();
-  if (!name||!bank||!pass||!pass2) { showAuthErr('r-err', currentLang==='en'?'Please fill all required fields.':'กรุณากรอกข้อมูลที่จำเป็น'); return; }
-  if (!/^\d{7,20}$/.test(bank)) { showAuthErr('r-err', currentLang==='en'?'Bank number: 7–20 digits only.':'เลขบัญชี 7–20 หลักตัวเลขเท่านั้น'); return; }
-  if (pass.length < 8) { showAuthErr('r-err', currentLang==='en'?'Password must be at least 8 characters.':'รหัสผ่านอย่างน้อย 8 ตัว'); return; }
-  if (pass !== pass2) { showAuthErr('r-err', currentLang==='en'?'Passwords do not match.':'รหัสผ่านไม่ตรงกัน'); return; }
-  const users = getUsers();
-  if (users[bank]) { showAuthErr('r-err', currentLang==='en'?'This bank number is already registered.':'เลขบัญชีนี้ถูกลงทะเบียนแล้ว'); return; }
-  users[bank] = { name, password: btoa(pass), phone, joined: new Date().toISOString(), balance: 500 };
-  saveUsers(users);
-  showAuthOk('r-ok', (currentLang==='en'?'✓ Account created! Welcome, ':'✓ สร้างบัญชีสำเร็จ! ยินดีต้อนรับ, ') + name);
+  if (!name||!phone||!pass||!pass2) { showAuthErr('r-err', currentLang==='en'?'Please fill all required fields.':'กรุณากรอกข้อมูลที่จำเป็น'); return; }
+  if (!/^\d{10}$/.test(phone))      { showAuthErr('r-err', currentLang==='en'?'Phone must be exactly 10 digits.':'เบอร์โทรศัพท์ต้องมี 10 หลัก'); return; }
+  if (phone === ADMIN_PHONE)         { showAuthErr('r-err', currentLang==='en'?'This number cannot be registered.':'ไม่สามารถสมัครด้วยหมายเลขนี้'); return; }
+  if (pass.length < 8)               { showAuthErr('r-err', currentLang==='en'?'Password must be at least 8 characters.':'รหัสผ่านอย่างน้อย 8 ตัว'); return; }
+  if (pass !== pass2)                { showAuthErr('r-err', currentLang==='en'?'Passwords do not match.':'รหัสผ่านไม่ตรงกัน'); return; }
+
+  const submitBtn = document.querySelector('#apanel-register .auth-submit');
+  if (submitBtn) { submitBtn.disabled=true; submitBtn.textContent='…'; }
+
+  // Check duplicate
+  const existing = await dbGetUser(phone);
+  if (existing) {
+    if (submitBtn) { submitBtn.disabled=false; submitBtn.innerHTML='<span class="en">Create Account</span><span class="th">สร้างบัญชี</span>'; setLang(currentLang); }
+    showAuthErr('r-err', currentLang==='en'?'Phone number already registered.':'เบอร์นี้มีบัญชีแล้ว');
+    return;
+  }
+
+  const hash = await hashPassword(pass);
+  const { data, error } = await dbCreateUser(phone, name, hash);
+  if (submitBtn) { submitBtn.disabled=false; submitBtn.innerHTML='<span class="en">Create Account</span><span class="th">สร้างบัญชี</span>'; setLang(currentLang); }
+
+  if (error) { showAuthErr('r-err', 'Error: ' + (error.message||'Could not create account')); return; }
+  showAuthOk('r-ok', (currentLang==='en'?'✓ Account created! Welcome, ':'✓ สร้างบัญชีสำเร็จ! ') + name);
   setTimeout(() => { switchAuthTab('login'); clearAuthMsgs(); }, 1400);
 }
 
-function loginSuccess(bank, userData) {
-  currentUser = { bank, ...userData };
-  isAdmin = false;
-  balance = userData.balance || 500;
-  localStorage.setItem('nakthai_session', JSON.stringify({ bank }));
-  saveRememberedUsername(bank);
+async function loginSuccess(user) {
+  currentUser = user;
+  isAdmin = user.is_admin === true;
+  balance = user.balance || 0;
+
+  // Load purchases from DB
+  const rows = await dbGetUserPurchases(user.id);
+  purchases  = {};
+  historyLog = [];
+  rows.forEach(r => {
+    purchases[r.number_type] = {
+      number:    r.number,
+      name_en:   NAMES_EN[r.number_type] || r.number_type,
+      name_th:   NAMES_TH[r.number_type] || r.number_type,
+      sources:   r.sources   || ['dream'],
+      lotteries: r.lotteries || ['thai','laos'],
+      price:     r.price,
+      expiry:    r.expiry_date,
+      date:      r.purchased_at
+    };
+    historyLog.push({
+      ...purchases[r.number_type],
+      type: r.number_type,
+      date: r.purchased_at
+    });
+  });
+
+  localStorage.setItem('nakthai_session', JSON.stringify({ phone: user.phone }));
+  saveRememberedUsername(user.phone);
+  enterApp();
+}
+
+function enterApp() {
+  const admin = isAdmin;
   document.getElementById('auth-screen').classList.add('hidden');
-  document.getElementById('topbar-username').textContent = userData.name.split(' ')[0];
-  document.getElementById('admin-topbtn').style.display = 'none';
-  document.getElementById('nav-admin').style.display = 'none';
+  document.getElementById('topbar-username').textContent = admin
+    ? '⚙ ' + currentUser.name.split(' ')[0]
+    : currentUser.name.split(' ')[0] + ' · ' + currentUser.phone.slice(-4);
+  document.getElementById('admin-topbtn').style.display = admin ? '' : 'none';
+  document.getElementById('nav-admin').style.display    = admin ? '' : 'none';
+  const navHistAdmin = document.getElementById('nav-history-admin'); if(navHistAdmin) navHistAdmin.style.display = admin ? '' : 'none';
+  // Show/hide user-only nav items
+  document.querySelectorAll('.nav-user-only').forEach(el => {
+    el.style.display = admin ? 'none' : '';
+  });
+  loadMediumMessage();
   updateBalanceDisplay();
   updateProfile();
   renderReleases();
   renderShop();
   renderMyNumbers();
+  renderLotterySchedule();
   renderHistory();
   setLang(currentLang);
-  showView('dashboard');
+  if (admin) { populateAdminDefaults(); renderAdminPreview(); showView('admin'); }
+  else showView('dashboard');
 }
 
-function doLogout() {
-  currentUser = null;
-  isAdmin = false;
-  purchases = {};
-  historyLog = [];
+// doLogout
+function doLogout() { (async()=>{
+  if (currentUser && currentUser.id) {
+    if (!isAdmin) await dbUpdateBalance(currentUser.id, balance);
+    else localStorage.setItem('nakthai_admin_balance', balance);
+  }
+  currentUser=null; isAdmin=false; purchases={}; historyLog=[]; balance=0;
   localStorage.removeItem('nakthai_session');
   document.getElementById('auth-screen').classList.remove('hidden');
-  document.getElementById('admin-topbtn').style.display = 'none';
-  document.getElementById('nav-admin').style.display = 'none';
-  ['l-bank','l-pass','r-name','r-bank','r-pass','r-pass2','r-phone'].forEach(id => { const el=document.getElementById(id); if(el)el.value=''; });
-  clearAuthMsgs();
-  showView('dashboard');
-}
+  document.getElementById('admin-topbtn').style.display='none';
+  document.getElementById('nav-admin').style.display='none';
+  const _nha=document.getElementById('nav-history-admin');if(_nha)_nha.style.display='none';
+  ['l-bank','l-pass','r-name','r-bank','r-pass','r-pass2','r-phone'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  clearAuthMsgs(); showView('dashboard');
+})(); }
 
-// ─── NAV ───
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  const map = {dashboard:0,numbers:1,shop:2,history:3,medium:4,admin:-1,profile:6};
-  const items = document.querySelectorAll('.nav-item');
-  const idx = map[name];
-  if (idx >= 0 && items[idx]) items[idx].classList.add('active');
-  if (name === 'profile') updateProfile();
-  if (name === 'admin') { renderAdminPreview(); renderAdminUsers(); }
-  // sync bottom nav
-  ['dashboard','numbers','shop','medium','profile'].forEach(n => {
-    const el = document.getElementById('bn-' + n);
-    if (el) el.classList.toggle('active', n === name);
-  });
-}
-
-// ─── BALANCE ───
+// ═══════════════════════════════════════════════════════════
+// BALANCE
+// ═══════════════════════════════════════════════════════════
 function updateBalanceDisplay() {
   const fmt = '฿' + balance.toLocaleString();
-  ['bal-display','stat-bal','p-bal'].forEach(id => { const el=document.getElementById(id); if(el)el.textContent=fmt; });
-  if (currentUser && currentUser.bank !== 'ADMIN') {
-    const users = getUsers();
-    if (users[currentUser.bank]) { users[currentUser.bank].balance = balance; saveUsers(users); }
-  }
+  ['bal-display','stat-bal','p-bal'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=fmt; });
 }
-function topUp(amount) {
+async function topUp(amount) {
   balance += amount;
   updateBalanceDisplay();
-  showToast((currentLang==='en'?'✓ +฿':'✓ +฿') + amount.toLocaleString() + (currentLang==='en'?' added!':' เติมเงินสำเร็จ!'));
+  if (currentUser) {
+    await dbUpdateBalance(currentUser.id, balance);
+    await dbInsertBalanceTx({ user_id:currentUser.id, amount, type:'topup' });
+  }
+  showToast('✓ +฿' + amount.toLocaleString() + (currentLang==='en'?' added!':' เติมเงินสำเร็จ!'));
 }
 
-// ─── RENDER RELEASES ───
-function renderReleases() {
-  const nums = getNumbers();
-  const grid = document.getElementById('releases-grid');
-  if (!grid) return;
+// ═══════════════════════════════════════════════════════════
+// BUY FLOW
+// ═══════════════════════════════════════════════════════════
+let buyTarget = null;
 
-  grid.innerHTML = ['2digit','3digit','4digit'].map(type => {
-    const n = nums[type];
-    const purchased = !!purchases[type];
-    const flips = applyFlips(n.number, n.flips);
-    const hasFlips = flips.length > 0;
-    const flipLabel = getFlipPairLabel(n.flips, n.number);
-    const lotteryEN = n.lotteries.map(l => l === 'thai' ? 'Thai Gov' : 'Laos').join(' · ');
-    const lotteryTH = n.lotteries.map(l => l === 'thai' ? 'สลากฯ' : 'ลาว').join(' · ');
-    const srcs = (n.sources||[n.source||'dream']);
-    const srcChips = srcs.map(s=>`<span class="admin-source-badge" style="${SOURCE_BADGE_COLORS[s]||SOURCE_BADGE_COLORS.dream};font-size:0.52rem;padding:0.08rem 0.3rem;">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`).join(' ');
-    const usageEN = type==='2digit' ? 'Top บน · Bottom ล่าง · Flip กลับ' : 'Top บน · Toad โต๊ด · Flip กลับ';
-    const usageTH = type==='2digit' ? 'บน · ล่าง · กลับ' : 'บน · โต๊ด · กลับ';
-    const price = n.price || (type==='2digit'?99:type==='3digit'?199:299);
-    const priceStr = '฿' + price;
-
-    const numDisplay = purchased
-      ? `<div class="main-number-row"><div class="num-chip has-flip">${n.number}</div></div>`
-      : `<div class="main-number-row"><div class="num-chip blurred">${n.number}</div></div>`;
-
-    const flipSection = purchased && hasFlips ? `
-      <div class="flip-section">
-        <div class="flip-label en">Flip variants (${flipLabel})</div>
-        <div class="flip-label-th th">ตัวเลขกลับ (${flipLabel})</div>
-        <div class="flip-variants">${flips.map(f => `<div class="flip-chip">${f}</div>`).join('')}</div>
-      </div>` : (hasFlips && !purchased ? `
-      <div class="flip-section">
-        <div class="flip-label en">Has flip variants — revealed after purchase</div>
-        <div class="flip-label-th th">มีตัวเลขกลับ — เปิดเผยหลังซื้อ</div>
-      </div>` : '');
-
-    return `<div class="rcard" onclick="handleRcardClick('${type}')">
-      <div class="rcard-top">
-        <div style="display:flex;gap:0.25rem;flex-wrap:wrap;">${srcChips}</div>
-        <span class="lottery-tag en">${lotteryEN}</span>
-        <span class="lottery-tag-th th">${lotteryTH}</span>
-      </div>
-      <div class="rcard-name en">${NAMES_EN[type]}</div>
-      <div class="rcard-name-th th">${NAMES_TH[type]}</div>
-      <div class="number-display">
-        ${numDisplay}
-        ${flipSection}
-      </div>
-      <div class="usage-tags">
-        <span class="usage-tag en">${usageEN}</span>
-        <span class="usage-tag usage-tag-th th">${usageTH}</span>
-      </div>
-      <div class="rcard-footer">
-        <span class="rcard-expiry en">⏱ ${n.expiry ? 'Exp: '+new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short'}) : 'Valid 7 days'} · ${lotteryEN}</span>
-        <span class="rcard-expiry th" style="font-family:'Noto Serif Thai',serif;">⏱ ${n.expiry ? 'หมด: '+new Date(n.expiry).toLocaleDateString('th',{day:'numeric',month:'short'}) : 'ใช้ได้ 7 วัน'} · ${lotteryTH}</span>
-        ${purchased
-          ? `<span class="purchased-mark">✓ PURCHASED</span>`
-          : `<button class="buy-btn en" onclick="openBuy('${type}');event.stopPropagation()">${priceStr}</button>
-             <button class="buy-btn th" style="display:${currentLang==='th'?'inline-block':'none'};" onclick="openBuy('${type}');event.stopPropagation()">ซื้อ ${priceStr}</button>`
-        }
-      </div>
-    </div>`;
-  }).join('');
-
-  // update stat
-  const purchaseCount = Object.keys(purchases).length;
-  document.getElementById('stat-mine').textContent = purchaseCount;
-  // sync sidebar badge
-  const sideBadge = document.getElementById('badge-my');
-  if (sideBadge) sideBadge.textContent = purchaseCount;
-  // sync bottom nav badge
-  const bnBadge = document.getElementById('bn-badge-my');
-  if (bnBadge) { bnBadge.textContent = purchaseCount; bnBadge.style.display = purchaseCount > 0 ? '' : 'none'; }
-}
-
-function handleRcardClick(type) {
-  if (purchases[type]) showView('numbers');
-}
-
-// ─── BUY MODAL ───
 function openBuy(type) {
+  if (purchases[type]) {
+    showToast(currentLang==='en'?'✓ Already purchased — check My Numbers.':'✓ ซื้อแล้ว — ดูที่เลขของฉัน');
+    showView('numbers'); return;
+  }
   buyTarget = type;
   const nums = getNumbers();
   const n = nums[type];
-  const flips = applyFlips(n.number, n.flips);
-  const hasFlips = flips.length > 0;
-
-  const numsForBuy = getNumbers();
-  const nForBuy = numsForBuy[type];
-  const priceForBuy = nForBuy ? (nForBuy.price || [99,199,299][['2digit','3digit','4digit'].indexOf(type)]) : 99;
-  document.getElementById('m-name').textContent = currentLang === 'en' ? NAMES_EN[type] : NAMES_TH[type];
-  document.getElementById('m-price').textContent = '฿' + priceForBuy;
+  const price = n.price || { '2digit':99,'3digit':199,'4digit':299 }[type] || 199;
+  document.getElementById('m-name').textContent = currentLang==='en' ? NAMES_EN[type] : NAMES_TH[type];
+  document.getElementById('m-price').textContent = '฿' + price;
   document.getElementById('m-err').style.display = 'none';
-
-  let preview = `<div class="preview-chip">???</div>`;
-  if (hasFlips) {
-    preview += `<span class="preview-flip-label en">+ flips after reveal</span>`;
-    preview += `<span class="preview-flip-label th" style="font-family:'Noto Serif Thai',serif;display:${currentLang==='th'?'flex':'none'};">+ ตัวเลขกลับ</span>`;
-  }
-  document.getElementById('m-preview').innerHTML = preview;
+  document.getElementById('m-preview').innerHTML = `<div class="preview-chip">???</div>`;
   document.getElementById('buy-modal').classList.add('open');
 }
 function closeBuyModal() { document.getElementById('buy-modal').classList.remove('open'); }
 
-function confirmBuy() {
+async function confirmBuy() {
+  if (purchases[buyTarget]) { showToast(currentLang==='en'?'⚠ Already owned!':'⚠ คุณมีเลขชุดนี้แล้ว'); closeBuyModal(); return; }
   const nums = getNumbers();
-  const n = nums[buyTarget];
-  const price = n.price || [99,199,299][['2digit','3digit','4digit'].indexOf(buyTarget)];
+  const n    = nums[buyTarget];
+  const price = n.price || { '2digit':99,'3digit':199,'4digit':299 }[buyTarget] || 199;
+
   if (balance < price) {
-    const el = document.getElementById('m-err');
-    el.textContent = currentLang==='en'?'Insufficient balance. Please top up.':'ยอดเงินไม่พอ กรุณาเติมเงิน';
-    el.style.display = 'block';
-    return;
+    closeBuyModal();
+    showToast(currentLang==='en'?'⚠ Insufficient balance.':'⚠ ยอดเงินไม่พอ');
+    setTimeout(()=>showView('profile'), 600); return;
   }
+
   balance -= price;
   updateBalanceDisplay();
-  purchases[buyTarget] = { ...n, name_en: NAMES_EN[buyTarget], name_th: NAMES_TH[buyTarget], price, date: new Date() };
-  historyLog.unshift({ ...purchases[buyTarget], type: buyTarget });
-  document.getElementById('badge-my').textContent = Object.keys(purchases).length;
-  renderReleases();
-  renderMyNumbers();
-  renderHistory();
+
+  if (isAdmin) { showToast('Admin cannot purchase numbers.'); return; }
+  const purchaseRow = {
+    user_id:     currentUser.id,
+    phone:       currentUser.phone,
+    number_type: buyTarget,
+    number:      n.number,
+    price,
+    sources:     n.sources  || ['dream'],
+    lotteries:   n.lotteries || ['thai','laos'],
+    expiry_date: n.expiry   || null,
+    draw_reference: new Date().toISOString().slice(0,10)
+  };
+
+  const { data: savedPurchase, error } = await dbInsertPurchase(purchaseRow);
+  if (error) {
+    balance += price; updateBalanceDisplay();
+    showToast('⚠ Purchase failed: ' + (error.message||'DB error')); return;
+  }
+
+  await dbUpdateBalance(currentUser.id, balance);
+  await dbInsertBalanceTx({ user_id:currentUser.id, amount:-price, type:'purchase', reference_id:savedPurchase.id });
+
+  const localPurchase = {
+    number: n.number, name_en: NAMES_EN[buyTarget], name_th: NAMES_TH[buyTarget],
+    sources: n.sources||['dream'], lotteries: n.lotteries||['thai','laos'],
+    price, date: savedPurchase.purchased_at, expiry: n.expiry||''
+  };
+  purchases[buyTarget] = localPurchase;
+  historyLog.unshift({ ...localPurchase, type: buyTarget });
+
+  const badge = document.getElementById('badge-my');
+  if (badge) badge.textContent = Object.keys(purchases).length;
+  renderReleases(); renderMyNumbers(); renderHistory(); renderShop();
   closeBuyModal();
   showToast(currentLang==='en'?'✓ Number revealed! Check My Numbers.':'✓ เปิดเผยเลขแล้ว ดูที่เลขของฉัน');
 }
 
-// ─── MY NUMBERS ───
-function buildVariantsTable(num, flips, lotteries) {
-  const is2 = num.length === 2;
-  const is3 = num.length === 3;
-  const lotEN = (lotteries||[]).map(l => l==='thai'?'สลากฯ':'ลาว').join('/');
-
-  // Build all variant rows: main number + all flip combos
-  const rows = [];
-
-  // Main number row
-  rows.push({ num, label: 'Main · หลัก', plays: is2 ? ['Top บน','Bottom ล่าง'] : ['Top บน','Toad โต๊ด'], flipClass: '', reason: '' });
-
-  // Generate flip variants
-  const allFlips = applyFlips(num, flips||[]);
-  allFlips.forEach(fnum => {
-    // Determine which flip rule(s) caused this
-    let usedFlips = [];
-    (flips||[]).forEach(f => {
-      const [a,b] = FLIP_PAIRS[f]||[];
-      const orig = num.split('');
-      const changed = fnum.split('');
-      for (let i=0;i<orig.length;i++) {
-        if ((orig[i]===a&&changed[i]===b)||(orig[i]===b&&changed[i]===a)) {
-          if (!usedFlips.includes(f)) usedFlips.push(f);
-        }
-      }
-    });
-    const primaryFlip = usedFlips[0] || '69';
-    const colorClass = FLIP_COLORS[primaryFlip] || 'flip-69';
-    const reason = usedFlips.map(f => FLIP_REASONS[f]||'').join('; ');
-    rows.push({ num: fnum, label: 'Flip · กลับ', plays: is2 ? ['Top บน','Bottom ล่าง'] : ['Top บน','Toad โต๊ด'], flipClass: colorClass, reason });
-  });
-
-  const flipLegend = (flips||[]).length ? `
-    <div class="flip-legend">
-      <strong>Flip key:</strong>
-      ${(flips).map(f => `<span class="fl-${f}"></span> ${FLIP_REASONS[f]||f}`).join(' &nbsp;·&nbsp; ')}
-    </div>` : '';
-
-  return `<table class="variants-table">
-    <thead><tr>
-      <th class="en">Type</th>
-      <th class="en">Number</th>
-      <th class="en">Play as</th>
-      <th class="en">Lottery</th>
-    </tr></thead>
-    <tbody>
-    ${rows.map(r => `<tr>
-      <td class="vt-label">${r.label}</td>
-      <td><span class="vt-num ${r.flipClass}">${r.num}</span>${r.reason?`<span class="vt-flip-reason" title="${r.reason}">ℹ</span>`:''}</td>
-      <td><div class="vt-play-tags">${r.plays.map(p=>`<span class="play-tag ${r.flipClass?'flip-color':''}">${p}</span>`).join('')}</div></td>
-      <td class="vt-label" style="font-size:0.62rem;color:var(--jade-light);">${lotEN}</td>
-    </tr>`).join('')}
-    </tbody>
-  </table>${flipLegend}`;
+// ═══════════════════════════════════════════════════════════
+// EXPIRE A NUMBER
+// ═══════════════════════════════════════════════════════════
+function expireMyNumber(type) {
+  if (!purchases[type]) return;
+  const name = currentLang==='en' ? (purchases[type].name_en||type) : (purchases[type].name_th||type);
+  if (!confirm((currentLang==='en'?'Expire and remove "':'หมดอายุและลบ "') + name + '"?')) return;
+  delete purchases[type];
+  renderMyNumbers(); renderReleases(); renderShop();
+  showToast(currentLang==='en'?'✓ Number expired and removed.':'✓ ลบเลขแล้ว');
 }
 
+// ═══════════════════════════════════════════════════════════
+// RENDER: MY NUMBERS
+// ═══════════════════════════════════════════════════════════
 function renderMyNumbers() {
-  const list = document.getElementById('my-numbers-list');
+  const el = document.getElementById('my-numbers-list');
+  if (!el) return;
   const keys = Object.keys(purchases);
+  const badge = document.getElementById('badge-my');
+  if (badge) badge.textContent = keys.length;
+  const bnBadge = document.getElementById('bn-badge-my');
+  if (bnBadge) { bnBadge.textContent = keys.length; bnBadge.style.display = keys.length>0?'':'none'; }
+
   if (!keys.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🐉</div>
-      <div class="en" style="font-size:0.86rem;">No numbers yet.</div>
-      <div class="th" style="font-family:'Noto Serif Thai',serif;font-size:0.93rem;">ยังไม่มีเลข</div>
-      <button class="empty-cta" onclick="showView('shop')"><span class="en">Buy Numbers</span><span class="th">ซื้อเลข</span></button></div>`;
-    renderLotterySchedule();
-    return;
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔢</div>
+      <div class="en" style="font-size:0.86rem;">No numbers purchased yet.</div>
+      <div class="th" style="font-family:Noto Serif Thai,serif;">ยังไม่มีเลข</div>
+      <button class="empty-cta en" onclick="showView('shop')">Buy Numbers</button>
+      <button class="empty-cta th" onclick="showView('shop')">ซื้อเลข</button>
+    </div>`;
+    setLang(currentLang); return;
   }
 
-  list.innerHTML = keys.map(type => {
+  el.innerHTML = keys.map(type => {
     const p = purchases[type];
-    const lotEN = (p.lotteries||['thai','laos']).map(l=>l==='thai'?'Thai Gov Lottery':'Laos Dev Lottery').join(' · ');
-    const lotTH = (p.lotteries||['thai','laos']).map(l=>l==='thai'?'สลากกินแบ่งรัฐบาล':'ສະຫຼາກພັດທະນາ').join(' · ');
-    const sourceTags = (p.sources||['dream']).map(s =>
-      `<span class="shop-src-chip" style="${SOURCE_BADGE_COLORS[s]||''}">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`
-    ).join('');
-    const varTable = buildVariantsTable(p.number, p.flips||[], p.lotteries||[]);
-    const pct = p.expiry ? Math.max(4, Math.min(100, Math.round((new Date(p.expiry) - new Date()) / (7*24*3600000) * 100))) : 60;
-    const expiryStr = p.expiry ? new Date(p.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '7 days';
+    const daysLeft = p.expiry ? Math.ceil((new Date(p.expiry)-new Date())/86400000) : 99;
+    const isExpired = daysLeft <= 0;
+    const expiryColor = isExpired ? '#e07060' : daysLeft<=2 ? '#f0a060' : 'var(--jade-light)';
+    const expiryStr   = p.expiry ? new Date(p.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const validPct    = isExpired ? 0 : Math.min(100, Math.round(daysLeft/30*100));
+    const SOURCE_LABELS_EN = {dream:'Dream',incense:'Incense',prayer:'Prayer',merit:'Merit'};
+    const SOURCE_LABELS_TH = {dream:'ฝัน',incense:'เลขธูป',prayer:'สวดมนต์',merit:'บุญ'};
+    const srcs = (p.sources||['dream']).map(s => {
+      const label = currentLang==='th' ? SOURCE_LABELS_TH[s]||s : SOURCE_LABELS_EN[s]||s;
+      return `<span style="display:inline-block;font-size:0.7rem;${SOURCE_BADGE_COLORS[s]||''};border:1px solid;padding:0.1rem 0.4rem;margin:0.1rem 0.1rem;font-family:${currentLang==='th'?'Noto Serif Thai,serif':'Cinzel,serif'};">${SOURCE_ICONS[s]||'🌙'} ${label}</span>`;
+    }).join('');
 
-    return `<div class="mycard">
+    return `<div class="mycard" style="opacity:${isExpired?0.45:1};">
       <div class="mycard-top">
         <div>
-          <div class="mycard-name en">${p.name_en||NAMES_EN[type]}</div>
-          <div class="mycard-name-th th">${p.name_th||NAMES_TH[type]}</div>
-          <div class="shop-source-row" style="margin-top:0.35rem;">${sourceTags}</div>
+          <div class="mycard-name en">${p.name_en||NAMES_EN[type]||type}</div>
+          <div class="mycard-name-th th">${p.name_th||NAMES_TH[type]||type}</div>
+          <div class="mycard-date">${new Date(p.date||Date.now()).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'})}</div>
         </div>
-        <div style="text-align:right;">
-          <div class="mycard-date">${new Date(p.date).toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
-          <div style="font-size:0.6rem;color:var(--gold);font-family:'Cinzel',serif;margin-top:0.15rem;">฿${p.price||99}</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.3rem;">
+          <div style="font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-family:Cinzel,serif;" class="en">Expires</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:0.72rem;color:var(--text-dim);" class="th">หมดอายุ</div>
+          <div style="font-family:Cinzel,serif;font-size:1.05rem;color:${expiryColor};letter-spacing:0.06em;font-weight:600;">${expiryStr}</div>
+          ${isExpired?'<div style="font-size:0.72rem;color:#e07060;font-family:Cinzel,serif;">EXPIRED</div>':daysLeft<=2?`<div style="font-size:0.72rem;color:#f0a060;font-family:Cinzel,serif;">⚠ ${daysLeft}d left</div>`:''}
+          ${!isExpired?`<button onclick="expireMyNumber('${type}')" style="font-size:0.65rem;padding:0.2rem 0.5rem;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.25);color:#e07060;font-family:Cinzel,serif;cursor:pointer;">Expire</button>`:''}
         </div>
       </div>
-
-      ${varTable}
-
-      <div class="validity-bar" style="margin-top:0.75rem;"><div class="validity-fill" style="width:${pct}%"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:0.28rem;">
-        <span class="validity-text en">Valid until ${expiryStr}</span>
-        <span class="validity-text validity-text-th th">ใช้ได้ถึง ${expiryStr}</span>
-        <span class="validity-text en">${lotEN}</span>
+      <div class="my-numbers">
+        <div class="my-num${isExpired?' blurred':''}">${p.number||'???'}</div>
       </div>
-
-      <button class="tip-btn" onclick="openTipModal('${type}')">
-        <span class="tip-btn-icon">🎉</span>
-        <div>
-          <div class="tip-btn-text en">I won! Send gratitude to Mae Wan Fah</div>
-          <div class="tip-btn-text th" style="font-family:'Noto Serif Thai',serif;">ถูกรางวัล! ส่งน้ำใจให้แม่วันฟ้า</div>
-          <div class="tip-btn-sub en">Voluntary tip from your balance · 100% goes to the medium</div>
-          <div class="tip-btn-sub th" style="font-family:'Noto Serif Thai',serif;">น้ำใจสมัครใจ หักจากยอดเงิน</div>
-        </div>
-      </button>
+      <div class="validity-bar"><div class="validity-fill" style="width:${validPct}%;${isExpired?'background:#e07060;':''}"></div></div>
+      <div style="margin-top:0.5rem;">${srcs}</div>
+      <div style="margin-top:0.75rem;padding:0.65rem;background:rgba(45,184,122,0.04);border:1px solid rgba(45,184,122,0.12);">
+        <span style="font-size:0.82rem;color:var(--text);" class="en">If you win, please show gratitude to Mae Wan Fah.</span>
+        <span style="font-family:Noto Serif Thai,serif;font-size:0.88rem;color:var(--text);" class="th">หากท่านถูกรางวัล กรุณาแสดงความกตัญญูต่อแม่วันฟ้า</span>
+        <button onclick="openTipModal('${type}')" style="display:inline-block;margin-left:0.5rem;font-size:0.65rem;padding:0.2rem 0.55rem;background:rgba(201,149,42,0.1);border:1px solid rgba(201,149,42,0.25);color:var(--gold);font-family:Cinzel,serif;cursor:pointer;">🙏 Gratitude</button>
+      </div>
     </div>`;
   }).join('');
-
-  renderLotterySchedule();
 }
 
-// ─── HISTORY ───
+// ═══════════════════════════════════════════════════════════
+// RENDER: HISTORY
+// ═══════════════════════════════════════════════════════════
 function renderHistory() {
   const el = document.getElementById('history-content');
+  if (!el) return;
   if (!historyLog.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📜</div><div class="en" style="font-size:0.86rem;">No purchases yet.</div><div class="th" style="font-family:'Noto Serif Thai',serif;">ยังไม่มีรายการ</div></div>`;
-    return;
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📜</div>
+      <div class="en" style="font-size:0.86rem;">No purchases yet.</div>
+      <div class="th" style="font-family:Noto Serif Thai,serif;">ยังไม่มีรายการ</div>
+    </div>`; return;
   }
-  el.innerHTML = `<table class="hist-table"><thead><tr>
-    <th class="en">Package</th><th class="th" style="font-family:'Noto Serif Thai',serif;">ชุด</th>
-    <th class="en">Number</th><th class="th" style="font-family:'Noto Serif Thai',serif;">เลข</th>
-    <th class="en">Flips</th><th class="th" style="font-family:'Noto Serif Thai',serif;">กลับ</th>
-    <th class="en">Lottery</th><th class="th" style="font-family:'Noto Serif Thai',serif;">หวย</th>
-    <th class="en">Time</th><th class="th" style="font-family:'Noto Serif Thai',serif;">เวลา</th>
-    <th>฿</th>
-    <th class="en">Status</th><th class="th" style="font-family:'Noto Serif Thai',serif;">สถานะ</th>
+  el.innerHTML = `<div style="overflow-x:auto;"><table class="hist-table"><thead><tr>
+    <th class="en">Name</th><th class="en">Package</th><th class="en">Number</th>
+    <th class="en">Lottery</th><th class="en">Expiry</th><th class="en">฿</th><th class="en">Date</th><th class="en">Status</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">ชื่อ</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">ชุด</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">เลข</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">หวย</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">หมดอายุ</th>
+    <th class="th">฿</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">วันที่</th>
+    <th class="th" style="font-family:Noto Serif Thai,serif;">สถานะ</th>
   </tr></thead><tbody>
   ${historyLog.map(h => {
-    const flips = applyFlips(h.number, h.flips || []);
-    const lotteryEN = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
-    const lotteryTH = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    const lotEN = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+    const lotTH = (h.lotteries||['thai','laos']).map(l=>l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    const expStr = h.expiry ? new Date(h.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const dateStr = h.date  ? new Date(h.date).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
     return `<tr>
-      <td class="en">${h.name_en}</td><td class="th" style="font-family:'Noto Serif Thai',serif;">${h.name_th}</td>
-      <td><span style="font-family:'Cinzel Decorative',serif;color:var(--gold-pale);letter-spacing:0.1em;">${h.number}</span></td>
-      <td style="font-size:0.7rem;color:rgba(240,192,80,0.65);letter-spacing:0.06em;">${flips.length ? flips.join(' ') : '—'}</td>
-      <td class="en" style="font-size:0.7rem;">${lotteryEN}</td><td class="th" style="font-family:'Noto Serif Thai',serif;font-size:0.73rem;">${lotteryTH}</td>
-      <td style="font-size:0.68rem;color:var(--text-dim);">${new Date(h.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
+      <td class="en">${currentUser?.name||'—'}</td>
+      <td class="en">${h.name_en||NAMES_EN[h.type]||h.type}</td>
+      <td><span style="font-family:Cinzel Decorative,serif;color:var(--gold-pale);font-size:1.05rem;letter-spacing:0.1em;">${h.number}</span></td>
+      <td class="en" style="font-size:0.82rem;">${lotEN}</td>
+      <td class="en" style="color:var(--jade-light);font-size:0.82rem;">${expStr}</td>
       <td style="color:var(--gold);">฿${h.price}</td>
-      <td><span class="pending-badge en">Pending draw</span><span class="pending-badge th" style="font-family:'Noto Serif Thai',serif;">รอออกรางวัล</span></td>
+      <td class="en" style="font-size:0.78rem;color:var(--text-dim);">${dateStr}</td>
+      <td class="en"><span class="pending-badge">Pending draw</span></td>
+      <td class="th" style="font-family:Noto Serif Thai,serif;">${currentUser?.name||'—'}</td>
+      <td class="th" style="font-family:Noto Serif Thai,serif;">${h.name_th||NAMES_TH[h.type]||h.type}</td>
+      <td class="th"><span style="font-family:Cinzel Decorative,serif;color:var(--gold-pale);font-size:1.05rem;">${h.number}</span></td>
+      <td class="th" style="font-family:Noto Serif Thai,serif;font-size:0.85rem;">${lotTH}</td>
+      <td class="th" style="color:var(--jade-light);font-size:0.82rem;">${expStr}</td>
+      <td class="th" style="color:var(--gold);">฿${h.price}</td>
+      <td class="th" style="font-family:Noto Serif Thai,serif;font-size:0.78rem;">${dateStr}</td>
+      <td class="th"><span class="pending-badge" style="font-family:Noto Serif Thai,serif;">รอออกรางวัล</span></td>
     </tr>`;
   }).join('')}
-  </tbody></table>`;
+  </tbody></table></div>`;
 }
 
-// ─── PROFILE ───
+// ═══════════════════════════════════════════════════════════
+// RENDER: PROFILE
+// ═══════════════════════════════════════════════════════════
+async function doChangePassword() {
+  const current = document.getElementById('cp-current').value;
+  const newPass  = document.getElementById('cp-new').value;
+  const confirm  = document.getElementById('cp-confirm').value;
+  const errEl = document.getElementById('cp-err');
+  const okEl  = document.getElementById('cp-ok');
+  errEl.style.display='none'; okEl.style.display='none';
+
+  const showErr = m => { errEl.textContent=m; errEl.style.display='block'; };
+  const showOk  = m => { okEl.textContent=m;  okEl.style.display='block'; };
+
+  if (!current||!newPass||!confirm) { showErr('Please fill all fields.'); return; }
+  if (newPass.length < 8) { showErr('New password must be at least 8 characters.'); return; }
+  if (newPass !== confirm) { showErr('Passwords do not match.'); return; }
+
+  const currentHash = await hashPassword(current);
+  const user = await dbGetUser(currentUser.phone);
+  if (!user || user.password_hash !== currentHash) { showErr('Current password is incorrect.'); return; }
+
+  const newHash = await hashPassword(newPass);
+  const { error } = await sb.from('users').update({ password_hash: newHash }).eq('id', currentUser.id);
+  if (error) { showErr('Error: ' + (error.message||'Could not update password')); return; }
+
+  showOk('✓ Password updated successfully!');
+  ['cp-current','cp-new','cp-confirm'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+}
+
 function updateProfile() {
   if (!currentUser) return;
   document.getElementById('p-name').textContent = currentUser.name || '—';
-  document.getElementById('p-bank').textContent = isAdmin ? 'Admin Account' : 'Account ****' + currentUser.bank.slice(-4);
+  document.getElementById('p-bank').textContent = 'Phone: ' + currentUser.phone.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3') + (isAdmin?' · Admin':'');
   document.getElementById('p-phone').textContent = currentUser.phone || '—';
   document.getElementById('p-bal').textContent = '฿' + balance.toLocaleString();
-  document.getElementById('p-joined').textContent = new Date(currentUser.joined).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('p-joined').textContent = currentUser.joined_at
+    ? new Date(currentUser.joined_at).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'}) : '—';
 }
 
-// ─── ADMIN ───
-function adminPublish() {
-  const n2 = document.getElementById('a-num-2').value.trim();
-  const n3 = document.getElementById('a-num-3').value.trim();
-  const n4 = document.getElementById('a-num-4').value.trim();
+// ═══════════════════════════════════════════════════════════
+// RENDER: RELEASES (dashboard cards)
+// ═══════════════════════════════════════════════════════════
+function renderReleases() {
+  const nums = getNumbers();
+  const grid = document.getElementById('releases-grid');
+  if (!grid) return;
+  const DIGIT_TYPES = Object.keys(nums).length ? Object.keys(nums) : ['2digit','3digit','4digit'];
 
-  if (!n2 || !/^\d{2}$/.test(n2)) { showToast('⚠ 2-digit: enter exactly 2 digits'); return; }
-  if (!n3 || !/^\d{3}$/.test(n3)) { showToast('⚠ 3-digit: enter exactly 3 digits'); return; }
-  if (!n4 || !/^\d{4}$/.test(n4)) { showToast('⚠ 4-digit: enter exactly 4 digits'); return; }
+  grid.innerHTML = DIGIT_TYPES.map(type => {
+    const n = nums[type];
+    if (!n || !n.number) return `<div class="rcard" style="opacity:0.55;">
+      <div style="font-size:0.7rem;color:var(--text-dim);font-family:Cinzel,serif;">${type.replace('digit','-digit').toUpperCase()}</div>
+      <div class="rcard-name en" style="color:var(--text-dim);">Unavailable</div>
+      <div class="rcard-name-th th" style="color:var(--text-dim);">ยังไม่มีให้บริการ</div>
+    </div>`;
 
-  const getSources = (d) => {
-    const s = [];
-    ['dream','incense','prayer','merit'].forEach(src => {
-      const cb = document.getElementById('a-src' + d + '-' + src);
-      if (cb && cb.checked) s.push(src);
-    });
-    return s.length ? s : ['dream'];
-  };
-  const getFlips = (d) => {
-    const f = [];
-    ['69','17','38'].forEach(fp => {
-      const cb = document.getElementById('a-flip' + d + '-' + fp);
-      if (cb && cb.checked) f.push(fp);
-    });
-    return f;
-  };
-  const getLotteries = (d) => {
-    const l = [];
-    ['thai','laos'].forEach(lt => {
-      const cb = document.getElementById('a-lot' + d + '-' + lt);
-      if (cb && cb.checked) l.push(lt);
-    });
-    return l;
-  };
-  const getPrice = (d, def) => {
-    const el = document.getElementById('a-price-' + d);
-    const v = parseInt(el ? el.value : def);
-    return isNaN(v) || v < 1 ? def : v;
-  };
-  const getExpiry = (d) => {
-    const el = document.getElementById('a-exp-' + d);
-    return el ? el.value : '';
-  };
+    const purchased    = !!purchases[type];
+    const rcardDaysLeft = n.expiry ? Math.ceil((new Date(n.expiry)-new Date())/86400000) : 99;
+    const lotteryEN    = (n.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+    const lotteryTH    = (n.lotteries||[]).map(l=>l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    const _srcLabelEN = {dream:'Dream',incense:'Incense',prayer:'Prayer',merit:'Merit'};
+    const _srcLabelTH = {dream:'ฝัน',incense:'เลขธูป',prayer:'สวดมนต์',merit:'บุญ'};
+    const srcChips = (n.sources||['dream']).map(s => {
+      const lbl = currentLang==='th' ? _srcLabelTH[s]||s : _srcLabelEN[s]||s;
+      return `<span style="font-size:0.62rem;${SOURCE_BADGE_COLORS[s]||SOURCE_BADGE_COLORS.dream};border:1px solid;padding:0.1rem 0.32rem;font-family:${currentLang==='th'?'Noto Serif Thai,serif':'Cinzel,serif'};">${SOURCE_ICONS[s]||'🌙'} ${lbl}</span>`;
+    }).join(' ');
+    const price        = n.price || {'2digit':99,'3digit':199,'4digit':299}[type] || 199;
+    const numDisplay   = (purchased || isAdmin)
+      ? `<div class="main-number-row"><div class="num-chip has-flip">${n.number}</div></div>`
+      : `<div class="main-number-row"><div class="num-chip blurred">${n.number}</div></div>`;
+    const expiryDisplay = n.expiry ? new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const expiryColor   = rcardDaysLeft<=2&&rcardDaysLeft>0 ? '#f0a060' : 'var(--jade-light)';
 
+    return `<div class="rcard" onclick="handleRcardClick('${type}')">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:0.4rem;">
+        <span class="lottery-tag en">${lotteryEN}</span>
+        <span class="lottery-tag-th th">${lotteryTH}</span>
+      </div>
+      <div style="height:3.4rem;display:flex;gap:0.22rem;flex-wrap:wrap;align-content:flex-start;overflow:hidden;margin-bottom:0.6rem;">${srcChips}</div>
+      <div class="rcard-name en">${NAMES_EN[type]}</div>
+      <div class="rcard-name-th th">${NAMES_TH[type]}</div>
+      <div class="number-display">${numDisplay}</div>
+      <div style="margin-top:auto;padding-top:0.7rem;border-top:1px solid var(--border2);">
+        <div style="font-size:0.65rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-family:Cinzel,serif;margin-bottom:0.15rem;" class="en">Expires</div>
+        <div style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;color:var(--text-dim);margin-bottom:0.15rem;" class="th">หมดอายุ</div>
+        <div style="font-family:Cinzel,serif;font-size:1.05rem;color:${expiryColor};letter-spacing:0.05em;font-weight:600;margin-bottom:0.55rem;">${expiryDisplay}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:0.78rem;color:var(--text-dim);" class="en">${lotteryEN}</span>
+          <span style="font-family:Noto Serif Thai,serif;font-size:0.82rem;color:var(--text-dim);" class="th">${lotteryTH}</span>
+          ${purchased
+            ? `<span class="purchased-mark">✓ PURCHASED</span>`
+            : `<button class="buy-btn en" onclick="openBuy('${type}');event.stopPropagation()">฿${price}</button>
+               <button class="buy-btn th" style="display:${currentLang==='th'?'inline-block':'none'};" onclick="openBuy('${type}');event.stopPropagation()">ซื้อ ฿${price}</button>`
+          }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const purchaseCount = Object.keys(purchases).length;
+  const stat = document.getElementById('stat-mine'); if(stat) stat.textContent = purchaseCount;
+  const sideBadge = document.getElementById('badge-my'); if(sideBadge) sideBadge.textContent = purchaseCount;
+  const bnBadge = document.getElementById('bn-badge-my');
+  if(bnBadge){bnBadge.textContent=purchaseCount;bnBadge.style.display=purchaseCount>0?'':'none';}
+}
+function handleRcardClick(type) { if(purchases[type]) showView('numbers'); }
+
+// ═══════════════════════════════════════════════════════════
+// RENDER: SHOP
+// ═══════════════════════════════════════════════════════════
+function renderShop() {
+  const nums  = getNumbers();
+  const types = Object.keys(nums).length ? Object.keys(nums) : ['2digit','3digit','4digit'];
+  const defaultPrices = {'2digit':99,'3digit':199,'4digit':299};
+  const descsEN = {'2digit':'One sacred 2-digit number for this draw.','3digit':'One sacred 3-digit number for this draw.','4digit':'One sacred 4-digit number — rarest blessing.'};
+  const descsTH = {'2digit':'เลขศักดิ์สิทธิ์ 2 ตัวสำหรับงวดนี้','3digit':'เลขศักดิ์สิทธิ์ 3 ตัวสำหรับงวดนี้','4digit':'เลข 4 ตัว — พรอันหายาก'};
+  const grid = document.querySelector('.shop-grid');
+  if (!grid) return;
+
+  grid.innerHTML = types.map(type => {
+    const n = nums[type];
+    if (!n||!n.number) return `<div class="shop-card" style="opacity:0.5;">
+      <div class="shop-icon">🚫</div>
+      <div class="shop-name en">${NAMES_EN[type]||type}</div>
+      <div class="shop-name-th th">${NAMES_TH[type]||type}</div>
+      <div class="shop-desc en" style="color:var(--text-dim);">Not yet published.</div>
+      <div class="shop-price"><span class="shop-amt" style="font-size:1rem;color:var(--text-dim);">—</span></div>
+      <button class="shop-buy en" disabled style="opacity:0.4;cursor:not-allowed;">Unavailable</button>
+    </div>`;
+
+    const price       = n.price || defaultPrices[type] || 199;
+    const lotEN       = (n.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+    const expiryStr   = n.expiry ? new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '';
+    const daysLeft    = n.expiry ? Math.ceil((new Date(n.expiry)-new Date())/86400000) : 7;
+    const urgent      = daysLeft <= 2;
+    const alreadyBought = !!purchases[type];
+    const expiryColor = urgent ? '#f0a060' : 'var(--jade-light)';
+
+    return `<div class="shop-card${alreadyBought?' already-bought':''}">
+      <div class="shop-icon">${{'2digit':'2️⃣','3digit':'3️⃣','4digit':'4️⃣'}[type]||'🔢'}</div>
+      <div class="shop-name en">${NAMES_EN[type]}</div>
+      <div class="shop-name-th th">${NAMES_TH[type]}</div>
+      <div class="shop-desc en">${descsEN[type]||''}</div>
+      <div class="shop-desc shop-desc-th th">${descsTH[type]||''}</div>
+      <div class="shop-tag-row">
+        <span class="shop-tag">${type.replace('digit','-digit')}</span>
+        <span class="shop-tag">${lotEN}</span>
+      </div>
+      <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">${price}</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:Noto Serif Thai,serif;">/ งวด</span></div>
+      ${alreadyBought
+        ? `<div style="text-align:center;padding:0.6rem;border:1px solid rgba(45,184,122,0.3);background:rgba(45,184,122,0.06);font-family:Cinzel,serif;font-size:0.72rem;color:var(--jade-light);letter-spacing:0.1em;">✓ <span class="en">Purchased</span><span class="th">ซื้อแล้ว</span></div>`
+        : `<button class="shop-buy en" onclick="openBuy('${type}')">Buy Now</button>
+           <button class="shop-buy th" onclick="openBuy('${type}')">ซื้อเลย</button>`
+      }
+      ${expiryStr ? `<div style="margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid rgba(255,255,255,0.05);">
+        <div style="font-size:0.65rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-family:Cinzel,serif;" class="en">Expires</div>
+        <div style="font-family:'Noto Serif Thai',serif;font-size:0.7rem;color:var(--text-dim);" class="th">หมดอายุ</div>
+        <div style="font-family:Cinzel,serif;font-size:1.05rem;color:${expiryColor};letter-spacing:0.06em;font-weight:600;">${expiryStr}</div>
+        ${urgent&&daysLeft>0?`<div style="font-size:0.72rem;color:#f0a060;font-family:Cinzel,serif;">⚠ ${daysLeft} day${daysLeft===1?'':'s'} left</div>`:''}
+        ${daysLeft<=0?`<div style="font-size:0.72rem;color:#e07060;font-family:Cinzel,serif;">EXPIRED</div>`:''}
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.shop-buy').forEach(b => {
+    if(b.classList.contains('en')||b.classList.contains('th'))
+      b.style.display = b.classList.contains(currentLang) ? 'block' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN: PUBLISH NUMBERS
+// ═══════════════════════════════════════════════════════════
+async function adminPublish() {
+  const btn = document.getElementById('publish-btn');
+  if (btn) { btn.disabled=true; btn.textContent='Saving…'; btn.style.background=''; btn.style.color=''; }
+
+  // Collect form values
   const now = new Date().toISOString();
-  const nums = {
-    '2digit': { number: n2, sources: getSources('2'), price: getPrice('2',99), flips: getFlips('2'), lotteries: getLotteries('2'), published: now, expiry: getExpiry('2') },
-    '3digit': { number: n3, sources: getSources('3'), price: getPrice('3',199), flips: getFlips('3'), lotteries: getLotteries('3'), published: now, expiry: getExpiry('3') },
-    '4digit': { number: n4, sources: getSources('4'), price: getPrice('4',299), flips: getFlips('4'), lotteries: getLotteries('4'), published: now, expiry: getExpiry('4') }
-  };
+  const rows = ['2','3','4'].map(d => ({
+    number_type : d==='2'?'2digit':d==='3'?'3digit':'4digit',
+    number      : (document.getElementById('a-num-'+d)||{value:''}).value.trim(),
+    price       : parseInt((document.getElementById('a-price-'+d)||{value:d==='2'?'99':d==='3'?'199':'299'}).value)||( d==='2'?99:d==='3'?199:299),
+    sources     : ['dream','incense','prayer','merit'].filter(s=>{ const el=document.getElementById('a-src'+d+'-'+s); return el&&el.checked; }),
+    lotteries   : ['thai','laos'].filter(l=>{ const el=document.getElementById('a-lot'+d+'-'+l); return el&&el.checked; }),
+    flips       : ['69','17','38'].filter(f=>{ const el=document.getElementById('a-flip'+d+'-'+f); return el&&el.checked; }),
+    expiry_date : (()=>{ const el=document.getElementById('a-exp-'+d); return el&&el.value?el.value:null; })(),
+    published_at: now,
+    published_by: currentUser.phone,
+    is_active   : true
+  }));
+
+  // 1. Save to localStorage/cache immediately
+  const nums = {};
+  rows.forEach(r => { nums[r.number_type]={ number:r.number, price:r.price, sources:r.sources, lotteries:r.lotteries, flips:r.flips, expiry:r.expiry_date, published:r.published_at }; });
   saveNumbers(nums);
-  purchases = {};
-  document.getElementById('badge-my').textContent = 0;
+
+  // 2. Save to Supabase
+  try {
+    await sb.from('published_numbers').update({ is_active:false }).eq('is_active',true);
+    const { error } = await sb.from('published_numbers').insert(rows);
+    if (error) throw error;
+  } catch(err) {
+    const msg = err.message||String(err);
+    if (btn) { btn.disabled=false; btn.textContent='⚠ '+msg; btn.style.background='#5a1010'; btn.style.color='#fff'; }
+    return;
+  }
+
+  // 3. Reload from DB so dashboard is fresh
+  await loadNumbers();
+
+  // 4. Show success then go to dashboard
+  if (btn) { btn.textContent='✓ All Changes Saved'; btn.style.background='linear-gradient(135deg,#1a8a5a,#0f5a35)'; btn.style.color='#fff'; }
   renderReleases();
-  renderShop();
-  renderMyNumbers();
-  renderAdminPreview();
-  showToast('✓ Sacred numbers published!');
+  showView('dashboard');
+}
+
+function populateAdminDefaults() {
+  const nums = getNumbers();
+  ['2','3','4'].forEach(d => {
+    const n = nums[d+'digit'];
+    const numEl=document.getElementById('a-num-'+d); if(numEl) numEl.value=n.number||'';
+    const prEl=document.getElementById('a-price-'+d); if(prEl) prEl.value=n.price||(d==='2'?99:d==='3'?199:299);
+    // expiry set by updateExpiryForLottery below
+    const defaultSources={'2':['dream'],'3':['dream','incense','prayer'],'4':['dream','incense','prayer','merit']};
+    const activeSources=(n.sources&&n.sources.length)?n.sources:defaultSources[d]||['dream'];
+    ['dream','incense','prayer','merit'].forEach(s=>{const cb=document.getElementById('a-src'+d+'-'+s);if(cb)cb.checked=activeSources.includes(s);});
+    ['69','17','38'].forEach(f=>{const cb=document.getElementById('a-flip'+d+'-'+f);if(cb)cb.checked=(n.flips||[]).includes(f);});
+    ['thai','laos'].forEach(l=>{const cb=document.getElementById('a-lot'+d+'-'+l);if(cb)cb.checked=(n.lotteries&&n.lotteries.length)?n.lotteries.includes(l):false;});
+    // Always recalculate expiry based on current lottery state
+    updateExpiryForLottery(d);
+  });
+}
+
+function calcAutoExpiry(thaiChecked, laosChecked) {
+  const now = new Date();
+  if (thaiChecked) {
+    // Thai lottery drawn on 1st and 16th — expiry = day after next draw
+    const d2  = new Date(now.getFullYear(), now.getMonth(), 2);   // day after 1st
+    const d17 = new Date(now.getFullYear(), now.getMonth(), 17);  // day after 16th
+    const d2n = new Date(now.getFullYear(), now.getMonth()+1, 2); // day after next 1st
+    if (now < d2)  return d2;
+    if (now < d17) return d17;
+    return d2n;
+  } else if (laosChecked) {
+    // Laos only: today + 7 days
+    return new Date(now.getTime() + 7*24*60*60*1000);
+  } else {
+    // No lottery selected: today
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  }
+}
+function updateExpiryForLottery(d) {
+  const thaiCb = document.getElementById('a-lot'+d+'-thai');
+  const laosCb = document.getElementById('a-lot'+d+'-laos');
+  const expEl  = document.getElementById('a-exp-'+d);
+  if (!expEl) return;
+  const expiry = calcAutoExpiry(thaiCb && thaiCb.checked, laosCb && laosCb.checked);
+  expEl.value = expiry.toISOString().split('T')[0];
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN: PREVIEW / PAYMENTS / USERS
+// ═══════════════════════════════════════════════════════════
+async function renderAdminHistory() {
+  // ── Registered Users ──────────────────────────────────
+  const usersEl = document.getElementById('hadmin-users-list');
+  if (usersEl) {
+    usersEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div>';
+    const users = await dbGetAllUsers();
+    if (!users.length) {
+      usersEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No users yet.</div>';
+    } else {
+      usersEl.innerHTML = `<div style="overflow-x:auto;"><table class="admin-users-table"><thead><tr>
+        <th>Name</th><th>Phone</th><th>Balance</th><th>Joined</th><th>Last Login</th><th>Active</th>
+      </tr></thead><tbody>
+      ${users.map(u => {
+        const joined    = u.joined_at  ? new Date(u.joined_at).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+        const lastLogin = u.last_login ? new Date(u.last_login).toLocaleString('en',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'Never';
+        return `<tr>
+          <td style="font-weight:500;">${u.name}</td>
+          <td style="color:var(--jade-light);font-size:0.72rem;">${u.phone.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')}</td>
+          <td style="color:var(--gold);font-family:Cinzel,serif;">฿${(u.balance||0).toLocaleString()}</td>
+          <td style="font-size:0.72rem;color:var(--text-dim);">${joined}</td>
+          <td style="font-size:0.72rem;color:var(--text-dim);">${lastLogin}</td>
+          <td style="font-size:0.72rem;color:${u.is_active?'var(--jade-light)':'#e07060'};">${u.is_active?'✓ Active':'✗ Disabled'}</td>
+        </tr>`;
+      }).join('')}
+      </tbody></table></div>`;
+    }
+  }
+
+  // ── Balance Mutations ──────────────────────────────────
+  const balEl = document.getElementById('hadmin-balance-list');
+  if (balEl) {
+    balEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div>';
+    const txs = await dbGetAllBalanceTransactions();
+    if (!txs.length) {
+      balEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No transactions yet.</div>';
+    } else {
+      balEl.innerHTML = `<div style="overflow-x:auto;"><table class="admin-users-table"><thead><tr>
+        <th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Reference</th><th>Added Balance</th>
+      </tr></thead><tbody>
+      ${txs.map(t => {
+        const dt = t.created_at ? new Date(t.created_at) : null;
+        const dateStr = dt ? dt.toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+        const timeStr = dt ? dt.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'}) : '—';
+        const name  = t.users?.name  || '—';
+        const phone = (t.users?.phone||'—').replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3');
+        const ref   = t.reference_id ? t.reference_id.slice(0,8)+'…' : (t.type||'—');
+        const amt   = t.amount > 0
+          ? `<span style="color:var(--jade-light);font-family:Cinzel,serif;">+฿${t.amount.toLocaleString()}</span>`
+          : `<span style="color:#e07060;font-family:Cinzel,serif;">฿${t.amount.toLocaleString()}</span>`;
+        return `<tr>
+          <td style="font-weight:500;">${name}</td>
+          <td style="color:var(--jade-light);font-size:0.72rem;">${phone}</td>
+          <td style="font-size:0.72rem;color:var(--text-dim);">${dateStr}</td>
+          <td style="font-size:0.72rem;color:var(--text-dim);">${timeStr}</td>
+          <td style="font-size:0.7rem;color:var(--text-dim);font-family:monospace;">${ref}</td>
+          <td>${amt}</td>
+        </tr>`;
+      }).join('')}
+      </tbody></table></div>`;
+    }
+  }
+
+  // ── Purchased Numbers ──────────────────────────────────
+  const purEl = document.getElementById('hadmin-purchases-list');
+  if (purEl) {
+    purEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div>';
+    const rows = await dbGetAllPurchases();
+    if (!rows.length) {
+      purEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No purchases yet.</div>';
+    } else {
+      purEl.innerHTML = `<div style="overflow-x:auto;"><table class="admin-users-table"><thead><tr>
+        <th>User</th><th>Phone</th><th>Type</th><th>Number</th><th>Lottery</th><th>Expiry</th><th>Price</th><th>Date Time</th>
+      </tr></thead><tbody>
+      ${rows.map(r => {
+        const lotEN   = (r.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+        const expStr  = r.expiry_date ? new Date(r.expiry_date).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+        const dtStr   = r.purchased_at ? new Date(r.purchased_at).toLocaleString('en',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+        return `<tr>
+          <td style="font-weight:500;">${r.users?.name||'—'}</td>
+          <td style="color:var(--jade-light);font-size:0.72rem;">${(r.phone||r.users?.phone||'—').replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')}</td>
+          <td style="font-family:Cinzel,serif;font-size:0.65rem;color:var(--text-dim);">${r.number_type.replace('digit','-digit')}</td>
+          <td style="font-family:'Cinzel Decorative',serif;color:var(--gold-pale);font-size:0.95rem;">${r.number||'?'}</td>
+          <td style="font-size:0.78rem;color:var(--jade-light);">${lotEN}</td>
+          <td style="font-size:0.78rem;color:var(--jade-light);">${expStr}</td>
+          <td style="color:var(--gold);font-family:Cinzel,serif;">฿${r.price||'?'}</td>
+          <td style="color:var(--text-dim);font-size:0.7rem;">${dtStr}</td>
+        </tr>`;
+      }).join('')}
+      </tbody></table></div>`;
+    }
+  }
 }
 
 function renderAdminPreview() {
   const nums = getNumbers();
   const el = document.getElementById('admin-current-preview');
   if (!el) return;
-  el.innerHTML = ['2digit','3digit','4digit'].map(type => {
+  const types = Object.keys(nums).length ? Object.keys(nums) : ['2digit','3digit','4digit'];
+  el.innerHTML = types.map(type => {
     const n = nums[type];
-    const flips = applyFlips(n.number, n.flips||[]);
+    if (!n||!n.number) return '';
     const pubDate = new Date(n.published||Date.now());
-    const lotteries = (n.lotteries || []).map(l => l==='thai'?'สลากฯ':'ลาว').join(' · ');
-    const srcs = (n.sources||[n.source||'dream']).map(s => `<span style="font-size:0.5rem;${SOURCE_BADGE_COLORS[s]||''};border:1px solid;padding:0.08rem 0.3rem;font-family:'Cinzel',serif;">${SOURCE_ICONS[s]||'🌙'}</span>`).join(' ');
+    const lotteries = (n.lotteries||[]).map(l=>l==='thai'?'สลากฯ':'ลาว').join(' · ');
+    const srcs = (n.sources||['dream']).map(s=>`<span style="font-size:0.5rem;${SOURCE_BADGE_COLORS[s]||''};border:1px solid;padding:0.08rem 0.3rem;font-family:Cinzel,serif;">${SOURCE_ICONS[s]||'🌙'}</span>`).join(' ');
     return `<div class="admin-num-item">
       <div class="admin-num-type">${type.replace('digit','-digit')} · ฿${n.price||99}</div>
       <div class="admin-num-val">${n.number}</div>
-      ${flips.length ? `<div class="admin-num-flips">${flips.map(f=>'~'+applyFlips(n.number,[f]).join(' ~')).join(' ')}</div>` : '<div class="admin-num-flips" style="color:var(--text-dim);font-size:0.58rem;">no flips</div>'}
       <div class="admin-num-lottery">${lotteries}</div>
       <div style="margin-top:0.25rem;">${srcs}</div>
-      ${n.expiry ? `<div class="admin-published" style="color:var(--jade-light);">exp: ${n.expiry}</div>` : ''}
+      ${n.expiry?`<div class="admin-published" style="color:var(--jade-light);font-size:0.75rem;">Expires: ${n.expiry}</div>`:''}
       <div class="admin-published">${pubDate.toLocaleString([],{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
     </div>`;
   }).join('');
 }
 
-function renderAdminUsers() {
-  const el = document.getElementById('admin-users-list');
+async function renderAdminPayments() {
+  // Moved to renderAdminHistory — kept for compatibility
+  return;
+  const el = document.getElementById('admin-payments-list');
   if (!el) return;
-  const users = getUsers();
-  const keys = Object.keys(users);
-  if (!keys.length) {
-    el.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No registered users yet.</div>';
-    return;
-  }
-  el.innerHTML = `<table class="admin-users-table"><thead><tr>
-    <th>Name</th><th>Account (masked)</th><th>Phone</th><th>Balance</th><th>Joined</th>
+  el.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div>';
+  const rows = await dbGetAllPurchases();
+  if (!rows.length) { el.innerHTML='<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">No purchases yet.</div>'; return; }
+  el.innerHTML = `<div style="overflow-x:auto;"><table class="admin-users-table"><thead><tr>
+    <th>User</th><th>Phone</th><th>Type</th><th>Number</th><th>Sources</th><th>Lottery</th><th>Expiry</th><th>Price</th><th>Date</th>
   </tr></thead><tbody>
-  ${keys.map(bank => {
-    const u = users[bank];
+  ${rows.map(r => {
+    const lotEN = (r.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ');
+    const srcStr = (r.sources||[]).map(s=>SOURCE_ICONS[s]||s).join(' ');
+    const expStr = r.expiry_date ? new Date(r.expiry_date).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const dateStr = r.purchased_at ? new Date(r.purchased_at).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
     return `<tr>
-      <td>${u.name}</td>
-      <td style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.06em;">****${bank.slice(-4)}</td>
-      <td style="color:var(--text-dim);">${u.phone || '—'}</td>
-      <td style="color:var(--gold);font-family:'Cinzel',serif;">฿${(u.balance||500).toLocaleString()}</td>
-      <td style="color:var(--text-dim);font-size:0.7rem;">${new Date(u.joined).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'})}</td>
+      <td>${r.users?.name||'—'}</td>
+      <td style="color:var(--jade-light);font-size:0.7rem;">${(r.phone||r.users?.phone||'—').replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')}</td>
+      <td style="font-family:Cinzel,serif;font-size:0.65rem;color:var(--text-dim);">${r.number_type.replace('digit','-digit')}</td>
+      <td style="font-family:Cinzel Decorative,serif;color:var(--gold-pale);font-size:0.95rem;">${r.number||'?'}</td>
+      <td style="font-size:0.82rem;">${srcStr}</td>
+      <td style="font-size:0.78rem;color:var(--jade-light);">${lotEN}</td>
+      <td style="font-size:0.78rem;color:var(--jade-light);">${expStr}</td>
+      <td style="color:var(--gold);font-family:Cinzel,serif;">฿${r.price||'?'}</td>
+      <td style="color:var(--text-dim);font-size:0.7rem;">${dateStr}</td>
     </tr>`;
   }).join('')}
-  </tbody></table>`;
+  </tbody></table></div>`;
 }
 
-// ─── LOTTERY SCHEDULE ───
-function getLotteryDrawDates() {
+async function renderAdminUsers() {
+  // Moved to renderAdminHistory — kept for compatibility
+  return;
+  const el = document.getElementById('admin-users-list');
+  if (!el) return;
+  el.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);">Loading…</div>';
+  const users = await dbGetAllUsers();
+  if (!users.length) { el.innerHTML='<div style="font-size:0.8rem;color:var(--text-dim);">No registered users yet.</div>'; return; }
+  const allPurchases = await dbGetAllPurchases();
+  el.innerHTML = `<div style="overflow-x:auto;"><table class="admin-users-table"><thead><tr>
+    <th>Name</th><th>Phone</th><th>Balance</th><th>Numbers Bought</th><th>Joined</th><th>Last Login</th><th>Active</th>
+  </tr></thead><tbody>
+  ${users.map(u => {
+    const uPurchases = allPurchases.filter(p=>p.user_id===u.id);
+    const numsBought = uPurchases.map(p=>`<span style="font-family:Cinzel Decorative,serif;color:var(--gold-pale);font-size:0.85rem;">${p.number}</span> <span style="font-size:0.65rem;color:var(--text-dim);">(${p.number_type.replace('digit','-digit')})</span>`).join(' &nbsp; ');
+    const joined  = u.joined_at   ? new Date(u.joined_at).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const lastLogin = u.last_login ? new Date(u.last_login).toLocaleDateString('en',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : 'never';
+    return `<tr>
+      <td style="font-weight:500;">${u.name}</td>
+      <td style="color:var(--jade-light);font-size:0.72rem;">${u.phone.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')}</td>
+      <td style="color:var(--gold);font-family:Cinzel,serif;">฿${(u.balance||0).toLocaleString()}</td>
+      <td>${numsBought||'<span style="color:var(--text-dim);font-size:0.72rem;">none</span>'}</td>
+      <td style="font-size:0.72rem;color:var(--text-dim);">${joined}</td>
+      <td style="font-size:0.72rem;color:var(--text-dim);">${lastLogin}</td>
+      <td style="font-size:0.72rem;color:${u.is_active?'var(--jade-light)':'#e07060'};">${u.is_active?'✓ Active':'✗ Disabled'}</td>
+    </tr>`;
+  }).join('')}
+  </tbody></table></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN: TOGGLE CARD VISIBILITY
+// ═══════════════════════════════════════════════════════════
+function toggleAdminCard(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const rows = card.querySelectorAll('.admin-row');
+  const hidden = rows.length && rows[0].style.display === 'none';
+  rows.forEach(r => r.style.display = hidden ? '' : 'none');
+  card.style.opacity = hidden ? '1' : '0.5';
+}
+function toggleAdminView() {
+  const adminVisible = document.getElementById('view-admin').classList.contains('active');
+  showView(adminVisible ? 'dashboard' : 'admin');
+}
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN: EXPORT
+// ═══════════════════════════════════════════════════════════
+async function exportAllData() {
+  showToast('⏳ Preparing export…');
+  const users    = await dbGetAllUsers();
+  const purchases = await dbGetAllPurchases();
+  const out = {
+    exported: new Date().toISOString(),
+    total_users: users.length,
+    total_purchases: purchases.length,
+    accounts: users.map(u => ({
+      name: u.name, phone: u.phone, balance: u.balance,
+      joined: u.joined_at, last_login: u.last_login, active: u.is_active,
+      purchases: purchases.filter(p=>p.user_id===u.id).map(p=>({
+        type: p.number_type, number: p.number, price: p.price,
+        sources: p.sources, lotteries: p.lotteries,
+        expiry: p.expiry_date, purchased: p.purchased_at
+      }))
+    }))
+  };
+  const blob = new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'nakthai-export-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✓ Data exported successfully');
+}
+
+// ═══════════════════════════════════════════════════════════
+// MEDIUM PANEL NUMBERS
+// ═══════════════════════════════════════════════════════════
+function _getMediumExpiryHint(lotteries) {
   const now = new Date();
-  const results = [];
+  if (!lotteries || (!lotteries.includes('thai') && lotteries.includes('laos'))) {
+    const exp = new Date(now.getTime() + 7*24*60*60*1000);
+    return 'Auto: Laos → +7 days (' + exp.toISOString().split('T')[0] + ')';
+  } else {
+    const d17 = new Date(now.getFullYear(), now.getMonth(), 17);
+    const d2n = new Date(now.getFullYear(), now.getMonth()+1, 2);
+    const exp = now < d17 ? d17 : d2n;
+    return 'Auto: Thai → ' + exp.toISOString().split('T')[0];
+  }
+}
+
+function saveMediumMessage() {
+  const en = document.getElementById('med-msg-en-input').value.trim();
+  const th = document.getElementById('med-msg-th-input').value.trim();
+  if (en) {
+    const el = document.getElementById('med-status-en');
+    if (el) el.textContent = en;
+    localStorage.setItem('nakthai_med_msg_en', en);
+  }
+  if (th) {
+    const el = document.getElementById('med-status-th');
+    if (el) el.textContent = th;
+    localStorage.setItem('nakthai_med_msg_th', th);
+  }
+  const saved = document.getElementById('med-msg-saved');
+  if (saved) { saved.style.display='inline'; setTimeout(()=>saved.style.display='none', 2000); }
+}
+
+function loadMediumMessage() {
+  const en = localStorage.getItem('nakthai_med_msg_en');
+  const th = localStorage.getItem('nakthai_med_msg_th');
+  if (en) {
+    const el = document.getElementById('med-status-en');
+    if (el) el.textContent = en;
+    const inp = document.getElementById('med-msg-en-input');
+    if (inp) inp.value = en;
+  }
+  if (th) {
+    const el = document.getElementById('med-status-th');
+    if (el) el.textContent = th;
+    const inp = document.getElementById('med-msg-th-input');
+    if (inp) inp.value = th;
+  }
+}
+
+function renderMediumNumbers() {
+  const el = document.getElementById('medium-nums-grid');
+  if (!el) return;
+  const nums = getNumbers();
+  const types = Object.keys(nums).length ? Object.keys(nums) : ['2digit','3digit','4digit'];
+  el.innerHTML = types.map(type => {
+    const n = nums[type];
+    if (!n||!n.number) return `<div style="padding:0.85rem;border:1px solid rgba(255,255,255,0.06);text-align:center;opacity:0.45;">
+      <div style="font-family:Cinzel,serif;font-size:0.6rem;color:var(--text-dim);">${type.replace('digit','-digit').toUpperCase()}</div>
+      <div style="font-size:0.78rem;color:var(--text-dim);margin-top:0.35rem;" class="en">Not published</div>
+    </div>`;
+    const expiryStr = n.expiry ? new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    const srcs = (n.sources||['dream']).map(s=>SOURCE_ICONS[s]||'🌙').join(' ');
+    const lots = (n.lotteries||[]).map(l=>l==='thai'?'🇹🇭':'🇱🇦').join(' ');
+    return `<div style="padding:0.85rem;border:1px solid rgba(201,149,42,0.2);background:rgba(201,149,42,0.04);text-align:center;">
+      <div style="font-family:Cinzel,serif;font-size:0.6rem;letter-spacing:0.12em;color:var(--text-dim);">${type.replace('digit','-digit').toUpperCase()}</div>
+      <div style="font-family:Cinzel Decorative,serif;font-size:1.8rem;color:var(--gold-pale);letter-spacing:0.2em;margin:0.4rem 0;">${n.number}</div>
+      <div style="font-size:0.88rem;">${srcs} ${lots}</div>
+      <div style="font-size:0.72rem;color:var(--jade-light);margin-top:0.35rem;font-family:Cinzel,serif;">฿${n.price||'—'}</div>
+      <div style="font-size:0.7rem;color:var(--jade-light);margin-top:0.2rem;font-family:Cinzel,serif;">Exp: ${expiryStr}</div>
+      ${isAdmin ? `<div style="font-size:0.62rem;color:var(--text-dim);margin-top:0.15rem;">${_getMediumExpiryHint(n.lotteries)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOTTERY SCHEDULE
+// ═══════════════════════════════════════════════════════════
+function getLotteryDrawDates() {
+  const now=new Date(); const results=[];
   LOTTERIES.forEach(lot => {
     let next;
-    if (lot.id === 'thai') {
-      // 1st and 16th of each month
-      const d1 = new Date(now.getFullYear(), now.getMonth(), 1);
-      const d16 = new Date(now.getFullYear(), now.getMonth(), 16);
-      const d1next = new Date(now.getFullYear(), now.getMonth()+1, 1);
-      const d16next = new Date(now.getFullYear(), now.getMonth()+1, 16);
-      if (d1 > now) next = d1;
-      else if (d16 > now) next = d16;
-      else if (d1next > now) next = d1next;
-      else next = d16next;
+    if (lot.id==='thai') {
+      const d1=new Date(now.getFullYear(),now.getMonth(),1);
+      const d16=new Date(now.getFullYear(),now.getMonth(),16);
+      const d1n=new Date(now.getFullYear(),now.getMonth()+1,1);
+      const d16n=new Date(now.getFullYear(),now.getMonth()+1,16);
+      if(d1>now)next=d1;else if(d16>now)next=d16;else if(d1n>now)next=d1n;else next=d16n;
     } else {
-      // Laos: every Monday (1) and Thursday (4)
-      let d = new Date(now);
-      d.setHours(0,0,0,0);
-      d.setDate(d.getDate() + 1); // start tomorrow
-      for (let i=0;i<7;i++) {
-        if (d.getDay()===1||d.getDay()===4) { next=d; break; }
-        d.setDate(d.getDate()+1);
-      }
-      if (!next) next = d;
+      let d=new Date(now); d.setHours(0,0,0,0); d.setDate(d.getDate()+1);
+      for(let i=0;i<7;i++){if(d.getDay()===1||d.getDay()===4){next=d;break;}d.setDate(d.getDate()+1);}
+      if(!next)next=d;
     }
-    const diff = next - now;
-    const days = Math.floor(diff/86400000);
-    const hrs = Math.floor((diff%86400000)/3600000);
-    results.push({ ...lot, next, days, hrs });
+    const diff=next-now; const days=Math.floor(diff/86400000); const hrs=Math.floor((diff%86400000)/3600000);
+    results.push({...lot,next,days,hrs});
   });
   return results;
 }
-
 function renderLotterySchedule() {
-  const el = document.getElementById('ls-entries');
-  if (!el) return;
-  const draws = getLotteryDrawDates();
-  el.innerHTML = draws.map(d => {
-    const dateStr = d.next.toLocaleDateString('en',{weekday:'short',day:'numeric',month:'long'});
-    const countdown = d.days > 0 ? d.days + 'd ' + d.hrs + 'h' : d.hrs + 'h';
-    const urgent = d.days < 2;
-    return `<div class="ls-entry">
-      <span class="ls-flag">${d.flag}</span>
+  const el=document.getElementById('ls-entries'); if(!el)return;
+  const draws=getLotteryDrawDates();
+  el.innerHTML=draws.map(d=>{
+    const dateStr=d.next.toLocaleDateString('en',{weekday:'short',day:'numeric',month:'long'});
+    const countdown=d.days>0?d.days+'d '+d.hrs+'h':d.hrs+'h';
+    const urgent=d.days<2;
+    return `<div class="ls-entry"><span class="ls-flag">${d.flag}</span>
       <div class="ls-info">
-        <div class="ls-name en">${d.nameEN}</div>
-        <div class="ls-name-th th">${d.nameTH}</div>
+        <div class="ls-name en">${d.nameEN}</div><div class="ls-name-th th">${d.nameTH}</div>
         <div class="ls-date">${dateStr} · ${d.orgEN}</div>
       </div>
       <div class="ls-countdown${urgent?' ls-expired':''}">${countdown}</div>
@@ -1873,123 +2398,157 @@ function renderLotterySchedule() {
   }).join('');
 }
 
-// ─── TIP MODAL ───
-let tipTarget = null;
-let tipAmount = 0;
+// ═══════════════════════════════════════════════════════════
+// TIP MODAL
+// ═══════════════════════════════════════════════════════════
+let tipTarget=null, tipAmount=0;
 function openTipModal(type) {
-  tipTarget = type;
-  tipAmount = 0;
-  document.querySelectorAll('.tip-amt-btn').forEach(b => b.classList.remove('selected'));
-  const errEl = document.getElementById('tip-err');
-  if (errEl) { errEl.style.display='none'; errEl.textContent=''; }
+  tipTarget=type; tipAmount=0;
+  document.querySelectorAll('.tip-amt-btn').forEach(b=>b.classList.remove('selected'));
+  const errEl=document.getElementById('tip-err'); if(errEl){errEl.style.display='none';errEl.textContent='';}
   document.getElementById('tip-modal').classList.add('open');
 }
-function closeTipModal() { document.getElementById('tip-modal').classList.remove('open'); }
-function selectTip(amount) {
-  tipAmount = amount;
-  document.querySelectorAll('.tip-amt-btn').forEach(b => {
-    b.classList.toggle('selected', b.textContent === '฿' + amount);
-  });
-}
-function confirmTip() {
-  if (!tipAmount) { const e=document.getElementById('tip-err'); e.textContent='Please select a tip amount.'; e.style.display='block'; return; }
-  if (balance < tipAmount) { const e=document.getElementById('tip-err'); e.textContent='Insufficient balance.'; e.style.display='block'; return; }
-  balance -= tipAmount;
-  updateBalanceDisplay();
-  closeTipModal();
-  showToast('🙏 Thank you! ฿' + tipAmount + ' sent to Mae Wan Fah with gratitude.');
+function closeTipModal(){document.getElementById('tip-modal').classList.remove('open');}
+function selectTip(amount){tipAmount=amount;document.querySelectorAll('.tip-amt-btn').forEach(b=>b.classList.toggle('selected',b.textContent==='฿'+amount));}
+function confirmTip(){
+  if(!tipAmount){const e=document.getElementById('tip-err');e.textContent='Please select a tip amount.';e.style.display='block';return;}
+  if(balance<tipAmount){const e=document.getElementById('tip-err');e.textContent='Insufficient balance.';e.style.display='block';return;}
+  balance-=tipAmount; updateBalanceDisplay(); closeTipModal();
+  showToast('🙏 Thank you! ฿'+tipAmount+' sent to Mae Wan Fah with gratitude.');
 }
 
-// ─── SHOP ───
-function renderShop() {
-  const nums = getNumbers();
-  const types = ['2digit','3digit','4digit'];
-  const icons = { '2digit':'2️⃣', '3digit':'3️⃣', '4digit':'4️⃣' };
-  const descsEN = { '2digit':'One 2-digit number with all flip variants.', '3digit':'One 3-digit number with all play modes.', '4digit':'One 4-digit number — rarest blessing.' };
-  const descsTH = { '2digit':'เลข 2 ตัวพร้อมตัวเลขกลับ', '3digit':'เลข 3 ตัวพร้อมทุกรูปแบบ', '4digit':'เลข 4 ตัว — พรอันหายาก' };
-  const grid = document.querySelector('.shop-grid');
-  if (!grid) return;
-  grid.innerHTML = types.map((type,i) => {
-    const n = nums[type];
-    const price = n.price || [99,199,299][i];
-    const sourceTags = (n.sources||['dream']).map(s =>
-      `<span class="shop-src-chip" style="${SOURCE_BADGE_COLORS[s]||''}">${SOURCE_ICONS[s]||'🌙'} ${SOURCE_LABELS_SINGLE[s]||s}</span>`
-    ).join('');
-    const lotEN = (n.lotteries||[]).map(l=>l==='thai'?'สลากกินแบ่งรัฐบาล':'ສະຫຼາກພັດທະນາ').join(' · ');
-    const expiryStr = n.expiry ? new Date(n.expiry).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'}) : '';
-    const daysLeft = n.expiry ? Math.ceil((new Date(n.expiry)-new Date())/86400000) : 7;
-    const urgent = daysLeft <= 2;
-    const featured = type === '3digit';
-    return `<div class="shop-card${featured?' featured':''}">
-      <div class="shop-icon">${icons[type]}</div>
-      <div class="shop-name en">${NAMES_EN[type]}</div>
-      <div class="shop-name-th th">${NAMES_TH[type]}</div>
-      <div class="shop-desc en">${descsEN[type]}</div>
-      <div class="shop-desc shop-desc-th th">${descsTH[type]}</div>
-      <div class="shop-source-row">${sourceTags}</div>
-      <div class="shop-tag-row">
-        <span class="shop-tag">${type.replace('digit','-digit')}</span>
-        <span class="shop-tag en">${(n.lotteries||[]).map(l=>l==='thai'?'Thai Gov':'Laos').join(' · ')}</span>
-      </div>
-      <div class="shop-price"><span class="shop-cur">฿</span><span class="shop-amt">${price}</span><span class="shop-per en">/ draw</span><span class="shop-per th" style="font-family:'Noto Serif Thai',serif;">/ งวด</span></div>
-      <button class="shop-buy en" onclick="openBuy('${type}')">Buy Now</button>
-      <button class="shop-buy th" style="display:none;" onclick="openBuy('${type}')">ซื้อเลย</button>
-      ${expiryStr ? `<div class="shop-expiry${urgent?' urgent':''}">⏱ ${urgent?'⚠ ':''}Expires: ${expiryStr}${daysLeft>0?' ('+daysLeft+'d left)':' (expired)'}</div>` : ''}
-    </div>`;
-  }).join('');
-  // reapply lang to shop buttons
-  document.querySelectorAll('.shop-buy').forEach(b => {
-    if (b.classList.contains('en')||b.classList.contains('th'))
-      b.style.display = b.classList.contains(currentLang) ? 'block' : 'none';
+// ═══════════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════════
+function showView(name) {
+  const btnLabel=document.getElementById('admin-topbtn-label');
+  if(name!=='admin'&&btnLabel) btnLabel.innerHTML='<span class="en">Admin</span><span class="th">แอดมิน</span>';
+  else if(name==='admin'&&btnLabel) btnLabel.innerHTML='✕ <span class="en">Close Admin</span><span class="th">ปิดแอดมิน</span>';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  // Highlight active nav item by matching onclick
+  document.querySelectorAll('.nav-item').forEach(item => {
+    if(item.getAttribute('onclick') === "showView('"+name+"')") item.classList.add('active');
   });
+  if(name==='profile')updateProfile();
+  if(name==='numbers'){renderMyNumbers();renderLotterySchedule();}
+  if(name==='history')renderHistory();
+  if(name==='history-admin')renderAdminHistory();
+  if(name==='shop')renderShop();
+  if(name==='dashboard')renderReleases();
+  if(name==='admin'){renderAdminPreview();}
+  if(name==='medium'){
+    renderMediumNumbers();
+    const editor = document.getElementById('medium-msg-editor');
+    if (editor) editor.style.display = isAdmin ? 'block' : 'none';
+  }
+  ['dashboard','numbers','shop','medium','profile'].forEach(n=>{const el=document.getElementById('bn-'+n);if(el)el.classList.toggle('active',n===name);});
 }
 
-// ─── COUNTDOWN ───
+// ═══════════════════════════════════════════════════════════
+// COUNTDOWN
+// ═══════════════════════════════════════════════════════════
+function updateStatDays() {
+  const el = document.getElementById('stat-days');
+  if (!el) return;
+  const thai = window._thaiDrawDiff || Infinity;
+  const laos = window._laosDrawDiff || Infinity;
+  const soonest = Math.min(thai, laos);
+  if (soonest === Infinity) { el.textContent = '—'; return; }
+  const d = Math.floor(soonest / 86400000);
+  const h = Math.floor((soonest % 86400000) / 3600000);
+  el.textContent = d > 0 ? d + 'd ' + String(h).padStart(2,'0') + 'h' : String(h) + 'h';
+}
+
 function updateCountdown() {
-  const now = new Date();
-  let next = new Date(now);
-  if (now.getDate() < 16) next.setDate(16); else { next.setMonth(next.getMonth()+1); next.setDate(1); }
+  const now=new Date(); let next=new Date(now);
+  if(now.getDate()<1){next.setDate(1);}else if(now.getDate()<16){next.setDate(16);}else{next.setMonth(next.getMonth()+1);next.setDate(1);}
   next.setHours(0,0,0,0);
-  const diff = next - now;
-  const d = Math.floor(diff/86400000);
-  const h = Math.floor((diff%86400000)/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  const el = document.getElementById('countdown');
-  if (el) el.textContent = d + 'd ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const diff=next-now; const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000);
+  window._thaiDrawDiff = diff;
+  updateStatDays();
+  const el=document.getElementById('countdown');
+  if(el)el.textContent=d+'d '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
 }
-setInterval(updateCountdown, 1000);
-updateCountdown();
+setInterval(updateCountdown,1000); updateCountdown();
 
-// ─── TOAST ───
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+function updateLaosCountdown() {
+  const now=new Date(); let next=new Date(now);
+  for(let i=1;i<=7;i++){const d=new Date(now);d.setDate(now.getDate()+i);if(d.getDay()===1||d.getDay()===4){d.setHours(20,30,0,0);next=d;break;}}
+  const diff=next-now; if(diff<=0){updateLaosCountdown();return;}
+  window._laosDrawDiff = diff;
+  updateStatDays();
+  const days=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000);
+  const timeStr=days>0?days+'d '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'):String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  ['laos-countdown2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=timeStr;});
+}
+setInterval(updateLaosCountdown,1000); updateLaosCountdown();
+
+// ═══════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function toggleDisclaimer(){
+  const el = document.getElementById('numbers-disclaimer');
+  const chev = document.getElementById('disclaimer-chevron');
+  if (!el) return;
+  const hidden = el.style.display === 'none' || !el.style.display;
+  el.style.display = hidden ? 'block' : 'none';
+  if (chev) chev.style.transform = hidden ? 'rotate(180deg)' : '';
 }
 
-// ─── MODAL CLOSE ───
-document.getElementById('buy-modal').addEventListener('click', function(e) { if(e.target===this)closeBuyModal(); });
-document.getElementById('tip-modal').addEventListener('click', function(e) { if(e.target===this)closeTipModal(); });
+// ═══════════════════════════════════════════════════════════
+// MODAL CLOSE
+// ═══════════════════════════════════════════════════════════
+document.getElementById('buy-modal').addEventListener('click',function(e){if(e.target===this)closeBuyModal();});
+document.getElementById('tip-modal').addEventListener('click',function(e){if(e.target===this)closeTipModal();});
 
-// ─── INIT ───
+// ═══════════════════════════════════════════════════════════
+// INIT — restore session, load numbers
+// ═══════════════════════════════════════════════════════════
 loadRememberedUsername();
-// Auto-login from session if present
-(function() {
-  try {
-    const session = localStorage.getItem('nakthai_session');
-    if (!session) return;
-    const { bank } = JSON.parse(session);
-    const users = getUsers();
-    if (bank && users[bank]) {
-      loginSuccess(bank, users[bank]);
-    }
-  } catch(e) {}
-})();
 setLang(currentLang);
-renderReleases();
-renderShop();
+
+// Cleanup legacy custom keys
+try {
+  const stored = localStorage.getItem(NUMBERS_KEY);
+  if (stored) {
+    const nums = JSON.parse(stored);
+    const valid = ['2digit','3digit','4digit'];
+    let changed = false;
+    Object.keys(nums).forEach(k=>{if(!valid.includes(k)){delete nums[k];changed=true;}});
+    if (changed) localStorage.setItem(NUMBERS_KEY, JSON.stringify(nums));
+  }
+} catch(e) {}
+
+// Load numbers from DB, then restore session
+(async () => {
+  await loadNumbers();
+  renderReleases();
+  renderShop();
+
+  const session = localStorage.getItem('nakthai_session');
+  if (!session) return;
+  try {
+    const { phone, admin } = JSON.parse(session);
+    if (admin && phone === ADMIN_PHONE) {
+      isAdmin = true;
+      currentUser = { id:'admin', name:'Mae Wan Fah', phone:ADMIN_PHONE, balance:0, joined_at:new Date().toISOString() };
+      balance = 0;
+      enterApp();
+      return;
+    }
+    if (phone) {
+      const user = await dbGetUser(phone);
+      if (user && user.is_active) {
+        await loginSuccess(user);
+      } else {
+        localStorage.removeItem('nakthai_session');
+      }
+    }
+  } catch(e) { localStorage.removeItem('nakthai_session'); }
+})();
 </script>
 </body>
 </html>
