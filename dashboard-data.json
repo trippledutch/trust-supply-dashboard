@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-03-04",
+  "lastUpdated": "2026-03-07",
   "data": {   
-    "activeNodes": 3901,
+    "activeNodes": 3923,
     "activeValidators": 99,
     "dailyValidations": 17993,
     
@@ -12,8 +12,8 @@
     "ethereumMNW": 27771606,
     "lostTokens": 500000,
     
-    "nodes3m": 329,
-    "nodes6m": 280,
+    "nodes3m": 311,
+    "nodes6m": 320,
     "nodes12m": 3292,
     
     "reward3m": 0.06,
