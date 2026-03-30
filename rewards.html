@@ -412,9 +412,9 @@ footer a { color: #667eea; text-decoration: none; }
       <thead>
         <tr>
           <th>Month</th>
-          <th class="num">Txs</th>
+          <th class="num">#</th>
           <th class="num">MNW Rewarded</th>
-          <th class="num">% Share</th>
+          <th class="num">% of Year</th>
           <th class="num">Avg / TX</th>
         </tr>
       </thead>
@@ -755,8 +755,9 @@ function renderAll() {
     }
 
     const mnw    = Number(byMonth[ym].raw) / Math.pow(10, MNW_DECIMALS);
+    const yearMNWNum = Number(byYear[y].raw) / Math.pow(10, MNW_DECIMALS);
     const avg    = byMonth[ym].count > 0 ? mnw / byMonth[ym].count : 0;
-    const pct    = (mnw / totalMNW * 100).toFixed(1);
+    const pct    = (mnw / yearMNWNum * 100).toFixed(1);
     const barW   = (mnw / maxMonthMNW * 100).toFixed(1);
     const tr = document.createElement("tr");
     tr.innerHTML = `
