@@ -455,25 +455,21 @@ footer a { color: #667eea; text-decoration: none; }
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
-//  CONFIG — same keys/address as analytics.html
+//  CONFIG — identical to analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
 const API_KEY  = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
-const ADDR     = "0xf994b03d2793788a3ed86eabe792963620bae2c6";
-const MNW_CONTRACT = "0x3c59798620e5fec0ae6df1a19c6454094572ab92";
-const CHAIN_ID = 137;    // Polygon
+const ADDR     = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
+const CHAIN_ID = 137;
 const BASE_URL = "https://api.etherscan.io/v2/api";
 const MNW_DECIMALS = 18;
 
-// "RewardValidator" function selector — 0x28e4b04d
-// We identify reward payouts as outgoing MNW token transfers FROM the staking contract
-// (the contract pays MNW out to validators).  We also cross-check the tx input for the
-// rewardValidator selector where available.
-const REWARD_SIG = "28e4b04d";   // rewardValidator(address,uint256)
+// rewardValidator(address,uint256) selector = keccak256 first 4 bytes = bdbff2f1
+const REWARD_SIG = "0xbdbff2f1";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────────────────────────────────────
-let allRewards  = [];   // { ts, date, amount, from, hash }
+let allRewards  = [];
 let scanning    = false;
 let shouldStop  = false;
 let scanStart   = 0;
@@ -531,11 +527,12 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — one batch, always page=1, offset=10000, crawl backwards by endblock
+//  FETCH — action=txlist, page=1, offset=10000, sort=desc, backwards endblock
+//  Identical technique to analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
 async function fetchBatch(endBlock) {
-  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx`
-    + `&contractaddress=${MNW_CONTRACT}&address=${ADDR}`
+  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=txlist`
+    + `&address=${ADDR}`
     + `&startblock=0&endblock=${endBlock}`
     + `&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
   const r = await fetch(url);
@@ -547,14 +544,26 @@ async function fetchBatch(endBlock) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  IDENTIFY REWARD TXs — outgoing MNW from the staking contract
+//  IDENTIFY & DECODE rewardValidator txs
+//  Input: 0xbdbff2f1 + address (32 bytes) + uint256 amount (32 bytes)
 // ─────────────────────────────────────────────────────────────────────────────
 function isRewardTx(tx) {
-  return tx.from.toLowerCase() === ADDR.toLowerCase();
+  return tx.input && tx.input.toLowerCase().startsWith(REWARD_SIG);
+}
+
+function decodeAmount(input) {
+  // input = 0x + 8 hex selector + 64 hex address + 64 hex uint256
+  // amount starts at offset 8+64 = 72 hex chars after 0x
+  try {
+    const amountHex = input.slice(2 + 8 + 64); // skip 0x, selector, address
+    return BigInt("0x" + amountHex);
+  } catch(e) {
+    return BigInt(0);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  MAIN SCAN — backwards endblock crawl (same technique as analytics.html)
+//  MAIN SCAN — backwards endblock crawl, exactly like analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
 async function startScan() {
   if (scanning) return;
@@ -576,9 +585,9 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Starting full scan using backwards endblock crawl…", "info");
-  log(`Address: ${ADDR}`, "info");
-  log(`MNW contract: ${MNW_CONTRACT}`, "info");
+  log("Scanning for rewardValidator(address,uint256) transactions…", "info");
+  log(`Contract: ${ADDR}`, "info");
+  log(`Selector: ${REWARD_SIG}`, "info");
 
   try {
     let currentEndBlock = 999999999;
@@ -594,19 +603,19 @@ async function startScan() {
         break;
       }
 
-      // Filter for reward payouts (transfers OUT from the contract)
+      // Filter for rewardValidator calls only
       const rewards = txs.filter(isRewardTx);
       allRewards = allRewards.concat(rewards.map(tx => ({
         ts:     tx.timeStamp,
         date:   tsToDate(tx.timeStamp),
         ym:     tsToYearMonth(tx.timeStamp),
-        amount: tx.value,
+        amount: decodeAmount(tx.input),  // BigInt
         to:     tx.to,
         from:   tx.from,
         hash:   tx.hash
       })));
 
-      log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewards (running: ${allRewards.length})`, "ok");
+      log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewardValidator (running: ${allRewards.length})`, "ok");
       setProgress(Math.min(90, 5 + batch * 10));
 
       if (txs.length < 10000) {
@@ -672,8 +681,8 @@ function renderAll() {
   for (const r of allRewards) {
     if (!byMonth[r.ym]) byMonth[r.ym] = { count: 0, raw: BigInt(0) };
     byMonth[r.ym].count++;
-    byMonth[r.ym].raw += BigInt(r.amount);
-    totalRaw += BigInt(r.amount);
+    byMonth[r.ym].raw += r.amount;
+    totalRaw += r.amount;
   }
 
   const months = Object.keys(byMonth).sort(); // asc
@@ -760,7 +769,7 @@ function renderAll() {
   const db = document.getElementById("detailBody");
   db.innerHTML = "";
   allRewards.forEach((r, i) => {
-    const mnw = Number(BigInt(r.amount)) / Math.pow(10, MNW_DECIMALS);
+    const mnw = Number(r.amount) / Math.pow(10, MNW_DECIMALS);
     const tr  = document.createElement("tr");
     tr.innerHTML = `
       <td class="num">${i + 1}</td>
@@ -794,7 +803,7 @@ function exportCSV() {
   if (allRewards.length === 0) return;
   const rows = [["#","Date","YearMonth","MNW_Amount","To_Address","TX_Hash"]];
   allRewards.forEach((r, i) => {
-    const mnw = (Number(BigInt(r.amount)) / Math.pow(10, MNW_DECIMALS)).toFixed(6);
+    const mnw = (Number(r.amount) / Math.pow(10, MNW_DECIMALS)).toFixed(6);
     rows.push([i+1, r.date, r.ym, mnw, r.to, r.hash]);
   });
   const csv  = rows.map(r => r.join(",")).join("\n");
