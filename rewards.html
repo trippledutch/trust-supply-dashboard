@@ -531,12 +531,13 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — one page of token transfers
+//  FETCH — one block-range batch of token transfers (always page=1, offset=10000)
 // ─────────────────────────────────────────────────────────────────────────────
-async function fetchPage(page, offset = 1000) {
+async function fetchBatch(startBlock, endBlock = 99999999) {
   const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx`
     + `&contractaddress=${MNW_CONTRACT}&address=${ADDR}`
-    + `&page=${page}&offset=${offset}&sort=asc&apikey=${API_KEY}`;
+    + `&startblock=${startBlock}&endblock=${endBlock}`
+    + `&page=1&offset=10000&sort=asc&apikey=${API_KEY}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
@@ -546,17 +547,14 @@ async function fetchPage(page, offset = 1000) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  IDENTIFY REWARD TXs
-//  Strategy: outgoing MNW from the staking contract = reward payouts.
-//  The contract address is the `from` field in token transfer events.
+//  IDENTIFY REWARD TXs — outgoing MNW from the staking contract
 // ─────────────────────────────────────────────────────────────────────────────
 function isRewardTx(tx) {
-  // Token transfer FROM the staking contract
   return tx.from.toLowerCase() === ADDR.toLowerCase();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  MAIN SCAN
+//  MAIN SCAN — block-range pagination (no page × offset limit)
 // ─────────────────────────────────────────────────────────────────────────────
 async function startScan() {
   if (scanning) return;
@@ -578,17 +576,19 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Starting full scan of token transfers from staking contract…", "info");
+  log("Starting full scan using block-range pagination…", "info");
   log(`Address: ${ADDR}`, "info");
   log(`MNW contract: ${MNW_CONTRACT}`, "info");
 
   try {
-    let page = 1;
+    let startBlock = 0;
+    let batch = 0;
     let totalFetched = 0;
 
     while (!shouldStop) {
-      log(`Fetching page ${page}…`, "info");
-      const txs = await fetchPage(page);
+      batch++;
+      log(`Batch ${batch}: blocks ${startBlock}+…`, "info");
+      const txs = await fetchBatch(startBlock);
 
       if (!txs || txs.length === 0) {
         log("No more transactions found.", "ok");
@@ -603,23 +603,26 @@ async function startScan() {
         ts:     tx.timeStamp,
         date:   tsToDate(tx.timeStamp),
         ym:     tsToYearMonth(tx.timeStamp),
-        amount: tx.value,   // raw string in wei units
+        amount: tx.value,
         to:     tx.to,
         from:   tx.from,
         hash:   tx.hash
       })));
 
-      log(`Page ${page}: ${txs.length} txs, ${rewards.length} rewards (running: ${allRewards.length})`, "ok");
-      setProgress(Math.min(90, 5 + page * 8));
+      log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewards (running: ${allRewards.length})`, "ok");
+      setProgress(Math.min(90, 5 + batch * 10));
 
-      if (txs.length < 1000) {
-        log("Last page reached.", "ok");
+      if (txs.length < 10000) {
+        log("Last batch reached.", "ok");
         break;
       }
 
-      page++;
+      // Advance startBlock past the last tx in this batch to avoid re-fetching
+      const lastBlock = parseInt(txs[txs.length - 1].blockNumber);
+      startBlock = lastBlock + 1;
+
       // Brief delay to respect API rate limits
-      await new Promise(r => setTimeout(r, 250));
+      await new Promise(r => setTimeout(r, 300));
     }
 
     setProgress(100);
