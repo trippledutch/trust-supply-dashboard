@@ -10,75 +10,76 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-–bg:       #0d0f18;
-–surface:  #13172a;
-–card:     #181d30;
-–border:   #252d48;
-–accent:   #7c3aed;
-–accent2:  #06b6d4;
-–green:    #22c55e;
-–amber:    #f59e0b;
-–red:      #ef4444;
-–text:     #e2e8f0;
-–muted:    #64748b;
-–mono:     ‘JetBrains Mono’, ‘Fira Code’, monospace;
+–bg:       #f0f4f8;
+–surface:  #ffffff;
+–card:     #ffffff;
+–border:   #e2e8f0;
+–accent:   #667eea;
+–accent2:  #764ba2;
+–green:    #27ae60;
+–amber:    #f39c12;
+–red:      #e74c3c;
+–text:     #2d3748;
+–muted:    #718096;
+–mono:     ‘Courier New’, ‘Lucida Console’, monospace;
 }
 
 body {
 background: var(–bg);
 color: var(–text);
-font-family: ‘Segoe UI’, system-ui, sans-serif;
+font-family: ‘Segoe UI’, -apple-system, system-ui, sans-serif;
 font-size: 14px;
 min-height: 100vh;
 }
 
 /* ── Header ── */
 .header {
-background: linear-gradient(135deg, #0f172a 0%, #1e1040 60%, #0f172a 100%);
-border-bottom: 1px solid var(–border);
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+border-bottom: none;
 padding: 18px 28px;
 display: flex;
 align-items: center;
 justify-content: space-between;
 flex-wrap: wrap;
 gap: 10px;
+box-shadow: 0 2px 10px rgba(102,126,234,0.3);
 }
 .header-left { display: flex; align-items: center; gap: 12px; }
 .logo {
 width: 40px; height: 40px;
-background: linear-gradient(135deg, var(–accent), var(–accent2));
+background: rgba(255,255,255,0.2);
 border-radius: 10px;
 display: grid; place-items: center;
 font-size: 18px; flex-shrink: 0;
 }
-.header h1 { font-size: 1.1rem; font-weight: 700; }
-.header p  { font-size: 0.72rem; color: var(–muted); font-family: var(–mono); }
+.header h1 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+.header p  { font-size: 0.72rem; color: rgba(255,255,255,0.8); font-family: var(–mono); }
 .version-badge {
 font-family: var(–mono);
 font-size: 0.65rem;
-background: rgba(124,58,237,.15);
-border: 1px solid rgba(124,58,237,.35);
-color: #a78bfa;
+background: rgba(255,255,255,0.2);
+border: 1px solid rgba(255,255,255,0.4);
+color: #fff;
 padding: 4px 10px;
 border-radius: 20px;
 }
 .back-link {
-color: var(–accent2);
+color: #fff;
 font-size: 0.78rem;
 text-decoration: none;
-border: 1px solid rgba(6,182,212,.3);
+border: 1px solid rgba(255,255,255,0.5);
 padding: 5px 12px;
 border-radius: 6px;
 transition: background .2s;
 }
-.back-link:hover { background: rgba(6,182,212,.1); }
+.back-link:hover { background: rgba(255,255,255,0.15); }
 
 /* ── Main ── */
 .main { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
 /* ── Status bar ── */
 .status-bar {
-background: var(–surface);
+background: #fff;
 border: 1px solid var(–border);
 border-radius: 8px;
 padding: 10px 16px;
@@ -88,7 +89,8 @@ align-items: center;
 gap: 10px;
 font-family: var(–mono);
 font-size: 0.78rem;
-color: var(–accent2);
+color: #4a5568;
+box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 .status-dot {
 width: 8px; height: 8px; border-radius: 50%;
@@ -109,13 +111,14 @@ gap: 12px;
 margin-bottom: 20px;
 }
 .stat-card {
-background: var(–card);
+background: #fff;
 border: 1px solid var(–border);
 border-radius: 10px;
 padding: 16px 18px;
 display: flex;
 flex-direction: column;
 gap: 6px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 .stat-label {
 font-size: 0.7rem;
@@ -128,7 +131,7 @@ font-family: var(–mono);
 font-size: 1.5rem;
 font-weight: 700;
 font-family: var(–mono);
-color: var(–accent2);
+color: #667eea;
 }
 .stat-sub {
 font-size: 0.68rem;
@@ -138,7 +141,7 @@ font-family: var(–mono);
 
 /* ── Controls ── */
 .controls {
-background: var(–surface);
+background: #fff;
 border: 1px solid var(–border);
 border-radius: 10px;
 padding: 16px 20px;
@@ -147,6 +150,7 @@ display: flex;
 align-items: center;
 gap: 12px;
 flex-wrap: wrap;
+box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 .btn {
 padding: 8px 18px;
@@ -162,10 +166,10 @@ display: inline-flex; align-items: center; gap: 6px;
 .btn:disabled { opacity: .4; cursor: not-allowed; }
 .btn:not(:disabled):hover { opacity: .85; }
 .btn:not(:disabled):active { transform: scale(.97); }
-.btn-primary  { background: var(–accent);  color: #fff; }
-.btn-success  { background: var(–green);   color: #000; }
+.btn-primary  { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+.btn-success  { background: var(–green);   color: #fff; }
 .btn-danger   { background: var(–red);     color: #fff; }
-.btn-secondary{ background: var(–border);  color: var(–text); }
+.btn-secondary{ background: #edf2f7;        color: var(–text); }
 
 /* ── Progress ── */
 .progress-wrap {
@@ -188,10 +192,10 @@ border-radius: 4px;
 /* ── Section title ── */
 .section-title {
 font-size: 0.8rem;
-font-weight: 600;
+font-weight: 700;
 text-transform: uppercase;
 letter-spacing: .08em;
-color: var(–muted);
+color: #667eea;
 margin-bottom: 10px;
 font-family: var(–mono);
 display: flex;
@@ -213,16 +217,17 @@ gap: 12px;
 margin-bottom: 24px;
 }
 .year-card {
-background: var(–card);
+background: #fff;
 border: 1px solid var(–border);
 border-radius: 10px;
 padding: 16px 18px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 .year-card h3 {
 font-family: var(–mono);
 font-size: 1rem;
 font-weight: 700;
-color: var(–accent2);
+color: #667eea;
 margin-bottom: 8px;
 }
 .year-card .amount {
@@ -240,11 +245,12 @@ margin-top: 4px;
 
 /* ── Monthly table ── */
 .table-wrap {
-background: var(–surface);
+background: #fff;
 border: 1px solid var(–border);
 border-radius: 10px;
 overflow: hidden;
 margin-bottom: 24px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 table {
 width: 100%;
@@ -253,24 +259,24 @@ font-family: var(–mono);
 font-size: 0.8rem;
 }
 thead th {
-background: #1a2035;
-color: var(–muted);
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: #fff;
 text-transform: uppercase;
 letter-spacing: .06em;
 font-size: 0.68rem;
 padding: 10px 14px;
 text-align: left;
-border-bottom: 1px solid var(–border);
+border-bottom: none;
 white-space: nowrap;
 }
 thead th.num { text-align: right; }
-tbody tr { border-bottom: 1px solid rgba(37,45,72,.6); transition: background .15s; }
-tbody tr:hover { background: rgba(124,58,237,.07); }
+tbody tr { border-bottom: 1px solid #edf2f7; transition: background .15s; }
+tbody tr:hover { background: #f7faff; }
 tbody tr:last-child { border-bottom: none; }
 tbody td { padding: 9px 14px; color: var(–text); }
 tbody td.num { text-align: right; font-family: var(–mono); }
 tbody td.amount { text-align: right; color: var(–green); font-weight: 600; font-family: var(–mono); }
-tbody td.year-sep { background: rgba(124,58,237,.1); color: var(–accent2); font-weight: 700; font-size: 0.75rem; }
+tbody td.year-sep { background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); color: #667eea; font-weight: 700; font-size: 0.75rem; }
 .empty-row td { text-align: center; padding: 32px; color: var(–muted); }
 
 /* ── Detail transactions ── */
@@ -280,13 +286,13 @@ tbody td.year-sep { background: rgba(124,58,237,.1); color: var(–accent2); fon
 font-family: var(–mono);
 font-size: 0.72rem;
 }
-.tx-table a { color: var(–accent2); text-decoration: none; }
+.tx-table a { color: #667eea; text-decoration: none; }
 .tx-table a:hover { text-decoration: underline; }
 
 /* ── Log ── */
 .log-box {
-background: #0a0d14;
-border: 1px solid var(–border);
+background: #1a202c;
+border: 1px solid #2d3748;
 border-radius: 8px;
 padding: 12px 14px;
 max-height: 160px;
@@ -313,7 +319,7 @@ border-top: 1px solid var(–border);
 font-family: var(–mono);
 margin-top: 20px;
 }
-footer a { color: var(–accent2); text-decoration: none; }
+footer a { color: #667eea; text-decoration: none; }
 </style>
 
 </head>
@@ -376,7 +382,7 @@ footer a { color: var(–accent2); text-decoration: none; }
     <button class="btn btn-danger" id="btnStop" onclick="stopScan()" disabled>⏹ Stop</button>
     <button class="btn btn-success" id="btnExport" onclick="exportCSV()" disabled>📥 Export CSV</button>
     <button class="btn btn-secondary" id="btnToggleDetail" onclick="toggleDetail()" disabled>🔍 Show Transactions</button>
-    <span id="scanTimer" style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);margin-left:auto;"></span>
+    <span id="scanTimer" style="font-family:var(--mono);font-size:0.75rem;color:#718096;margin-left:auto;"></span>
   </div>
 
   <!-- Progress -->
@@ -527,7 +533,7 @@ function shortAddr(a) {
 // ─────────────────────────────────────────────────────────────────────────────
 //  FETCH — one page of token transfers
 // ─────────────────────────────────────────────────────────────────────────────
-async function fetchPage(page, offset = 10000) {
+async function fetchPage(page, offset = 1000) {
   const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx`
     + `&contractaddress=${MNW_CONTRACT}&address=${ADDR}`
     + `&page=${page}&offset=${offset}&sort=asc&apikey=${API_KEY}`;
@@ -606,7 +612,7 @@ async function startScan() {
       log(`Page ${page}: ${txs.length} txs, ${rewards.length} rewards (running: ${allRewards.length})`, "ok");
       setProgress(Math.min(90, 5 + page * 8));
 
-      if (txs.length < 10000) {
+      if (txs.length < 1000) {
         log("Last page reached.", "ok");
         break;
       }
