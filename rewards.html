@@ -457,13 +457,14 @@ footer a { color: #667eea; text-decoration: none; }
 // ─────────────────────────────────────────────────────────────────────────────
 //  CONFIG — identical to analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
-const API_KEY  = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
-const ADDR     = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
-const CHAIN_ID = 137;
-const BASE_URL = "https://api.etherscan.io/v2/api";
+const API_KEY    = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
+const MASTER     = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
+const CALLER     = "0xc0152f038ed7a16042c670f1cf23ded705afcf04".toLowerCase();
+const CHAIN_ID   = 137;
+const BASE_URL   = "https://api.etherscan.io/v2/api";
 const MNW_DECIMALS = 18;
 
-// rewardValidator(address,uint256) selector = keccak256 first 4 bytes = bdbff2f1
+// rewardValidator(address,uint256) — keccak256 first 4 bytes
 const REWARD_SIG = "0xbdbff2f1";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -527,12 +528,11 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — action=txlist, page=1, offset=10000, sort=desc, backwards endblock
-//  Identical technique to analytics.html
+//  FETCH — txlist on the CALLER address, backwards endblock, like analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
 async function fetchBatch(endBlock) {
   const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=txlist`
-    + `&address=${ADDR}`
+    + `&address=${CALLER}`
     + `&startblock=0&endblock=${endBlock}`
     + `&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
   const r = await fetch(url);
@@ -544,22 +544,21 @@ async function fetchBatch(endBlock) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  IDENTIFY & DECODE rewardValidator txs
-//  Input: 0xbdbff2f1 + address (32 bytes) + uint256 amount (32 bytes)
+//  FILTER: rewardValidator calls to the master contract
 // ─────────────────────────────────────────────────────────────────────────────
 function isRewardTx(tx) {
-  return tx.input && tx.input.toLowerCase().startsWith(REWARD_SIG);
+  return tx.to && tx.to.toLowerCase() === MASTER
+    && tx.input && tx.input.toLowerCase().startsWith(REWARD_SIG);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  DECODE amount from input: 0x + 8 selector + 64 address + 64 uint256
+// ─────────────────────────────────────────────────────────────────────────────
 function decodeAmount(input) {
-  // input = 0x + 8 hex selector + 64 hex address + 64 hex uint256
-  // amount starts at offset 8+64 = 72 hex chars after 0x
   try {
-    const amountHex = input.slice(2 + 8 + 64); // skip 0x, selector, address
-    return BigInt("0x" + amountHex);
-  } catch(e) {
-    return BigInt(0);
-  }
+    const amountHex = input.slice(2 + 8 + 64); // skip 0x, selector(8), address(64)
+    return BigInt("0x" + amountHex.slice(0, 64));
+  } catch(e) { return BigInt(0); }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -585,8 +584,9 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Scanning for rewardValidator(address,uint256) transactions…", "info");
-  log(`Contract: ${ADDR}`, "info");
+  log("Scanning rewardValidator calls from automation wallet…", "info");
+  log(`Caller: ${CALLER}`, "info");
+  log(`Master contract: ${MASTER}`, "info");
   log(`Selector: ${REWARD_SIG}`, "info");
 
   try {
