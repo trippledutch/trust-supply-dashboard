@@ -712,7 +712,7 @@ function renderAll() {
     const div  = document.createElement("div");
     div.className = "year-card";
     div.innerHTML = `
-      <h3>📅 ${y} <span style="font-size:0.75rem;color:var(--muted);font-weight:400;">${pct}%</span></h3>
+      <h3>📅 ${y}</h3>
       <div class="amount">${fmtMNWNum(mnw)} MNW</div>
       <div class="meta">${byYear[y].count} transactions</div>
       <div style="margin-top:8px;background:#e9ecef;border-radius:4px;height:6px;overflow:hidden;">
@@ -743,11 +743,10 @@ function renderAll() {
     const y = ym.slice(0, 4);
     if (y !== prevYear) {
       const yearMNW = Number(byYear[y].raw) / Math.pow(10, MNW_DECIMALS);
-      const yearPct = (yearMNW / totalMNW * 100).toFixed(1);
       const sepRow  = document.createElement("tr");
       sepRow.innerHTML = `
         <td class="year-sep" colspan="3">── ${y}: ${fmtMNWNum(yearMNW)} MNW ──</td>
-        <td class="year-sep num">${yearPct}%</td>
+        <td class="year-sep num">100%</td>
         <td class="year-sep num">${byYear[y].count} txs</td>
       `;
       tbody.appendChild(sepRow);
