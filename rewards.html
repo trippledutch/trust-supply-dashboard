@@ -616,7 +616,17 @@ async function startScan() {
       })));
 
       log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewardValidator (running: ${allRewards.length})`, "ok");
-      setProgress(Math.min(90, 5 + batch * 10));
+      setProgress(Math.min(90, 5 + Math.min(batch, 80) * 1.1));
+
+      // Render live after every batch that found rewards
+      if (rewards.length > 0) {
+        const sorted = [...allRewards].sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
+        allRewards = sorted;
+        renderAll();
+        document.getElementById("btnExport").disabled       = false;
+        document.getElementById("btnToggleDetail").disabled = false;
+        setStatus(`Scanning… ${allRewards.length} rewards found so far (batch ${batch})`, "scanning");
+      }
 
       if (txs.length < 10000) {
         log("Last batch — all data retrieved.", "ok");
@@ -627,19 +637,19 @@ async function startScan() {
       const firstBlock = parseInt(txs[txs.length - 1].blockNumber);
       currentEndBlock = firstBlock - 1;
 
-      await new Promise(r => setTimeout(r, 300));
+      await new Promise(r => setTimeout(r, 150));
     }
 
     setProgress(100);
     setTimeout(() => setProgress(0), 800);
 
     if (allRewards.length === 0) {
-      log("No reward transactions found. The contract may not have outgoing MNW transfers yet, or they use a different token path.", "warn");
+      log("No rewardValidator transactions found.", "warn");
       setStatus("Scan complete — no reward transactions found", "ready");
     } else {
-      allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts)); // newest first
+      allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
       renderAll();
-      setStatus(`Scan complete — ${allRewards.length} reward transactions found`, "ready");
+      setStatus(`Scan complete — ${allRewards.length} rewardValidator transactions found`, "ready");
       document.getElementById("btnExport").disabled        = false;
       document.getElementById("btnToggleDetail").disabled  = false;
     }
@@ -657,12 +667,13 @@ async function startScan() {
 
 function stopScan() {
   shouldStop = true;
-  log("Scan stopped by user.", "warn");
-  setStatus("Scan stopped", "");
+  log("Scan stopped by user — showing partial results.", "warn");
+  setStatus("Scan stopped — partial results shown", "");
   document.getElementById("btnStop").disabled = true;
   scanning = false;
   clearInterval(timerInterval);
   if (allRewards.length > 0) {
+    allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
     renderAll();
     document.getElementById("btnExport").disabled       = false;
     document.getElementById("btnToggleDetail").disabled = false;
