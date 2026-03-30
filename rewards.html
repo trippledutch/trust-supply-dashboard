@@ -531,13 +531,13 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — one block-range batch of token transfers (always page=1, offset=10000)
+//  FETCH — one batch, always page=1, offset=10000, crawl backwards by endblock
 // ─────────────────────────────────────────────────────────────────────────────
-async function fetchBatch(startBlock, endBlock = 99999999) {
+async function fetchBatch(endBlock) {
   const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx`
     + `&contractaddress=${MNW_CONTRACT}&address=${ADDR}`
-    + `&startblock=${startBlock}&endblock=${endBlock}`
-    + `&page=1&offset=10000&sort=asc&apikey=${API_KEY}`;
+    + `&startblock=0&endblock=${endBlock}`
+    + `&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
@@ -554,7 +554,7 @@ function isRewardTx(tx) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  MAIN SCAN — block-range pagination (no page × offset limit)
+//  MAIN SCAN — backwards endblock crawl (same technique as analytics.html)
 // ─────────────────────────────────────────────────────────────────────────────
 async function startScan() {
   if (scanning) return;
@@ -576,26 +576,23 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Starting full scan using block-range pagination…", "info");
+  log("Starting full scan using backwards endblock crawl…", "info");
   log(`Address: ${ADDR}`, "info");
   log(`MNW contract: ${MNW_CONTRACT}`, "info");
 
   try {
-    let startBlock = 0;
+    let currentEndBlock = 999999999;
     let batch = 0;
-    let totalFetched = 0;
 
     while (!shouldStop) {
       batch++;
-      log(`Batch ${batch}: blocks ${startBlock}+…`, "info");
-      const txs = await fetchBatch(startBlock);
+      log(`Batch ${batch}: endblock=${currentEndBlock}…`, "info");
+      const txs = await fetchBatch(currentEndBlock);
 
       if (!txs || txs.length === 0) {
         log("No more transactions found.", "ok");
         break;
       }
-
-      totalFetched += txs.length;
 
       // Filter for reward payouts (transfers OUT from the contract)
       const rewards = txs.filter(isRewardTx);
@@ -613,15 +610,14 @@ async function startScan() {
       setProgress(Math.min(90, 5 + batch * 10));
 
       if (txs.length < 10000) {
-        log("Last batch reached.", "ok");
+        log("Last batch — all data retrieved.", "ok");
         break;
       }
 
-      // Advance startBlock past the last tx in this batch to avoid re-fetching
-      const lastBlock = parseInt(txs[txs.length - 1].blockNumber);
-      startBlock = lastBlock + 1;
+      // Advance endblock to just before the earliest block in this batch
+      const firstBlock = parseInt(txs[txs.length - 1].blockNumber);
+      currentEndBlock = firstBlock - 1;
 
-      // Brief delay to respect API rate limits
       await new Promise(r => setTimeout(r, 300));
     }
 
