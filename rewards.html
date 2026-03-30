@@ -462,10 +462,9 @@ const CHAIN_ID     = 137;
 const BASE_URL     = "https://api.etherscan.io/v2/api";
 const MNW_DECIMALS = 18;
 
-// ValidatorRewarded(address validatorAddress, uint256 amount)
-// emitted by the validator contract 0xe092f71a...
-const LOG_CONTRACT = "0xe092f71a731c2b0d096d407b2171f6675c8bbd82";
-const TOPIC0       = "0x38cbdc591b5cf62cc9a88b92dcee4809f0d0ca6cd9bdad9f818d74c38e78bf29";
+// MNW token transfers FROM the automation wallet = reward payouts
+const AUTOMATION   = "0xc0152f038ed7a16042c670f1cf23ded705afcf04";
+const MNW_CONTRACT = "0x3c59798620e5fec0ae6df1a19c6454094572ab92";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  STATE
@@ -528,35 +527,32 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — getLogs for ValidatorRewarded event, backwards by block range
+//  FETCH — tokentx on automation wallet, MNW contract, backwards endblock
+//  Same technique as analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
-async function fetchLogs(fromBlock, toBlock) {
-  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=logs&action=getLogs`
-    + `&address=${LOG_CONTRACT}`
-    + `&topic0=${TOPIC0}`
-    + `&fromBlock=${fromBlock}&toBlock=${toBlock}`
-    + `&page=1&offset=1000&apikey=${API_KEY}`;
+async function fetchBatch(endBlock) {
+  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx`
+    + `&contractaddress=${MNW_CONTRACT}`
+    + `&address=${AUTOMATION}`
+    + `&startblock=0&endblock=${endBlock}`
+    + `&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
-  if (d.status === "0" && d.message === "No records found") return [];
+  if (d.status === "0" && d.message === "No transactions found") return [];
   if (d.status !== "1") throw new Error(d.result || d.message);
   return d.result;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  DECODE log: data = validatorAddress (32 bytes) + amount (32 bytes)
+//  FILTER — only outgoing MNW from automation wallet = reward payouts
 // ─────────────────────────────────────────────────────────────────────────────
-function decodeLogAmount(data) {
-  try {
-    // data = 0x + 64 hex address + 64 hex uint256
-    const amountHex = data.slice(2 + 64);
-    return BigInt("0x" + amountHex.slice(0, 64));
-  } catch(e) { return BigInt(0); }
+function isRewardTx(tx) {
+  return tx.from.toLowerCase() === AUTOMATION.toLowerCase();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  MAIN SCAN — sweep block ranges from latest backwards
+//  MAIN SCAN — backwards endblock crawl, same as analytics.html
 // ─────────────────────────────────────────────────────────────────────────────
 async function startScan() {
   if (scanning) return;
@@ -578,62 +574,53 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Scanning ValidatorRewarded events via getLogs…", "info");
-  log(`Event contract: ${LOG_CONTRACT}`, "info");
-  log(`Topic0: ${TOPIC0.slice(0,18)}…`, "info");
+  log("Scanning MNW token transfers from automation wallet…", "info");
+  log(`Wallet: ${AUTOMATION}`, "info");
+  log(`MNW contract: ${MNW_CONTRACT}`, "info");
 
   try {
-    // Sweep in chunks of 100,000 blocks from latest backwards
-    // Polygon started ~2020, contract deployed ~2022 (block ~36000000)
-    // Current block ~85000000
-    const CHUNK     = 100000;
-    const START_BLOCK = 0;
-    let toBlock     = 999999999;
-    let batch       = 0;
+    let currentEndBlock = 999999999;
+    let batch = 0;
 
     while (!shouldStop) {
-      const fromBlock = Math.max(START_BLOCK, toBlock - CHUNK + 1);
       batch++;
-      log(`Batch ${batch}: blocks ${fromBlock}–${toBlock}…`, "info");
+      log(`Batch ${batch}: endblock=${currentEndBlock}…`, "info");
+      const txs = await fetchBatch(currentEndBlock);
 
-      const logs = await fetchLogs(fromBlock, toBlock);
+      if (!txs || txs.length === 0) {
+        log("No more transactions found.", "ok");
+        break;
+      }
 
-      if (logs && logs.length > 0) {
-        const newRewards = logs.map(l => {
-          const ts = parseInt(l.timeStamp, 16).toString();
-          return {
-            ts,
-            date:   tsToDate(ts),
-            ym:     tsToYearMonth(ts),
-            amount: decodeLogAmount(l.data),
-            hash:   l.transactionHash,
-            to:     "0x" + l.data.slice(26, 66),  // validator address from data
-            from:   l.address
-          };
-        });
-        allRewards = allRewards.concat(newRewards);
+      const rewards = txs.filter(isRewardTx);
+      allRewards = allRewards.concat(rewards.map(tx => ({
+        ts:     tx.timeStamp,
+        date:   tsToDate(tx.timeStamp),
+        ym:     tsToYearMonth(tx.timeStamp),
+        amount: BigInt(tx.value),
+        to:     tx.to,
+        from:   tx.from,
+        hash:   tx.hash
+      })));
 
-        log(`Batch ${batch}: ${logs.length} rewards (running: ${allRewards.length})`, "ok");
+      log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewards (running: ${allRewards.length})`, "ok");
+      setProgress(Math.min(90, 5 + batch * 12));
 
-        // Live render
-        const sorted = [...allRewards].sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
-        allRewards = sorted;
+      if (rewards.length > 0) {
+        allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
         renderAll();
         document.getElementById("btnExport").disabled       = false;
         document.getElementById("btnToggleDetail").disabled = false;
         setStatus(`Scanning… ${allRewards.length} rewards found so far`, "scanning");
-      } else {
-        log(`Batch ${batch}: 0 rewards`, "info");
       }
 
-      setProgress(Math.min(90, 5 + batch * 1.5));
-
-      if (fromBlock <= START_BLOCK) {
-        log("All blocks scanned.", "ok");
+      if (txs.length < 10000) {
+        log("Last batch — all data retrieved.", "ok");
         break;
       }
 
-      toBlock = fromBlock - 1;
+      const firstBlock = parseInt(txs[txs.length - 1].blockNumber);
+      currentEndBlock = firstBlock - 1;
       await new Promise(r => setTimeout(r, 150));
     }
 
@@ -641,12 +628,12 @@ async function startScan() {
     setTimeout(() => setProgress(0), 800);
 
     if (allRewards.length === 0) {
-      log("No ValidatorRewarded events found.", "warn");
-      setStatus("Scan complete — no reward events found", "ready");
+      log("No reward transactions found.", "warn");
+      setStatus("Scan complete — no rewards found", "ready");
     } else {
       allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
       renderAll();
-      setStatus(`Scan complete — ${allRewards.length} ValidatorRewarded events found`, "ready");
+      setStatus(`Scan complete — ${allRewards.length} reward transactions found`, "ready");
       document.getElementById("btnExport").disabled        = false;
       document.getElementById("btnToggleDetail").disabled  = false;
     }
