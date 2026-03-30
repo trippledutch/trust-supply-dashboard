@@ -455,16 +455,17 @@ footer a { color: #667eea; text-decoration: none; }
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
-//  CONFIG — identical to analytics.html
+//  CONFIG
 // ─────────────────────────────────────────────────────────────────────────────
-const API_KEY    = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
-const ADDR       = "0xf994b03d2793788a3ed86eabe792963620bae2c6".toLowerCase();
-const CHAIN_ID   = 137;
-const BASE_URL   = "https://api.etherscan.io/v2/api";
+const API_KEY      = "BR6HH1BQG84A778QG7118ZV28KFMY5FH92";
+const CHAIN_ID     = 137;
+const BASE_URL     = "https://api.etherscan.io/v2/api";
 const MNW_DECIMALS = 18;
 
-// rewardValidator(address,uint256) — confirmed selector
-const REWARD_SIG = "bdbff2f1";
+// ValidatorRewarded(address validatorAddress, uint256 amount)
+// emitted by the validator contract 0xe092f71a...
+const LOG_CONTRACT = "0xe092f71a731c2b0d096d407b2171f6675c8bbd82";
+const TOPIC0       = "0x38cbdc591b5cf62cc9a88b92dcee4809f0d0ca6cd9bdad9f818d74c38e78bf29";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  STATE
@@ -527,43 +528,35 @@ function shortAddr(a) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FETCH — txlist on master contract, backwards endblock, exactly like analytics.html
+//  FETCH — getLogs for ValidatorRewarded event, backwards by block range
 // ─────────────────────────────────────────────────────────────────────────────
-async function fetchBatch(endBlock) {
-  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=txlist`
-    + `&address=${ADDR}`
-    + `&startblock=0&endblock=${endBlock}`
-    + `&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
+async function fetchLogs(fromBlock, toBlock) {
+  const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=logs&action=getLogs`
+    + `&address=${LOG_CONTRACT}`
+    + `&topic0=${TOPIC0}`
+    + `&fromBlock=${fromBlock}&toBlock=${toBlock}`
+    + `&page=1&offset=1000&apikey=${API_KEY}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
-  if (d.status === "0" && d.message === "No transactions found") return [];
+  if (d.status === "0" && d.message === "No records found") return [];
   if (d.status !== "1") throw new Error(d.result || d.message);
   return d.result;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  FILTER: input starts with rewardValidator selector (no 0x prefix in comparison)
+//  DECODE log: data = validatorAddress (32 bytes) + amount (32 bytes)
 // ─────────────────────────────────────────────────────────────────────────────
-function isRewardTx(tx) {
-  const input = (tx.input || "").toLowerCase();
-  return input.startsWith("0x" + REWARD_SIG) || input.startsWith(REWARD_SIG);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-//  DECODE amount: 0x + 8 selector + 64 address + 64 uint256
-// ─────────────────────────────────────────────────────────────────────────────
-function decodeAmount(input) {
+function decodeLogAmount(data) {
   try {
-    // strip 0x if present, then skip selector(8) + address(64) = 72 chars
-    const hex = input.startsWith("0x") ? input.slice(2) : input;
-    const amountHex = hex.slice(8 + 64, 8 + 64 + 64);
-    return BigInt("0x" + amountHex);
+    // data = 0x + 64 hex address + 64 hex uint256
+    const amountHex = data.slice(2 + 64);
+    return BigInt("0x" + amountHex.slice(0, 64));
   } catch(e) { return BigInt(0); }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  MAIN SCAN — backwards endblock crawl, exactly like analytics.html
+//  MAIN SCAN — sweep block ranges from latest backwards
 // ─────────────────────────────────────────────────────────────────────────────
 async function startScan() {
   if (scanning) return;
@@ -585,58 +578,62 @@ async function startScan() {
 
   setStatus("Scanning blockchain…", "scanning");
   setProgress(5);
-  log("Scanning master contract for rewardValidator calls…", "info");
-  log(`Address: ${ADDR}`, "info");
-  log(`Selector: 0x${REWARD_SIG}`, "info");
+  log("Scanning ValidatorRewarded events via getLogs…", "info");
+  log(`Event contract: ${LOG_CONTRACT}`, "info");
+  log(`Topic0: ${TOPIC0.slice(0,18)}…`, "info");
 
   try {
-    let currentEndBlock = 999999999;
-    let batch = 0;
+    // Sweep in chunks of 100,000 blocks from latest backwards
+    // Polygon started ~2020, contract deployed ~2022 (block ~36000000)
+    // Current block ~85000000
+    const CHUNK     = 100000;
+    const START_BLOCK = 0;
+    let toBlock     = 999999999;
+    let batch       = 0;
 
     while (!shouldStop) {
+      const fromBlock = Math.max(START_BLOCK, toBlock - CHUNK + 1);
       batch++;
-      log(`Batch ${batch}: endblock=${currentEndBlock}…`, "info");
-      const txs = await fetchBatch(currentEndBlock);
+      log(`Batch ${batch}: blocks ${fromBlock}–${toBlock}…`, "info");
 
-      if (!txs || txs.length === 0) {
-        log("No more transactions found.", "ok");
-        break;
-      }
+      const logs = await fetchLogs(fromBlock, toBlock);
 
-      // Filter for rewardValidator calls only
-      const rewards = txs.filter(isRewardTx);
-      allRewards = allRewards.concat(rewards.map(tx => ({
-        ts:     tx.timeStamp,
-        date:   tsToDate(tx.timeStamp),
-        ym:     tsToYearMonth(tx.timeStamp),
-        amount: decodeAmount(tx.input),  // BigInt
-        to:     tx.to,
-        from:   tx.from,
-        hash:   tx.hash
-      })));
+      if (logs && logs.length > 0) {
+        const newRewards = logs.map(l => {
+          const ts = parseInt(l.timeStamp, 16).toString();
+          return {
+            ts,
+            date:   tsToDate(ts),
+            ym:     tsToYearMonth(ts),
+            amount: decodeLogAmount(l.data),
+            hash:   l.transactionHash,
+            to:     "0x" + l.data.slice(26, 66),  // validator address from data
+            from:   l.address
+          };
+        });
+        allRewards = allRewards.concat(newRewards);
 
-      log(`Batch ${batch}: ${txs.length} txs, ${rewards.length} rewardValidator (running: ${allRewards.length})`, "ok");
-      setProgress(Math.min(90, 5 + Math.min(batch, 80) * 1.1));
+        log(`Batch ${batch}: ${logs.length} rewards (running: ${allRewards.length})`, "ok");
 
-      // Render live after every batch that found rewards
-      if (rewards.length > 0) {
+        // Live render
         const sorted = [...allRewards].sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
         allRewards = sorted;
         renderAll();
         document.getElementById("btnExport").disabled       = false;
         document.getElementById("btnToggleDetail").disabled = false;
-        setStatus(`Scanning… ${allRewards.length} rewards found so far (batch ${batch})`, "scanning");
+        setStatus(`Scanning… ${allRewards.length} rewards found so far`, "scanning");
+      } else {
+        log(`Batch ${batch}: 0 rewards`, "info");
       }
 
-      if (txs.length < 10000) {
-        log("Last batch — all data retrieved.", "ok");
+      setProgress(Math.min(90, 5 + batch * 1.5));
+
+      if (fromBlock <= START_BLOCK) {
+        log("All blocks scanned.", "ok");
         break;
       }
 
-      // Advance endblock to just before the earliest block in this batch
-      const firstBlock = parseInt(txs[txs.length - 1].blockNumber);
-      currentEndBlock = firstBlock - 1;
-
+      toBlock = fromBlock - 1;
       await new Promise(r => setTimeout(r, 150));
     }
 
@@ -644,12 +641,12 @@ async function startScan() {
     setTimeout(() => setProgress(0), 800);
 
     if (allRewards.length === 0) {
-      log("No rewardValidator transactions found.", "warn");
-      setStatus("Scan complete — no reward transactions found", "ready");
+      log("No ValidatorRewarded events found.", "warn");
+      setStatus("Scan complete — no reward events found", "ready");
     } else {
       allRewards.sort((a, b) => parseInt(b.ts) - parseInt(a.ts));
       renderAll();
-      setStatus(`Scan complete — ${allRewards.length} rewardValidator transactions found`, "ready");
+      setStatus(`Scan complete — ${allRewards.length} ValidatorRewarded events found`, "ready");
       document.getElementById("btnExport").disabled        = false;
       document.getElementById("btnToggleDetail").disabled  = false;
     }
