@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Trust.Supply Validator Analytics v1.4.2</title>
+    <title>Trust.Supply Validator Analytics v1.4.3</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
@@ -113,7 +113,7 @@
             gap: 12px; 
             margin-bottom: 25px; 
         }
-        /* DATE RANGE PICKER v1.4.2 */
+        /* DATE RANGE PICKER v1.4.3 */
         .date-range-row {
             display: flex;
             align-items: flex-end;
@@ -186,9 +186,12 @@
             box-shadow: 0 4px 10px rgba(102,126,234,0.3) !important;
         }
         @media (max-width: 768px) {
-            .date-range-row { flex-direction: column; }
-            .date-sep { display: none; }
-            .date-presets { width: 100%; }
+            .date-range-row { flex-wrap: wrap; }
+            .date-field { min-width: 0; flex: 1 1 120px; }
+            input[type="date"] { font-size: 13px; padding: 10px 8px; }
+            .date-sep { padding-bottom: 10px; font-size: 18px; }
+            .date-presets { width: 100%; justify-content: space-between; }
+            .preset-btn { flex: 1 1 0; padding: 9px 4px !important; font-size: 11px !important; }
         }
         button { 
             padding: 16px; 
@@ -462,7 +465,7 @@
         <h1>📊 Trust.Supply Validator Analytics</h1>
         <p>Real-time blockchain transaction analysis and validation tracking</p>
         <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
-            📅 <span class="date-full">Version 1.4.2 | 1 April 2026</span><span class="date-short">v1.4.2 | 1 Apr 2026</span>
+            📅 <span class="date-full">Version 1.4.3 | 1 April 2026</span><span class="date-short">v1.4.3 | 1 Apr 2026</span>
         </p>
     </header>
     
@@ -598,7 +601,7 @@
     
     <footer class="footer">
         <p>
-            <span class="date-full">Trust.Supply Validator Analytics v1.4.2 | Updated 1 April 2026</span><span class="date-short">Analytics v1.4.2 | 1 Apr 2026</span>
+            <span class="date-full">Trust.Supply Validator Analytics v1.4.3 | Updated 1 April 2026</span><span class="date-short">Analytics v1.4.3 | 1 Apr 2026</span>
         </p>
         <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
@@ -676,7 +679,7 @@
     }
 
     // NEW v1.2.1: Show details window function
-    // v1.4.2: Initialise date pickers (start of current UTC month → today)
+    // v1.4.3: Initialise date pickers (start of current UTC month → today)
     function initDatePicker() {
         const now = new Date();
         const todayUTC = now.toISOString().split('T')[0];
@@ -688,7 +691,7 @@
     }
     initDatePicker();
 
-    // v1.4.2: Preset shortcuts
+    // v1.4.3: Preset shortcuts
     function setPreset(preset) {
         const now = new Date();
         const todayUTC = now.toISOString().split('T')[0];
@@ -1042,7 +1045,7 @@
         const btn = document.getElementById('scanBtn');
         const status = document.getElementById('status');
         const logBody = document.getElementById('log-body');
-        // v1.4.2: date range from pickers (timeRange dropdown removed)
+        // v1.4.3: date range from pickers (timeRange dropdown removed)
         const progressIndicator = document.getElementById('progressIndicator');
         const progressText = document.getElementById('progressText');
         const progressBar = document.getElementById('progressBar');
@@ -1075,7 +1078,7 @@
         document.getElementById('monthlySummary').style.display = 'none';
         document.getElementById('exportBtn').disabled = true;
         
-        // NEW v1.4.2: Hide validation details section when new scan starts
+        // NEW v1.4.3: Hide validation details section when new scan starts
         document.getElementById('recentQueries').style.display = 'none';
         document.getElementById('detailsBtn').disabled = true;
         
@@ -1097,7 +1100,7 @@
         const now = new Date();
         const todayStr = now.toISOString().split('T')[0];
 
-        // v1.4.2: Read from date picker inputs
+        // v1.4.3: Read from date picker inputs
         const startDateVal = document.getElementById('startDate').value;
         const endDateVal   = document.getElementById('endDate').value;
         if (!startDateVal || !endDateVal) {
@@ -1182,7 +1185,7 @@
                     lastBlock = blockNum;
                     minBlockInBatch = Math.min(minBlockInBatch, blockNum);
                     
-                    // v1.4.2: Only filter on start cutoff; end date is enforced by refreshUI rows
+                    // v1.4.3: Only filter on start cutoff; end date is enforced by refreshUI rows
                     if (ts < cutoff) {
                         oldTxCount++;
                         continue;
@@ -1444,7 +1447,7 @@
 
     function refreshUI(stats, selectedDays, todayStr, startDay, endDay) {
         let totalQ = 0, totalB = 0, rowHtml = "";
-        // v1.4.2: endDay is passed in from caller
+        // v1.4.3: endDay is passed in from caller
         const allDates = [];
         if (!endDay) endDay = new Date();
         
