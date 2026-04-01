@@ -1,11 +1,11 @@
 {
-  "lastUpdated": "2026-03-30",
+  "lastUpdated": "2026-04-01",
   "data": {   
-    "activeNodes": 3548,
-    "activeValidators": 92,
-    "dailyValidations": 17993,
+    "activeNodes": 3705,
+    "activeValidators": 93,
+    "dailyValidations": 18257,
     
-    "dexLiquidity": 1064161,
+    "dexLiquidity": 1057414,
     "cexLocked": 3080697,
     "teamWallet": 1719534,
     "polygonMNW": 7075498,
@@ -14,7 +14,7 @@
     
     "nodes3m": 98,
     "nodes6m": 377,
-    "nodes12m": 3073,
+    "nodes12m": 3230,
     
     "reward3m": 0.06,
     "reward6m": 0.08,
