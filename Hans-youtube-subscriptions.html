@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Subscriptions — Hans</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --border: #e2ddd6;
+    --text: #1a1916;
+    --muted: #7a756e;
+    --accent: #c0392b;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 4rem;
+  }
+
+  header {
+    background: var(--text);
+    color: #f5f3ef;
+    padding: 3rem 2rem 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  header p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.55;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  #search {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    width: 240px;
+    transition: border-color 0.15s;
+  }
+  #search:focus { border-color: var(--text); }
+  #search::placeholder { color: var(--muted); }
+
+  .filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 0.38rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--text); color: var(--text); }
+  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    border-color: #c8c3bb;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .info { min-width: 0; flex: 1; }
+
+  .name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+    color: var(--text);
+  }
+
+  .meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .cat-pill {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 600px) {
+    .controls { flex-direction: column; align-items: flex-start; }
+    #search { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>YouTube Subscriptions</h1>
+    <p>38 kanalen &nbsp;·&nbsp; Hans Vredevoort</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="controls">
+    <input type="text" id="search" placeholder="Zoek kanalen…" oninput="render()">
+    <div class="filters" id="filters"></div>
+  </div>
+
+  <div class="meta-row">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  <p>Gegenereerd april 2026</p>
+</footer>
+
+<script>
+const CAT_COLORS = {
+  Dutch:      { bg: "#eeedf8", fg: "#3c3489", text: "#26215c" },
+  News:       { bg: "#e1f5ee", fg: "#1d9e75", text: "#04342c" },
+  Politics:   { bg: "#e6f1fb", fg: "#185fa5", text: "#042c53" },
+  Tech:       { bg: "#eaf3de", fg: "#3b6d11", text: "#173404" },
+  Motorsport: { bg: "#faece7", fg: "#d85a30", text: "#4a1b0c" },
+  Crypto:     { bg: "#eeedfe", fg: "#7f77dd", text: "#26215c" },
+  Sport:      { bg: "#fcebeb", fg: "#a32d2d", text: "#501313" },
+  Thailand:   { bg: "#faeeda", fg: "#ba7517", text: "#412402" },
+  Business:   { bg: "#eaf3de", fg: "#639922", text: "#173404" },
+  Education:  { bg: "#fbeaf0", fg: "#993556", text: "#4b1528" },
+};
+
+const subs = [
+  { name: "AFC Ajax", handle: "@AFCAjax", subs: "1.38M", cat: "Sport", url: "https://www.youtube.com/@AFCAjax" },
+  { name: "Axion DAO", handle: "@AxionOfficial", subs: "5.6K", cat: "Crypto", url: "https://www.youtube.com/@AxionOfficial" },
+  { name: "BBC Television Home", handle: "@BBCTelevisionHome", subs: "570", cat: "News", url: "https://www.youtube.com/@BBCTelevisionHome" },
+  { name: "Buitenhof", handle: "@Buitenhof", subs: "60.1K", cat: "Dutch", url: "https://www.youtube.com/@Buitenhof" },
+  { name: "Capital Conflict", handle: "@capitalconflict", subs: "8.31K", cat: "Politics", url: "https://www.youtube.com/@capitalconflict" },
+  { name: "Christiane Amanpour: The Ex Files", handle: "@AmanpourPod", subs: "127K", cat: "Politics", url: "https://www.youtube.com/@AmanpourPod" },
+  { name: "Cleo Abram", handle: "@CleoAbram", subs: "7.68M", cat: "Tech", url: "https://www.youtube.com/@CleoAbram" },
+  { name: "CNA Insider", handle: "@CNAInsider", subs: "2.57M", cat: "News", url: "https://www.youtube.com/@CNAInsider" },
+  { name: "DW News", handle: "@dwnews", subs: "6.24M", cat: "News", url: "https://www.youtube.com/@dwnews" },
+  { name: "Fah's Thai Studio", handle: "@FahsThaiStudio", subs: "8.8K", cat: "Thailand", url: "https://www.youtube.com/@FahsThaiStudio" },
+  { name: "Financial Times", handle: "@FinancialTimes", subs: "1.4M", cat: "News", url: "https://www.youtube.com/@FinancialTimes" },
+  { name: "FORMULA 1", handle: "@Formula1", subs: "14.5M", cat: "Motorsport", url: "https://www.youtube.com/@Formula1" },
+  { name: "FRANCE 24 English", handle: "@France24_en", subs: "3.59M", cat: "News", url: "https://www.youtube.com/@France24_en" },
+  { name: "LUBACH", handle: "@Lubach_official", subs: "303K", cat: "Dutch", url: "https://www.youtube.com/@Lubach_official" },
+  { name: "Maarten van Rossem en Tom Jessen", handle: "@maartentom", subs: "17.4K", cat: "Dutch", url: "https://www.youtube.com/@maartentom" },
+  { name: "MeidasTouch", handle: "@MeidasTouch", subs: "6.28M", cat: "Politics", url: "https://www.youtube.com/@MeidasTouch" },
+  { name: "MetaCert Protocol", handle: "@metacertprotocol2946", subs: "118", cat: "Tech", url: "https://www.youtube.com/@metacertprotocol2946" },
+  { name: "Mika Karthe (Ai-Revolution.nl)", handle: "@mikakarthe", subs: "3.47K", cat: "Tech", url: "https://www.youtube.com/@mikakarthe" },
+  { name: "Motorsport.com Nederland", handle: "@motorsportcomnl", subs: "33K", cat: "Motorsport", url: "https://www.youtube.com/@motorsportcomnl" },
+  { name: "MS NOW", handle: "@msnow", subs: "9.78M", cat: "News", url: "https://www.youtube.com/@msnow" },
+  { name: "Nieuwsuur", handle: "@nieuwsuur", subs: "332K", cat: "Dutch", url: "https://www.youtube.com/@nieuwsuur" },
+  { name: "NPO Radio 1", handle: "@nporadio1", subs: "70.4K", cat: "Dutch", url: "https://www.youtube.com/@nporadio1" },
+  { name: "NRC", handle: "@nrc_nl", subs: "9.45K", cat: "Dutch", url: "https://www.youtube.com/@nrc_nl" },
+  { name: "OnsOranje", handle: "@OnsOranje", subs: "351K", cat: "Dutch", url: "https://www.youtube.com/@OnsOranje" },
+  { name: "RacingNews365", handle: "@racingnews365nl", subs: "63.2K", cat: "Motorsport", url: "https://www.youtube.com/@racingnews365nl" },
+  { name: "60 Minutes", handle: "@60minutes", subs: "4.08M", cat: "News", url: "https://www.youtube.com/@60minutes" },
+  { name: "Strategy Forge Ecosystem", handle: "@StrategyForgeEcosystem", subs: "3", cat: "Crypto", url: "https://www.youtube.com/@StrategyForgeEcosystem" },
+  { name: "The Atlantic", handle: "@TheAtlantic", subs: "924K", cat: "News", url: "https://www.youtube.com/@TheAtlantic" },
+  { name: "The Bulwark", handle: "@bulwarkmedia", subs: "1.68M", cat: "Politics", url: "https://www.youtube.com/@bulwarkmedia" },
+  { name: "The Diary Of A CEO", handle: "@TheDiaryOfACEO", subs: "15.8M", cat: "Business", url: "https://www.youtube.com/@TheDiaryOfACEO" },
+  { name: "The Economist", handle: "@TheEconomist", subs: "3.94M", cat: "News", url: "https://www.youtube.com/@TheEconomist" },
+  { name: "The Guardian", handle: "@theGuardian", subs: "2.59M", cat: "News", url: "https://www.youtube.com/@theGuardian" },
+  { name: "The News Agents", handle: "@thenewsagents", subs: "230K", cat: "News", url: "https://www.youtube.com/@thenewsagents" },
+  { name: "The Rest Is Politics US", handle: "@RestPoliticsUS", subs: "376K", cat: "Politics", url: "https://www.youtube.com/@RestPoliticsUS" },
+  { name: "The Rest Is Politics: Leading", handle: "@LeadingTRIP", subs: "169K", cat: "Politics", url: "https://www.youtube.com/@LeadingTRIP" },
+  { name: "Tim Newton Today", handle: "@timnewtontoday", subs: "51.2K", cat: "Thailand", url: "https://www.youtube.com/@timnewtontoday" },
+  { name: "UC Berkeley Undergraduate Education", handle: "@BerkeleyUE", subs: "1.66K", cat: "Education", url: "https://www.youtube.com/@BerkeleyUE" },
+  { name: "VPRO Tegenlicht", handle: "@tegenlicht", subs: "105K", cat: "Dutch", url: "https://www.youtube.com/@tegenlicht" },
+];
+
+const cats = ["All", ...Object.keys(CAT_COLORS).filter(c => subs.some(s => s.cat === c))];
+let active = "All", query = "";
+
+function initials(name) {
+  return name.replace(/[^a-zA-Z\s]/g, "").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase() || "?";
+}
+
+function render() {
+  query = document.getElementById("search").value.toLowerCase();
+  const filtered = subs.filter(s =>
+    (active === "All" || s.cat === active) &&
+    (s.name.toLowerCase().includes(query) || s.handle.toLowerCase().includes(query) || s.cat.toLowerCase().includes(query))
+  );
+
+  document.getElementById("count").textContent = `${filtered.length} kanaal${filtered.length !== 1 ? "en" : ""}`;
+
+  document.getElementById("grid").innerHTML = filtered.map(s => {
+    const col = CAT_COLORS[s.cat] || CAT_COLORS.News;
+    return `
+      <a class="card" href="${s.url}" target="_blank" rel="noopener noreferrer">
+        <div class="avatar" style="background:${col.bg}; color:${col.text};">${initials(s.name)}</div>
+        <div class="info">
+          <div class="name">${s.name}</div>
+          <div class="meta">${s.handle} &nbsp;·&nbsp; ${s.subs} abonnees</div>
+        </div>
+        <span class="cat-pill" style="background:${col.bg}; color:${col.text};">${s.cat}</span>
+      </a>`;
+  }).join("");
+
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.cat === active);
+  });
+}
+
+document.getElementById("filters").innerHTML = cats.map(c =>
+  `<button class="filter-btn${c === "All" ? " active" : ""}" data-cat="${c}" onclick="active='${c}';render()">${c}</button>`
+).join("");
+
+render();
+</script>
+</body>
+</html>
