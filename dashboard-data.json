@@ -1,20 +1,20 @@
 {
-  "lastUpdated": "2026-04-19",
+  "lastUpdated": "2026-04-23",
   "data": {   
-    "activeNodes": 3809,
-    "activeValidators": 94,
+    "activeNodes": 3845,
+    "activeValidators": 95,
     "dailyValidations": 18257,
     
-    "dexLiquidity": 1051199,
+    "dexLiquidity": 1082228,
     "cexLocked": 3070697,
     "teamWallet": 1604553,
-    "polygonMNW": 7066770,
-    "ethereumMNW": 28114118,
+    "polygonMNW": 7123083,
+    "ethereumMNW": 28026776,
     "lostTokens": 500000,
     
-    "nodes3m": 99,
+    "nodes3m": 100,
     "nodes6m": 382,
-    "nodes12m": 3328,
+    "nodes12m": 3363,
     
     "reward3m": 0.06,
     "reward6m": 0.08,
