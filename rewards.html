@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Trust.Supply Validator Rewards v1.0.0</title>
+    <title>Trust.Supply Validator Rewards v1.1.0</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         :root {
@@ -137,16 +137,125 @@
         .detail-wrap { display: none; }
         .detail-wrap.visible { display: block; }
         .footer { text-align: center; padding: 20px; color: var(--gray-500); border-top: 2px solid var(--gray-200); font-size: 13px; font-weight: 600; }
+        /* ============ TABLET (≤ 768px) ============ */
         @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(2,1fr); }
-            header h1 { font-size: 1.8em; }
-            header p { font-size: 0.9em; }
-            .controls { flex-direction: column; }
+            body { padding: 10px; }
+            .container { border-radius: 14px; }
+            .content-wrapper { padding: 18px; }
+            header { padding: 24px 18px; }
+            header h1 { font-size: 1.8em; line-height: 1.2; }
+            header p { font-size: 0.95em; }
+            .stats-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+            .stat-val { font-size: 24px; }
+            .lbl { font-size: 11px; letter-spacing: 0.5px; }
+            .sub-lbl { font-size: 10px; }
+            .controls { flex-direction: column; gap: 10px; }
             .controls button { width: 100%; justify-content: center; }
-            #scanTimer { margin-left: 0; }
+            #scanTimer { margin-left: 0; text-align: center; width: 100%; }
             .date-full { display: none; }
             .date-short { display: inline; }
+            .yearly-grid { grid-template-columns: 1fr; gap: 12px; }
+            .log-header.monthly,
+            .log-header.detail,
+            .log-row.monthly,
+            .log-row.detail { font-size: 11px; padding: 10px 8px; }
         }
+
+        /* ============ PHONE (≤ 480px) — table becomes card list ============ */
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            .container { border-radius: 12px; }
+            .content-wrapper { padding: 14px; }
+            .back-nav { padding: 10px 14px; }
+            header { padding: 20px 14px; }
+            header h1 { font-size: 1.45em; }
+            header p { font-size: 0.85em; }
+            #status { font-size: 13px; padding: 10px; }
+            .stats-grid { gap: 8px; margin-bottom: 20px; }
+            .box { padding: 14px 8px; border-radius: 10px; }
+            .stat-val { font-size: 20px; }
+            .lbl { font-size: 10px; }
+            .sub-lbl { font-size: 9px; }
+            button { padding: 14px 12px; font-size: 13px; min-height: 48px; }
+            .log-section-title { font-size: 13px; margin-bottom: 10px; }
+
+            /* Year card compaction */
+            .year-card { padding: 14px; }
+            .year-card h3 { font-size: 0.9rem; }
+            .year-card .amount { font-size: 1.2rem; }
+            .year-card .meta { font-size: 0.7rem; }
+
+            /* Hide table headers, stack each row as a card */
+            .log-header.monthly,
+            .log-header.detail { display: none; }
+
+            .log-row.monthly,
+            .log-row.detail {
+                display: block;
+                padding: 12px 14px;
+                text-align: left;
+                border-bottom: 2px solid #e2e8f0;
+                font-size: 13px;
+            }
+            .log-row.monthly > span,
+            .log-row.detail > span {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 3px 0;
+                text-align: right;
+                gap: 8px;
+            }
+            /* Add field labels before each cell on phone */
+            .log-row.monthly > span:nth-child(1)::before { content: "Month"; }
+            .log-row.monthly > span:nth-child(2)::before { content: "# Tx"; }
+            .log-row.monthly > span:nth-child(3)::before { content: "MNW Rewarded"; }
+            .log-row.monthly > span:nth-child(4)::before { content: "% of Year"; }
+            .log-row.monthly > span:nth-child(5)::before { content: "Avg / Tx"; }
+            .log-row.detail > span:nth-child(1)::before { content: "#"; }
+            .log-row.detail > span:nth-child(2)::before { content: "Date"; }
+            .log-row.detail > span:nth-child(3)::before { content: "MNW"; }
+            .log-row.detail > span:nth-child(4)::before { content: "To"; }
+            .log-row.detail > span:nth-child(5)::before { content: "Tx Hash"; }
+            .log-row.monthly > span::before,
+            .log-row.detail > span::before {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: var(--gray-500);
+                text-align: left;
+                flex-shrink: 0;
+            }
+            /* Year separator keeps its full-width banner look */
+            .log-row.monthly.year-sep > span { display: block; text-align: center; }
+            .log-row.monthly.year-sep > span::before { content: none; }
+            .log-row.monthly.year-sep > span:nth-child(n+2) { display: none; }
+
+            /* Total row — centered block */
+            .log-row.monthly.total-row > span { display: flex; }
+            .log-row.monthly.total-row > span::before { color: rgba(255,255,255,0.8); }
+
+            /* Bar widgets inside cells — full width, aligned right */
+            .log-row.monthly .amount > div {
+                width: 100%;
+                min-width: 0 !important;
+                margin-top: 6px !important;
+            }
+
+            /* Transaction hash + address truncation */
+            .log-row.detail a { word-break: break-all; font-size: 11px; }
+            .log-body { max-height: 500px; }
+            .log-box { max-height: 120px; font-size: 0.7rem; }
+
+            /* Footer action buttons stack */
+            .content-wrapper > div[style*="flex-wrap"] { flex-direction: column; gap: 10px !important; }
+            .content-wrapper > div[style*="flex-wrap"] button { max-width: 100% !important; width: 100% !important; }
+
+            .footer { padding: 16px; font-size: 12px; }
+        }
+
         @media (min-width: 769px) { .date-short { display: none; } }
     </style>
     <!-- Google Analytics GA4 -->
@@ -167,7 +276,7 @@
         <h1>🏆 Trust.Supply Validator Rewards</h1>
         <p>MNW token reward payouts · RewardValidator · Polygon (Chain 137)</p>
         <p style="font-size:0.9em;opacity:0.8;margin-top:10px;">
-            📅 <span class="date-full">Version 1.0.0 | 30 March 2026</span><span class="date-short">v1.0.0 | 30 Mar 2026</span>
+            📅 <span class="date-full">Version 1.1.0 | 23 April 2026</span><span class="date-short">v1.1.0 | 23 Apr 2026</span>
         </p>
     </header>
     <div class="content-wrapper">
@@ -234,7 +343,7 @@
         </div>
     </div>
     <footer class="footer">
-        <p><span class="date-full">Trust.Supply Validator Rewards v1.0.0 | Updated 30 March 2026</span><span class="date-short">Rewards v1.0.0 | 30 Mar 2026</span></p>
+        <p><span class="date-full">Trust.Supply Validator Rewards v1.1.0 | Updated 23 April 2026</span><span class="date-short">Rewards v1.1.0 | 23 Apr 2026</span></p>
         <p style="font-size:0.85em;margin-top:5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
