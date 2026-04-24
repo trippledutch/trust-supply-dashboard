@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Validator, Trust.Supply, trustnodes.nl</title>
@@ -669,10 +669,17 @@
       argLabel: 'Month (YYYY-MM-DD, 1st of month)',
       argDefault: () => new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10),
       build: (arg) => ({
-        query: `query validatorMonthlyReport($date: DateTime!, $validatorId: String) {
-          validatorMonthlyReport(date: $date, validatorId: $validatorId)
+        query: `query validatorMonthlyReport($date: String!, $validatorId: String!) {
+          validatorMonthlyReport(date: $date, validatorId: $validatorId) {
+            month payDate nodeCreatedAt
+            uptime uptimeTime uptimeGraphUrl
+            currentEarning withdrawEarning totalRewardPaid diffRewardFromLastMonth rewardGraphUrl
+            totalMNWStaked diffTotalMNWStakedFromLastMonth
+            nodesLimit totalStakedNodesCount validatorStakedNodesCount
+            totalStakedDays wallet firstName
+          }
         }`,
-        variables: { date: arg, validatorId: state.user?.id || null }
+        variables: { date: arg, validatorId: state.user?.id || '' }
       })
     },
     userValidatorRewards: {
@@ -682,8 +689,8 @@
       build: () => ({
         query: `query userValidatorRewards($nodeId: String, $take: Int, $page: Int) {
           userValidatorRewards(nodeId: $nodeId, take: $take, page: $page) {
-            total
             data
+            meta { total page take }
           }
         }`,
         variables: { nodeId: state.node?.id || null, take: 20, page: 1 }
@@ -694,7 +701,13 @@
       argDefault: () => '',
       argHidden: true,
       build: () => ({
-        query: `query nodeUptime($nodeId: String!) { nodeUptime(nodeId: $nodeId) }`,
+        query: `query nodeUptime($nodeId: String!) {
+          nodeUptime(nodeId: $nodeId) {
+            total
+            totalTime
+            items
+          }
+        }`,
         variables: { nodeId: state.node?.id }
       })
     },
@@ -703,7 +716,12 @@
       argDefault: () => '',
       argHidden: true,
       build: () => ({
-        query: `query earlyUnstakePenalty($nodeId: String!) { earlyUnstakePenalty(nodeId: $nodeId) }`,
+        query: `query earlyUnstakePenalty($nodeId: String!) {
+          earlyUnstakePenalty(nodeId: $nodeId) {
+            reward
+            penalty
+          }
+        }`,
         variables: { nodeId: state.node?.id }
       })
     },
@@ -711,7 +729,14 @@
       argLabel: '',
       argHidden: true,
       build: () => ({
-        query: `query { nodeGlobalStats }`,
+        query: `query {
+          nodeGlobalStats {
+            totalRewardsPaid
+            totalMnwStaked
+            currentStakeLimit
+            allTimeNodes
+          }
+        }`,
         variables: {}
       })
     },
@@ -721,8 +746,8 @@
       build: (arg) => ({
         query: `query getValidators($take: Int, $page: Int) {
           getValidators(take: $take, page: $page) {
-            total
             data
+            meta { total page take }
           }
         }`,
         variables: { take: 20, page: parseInt(arg) || 1 }
@@ -732,7 +757,13 @@
       argLabel: 'Validator ID',
       argDefault: () => state.user?.id || '',
       build: (arg) => ({
-        query: `query getValidator($id: String!) { getValidator(id: $id) }`,
+        query: `query getValidator($id: String!) {
+          getValidator(id: $id) {
+            id createdAt updatedAt name email wallet
+            isApproved connectedApp
+            reviewAnswer reviewRejectType moderationComment
+          }
+        }`,
         variables: { id: arg }
       })
     },
@@ -750,8 +781,8 @@
       build: (arg) => ({
         query: `query validatorLocations($take: Int, $page: Int, $country: String) {
           validatorLocations(take: $take, page: $page, country: $country) {
-            total
             data
+            meta { total page take }
           }
         }`,
         variables: { take: 20, page: 1, country: arg || null }
@@ -762,7 +793,11 @@
       argHidden: true,
       build: () => ({
         query: `query validatorRewardStats($validatorId: String) {
-          validatorRewardStats(validatorId: $validatorId)
+          validatorRewardStats(validatorId: $validatorId) {
+            paid
+            toBePaid
+            upcoming
+          }
         }`,
         variables: { validatorId: state.user?.id || null }
       })
