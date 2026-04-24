@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Validator, Trust.Supply, trustnodes.nl</title>
+<meta name="description" content="View your Trust.Supply validator stats. Runs entirely in your browser.">
+<style>
+  :root {
+    --bg: #0a1428;
+    --bg-card: #111d36;
+    --bg-card-2: #162447;
+    --border: #1f2d4d;
+    --text: #e8eefb;
+    --text-muted: #8a9bc4;
+    --text-dim: #5a6b94;
+    --accent: #4a8fe0;
+    --accent-dim: #2a5ea0;
+    --success: #3ecc8f;
+    --warn: #e0a64a;
+    --danger: #e05a6e;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+  header h1 { margin: 0; font-size: 22px; font-weight: 500; letter-spacing: 0.2px; }
+  header .sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  header a { color: var(--text-dim); font-size: 12px; text-decoration: none; border-bottom: 1px dotted var(--text-dim); }
+  header a:hover { color: var(--text-muted); }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 16px; font-weight: 500; color: var(--text); }
+  .card .note { font-size: 13px; color: var(--text-muted); margin: 0 0 16px; }
+  .step-num { display: inline-block; width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background: var(--accent-dim); color: var(--text); font-size: 12px; text-align: center; margin-right: 8px; vertical-align: 2px; }
+  .step.done .step-num { background: var(--success); color: #052918; }
+  .step.locked { opacity: 0.45; pointer-events: none; }
+  label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  input[type=text], input[type=email] {
+    width: 100%; padding: 10px 12px; font-size: 15px;
+    background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-family: inherit;
+  }
+  input:focus { outline: none; border-color: var(--accent); }
+  .row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 180px; }
+  button {
+    padding: 10px 18px; font-size: 14px; font-weight: 500;
+    background: var(--accent); color: #fff; border: none; border-radius: 6px;
+    cursor: pointer; font-family: inherit; transition: background 0.15s;
+  }
+  button:hover { background: #5ca0f0; }
+  button:disabled { background: var(--accent-dim); cursor: not-allowed; opacity: 0.6; }
+  button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+  button.secondary:hover { background: var(--bg-card-2); color: var(--text); }
+  .error { color: var(--danger); font-size: 13px; margin-top: 8px; }
+  .hint { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+  .hidden { display: none; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 4px; }
+  .stat { background: var(--bg-card-2); border-radius: 8px; padding: 14px 16px; }
+  .stat .l { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat .v { font-size: 20px; font-weight: 500; margin-top: 4px; word-break: break-word; }
+  .stat .v.sm { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+  .stat .v .unit { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill.ok { background: rgba(62, 204, 143, 0.15); color: var(--success); }
+  .pill.warn { background: rgba(224, 166, 74, 0.15); color: var(--warn); }
+  .pill.bad { background: rgba(224, 90, 110, 0.15); color: var(--danger); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .scroll-x { overflow-x: auto; }
+  .toolbar { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  code { background: var(--bg-card-2); padding: 2px 6px; border-radius: 3px; font-size: 12px; color: var(--text-muted); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; }
+  footer { text-align: center; color: var(--text-dim); font-size: 12px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+  @media (max-width: 600px) {
+    .wrap { padding: 16px 12px 48px; }
+    header h1 { font-size: 19px; }
+    .card { padding: 16px; }
+    .stat .v { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>My Validator</h1>
+    <div class="sub">Trust.Supply stats, in your browser</div>
+  </div>
+  <a href="https://trustnodes.nl/validator.html" target="_blank" rel="noopener">view source</a>
+</header>
+
+<div id="step-login" class="card step">
+  <h2><span class="step-num">1</span>Log in with your Trust.Supply email</h2>
+  <p class="note">A single-use code will be emailed to your KYC-verified address. Nothing is stored on this site.</p>
+  <div class="row">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div style="flex: 0 0 auto;">
+      <button id="btn-request-code">Send code</button>
+    </div>
+  </div>
+  <div id="login-error" class="error hidden"></div>
+</div>
+
+<div id="step-code" class="card step locked">
+  <h2><span class="step-num">2</span>Enter the code from your email</h2>
+  <p class="note">Check your inbox for a message from Trust.Supply.</p>
+  <div class="row">
+    <div>
+      <label for="code">Login code</label>
+      <input type="text" id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456">
+    </div>
+    <div style="flex: 0 0 auto;">
+      <button id="btn-verify-code">Verify</button>
+    </div>
+  </div>
+  <div id="code-error" class="error hidden"></div>
+</div>
+
+<div id="step-wallet" class="card step locked">
+  <h2><span class="step-num">3</span>Confirm wallet ownership</h2>
+  <p class="note">Sign a message with the wallet tied to your validator. No transaction, no gas.</p>
+  <div id="wallet-info" class="hint hidden"></div>
+  <div class="toolbar">
+    <button id="btn-connect-wallet">Connect &amp; sign</button>
+  </div>
+  <div id="wallet-error" class="error hidden"></div>
+</div>
+
+<div id="dashboard" class="hidden">
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <h2 style="margin: 0;">Validator</h2>
+      <div>
+        <span id="d-status" class="pill">unknown</span>
+        <button class="secondary" id="btn-logout" style="margin-left: 8px;">Log out</button>
+      </div>
+    </div>
+    <div class="grid" style="margin-top: 14px;">
+      <div class="stat"><div class="l">Node ID</div><div class="v sm mono" id="d-nodeid">&mdash;</div></div>
+      <div class="stat"><div class="l">Wallet</div><div class="v sm mono" id="d-wallet">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
+      <div class="stat"><div class="l">CLI version</div><div class="v" id="d-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">Uptime</div><div class="v" id="d-uptime">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Projected APY</div><div class="v" id="d-apy">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Ecosystem</h2>
+    <div class="grid">
+      <div class="stat"><div class="l">Running nodes</div><div class="v" id="e-nodes">&mdash;</div></div>
+      <div class="stat"><div class="l">MNW bridged</div><div class="v" id="e-bridged">&mdash;</div></div>
+      <div class="stat"><div class="l">MNW staked</div><div class="v" id="e-staked">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked % circulating</div><div class="v" id="e-stakedpct">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
+      <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Recent daily validations</h2>
+    <div class="scroll-x">
+      <table>
+        <thead>
+          <tr><th>Date</th><th class="num">Validations</th><th class="num">Reward</th><th class="num">MNW earned</th></tr>
+        </thead>
+        <tbody id="d-validations"></tbody>
+        <tfoot>
+          <tr><th>Total</th><th class="num" id="d-val-total">&mdash;</th><th></th><th class="num" id="d-mnw-total">&mdash;</th></tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Open-source tool by the Trust.Supply community. Runs entirely in your browser. Your session token is held in memory only and cleared when you close this tab or log out.
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script>
+  const API = 'https://main.api.trust.supply/v2/graphql';
+  const MNW_RATES = { 3: 0.06, 6: 0.08, 12: 0.10 };
+
+  const state = {
+    email: null,
+    token: null,
+    user: null,
+    node: null,
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function show(el) { el.classList.remove('hidden'); }
+  function hide(el) { el.classList.add('hidden'); }
+  function err(id, msg) { const e = $(id); e.textContent = msg; show(e); }
+  function clearErr(id) { hide($(id)); }
+
+  function gql(query, variables, token) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ query, variables: variables || {} })
+    }).then(r => r.json()).then(r => {
+      if (r.errors) throw new Error(r.errors[0].message || 'GraphQL error');
+      return r.data;
+    });
+  }
+
+  function stepDone(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.add('done');
+  }
+  function stepUnlock(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.remove('locked');
+  }
+  function stepLock(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.add('locked');
+  }
+
+  function fmtNum(n, digits) {
+    if (n === null || n === undefined) return '—';
+    if (digits === undefined) digits = 0;
+    return Number(n).toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+  }
+  function fmtDate(s) {
+    if (!s) return '—';
+    return String(s).split('T')[0];
+  }
+  function short(s, n) {
+    if (!s) return '—';
+    n = n || 10;
+    if (s.length <= n * 2 + 3) return s;
+    return s.slice(0, n) + '…' + s.slice(-6);
+  }
+
+  $('btn-request-code').addEventListener('click', async () => {
+    clearErr('login-error');
+    const email = $('email').value.trim();
+    if (!email) { err('login-error', 'Please enter your email.'); return; }
+    $('btn-request-code').disabled = true;
+    $('btn-request-code').textContent = 'Sending…';
+    try {
+      await gql(`mutation LoginCodeValidator($email: String!) {
+        loginCodeValidator(email: $email)
+      }`, { email });
+      state.email = email;
+      stepDone('login');
+      stepUnlock('code');
+      $('code').focus();
+    } catch (e) {
+      err('login-error', e.message || 'Failed to send code. Check your email.');
+    } finally {
+      $('btn-request-code').disabled = false;
+      $('btn-request-code').textContent = 'Send code';
+    }
+  });
+
+  $('btn-verify-code').addEventListener('click', async () => {
+    clearErr('code-error');
+    const code = $('code').value.trim();
+    if (!code) { err('code-error', 'Please enter the code from your email.'); return; }
+    $('btn-verify-code').disabled = true;
+    $('btn-verify-code').textContent = 'Verifying…';
+    try {
+      const data = await gql(`mutation LoginConfirmCodeValidator($email: String!, $code: String!, $permanent: Boolean) {
+        loginConfirmCodeValidator(email: $email, code: $code, permanent: $permanent) {
+          id
+          access
+          refresh
+          isApproved
+          reviewStatus
+        }
+      }`, { email: state.email, code, permanent: true });
+      const result = data && data.loginConfirmCodeValidator;
+      const tok = result && result.access;
+      if (!tok || typeof tok !== 'string') throw new Error('No access token returned.');
+      state.token = tok;
+      state.refresh = result.refresh;
+      sessionStorage.setItem('ts_tok', tok);
+      if (result.refresh) sessionStorage.setItem('ts_ref', result.refresh);
+      sessionStorage.setItem('ts_email', state.email);
+      stepDone('code');
+      stepUnlock('wallet');
+      await loadMe();
+    } catch (e) {
+      err('code-error', e.message || 'Invalid code.');
+    } finally {
+      $('btn-verify-code').disabled = false;
+      $('btn-verify-code').textContent = 'Verify';
+    }
+  });
+
+  async function loadMe() {
+    const data = await gql(`query Me {
+      me { id email wallet name nodeVersion nodeAppId }
+    }`, {}, state.token);
+    state.user = data.me;
+    if (state.user && state.user.wallet) {
+      $('wallet-info').textContent = 'Expected wallet: ' + state.user.wallet;
+      show($('wallet-info'));
+    }
+  }
+
+  $('btn-connect-wallet').addEventListener('click', async () => {
+    clearErr('wallet-error');
+    if (!window.ethereum) {
+      err('wallet-error', 'No wallet detected. Install MetaMask or Rabby.');
+      return;
+    }
+    $('btn-connect-wallet').disabled = true;
+    $('btn-connect-wallet').textContent = 'Waiting for wallet…';
+    try {
+      const providers = window.ethereum.providers || [window.ethereum];
+      const provider = providers[0];
+      const browserProvider = new ethers.BrowserProvider(provider);
+      const signer = await browserProvider.getSigner();
+      const addr = (await signer.getAddress()).toLowerCase();
+
+      const expected = (state.user && state.user.wallet || '').toLowerCase();
+      if (!expected) throw new Error('Could not read your registered wallet.');
+      if (addr !== expected) {
+        throw new Error('Connected wallet (' + short(addr) + ') does not match the validator wallet (' + short(expected) + ').');
+      }
+
+      const nonce = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const message = [
+        'Verify wallet ownership for trustnodes.nl validator view.',
+        '',
+        'Address: ' + addr,
+        'Nonce: ' + nonce,
+        'Timestamp: ' + new Date().toISOString(),
+      ].join('\n');
+      const sig = await signer.signMessage(message);
+      const recovered = ethers.verifyMessage(message, sig).toLowerCase();
+      if (recovered !== addr) throw new Error('Signature verification failed.');
+
+      stepDone('wallet');
+      await loadDashboard();
+    } catch (e) {
+      err('wallet-error', e.message || 'Wallet verification failed.');
+    } finally {
+      $('btn-connect-wallet').disabled = false;
+      $('btn-connect-wallet').textContent = 'Connect & sign';
+    }
+  });
+
+  async function loadDashboard() {
+    hide($('step-login')); hide($('step-code')); hide($('step-wallet'));
+    show($('dashboard'));
+
+    try {
+      const nodesData = await gql(`query { myNodes { data {
+        id address active status stakedAmount period workers
+        lastActivity totalUptime reward validatorId transactionHash
+        earnedRewards { earning apy perDay }
+        projectedRewards { earning apy perDay }
+        validator { id nodeAppId }
+      } } }`, {}, state.token);
+
+      const nodes = (nodesData.myNodes && nodesData.myNodes.data) || [];
+      const node = nodes.find(n => n.active) || nodes[0];
+      if (!node) throw new Error('No nodes found on your account.');
+      state.node = node;
+      renderNode(node);
+
+      const validationsData = await gql(`query GetGraphData($nodeId: String!) {
+        validationsPerDayByNodeIdGraphData(nodeId: $nodeId) {
+          total items { day amount reward }
+        }
+      }`, { nodeId: node.id }, state.token);
+      renderValidations(node, validationsData.validationsPerDayByNodeIdGraphData);
+
+      const from = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+      const to = new Date().toISOString().slice(0, 10);
+      const ecoData = await gql(`query systemDailyStatsGraphData($from: DateTime, $to: DateTime) {
+        systemDailyStatsGraphData(from: $from, to: $to) {
+          totalActiveNodesCount { value day }
+          bridgedTokenAmount { value day }
+          stackedTokenAmount { value day }
+          stackedTokenAmountCirculationPercentage { value day }
+          totalActiveValidatorsCount { value day }
+          cliAppVersion { value day }
+        }
+      }`, { from, to }, state.token);
+      renderEcosystem(ecoData.systemDailyStatsGraphData);
+    } catch (e) {
+      alert('Failed to load data: ' + e.message);
+    }
+  }
+
+  function renderNode(n) {
+    const periodMap = { months12: 12, months6: 6, months3: 3 };
+    const months = periodMap[n.period] || 12;
+    const rate = MNW_RATES[months] || 0.10;
+
+    $('d-nodeid').textContent = short(n.id, 8);
+    $('d-nodeid').title = n.id;
+    $('d-wallet').textContent = short(n.address || (state.user && state.user.wallet), 8);
+    $('d-wallet').title = n.address || (state.user && state.user.wallet) || '';
+    $('d-staked').innerHTML = fmtNum(n.stakedAmount) + '<span class="unit">MNW</span>';
+    $('d-workers').textContent = fmtNum(n.workers);
+    $('d-cli').textContent = (state.user && state.user.nodeVersion) || '—';
+    $('d-uptime').innerHTML = fmtNum(n.totalUptime, 2) + '<span class="unit">%</span>';
+    const earned = (n.earnedRewards && n.earnedRewards.earning) || 0;
+    $('d-earned').innerHTML = fmtNum(earned, 2) + '<span class="unit">MNW</span>';
+    const apy = (n.projectedRewards && n.projectedRewards.apy) || 0;
+    $('d-apy').innerHTML = fmtNum(apy * 100, 2) + '<span class="unit">%</span>';
+    $('d-last').textContent = fmtDate(n.lastActivity);
+
+    const pill = $('d-status');
+    pill.textContent = n.status || (n.active ? 'active' : 'inactive');
+    pill.className = 'pill ' + (n.active ? 'ok' : 'bad');
+
+    n._mnwRate = rate;
+  }
+
+  function renderValidations(node, graphData) {
+    if (!graphData) return;
+    const items = (graphData.items || []).slice().sort((a, b) => a.day.localeCompare(b.day));
+    const recent = items.slice(-14);
+    const tbody = $('d-validations');
+    tbody.innerHTML = '';
+    let totalVal = 0, totalMnw = 0;
+    const rate = node._mnwRate || 0.10;
+    for (const i of items) {
+      totalVal += i.amount;
+      totalMnw += i.amount * rate;
+    }
+    for (const i of recent.slice().reverse()) {
+      const mnw = i.amount * rate;
+      const row = document.createElement('tr');
+      row.innerHTML = '<td>' + fmtDate(i.day) + '</td>' +
+        '<td class="num">' + fmtNum(i.amount) + '</td>' +
+        '<td class="num">' + fmtNum(i.reward, 2) + '</td>' +
+        '<td class="num">' + fmtNum(mnw, 2) + '</td>';
+      tbody.appendChild(row);
+    }
+    $('d-val-total').textContent = fmtNum(totalVal);
+    $('d-mnw-total').textContent = fmtNum(totalMnw, 2);
+  }
+
+  function latestValue(series) {
+    if (!series || !series.length) return null;
+    const sorted = series.slice().sort((a, b) => String(a.day).localeCompare(String(b.day)));
+    return sorted[sorted.length - 1].value;
+  }
+
+  function renderEcosystem(eco) {
+    if (!eco) return;
+    $('e-nodes').textContent = fmtNum(latestValue(eco.totalActiveNodesCount));
+    $('e-bridged').textContent = fmtNum(latestValue(eco.bridgedTokenAmount));
+    $('e-staked').textContent = fmtNum(latestValue(eco.stackedTokenAmount));
+    const pct = latestValue(eco.stackedTokenAmountCirculationPercentage);
+    $('e-stakedpct').innerHTML = fmtNum(pct, 2) + '<span class="unit">%</span>';
+    $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
+    $('e-cli').textContent = latestValue(eco.cliAppVersion) || '—';
+  }
+
+  $('btn-logout').addEventListener('click', () => {
+    state.token = null;
+    state.refresh = null;
+    state.user = null;
+    state.node = null;
+    sessionStorage.removeItem('ts_tok');
+    sessionStorage.removeItem('ts_ref');
+    sessionStorage.removeItem('ts_email');
+    location.reload();
+  });
+
+  (async function restore() {
+    const tok = sessionStorage.getItem('ts_tok');
+    const ref = sessionStorage.getItem('ts_ref');
+    const em = sessionStorage.getItem('ts_email');
+    if (tok && em) {
+      state.token = tok;
+      state.refresh = ref;
+      state.email = em;
+      stepDone('login');
+      stepDone('code');
+      stepUnlock('wallet');
+      try { await loadMe(); } catch (_) {}
+    }
+  })();
+</script>
+</body>
+</html>
