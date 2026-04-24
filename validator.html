@@ -230,6 +230,53 @@
     <div class="hint" id="d-val-meta" style="margin-top: 8px;"></div>
   </div>
 
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+      <h2 style="margin: 0;">Explore API</h2>
+      <button class="secondary" id="btn-explore-toggle">Show</button>
+    </div>
+    <div id="explore-panel" class="hidden">
+      <p class="note">Run queries against the Trust.Supply GraphQL API. Raw JSON output. Useful for spotting what's available before building proper UI.</p>
+      <div class="row" style="margin-bottom: 12px;">
+        <div style="flex: 1; min-width: 220px;">
+          <label for="explore-query">Query</label>
+          <select id="explore-query" style="width: 100%; padding: 10px 12px; font-size: 14px; background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: inherit;">
+            <optgroup label="Personal">
+              <option value="validatorMonthlyReport">validatorMonthlyReport (current month)</option>
+              <option value="userValidatorRewards">userValidatorRewards (your node)</option>
+              <option value="nodeUptime">nodeUptime (your node)</option>
+              <option value="earlyUnstakePenalty">earlyUnstakePenalty (your node)</option>
+            </optgroup>
+            <optgroup label="Ecosystem">
+              <option value="nodeGlobalStats">nodeGlobalStats</option>
+              <option value="getValidators">getValidators (first 20)</option>
+              <option value="getValidator">getValidator (by id)</option>
+              <option value="groupedValidatorLocations">groupedValidatorLocations</option>
+              <option value="validatorLocations">validatorLocations (first 20)</option>
+              <option value="validatorRewardStats">validatorRewardStats</option>
+              <option value="nodePrincipalAndRewardsByDays">nodePrincipalAndRewardsByDays (last 30d)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="explore-arg-wrap" style="flex: 1; min-width: 200px; display: none;">
+          <label for="explore-arg">Argument</label>
+          <input type="text" id="explore-arg" placeholder="">
+        </div>
+        <div style="flex: 0 0 auto;">
+          <button id="btn-explore-run">Run</button>
+        </div>
+      </div>
+      <div id="explore-error" class="error hidden"></div>
+      <div id="explore-output-wrap" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div class="hint" id="explore-meta"></div>
+          <button class="secondary" id="btn-explore-copy" style="padding: 4px 10px; font-size: 12px;">Copy</button>
+        </div>
+        <pre id="explore-output" style="background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text); max-height: 500px; overflow: auto; margin: 0; white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer>
@@ -614,6 +661,199 @@
     LS.remove('ts_remember');
     LS.remove('ts_wallet_verified');
     location.reload();
+  });
+
+  // === Explore API panel ===
+  const EXPLORE_QUERIES = {
+    validatorMonthlyReport: {
+      argLabel: 'Month (YYYY-MM-DD, 1st of month)',
+      argDefault: () => new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10),
+      build: (arg) => ({
+        query: `query validatorMonthlyReport($date: DateTime!, $validatorId: String) {
+          validatorMonthlyReport(date: $date, validatorId: $validatorId)
+        }`,
+        variables: { date: arg, validatorId: state.user?.id || null }
+      })
+    },
+    userValidatorRewards: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query userValidatorRewards($nodeId: String, $take: Int, $page: Int) {
+          userValidatorRewards(nodeId: $nodeId, take: $take, page: $page) {
+            total
+            data
+          }
+        }`,
+        variables: { nodeId: state.node?.id || null, take: 20, page: 1 }
+      })
+    },
+    nodeUptime: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query nodeUptime($nodeId: String!) { nodeUptime(nodeId: $nodeId) }`,
+        variables: { nodeId: state.node?.id }
+      })
+    },
+    earlyUnstakePenalty: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query earlyUnstakePenalty($nodeId: String!) { earlyUnstakePenalty(nodeId: $nodeId) }`,
+        variables: { nodeId: state.node?.id }
+      })
+    },
+    nodeGlobalStats: {
+      argLabel: '',
+      argHidden: true,
+      build: () => ({
+        query: `query { nodeGlobalStats }`,
+        variables: {}
+      })
+    },
+    getValidators: {
+      argLabel: 'Page (1, 2, ...)',
+      argDefault: () => '1',
+      build: (arg) => ({
+        query: `query getValidators($take: Int, $page: Int) {
+          getValidators(take: $take, page: $page) {
+            total
+            data
+          }
+        }`,
+        variables: { take: 20, page: parseInt(arg) || 1 }
+      })
+    },
+    getValidator: {
+      argLabel: 'Validator ID',
+      argDefault: () => state.user?.id || '',
+      build: (arg) => ({
+        query: `query getValidator($id: String!) { getValidator(id: $id) }`,
+        variables: { id: arg }
+      })
+    },
+    groupedValidatorLocations: {
+      argLabel: '',
+      argHidden: true,
+      build: () => ({
+        query: `query { groupedValidatorLocations }`,
+        variables: {}
+      })
+    },
+    validatorLocations: {
+      argLabel: 'Country filter (optional)',
+      argDefault: () => '',
+      build: (arg) => ({
+        query: `query validatorLocations($take: Int, $page: Int, $country: String) {
+          validatorLocations(take: $take, page: $page, country: $country) {
+            total
+            data
+          }
+        }`,
+        variables: { take: 20, page: 1, country: arg || null }
+      })
+    },
+    validatorRewardStats: {
+      argLabel: '(uses your validator ID)',
+      argHidden: true,
+      build: () => ({
+        query: `query validatorRewardStats($validatorId: String) {
+          validatorRewardStats(validatorId: $validatorId)
+        }`,
+        variables: { validatorId: state.user?.id || null }
+      })
+    },
+    nodePrincipalAndRewardsByDays: {
+      argLabel: '',
+      argHidden: true,
+      build: () => {
+        const to = new Date().toISOString().slice(0, 10);
+        const from = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+        return {
+          query: `query nodePrincipalAndRewardsByDays($from: DateTime, $to: DateTime) {
+            nodePrincipalAndRewardsByDays(from: $from, to: $to)
+          }`,
+          variables: { from, to }
+        };
+      }
+    }
+  };
+
+  function updateExploreArgField() {
+    const key = $('explore-query').value;
+    const def = EXPLORE_QUERIES[key];
+    const wrap = $('explore-arg-wrap');
+    if (!def || def.argHidden) {
+      wrap.style.display = 'none';
+    } else {
+      wrap.style.display = '';
+      const label = wrap.querySelector('label');
+      const input = $('explore-arg');
+      label.textContent = def.argLabel || 'Argument';
+      input.placeholder = def.argLabel || '';
+      input.value = def.argDefault ? def.argDefault() : '';
+    }
+  }
+
+  $('btn-explore-toggle').addEventListener('click', () => {
+    const panel = $('explore-panel');
+    const btn = $('btn-explore-toggle');
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      btn.textContent = 'Hide';
+      updateExploreArgField();
+    } else {
+      panel.classList.add('hidden');
+      btn.textContent = 'Show';
+    }
+  });
+
+  $('explore-query').addEventListener('change', updateExploreArgField);
+
+  $('btn-explore-run').addEventListener('click', async () => {
+    const key = $('explore-query').value;
+    const def = EXPLORE_QUERIES[key];
+    if (!def) return;
+    const arg = $('explore-arg').value.trim();
+    const btn = $('btn-explore-run');
+    const errEl = $('explore-error');
+    const outWrap = $('explore-output-wrap');
+    errEl.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Running…';
+    const t0 = performance.now();
+    try {
+      const built = def.build(arg);
+      const raw = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.token },
+        body: JSON.stringify({ query: built.query, variables: built.variables })
+      }).then(r => r.json());
+      const ms = Math.round(performance.now() - t0);
+      $('explore-output').textContent = JSON.stringify(raw, null, 2);
+      $('explore-meta').textContent = key + '  ·  ' + ms + 'ms' + (raw.errors ? '  ·  has errors' : '  ·  ok');
+      outWrap.classList.remove('hidden');
+    } catch (e) {
+      errEl.textContent = e.message || 'Query failed.';
+      errEl.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Run';
+    }
+  });
+
+  $('btn-explore-copy').addEventListener('click', () => {
+    const txt = $('explore-output').textContent;
+    navigator.clipboard.writeText(txt).then(() => {
+      const b = $('btn-explore-copy');
+      const orig = b.textContent;
+      b.textContent = 'Copied';
+      setTimeout(() => { b.textContent = orig; }, 1500);
+    });
   });
 
   (async function restore() {
