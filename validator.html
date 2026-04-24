@@ -189,6 +189,8 @@
       <div class="stat"><div class="l">Unstaking date</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
       <div class="stat"><div class="l">Closes at</div><div class="v sm" id="d-closes">&mdash;</div></div>
       <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
+      <div class="stat"><div class="l">If unstaked now: reward</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">If unstaked now: penalty</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
     </div>
     <div class="hint" id="d-refreshed" style="margin-top: 12px;"></div>
   </div>
@@ -203,6 +205,9 @@
       <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
       <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">Total rewards paid</div><div class="v" id="e-rewardspaid">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Current stake limit</div><div class="v" id="e-stakelimit">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">All-time nodes</div><div class="v" id="e-alltimenodes">&mdash;</div></div>
     </div>
     <div class="hint" style="margin-top: 10px;">Total supply cap: 47,897,218 MNW</div>
   </div>
@@ -516,6 +521,22 @@
       }`, { from, to }, state.token);
       renderEcosystem(ecoData.systemDailyStatsGraphData);
 
+      // Additional ecosystem stats
+      try {
+        const globalData = await gql(`query { nodeGlobalStats {
+          totalRewardsPaid totalMnwStaked currentStakeLimit allTimeNodes
+        } }`, {}, state.token);
+        renderGlobalStats(globalData.nodeGlobalStats);
+      } catch (_) {}
+
+      // Unstake penalty calc for this node
+      try {
+        const unstakeData = await gql(`query ($nodeId: String!) {
+          earlyUnstakePenalty(nodeId: $nodeId) { reward penalty }
+        }`, { nodeId: node.id }, state.token);
+        renderUnstakePenalty(unstakeData.earlyUnstakePenalty);
+      } catch (_) {}
+
       const now = new Date();
       $('d-refreshed').textContent = 'Last refreshed: ' + now.toLocaleTimeString();
     } catch (e) {
@@ -647,6 +668,19 @@
     $('e-stakedpcttotal').innerHTML = (pctTotal !== null ? fmtNum(pctTotal, 2) : '—') + '<span class="unit">%</span>';
     $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
     $('e-cli').textContent = latestValue(eco.cliAppVersion) || '—';
+  }
+
+  function renderGlobalStats(gs) {
+    if (!gs) return;
+    $('e-rewardspaid').innerHTML = fmtNum(gs.totalRewardsPaid, 0) + '<span class="unit">MNW</span>';
+    $('e-stakelimit').innerHTML = fmtNum(gs.currentStakeLimit, 0) + '<span class="unit">MNW</span>';
+    $('e-alltimenodes').textContent = fmtNum(gs.allTimeNodes);
+  }
+
+  function renderUnstakePenalty(up) {
+    if (!up) return;
+    $('d-unstake-reward').innerHTML = fmtNum(up.reward, 2) + '<span class="unit">MNW</span>';
+    $('d-unstake-penalty').innerHTML = fmtNum(up.penalty, 2) + '<span class="unit">MNW</span>';
   }
 
   $('btn-logout').addEventListener('click', () => {
