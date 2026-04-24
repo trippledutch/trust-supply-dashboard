@@ -181,6 +181,7 @@
       <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">Period</div><div class="v" id="d-period">&mdash;</div></div>
       <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
+      <div class="stat"><div class="l">Total validations</div><div class="v" id="d-total-validations">&mdash;</div></div>
       <div class="stat"><div class="l">CLI version</div><div class="v" id="d-cli">&mdash;</div></div>
       <div class="stat"><div class="l">Uptime</div><div class="v" id="d-uptime">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
@@ -189,8 +190,8 @@
       <div class="stat"><div class="l">Unstaking date</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
       <div class="stat"><div class="l">Closes at</div><div class="v sm" id="d-closes">&mdash;</div></div>
       <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
-      <div class="stat"><div class="l">If unstaked now: reward</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
-      <div class="stat"><div class="l">If unstaked now: penalty</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">If unstaked now: net payout</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">If unstaked now: total loss</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
     </div>
     <div class="hint" id="d-refreshed" style="margin-top: 12px;"></div>
   </div>
@@ -205,9 +206,6 @@
       <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
       <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
-      <div class="stat"><div class="l">Total rewards paid</div><div class="v" id="e-rewardspaid">&mdash;<span class="unit">MNW</span></div></div>
-      <div class="stat"><div class="l">Current stake limit</div><div class="v" id="e-stakelimit">&mdash;<span class="unit">MNW</span></div></div>
-      <div class="stat"><div class="l">All-time nodes</div><div class="v" id="e-alltimenodes">&mdash;</div></div>
     </div>
     <div class="hint" style="margin-top: 10px;">Total supply cap: 47,897,218 MNW</div>
   </div>
@@ -521,14 +519,6 @@
       }`, { from, to }, state.token);
       renderEcosystem(ecoData.systemDailyStatsGraphData);
 
-      // Additional ecosystem stats
-      try {
-        const globalData = await gql(`query { nodeGlobalStats {
-          totalRewardsPaid totalMnwStaked currentStakeLimit allTimeNodes
-        } }`, {}, state.token);
-        renderGlobalStats(globalData.nodeGlobalStats);
-      } catch (_) {}
-
       // Unstake penalty calc for this node
       try {
         const unstakeData = await gql(`query ($nodeId: String!) {
@@ -598,6 +588,10 @@
     const items = (graphData.items || []).slice().sort((a, b) => a.day.localeCompare(b.day));
     state.validations = items;
     state.validationsRate = node._mnwRate || 0.10;
+    // Prefer server-reported total over summing; fall back to sum if missing.
+    const serverTotal = graphData.total;
+    const sumTotal = items.reduce((s, i) => s + (i.amount || 0), 0);
+    $('d-total-validations').textContent = fmtNum(serverTotal != null ? serverTotal : sumTotal);
     applyRange();
   }
 
@@ -668,13 +662,6 @@
     $('e-stakedpcttotal').innerHTML = (pctTotal !== null ? fmtNum(pctTotal, 2) : '—') + '<span class="unit">%</span>';
     $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
     $('e-cli').textContent = latestValue(eco.cliAppVersion) || '—';
-  }
-
-  function renderGlobalStats(gs) {
-    if (!gs) return;
-    $('e-rewardspaid').innerHTML = fmtNum(gs.totalRewardsPaid, 0) + '<span class="unit">MNW</span>';
-    $('e-stakelimit').innerHTML = fmtNum(gs.currentStakeLimit, 0) + '<span class="unit">MNW</span>';
-    $('e-alltimenodes').textContent = fmtNum(gs.allTimeNodes);
   }
 
   function renderUnstakePenalty(up) {
