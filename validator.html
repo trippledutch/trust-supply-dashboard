@@ -108,7 +108,6 @@
     <h1>My Validator</h1>
     <div class="sub">Trust.Supply stats, in your browser</div>
   </div>
-  <a href="https://trustnodes.nl/validator.html" target="_blank" rel="noopener">view source</a>
 </header>
 
 <div id="step-login" class="card step">
@@ -123,6 +122,10 @@
       <button id="btn-request-code">Send code</button>
     </div>
   </div>
+  <label style="display: flex; align-items: center; gap: 8px; margin-top: 12px; text-transform: none; letter-spacing: normal; color: var(--text-muted); cursor: pointer;">
+    <input type="checkbox" id="remember-me" style="width: auto; margin: 0;">
+    Stay logged in on this browser
+  </label>
   <div id="login-error" class="error hidden"></div>
 </div>
 
@@ -156,22 +159,29 @@
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <h2 style="margin: 0;">Validator</h2>
-      <div>
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
         <span id="d-status" class="pill">unknown</span>
-        <button class="secondary" id="btn-logout" style="margin-left: 8px;">Log out</button>
+        <button class="secondary" id="btn-refresh" title="Refresh data">Refresh</button>
+        <button class="secondary" id="btn-logout">Log out</button>
       </div>
     </div>
     <div class="grid" style="margin-top: 14px;">
       <div class="stat"><div class="l">Node ID</div><div class="v sm mono" id="d-nodeid">&mdash;</div></div>
+      <div class="stat"><div class="l">Node address</div><div class="v sm mono" id="d-nodeaddr">&mdash;</div></div>
       <div class="stat"><div class="l">Wallet</div><div class="v sm mono" id="d-wallet">&mdash;</div></div>
       <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Period</div><div class="v" id="d-period">&mdash;</div></div>
       <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
       <div class="stat"><div class="l">CLI version</div><div class="v" id="d-cli">&mdash;</div></div>
       <div class="stat"><div class="l">Uptime</div><div class="v" id="d-uptime">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">Projected APY</div><div class="v" id="d-apy">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Staking started</div><div class="v sm" id="d-started">&mdash;</div></div>
+      <div class="stat"><div class="l">Unstaking date</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
+      <div class="stat"><div class="l">Closes at</div><div class="v sm" id="d-closes">&mdash;</div></div>
       <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
     </div>
+    <div class="hint" id="d-refreshed" style="margin-top: 12px;"></div>
   </div>
 
   <div class="card">
@@ -181,9 +191,11 @@
       <div class="stat"><div class="l">MNW bridged</div><div class="v" id="e-bridged">&mdash;</div></div>
       <div class="stat"><div class="l">MNW staked</div><div class="v" id="e-staked">&mdash;</div></div>
       <div class="stat"><div class="l">Staked % circulating</div><div class="v" id="e-stakedpct">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
       <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
     </div>
+    <div class="hint" style="margin-top: 10px;">Total supply cap: 47,897,218 MNW</div>
   </div>
 
   <div class="card">
@@ -220,12 +232,27 @@
 <script>
   const API = 'https://main.api.trust.supply/v2/graphql';
   const MNW_RATES = { 3: 0.06, 6: 0.08, 12: 0.10 };
+  const TOTAL_SUPPLY = 47897218;
 
   const state = {
     email: null,
     token: null,
+    refresh: null,
     user: null,
     node: null,
+    validations: null,
+    validationsRate: null,
+    eco: null,
+    walletVerified: null,
+    remember: false,
+  };
+
+  // Storage picks localStorage if user chose "remember me", otherwise sessionStorage.
+  // On load we check both: localStorage takes precedence because it survives tab close.
+  const LS = {
+    get(k) { return localStorage.getItem(k) || sessionStorage.getItem(k); },
+    set(k, v, remember) { (remember ? localStorage : sessionStorage).setItem(k, v); },
+    remove(k) { localStorage.removeItem(k); sessionStorage.removeItem(k); },
   };
 
   function $(id) { return document.getElementById(id); }
@@ -319,9 +346,11 @@
       if (!tok || typeof tok !== 'string') throw new Error('No access token returned.');
       state.token = tok;
       state.refresh = result.refresh;
-      sessionStorage.setItem('ts_tok', tok);
-      if (result.refresh) sessionStorage.setItem('ts_ref', result.refresh);
-      sessionStorage.setItem('ts_email', state.email);
+      state.remember = $('remember-me').checked;
+      LS.set('ts_tok', tok, state.remember);
+      if (result.refresh) LS.set('ts_ref', result.refresh, state.remember);
+      LS.set('ts_email', state.email, state.remember);
+      LS.set('ts_remember', state.remember ? '1' : '0', state.remember);
       stepDone('code');
       stepUnlock('wallet');
       await loadMe();
@@ -377,6 +406,9 @@
       const recovered = ethers.verifyMessage(message, sig).toLowerCase();
       if (recovered !== addr) throw new Error('Signature verification failed.');
 
+      state.walletVerified = addr;
+      LS.set('ts_wallet_verified', addr, state.remember);
+
       stepDone('wallet');
       await loadDashboard();
     } catch (e) {
@@ -394,6 +426,7 @@
     try {
       const nodesData = await gql(`query { myNodes { data {
         id address active status stakedAmount period workers
+        createdAt unstakesAt closesAt
         lastActivity totalUptime reward validatorId transactionHash
         earnedRewards { earning apy perDay }
         projectedRewards { earning apy perDay }
@@ -426,10 +459,26 @@
         }
       }`, { from, to }, state.token);
       renderEcosystem(ecoData.systemDailyStatsGraphData);
+
+      const now = new Date();
+      $('d-refreshed').textContent = 'Last refreshed: ' + now.toLocaleTimeString();
     } catch (e) {
       alert('Failed to load data: ' + e.message);
     }
   }
+
+  $('btn-refresh').addEventListener('click', async () => {
+    const btn = $('btn-refresh');
+    btn.disabled = true;
+    const orig = btn.textContent;
+    btn.textContent = 'Refreshing…';
+    try {
+      await loadDashboard();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = orig;
+    }
+  });
 
   function renderNode(n) {
     const periodMap = { months12: 12, months6: 6, months3: 3 };
@@ -438,9 +487,14 @@
 
     $('d-nodeid').textContent = short(n.id, 8);
     $('d-nodeid').title = n.id;
-    $('d-wallet').textContent = short(n.address || (state.user && state.user.wallet), 8);
-    $('d-wallet').title = n.address || (state.user && state.user.wallet) || '';
+    const nodeAddr = n.address || '—';
+    $('d-nodeaddr').textContent = short(nodeAddr, 8);
+    $('d-nodeaddr').title = nodeAddr;
+    const wallet = (state.user && state.user.wallet) || '—';
+    $('d-wallet').textContent = short(wallet, 8);
+    $('d-wallet').title = wallet;
     $('d-staked').innerHTML = fmtNum(n.stakedAmount) + '<span class="unit">MNW</span>';
+    $('d-period').textContent = months + ' months';
     $('d-workers').textContent = fmtNum(n.workers);
     $('d-cli').textContent = (state.user && state.user.nodeVersion) || '—';
     $('d-uptime').innerHTML = fmtNum(n.totalUptime, 2) + '<span class="unit">%</span>';
@@ -448,6 +502,9 @@
     $('d-earned').innerHTML = fmtNum(earned, 2) + '<span class="unit">MNW</span>';
     const apy = (n.projectedRewards && n.projectedRewards.apy) || 0;
     $('d-apy').innerHTML = fmtNum(apy * 100, 2) + '<span class="unit">%</span>';
+    $('d-started').textContent = fmtDate(n.createdAt);
+    $('d-unstakes').textContent = fmtDate(n.unstakesAt);
+    $('d-closes').textContent = fmtDate(n.closesAt);
     $('d-last').textContent = fmtDate(n.lastActivity);
 
     const pill = $('d-status');
@@ -523,11 +580,15 @@
 
   function renderEcosystem(eco) {
     if (!eco) return;
+    state.eco = eco;
     $('e-nodes').textContent = fmtNum(latestValue(eco.totalActiveNodesCount));
     $('e-bridged').textContent = fmtNum(latestValue(eco.bridgedTokenAmount));
-    $('e-staked').textContent = fmtNum(latestValue(eco.stackedTokenAmount));
+    const staked = latestValue(eco.stackedTokenAmount);
+    $('e-staked').textContent = fmtNum(staked);
     const pct = latestValue(eco.stackedTokenAmountCirculationPercentage);
     $('e-stakedpct').innerHTML = fmtNum(pct, 2) + '<span class="unit">%</span>';
+    const pctTotal = staked ? (staked / TOTAL_SUPPLY) * 100 : null;
+    $('e-stakedpcttotal').innerHTML = (pctTotal !== null ? fmtNum(pctTotal, 2) : '—') + '<span class="unit">%</span>';
     $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
     $('e-cli').textContent = latestValue(eco.cliAppVersion) || '—';
   }
@@ -537,24 +598,41 @@
     state.refresh = null;
     state.user = null;
     state.node = null;
-    sessionStorage.removeItem('ts_tok');
-    sessionStorage.removeItem('ts_ref');
-    sessionStorage.removeItem('ts_email');
+    state.walletVerified = null;
+    LS.remove('ts_tok');
+    LS.remove('ts_ref');
+    LS.remove('ts_email');
+    LS.remove('ts_remember');
+    LS.remove('ts_wallet_verified');
     location.reload();
   });
 
   (async function restore() {
-    const tok = sessionStorage.getItem('ts_tok');
-    const ref = sessionStorage.getItem('ts_ref');
-    const em = sessionStorage.getItem('ts_email');
+    const tok = LS.get('ts_tok');
+    const ref = LS.get('ts_ref');
+    const em = LS.get('ts_email');
+    const remembered = LS.get('ts_remember') === '1';
+    const verifiedWallet = LS.get('ts_wallet_verified');
     if (tok && em) {
       state.token = tok;
       state.refresh = ref;
       state.email = em;
+      state.remember = remembered;
+      if ($('remember-me')) $('remember-me').checked = remembered;
       stepDone('login');
       stepDone('code');
       stepUnlock('wallet');
-      try { await loadMe(); } catch (_) {}
+      try {
+        await loadMe();
+        // If we previously verified a wallet and it matches the current user's wallet,
+        // skip the signature step and go straight to the dashboard.
+        const currentWallet = (state.user && state.user.wallet || '').toLowerCase();
+        if (verifiedWallet && currentWallet && verifiedWallet === currentWallet) {
+          state.walletVerified = verifiedWallet;
+          stepDone('wallet');
+          await loadDashboard();
+        }
+      } catch (_) {}
     }
   })();
 </script>
