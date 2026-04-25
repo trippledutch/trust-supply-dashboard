@@ -455,7 +455,8 @@
       <div class="stat"><div class="l">If unstaked now: net payout</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">If unstaked now: total loss</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
     </div>
-    <div class="hint" id="d-refreshed" style="margin-top: 12px;"></div>
+    <div class="hint" style="margin-top: 12px;">Early unstaking drops your rate to the next-lower tier (12&nbsp;mo&nbsp;&rarr;&nbsp;6&nbsp;mo at 0.08, 6&nbsp;mo&nbsp;&rarr;&nbsp;3&nbsp;mo at 0.06, 3&nbsp;mo stays at 0.06) and applies a 10% penalty on the recalculated rewards.</div>
+    <div class="hint" id="d-refreshed" style="margin-top: 6px;"></div>
   </div>
 
   <div class="card">
@@ -699,17 +700,45 @@
     }
   }
 
+  // Wait briefly for a wallet provider to inject. Mobile wallets sometimes
+  // inject a few hundred ms after page load, so a flat "no wallet" check on
+  // first click can be wrong. Returns the provider, or null after timeout.
+  function findWalletProvider(timeoutMs) {
+    timeoutMs = timeoutMs || 1500;
+    return new Promise(resolve => {
+      const start = Date.now();
+      function check() {
+        const eth = window.ethereum;
+        if (eth) {
+          const list = eth.providers || [eth];
+          const rabby = list.find(p => p.isRabby);
+          const mm = list.find(p => p.isMetaMask);
+          resolve(rabby || mm || list[0]);
+          return;
+        }
+        if (Date.now() - start >= timeoutMs) {
+          resolve(null);
+          return;
+        }
+        setTimeout(check, 100);
+      }
+      check();
+    });
+  }
+
   $('btn-connect-wallet').addEventListener('click', async () => {
     clearErr('wallet-error');
-    if (!window.ethereum) {
-      err('wallet-error', 'No wallet detected. Install MetaMask or Rabby.');
-      return;
-    }
     $('btn-connect-wallet').disabled = true;
     $('btn-connect-wallet').textContent = 'Waiting for wallet…';
     try {
-      const providers = window.ethereum.providers || [window.ethereum];
-      const provider = providers[0];
+      const provider = await findWalletProvider(1500);
+      if (!provider) {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const msg = isMobile
+          ? 'No wallet detected. On mobile, open this page inside your wallet\'s built-in browser (Rabby or MetaMask app → Browser tab → enter this URL).'
+          : 'No wallet detected. Install MetaMask or Rabby and reload the page.';
+        throw new Error(msg);
+      }
       const browserProvider = new ethers.BrowserProvider(provider);
       const signer = await browserProvider.getSigner();
       const addr = (await signer.getAddress()).toLowerCase();
