@@ -447,6 +447,7 @@
       <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">Projected APY</div><div class="v" id="d-apy">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Projected validations</div><div class="v" id="d-projected-validations">&mdash;</div></div>
+      <div class="stat"><div class="l">APY (calculated)</div><div class="v" id="d-apy-calc">&mdash;<span class="unit">%</span></div></div>
 
       <div class="stat"><div class="l">Staking started</div><div class="v sm" id="d-started">&mdash;</div></div>
       <div class="stat"><div class="l">Staking end</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
@@ -916,11 +917,26 @@
     const months = node._months;
     const periodDays = periodDaysMap[months] || (months * 30);
     const daysStaked = node._daysStaked;
+    let projected = null;
     if (periodDays && daysStaked && daysStaked > 0 && totalVal > 0) {
-      const projected = Math.round((periodDays / daysStaked) * totalVal);
+      projected = Math.round((periodDays / daysStaked) * totalVal);
       $('d-projected-validations').textContent = fmtNum(projected);
     } else {
       $('d-projected-validations').textContent = '—';
+    }
+
+    // APY (calculated):
+    //   (projected_earnings × 12 / months) / staked × 100
+    // Annualised so 6mo and 3mo stakes report comparably to 12mo.
+    const stakedAmount = node.stakedAmount || 0;
+    const rate = node._mnwRate || 0.10;
+    if (projected != null && months && stakedAmount > 0) {
+      const projectedEarnings = projected * rate;
+      const annualised = projectedEarnings * (12 / months);
+      const apyCalc = (annualised / stakedAmount) * 100;
+      $('d-apy-calc').innerHTML = fmtNum(apyCalc, 2) + '<span class="unit">%</span>';
+    } else {
+      $('d-apy-calc').innerHTML = '&mdash;<span class="unit">%</span>';
     }
 
     applyRange();
