@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Validator, Trust.Supply, trustnodes.nl</title>
+<meta name="description" content="View your Trust.Supply validator stats. Runs entirely in your browser.">
+<style>
+  :root {
+    --primary: #667eea;
+    --primary-dark: #764ba2;
+    --success: #28a745;
+    --success-light: #d4edda;
+    --warning: #ffc107;
+    --warning-light: #fff3cd;
+    --info: #17a2b8;
+    --info-light: #d1ecf1;
+    --danger: #dc3545;
+    --danger-light: #f8d7da;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-500: #6c757d;
+    --gray-700: #495057;
+    --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+    --shadow-glow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    --radius: 10px;
+    --transition: all 0.3s ease;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 20px;
+    color: #333;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+
+  /* BACK NAV TOP */
+  .back-nav {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .back-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+    opacity: 0.95;
+  }
+  .back-nav a:hover { opacity: 1; transform: translateX(-3px); }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  header .header-text { flex: 1; text-align: center; }
+  header h1 { font-size: 2.5em; margin-bottom: 8px; font-weight: 700; }
+  header .sub { opacity: 0.9; font-size: 1.1em; }
+  header .logo-link { display: inline-flex; align-items: center; }
+  header .logo { height: 80px; width: auto; display: block; background: white; border-radius: 12px; padding: 6px; }
+  @media (max-width: 768px) {
+    header { padding: 20px; flex-direction: column; }
+    header h1 { font-size: 1.8em; }
+    header .logo { height: 60px; }
+  }
+
+  /* CONTENT */
+  .content-wrapper { padding: 30px; }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    border: 2px solid var(--gray-200);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 1.3em;
+    font-weight: 800;
+    color: #1e293b;
+  }
+  .card .note { font-size: 14px; color: var(--gray-500); margin: 0 0 16px; }
+
+  /* STEP NUMBERS */
+  .step-num {
+    display: inline-block;
+    width: 28px; height: 28px; line-height: 28px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    color: var(--gray-700);
+    font-size: 14px; font-weight: 800;
+    text-align: center;
+    margin-right: 10px;
+    vertical-align: 2px;
+  }
+  .step.done .step-num { background: var(--success); color: white; }
+  .step:not(.done):not(.locked) .step-num {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+  }
+  .step.locked { opacity: 0.5; pointer-events: none; }
+
+  /* LABELS / INPUTS */
+  label {
+    display: block;
+    font-size: 11px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  input[type=text], input[type=email] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    color: #333;
+    font-family: inherit;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+  input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+  .row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 180px; }
+
+  /* BUTTONS */
+  button {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-glow);
+  }
+  button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4); }
+  button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  button.secondary {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    box-shadow: var(--shadow-sm);
+  }
+  button.secondary:hover { background: var(--gray-100); box-shadow: var(--shadow-md); }
+
+  /* MESSAGES */
+  .error { color: var(--danger); font-size: 13px; margin-top: 8px; font-weight: 600; }
+  .hint { color: var(--gray-500); font-size: 12px; margin-top: 8px; font-weight: 500; }
+  .hidden { display: none; }
+
+  /* STAT GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 4px; }
+  .stat {
+    background: var(--gray-100);
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 16px;
+    transition: var(--transition);
+  }
+  .stat:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+  .stat .l {
+    font-size: 11px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    display: block;
+  }
+  .stat .v {
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 4px;
+    color: #1e293b;
+    word-break: break-word;
+  }
+  .stat .v.sm { font-size: 14px; font-weight: 700; color: var(--gray-700); }
+  .stat .v .unit { font-size: 12px; color: var(--gray-500); margin-left: 4px; font-weight: 600; }
+
+  /* PILLS */
+  .pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .pill.ok { background: var(--success-light); color: var(--success); }
+  .pill.warn { background: var(--warning-light); color: #856404; }
+  .pill.bad { background: var(--danger-light); color: var(--danger); }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--gray-200); }
+  th {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  td { font-weight: 600; color: #1e293b; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: var(--gray-100); }
+  tfoot th { background: var(--gray-100); color: var(--gray-700); border-top: 2px solid var(--primary); }
+  .scroll-x { overflow-x: auto; border-radius: 8px; border: 1px solid var(--gray-200); }
+
+  /* RANGE TOGGLE */
+  .toolbar { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .range-toggle {
+    display: inline-flex;
+    background: var(--gray-100);
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .range-btn {
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    background: transparent !important;
+    color: var(--gray-700) !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer;
+    box-shadow: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .range-btn:hover { color: var(--primary) !important; transform: none !important; box-shadow: none !important; }
+  .range-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+    color: white !important;
+  }
+  .range-btn.active:hover { color: white !important; }
+
+  /* CODE / MONO */
+  code {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--primary-dark);
+  }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; color: var(--gray-700); font-weight: 700; }
+
+  /* SELECT */
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    color: #333;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  select:focus { outline: none; border-color: var(--primary); }
+
+  /* PRE (explore output) */
+  pre {
+    background: var(--gray-100) !important;
+    border: 2px solid var(--gray-200) !important;
+    color: var(--gray-700) !important;
+  }
+
+  /* CHECKBOX styling */
+  input[type=checkbox] { accent-color: var(--primary); width: 18px; height: 18px; }
+
+  /* BOTTOM NAV */
+  .back-nav-bottom {
+    background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 3px solid var(--primary);
+  }
+  .back-nav-bottom a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    padding: 14px 32px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .back-nav-bottom a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--gray-500);
+    border-top: 2px solid var(--gray-200);
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--gray-100);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    body { padding: 10px; }
+    .wrap { border-radius: 12px; }
+    .content-wrapper { padding: 20px 16px; }
+    .card { padding: 16px; }
+    .stat .v { font-size: 18px; }
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="back-nav">
+  <a href="/index.html">← Back to tools</a>
+</div>
+<header>
+  <a href="https://trustnodes.nl/" class="logo-link" aria-label="trustnodes.nl home">
+    <img src="/trustnodes-logo.png" alt="trustnodes.nl" class="logo">
+  </a>
+  <div class="header-text">
+    <h1>My Validator</h1>
+    <div class="sub">Trust.Supply stats, in your browser</div>
+  </div>
+  <div style="width: 100px;"></div>
+</header>
+<div class="content-wrapper">
+
+<div id="step-login" class="card step">
+  <h2><span class="step-num">1</span>Log in with your Trust.Supply email</h2>
+  <p class="note">A single-use code will be emailed to your KYC-verified address. Nothing is stored on this site.</p>
+  <div class="row">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div style="flex: 0 0 auto;">
+      <button id="btn-request-code">Send code</button>
+    </div>
+  </div>
+  <label style="display: flex; align-items: center; gap: 8px; margin-top: 12px; text-transform: none; letter-spacing: normal; color: var(--text-muted); cursor: pointer;">
+    <input type="checkbox" id="remember-me" style="width: auto; margin: 0;">
+    Stay logged in on this browser
+  </label>
+  <div id="login-error" class="error hidden"></div>
+</div>
+
+<div id="step-code" class="card step locked">
+  <h2><span class="step-num">2</span>Enter the code from your email</h2>
+  <p class="note">Check your inbox for a message from Trust.Supply.</p>
+  <div class="row">
+    <div>
+      <label for="code">Login code</label>
+      <input type="text" id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456">
+    </div>
+    <div style="flex: 0 0 auto;">
+      <button id="btn-verify-code">Verify</button>
+    </div>
+  </div>
+  <div id="code-error" class="error hidden"></div>
+</div>
+
+<div id="step-wallet" class="card step locked">
+  <h2><span class="step-num">3</span>Confirm wallet ownership</h2>
+  <p class="note">Sign a message with the wallet tied to your validator. No transaction, no gas.</p>
+  <div id="wallet-info" class="hint hidden"></div>
+  <div class="toolbar">
+    <button id="btn-connect-wallet">Connect &amp; sign</button>
+  </div>
+  <div id="wallet-error" class="error hidden"></div>
+</div>
+
+<div id="dashboard" class="hidden">
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <h2 style="margin: 0;">Validator</h2>
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span id="d-status" class="pill">unknown</span>
+        <button class="secondary" id="btn-refresh" title="Refresh data">Refresh</button>
+        <button class="secondary" id="btn-logout">Log out</button>
+      </div>
+    </div>
+    <div class="grid" style="margin-top: 14px;">
+      <div class="stat"><div class="l">Node address</div><div class="v sm mono" id="d-nodeaddr">&mdash;</div></div>
+      <div class="stat"><div class="l">Wallet</div><div class="v sm mono" id="d-wallet">&mdash;</div></div>
+      <div class="stat"><div class="l">CLI version</div><div class="v" id="d-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
+
+      <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Staking period</div><div class="v" id="d-period">&mdash;</div></div>
+      <div class="stat"><div class="l">Uptime</div><div class="v" id="d-uptime">&mdash;<span class="unit">%</span></div></div>
+
+      <div class="stat"><div class="l">Total validations</div><div class="v" id="d-total-validations">&mdash;</div></div>
+      <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Projected APY</div><div class="v" id="d-apy">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Projected validations</div><div class="v" id="d-projected-validations">&mdash;</div></div>
+
+      <div class="stat"><div class="l">Staking started</div><div class="v sm" id="d-started">&mdash;</div></div>
+      <div class="stat"><div class="l">Staking end</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
+      <div class="stat"><div class="l">Days staked</div><div class="v" id="d-days-staked">&mdash;</div></div>
+
+      <div class="stat"><div class="l">If unstaked now: net payout</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">If unstaked now: total loss</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
+    </div>
+    <div class="hint" id="d-refreshed" style="margin-top: 12px;"></div>
+  </div>
+
+  <div class="card">
+    <h2>Ecosystem</h2>
+    <div class="grid">
+      <div class="stat"><div class="l">Running nodes</div><div class="v" id="e-nodes">&mdash;</div></div>
+      <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
+      <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">MNW staked</div><div class="v" id="e-staked">&mdash;</div></div>
+
+      <div class="stat"><div class="l">MNW bridged</div><div class="v" id="e-bridged">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
+    </div>
+    <div class="hint" style="margin-top: 10px;">Total supply cap: 47,897,218 MNW</div>
+  </div>
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+      <h2 style="margin: 0;">Daily validations</h2>
+      <div class="range-toggle" role="tablist">
+        <button type="button" class="range-btn" data-range="7">Week</button>
+        <button type="button" class="range-btn active" data-range="30">Month</button>
+        <button type="button" class="range-btn" data-range="all">All</button>
+      </div>
+    </div>
+    <div class="scroll-x">
+      <table>
+        <thead>
+          <tr><th>Date</th><th class="num">Validations</th><th class="num">MNW earned</th></tr>
+        </thead>
+        <tbody id="d-validations"></tbody>
+        <tfoot>
+          <tr><th id="d-val-label">Total</th><th class="num" id="d-val-total">&mdash;</th><th class="num" id="d-mnw-total">&mdash;</th></tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="hint" id="d-val-meta" style="margin-top: 8px;"></div>
+  </div>
+
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+      <h2 style="margin: 0;">Explore API</h2>
+      <button class="secondary" id="btn-explore-toggle">Show</button>
+    </div>
+    <div id="explore-panel" class="hidden">
+      <p class="note">Run queries against the Trust.Supply GraphQL API. Raw JSON output. Useful for spotting what's available before building proper UI.</p>
+      <div class="row" style="margin-bottom: 12px;">
+        <div style="flex: 1; min-width: 220px;">
+          <label for="explore-query">Query</label>
+          <select id="explore-query" style="width: 100%; padding: 10px 12px; font-size: 14px; background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: inherit;">
+            <optgroup label="Personal">
+              <option value="validatorMonthlyReport">validatorMonthlyReport (current month)</option>
+              <option value="userValidatorRewards">userValidatorRewards (your node)</option>
+              <option value="nodeUptime">nodeUptime (your node)</option>
+              <option value="earlyUnstakePenalty">earlyUnstakePenalty (your node)</option>
+            </optgroup>
+            <optgroup label="Ecosystem">
+              <option value="nodeGlobalStats">nodeGlobalStats</option>
+              <option value="getValidators">getValidators (first 20)</option>
+              <option value="getValidator">getValidator (by id)</option>
+              <option value="groupedValidatorLocations">groupedValidatorLocations</option>
+              <option value="validatorLocations">validatorLocations (first 20)</option>
+              <option value="validatorRewardStats">validatorRewardStats</option>
+              <option value="nodePrincipalAndRewardsByDays">nodePrincipalAndRewardsByDays (last 30d)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="explore-arg-wrap" style="flex: 1; min-width: 200px; display: none;">
+          <label for="explore-arg">Argument</label>
+          <input type="text" id="explore-arg" placeholder="">
+        </div>
+        <div style="flex: 0 0 auto;">
+          <button id="btn-explore-run">Run</button>
+        </div>
+      </div>
+      <div id="explore-error" class="error hidden"></div>
+      <div id="explore-output-wrap" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div class="hint" id="explore-meta"></div>
+          <button class="secondary" id="btn-explore-copy" style="padding: 4px 10px; font-size: 12px;">Copy</button>
+        </div>
+        <pre id="explore-output" style="background: var(--bg-card-2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text); max-height: 500px; overflow: auto; margin: 0; white-space: pre-wrap; word-break: break-word;"></pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<div class="back-nav-bottom">
+  <a href="/index.html">← Back to tools</a>
+</div>
+<footer>
+  Open-source tool by the Trust.Supply community. Runs entirely in your browser. Your session token is held in memory only and cleared when you close this tab or log out.
+  <div style="margin-top: 8px; opacity: 0.7;">validator.html v0.0.1 &middot; by trippledutch</div>
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script>
+  const API = 'https://main.api.trust.supply/v2/graphql';
+  const MNW_RATES = { 3: 0.06, 6: 0.08, 12: 0.10 };
+  const TOTAL_SUPPLY = 47897218;
+
+  const state = {
+    email: null,
+    token: null,
+    refresh: null,
+    user: null,
+    node: null,
+    validations: null,
+    validationsRate: null,
+    eco: null,
+    walletVerified: null,
+    remember: false,
+  };
+
+  // Storage picks localStorage if user chose "remember me", otherwise sessionStorage.
+  // On load we check both: localStorage takes precedence because it survives tab close.
+  const LS = {
+    get(k) { return localStorage.getItem(k) || sessionStorage.getItem(k); },
+    set(k, v, remember) { (remember ? localStorage : sessionStorage).setItem(k, v); },
+    remove(k) { localStorage.removeItem(k); sessionStorage.removeItem(k); },
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function show(el) { el.classList.remove('hidden'); }
+  function hide(el) { el.classList.add('hidden'); }
+  function err(id, msg) { const e = $(id); e.textContent = msg; show(e); }
+  function clearErr(id) { hide($(id)); }
+
+  function gql(query, variables, token) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    return fetch(API, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ query, variables: variables || {} })
+    }).then(r => r.json()).then(r => {
+      if (r.errors) throw new Error(r.errors[0].message || 'GraphQL error');
+      return r.data;
+    });
+  }
+
+  function stepDone(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.add('done');
+  }
+  function stepUnlock(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.remove('locked');
+  }
+  function stepLock(id) {
+    const el = $('step-' + id);
+    if (el) el.classList.add('locked');
+  }
+
+  function fmtNum(n, digits) {
+    if (n === null || n === undefined) return '—';
+    if (digits === undefined) digits = 0;
+    return Number(n).toLocaleString(undefined, { maximumFractionDigits: digits, minimumFractionDigits: digits });
+  }
+  function fmtDate(s) {
+    if (!s) return '—';
+    return String(s).split('T')[0];
+  }
+  function short(s, n) {
+    if (!s) return '—';
+    n = n || 10;
+    if (s.length <= n * 2 + 3) return s;
+    return s.slice(0, n) + '…' + s.slice(-6);
+  }
+
+  $('btn-request-code').addEventListener('click', async () => {
+    clearErr('login-error');
+    const email = $('email').value.trim();
+    if (!email) { err('login-error', 'Please enter your email.'); return; }
+    $('btn-request-code').disabled = true;
+    $('btn-request-code').textContent = 'Sending…';
+    try {
+      await gql(`mutation LoginCodeValidator($email: String!) {
+        loginCodeValidator(email: $email)
+      }`, { email });
+      state.email = email;
+      stepDone('login');
+      stepUnlock('code');
+      $('code').focus();
+    } catch (e) {
+      err('login-error', e.message || 'Failed to send code. Check your email.');
+    } finally {
+      $('btn-request-code').disabled = false;
+      $('btn-request-code').textContent = 'Send code';
+    }
+  });
+
+  $('btn-verify-code').addEventListener('click', async () => {
+    clearErr('code-error');
+    const code = $('code').value.trim();
+    if (!code) { err('code-error', 'Please enter the code from your email.'); return; }
+    $('btn-verify-code').disabled = true;
+    $('btn-verify-code').textContent = 'Verifying…';
+    try {
+      const data = await gql(`mutation LoginConfirmCodeValidator($email: String!, $code: String!, $permanent: Boolean) {
+        loginConfirmCodeValidator(email: $email, code: $code, permanent: $permanent) {
+          id
+          access
+          refresh
+          isApproved
+          reviewStatus
+        }
+      }`, { email: state.email, code, permanent: true });
+      const result = data && data.loginConfirmCodeValidator;
+      const tok = result && result.access;
+      if (!tok || typeof tok !== 'string') throw new Error('No access token returned.');
+      state.token = tok;
+      state.refresh = result.refresh;
+      state.remember = $('remember-me').checked;
+      LS.set('ts_tok', tok, state.remember);
+      if (result.refresh) LS.set('ts_ref', result.refresh, state.remember);
+      LS.set('ts_email', state.email, state.remember);
+      LS.set('ts_remember', state.remember ? '1' : '0', state.remember);
+      stepDone('code');
+      stepUnlock('wallet');
+      await loadMe();
+    } catch (e) {
+      err('code-error', e.message || 'Invalid code.');
+    } finally {
+      $('btn-verify-code').disabled = false;
+      $('btn-verify-code').textContent = 'Verify';
+    }
+  });
+
+  async function loadMe() {
+    const data = await gql(`query Me {
+      me { id email wallet name nodeVersion nodeAppId }
+    }`, {}, state.token);
+    state.user = data.me;
+    if (state.user && state.user.wallet) {
+      $('wallet-info').textContent = 'Expected wallet: ' + state.user.wallet;
+      show($('wallet-info'));
+    }
+  }
+
+  $('btn-connect-wallet').addEventListener('click', async () => {
+    clearErr('wallet-error');
+    if (!window.ethereum) {
+      err('wallet-error', 'No wallet detected. Install MetaMask or Rabby.');
+      return;
+    }
+    $('btn-connect-wallet').disabled = true;
+    $('btn-connect-wallet').textContent = 'Waiting for wallet…';
+    try {
+      const providers = window.ethereum.providers || [window.ethereum];
+      const provider = providers[0];
+      const browserProvider = new ethers.BrowserProvider(provider);
+      const signer = await browserProvider.getSigner();
+      const addr = (await signer.getAddress()).toLowerCase();
+
+      const expected = (state.user && state.user.wallet || '').toLowerCase();
+      if (!expected) throw new Error('Could not read your registered wallet.');
+      if (addr !== expected) {
+        throw new Error('Connected wallet (' + short(addr) + ') does not match the validator wallet (' + short(expected) + ').');
+      }
+
+      const nonce = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      const message = [
+        'Verify wallet ownership for trustnodes.nl validator view.',
+        '',
+        'Address: ' + addr,
+        'Nonce: ' + nonce,
+        'Timestamp: ' + new Date().toISOString(),
+      ].join('\n');
+      const sig = await signer.signMessage(message);
+      const recovered = ethers.verifyMessage(message, sig).toLowerCase();
+      if (recovered !== addr) throw new Error('Signature verification failed.');
+
+      state.walletVerified = addr;
+      LS.set('ts_wallet_verified', addr, state.remember);
+
+      stepDone('wallet');
+      await loadDashboard();
+    } catch (e) {
+      err('wallet-error', e.message || 'Wallet verification failed.');
+    } finally {
+      $('btn-connect-wallet').disabled = false;
+      $('btn-connect-wallet').textContent = 'Connect & sign';
+    }
+  });
+
+  async function loadDashboard() {
+    hide($('step-login')); hide($('step-code')); hide($('step-wallet'));
+    show($('dashboard'));
+
+    try {
+      const nodesData = await gql(`query { myNodes { data {
+        id address active status stakedAmount period workers
+        createdAt unstakesAt closesAt
+        lastActivity totalUptime reward validatorId transactionHash
+        earnedRewards { earning apy perDay }
+        projectedRewards { earning apy perDay }
+        validator { id nodeAppId }
+      } } }`, {}, state.token);
+
+      const nodes = (nodesData.myNodes && nodesData.myNodes.data) || [];
+      const node = nodes.find(n => n.active) || nodes[0];
+      if (!node) throw new Error('No nodes found on your account.');
+      state.node = node;
+      renderNode(node);
+
+      const validationsData = await gql(`query GetGraphData($nodeId: String!) {
+        validationsPerDayByNodeIdGraphData(nodeId: $nodeId) {
+          total items { day amount reward }
+        }
+      }`, { nodeId: node.id }, state.token);
+      renderValidations(node, validationsData.validationsPerDayByNodeIdGraphData);
+
+      const from = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+      const to = new Date().toISOString().slice(0, 10);
+      const ecoData = await gql(`query systemDailyStatsGraphData($from: DateTime, $to: DateTime) {
+        systemDailyStatsGraphData(from: $from, to: $to) {
+          totalActiveNodesCount { value day }
+          bridgedTokenAmount { value day }
+          stackedTokenAmount { value day }
+          stackedTokenAmountCirculationPercentage { value day }
+          totalActiveValidatorsCount { value day }
+          cliAppVersion { value day }
+        }
+      }`, { from, to }, state.token);
+      renderEcosystem(ecoData.systemDailyStatsGraphData);
+
+      // Unstake penalty calc for this node
+      try {
+        const unstakeData = await gql(`query ($nodeId: String!) {
+          earlyUnstakePenalty(nodeId: $nodeId) { reward penalty }
+        }`, { nodeId: node.id }, state.token);
+        renderUnstakePenalty(unstakeData.earlyUnstakePenalty);
+      } catch (_) {}
+
+      const now = new Date();
+      $('d-refreshed').textContent = 'Last refreshed: ' + now.toLocaleTimeString();
+    } catch (e) {
+      alert('Failed to load data: ' + e.message);
+    }
+  }
+
+  $('btn-refresh').addEventListener('click', async () => {
+    const btn = $('btn-refresh');
+    btn.disabled = true;
+    const orig = btn.textContent;
+    btn.textContent = 'Refreshing…';
+    try {
+      await loadDashboard();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = orig;
+    }
+  });
+
+  function renderNode(n) {
+    const periodMap = { months12: 12, months6: 6, months3: 3 };
+    const months = periodMap[n.period] || 12;
+    const rate = MNW_RATES[months] || 0.10;
+
+    const nodeAddr = n.address || '—';
+    $('d-nodeaddr').textContent = short(nodeAddr, 8);
+    $('d-nodeaddr').title = nodeAddr;
+    const wallet = (state.user && state.user.wallet) || '—';
+    $('d-wallet').textContent = short(wallet, 8);
+    $('d-wallet').title = wallet;
+    $('d-cli').textContent = (state.user && state.user.nodeVersion) || '—';
+    $('d-last').textContent = fmtDate(n.lastActivity);
+
+    $('d-workers').textContent = fmtNum(n.workers);
+    $('d-staked').innerHTML = fmtNum(n.stakedAmount) + '<span class="unit">MNW</span>';
+    $('d-period').textContent = months + ' months';
+    $('d-uptime').innerHTML = fmtNum(n.totalUptime, 2) + '<span class="unit">%</span>';
+
+    // Earned, APY (Total validations + Projected validations are set by renderValidations)
+    const earned = (n.earnedRewards && n.earnedRewards.earning) || 0;
+    $('d-earned').innerHTML = fmtNum(earned, 2) + '<span class="unit">MNW</span>';
+    const apy = (n.projectedRewards && n.projectedRewards.apy) || 0;
+    $('d-apy').innerHTML = fmtNum(apy * 100, 2) + '<span class="unit">%</span>';
+
+    $('d-started').textContent = fmtDate(n.createdAt);
+    $('d-unstakes').textContent = fmtDate(n.unstakesAt);
+
+    // Days staked (days remaining)
+    const now = Date.now();
+    const startedMs = n.createdAt ? new Date(n.createdAt).getTime() : null;
+    const endMs = n.unstakesAt ? new Date(n.unstakesAt).getTime() : null;
+    const daysStaked = startedMs ? Math.max(0, Math.floor((now - startedMs) / 86400000)) : null;
+    const daysToGo = endMs ? Math.max(0, Math.ceil((endMs - now) / 86400000)) : null;
+    if (daysStaked !== null) {
+      const base = fmtNum(daysStaked);
+      const suffix = daysToGo !== null ? ' <span class="unit">(' + fmtNum(daysToGo) + ')</span>' : '';
+      $('d-days-staked').innerHTML = base + suffix;
+    }
+
+    // Stash for projected validations calculation in renderValidations
+    n._mnwRate = rate;
+    n._months = months;
+    n._daysStaked = daysStaked;
+    state.node = n;
+
+    // Status pill
+    const pill = $('d-status');
+    pill.textContent = n.status || (n.active ? 'active' : 'inactive');
+    pill.className = 'pill ' + (n.active ? 'ok' : 'bad');
+  }
+
+  let currentRange = '30';
+
+  function renderValidations(node, graphData) {
+    if (!graphData) return;
+    const items = (graphData.items || []).slice().sort((a, b) => a.day.localeCompare(b.day));
+    state.validations = items;
+    state.validationsRate = node._mnwRate || 0.10;
+    // Prefer server-reported total over summing; fall back to sum if missing.
+    const serverTotal = graphData.total;
+    const sumTotal = items.reduce((s, i) => s + (i.amount || 0), 0);
+    const totalVal = serverTotal != null ? serverTotal : sumTotal;
+    $('d-total-validations').textContent = fmtNum(totalVal);
+
+    // Projected validations over full staking period:
+    //   periodDays / daysStaked * totalValidations
+    // i.e. extrapolate current daily rate across the full period length.
+    // Uses real period lengths: 12mo=365, 6mo=180, 3mo=90.
+    const periodDaysMap = { 12: 365, 6: 180, 3: 90 };
+    const months = node._months;
+    const periodDays = periodDaysMap[months] || (months * 30);
+    const daysStaked = node._daysStaked;
+    if (periodDays && daysStaked && daysStaked > 0 && totalVal > 0) {
+      const projected = Math.round((periodDays / daysStaked) * totalVal);
+      $('d-projected-validations').textContent = fmtNum(projected);
+    } else {
+      $('d-projected-validations').textContent = '—';
+    }
+
+    applyRange();
+  }
+
+  function applyRange() {
+    const items = state.validations || [];
+    const rate = state.validationsRate || 0.10;
+    let filtered;
+    let label;
+    if (currentRange === '7') {
+      filtered = items.slice(-7);
+      label = 'Last 7 days';
+    } else if (currentRange === '30') {
+      filtered = items.slice(-30);
+      label = 'Last 30 days';
+    } else {
+      filtered = items.slice();
+      label = 'All time';
+    }
+    const tbody = $('d-validations');
+    tbody.innerHTML = '';
+    let totalVal = 0, totalMnw = 0;
+    for (const i of filtered) {
+      totalVal += i.amount;
+      totalMnw += i.amount * rate;
+    }
+    for (const i of filtered.slice().reverse()) {
+      const mnw = i.amount * rate;
+      const row = document.createElement('tr');
+      row.innerHTML = '<td>' + fmtDate(i.day) + '</td>' +
+        '<td class="num">' + fmtNum(i.amount) + '</td>' +
+        '<td class="num">' + fmtNum(mnw, 2) + '</td>';
+      tbody.appendChild(row);
+    }
+    $('d-val-label').textContent = label;
+    $('d-val-total').textContent = fmtNum(totalVal);
+    $('d-mnw-total').textContent = fmtNum(totalMnw, 2);
+    const days = filtered.length;
+    const avg = days ? (totalVal / days) : 0;
+    $('d-val-meta').textContent = days + ' day' + (days === 1 ? '' : 's') + ' shown, avg ' + fmtNum(avg, 1) + ' validations/day';
+  }
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.range-btn');
+    if (!btn) return;
+    currentRange = btn.dataset.range;
+    for (const b of document.querySelectorAll('.range-btn')) {
+      b.classList.toggle('active', b.dataset.range === currentRange);
+    }
+    applyRange();
+  });
+
+  function latestValue(series) {
+    if (!series || !series.length) return null;
+    const sorted = series.slice().sort((a, b) => String(a.day).localeCompare(String(b.day)));
+    return sorted[sorted.length - 1].value;
+  }
+
+  function renderEcosystem(eco) {
+    if (!eco) return;
+    state.eco = eco;
+    $('e-nodes').textContent = fmtNum(latestValue(eco.totalActiveNodesCount));
+    $('e-bridged').textContent = fmtNum(latestValue(eco.bridgedTokenAmount));
+    const staked = latestValue(eco.stackedTokenAmount);
+    $('e-staked').textContent = fmtNum(staked);
+    const pctTotal = staked ? (staked / TOTAL_SUPPLY) * 100 : null;
+    $('e-stakedpcttotal').innerHTML = (pctTotal !== null ? fmtNum(pctTotal, 2) : '—') + '<span class="unit">%</span>';
+    $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
+    $('e-cli').textContent = latestValue(eco.cliAppVersion) || '—';
+  }
+
+  function renderUnstakePenalty(up) {
+    if (!up) return;
+    $('d-unstake-reward').innerHTML = fmtNum(up.reward, 2) + '<span class="unit">MNW</span>';
+    $('d-unstake-penalty').innerHTML = fmtNum(up.penalty, 2) + '<span class="unit">MNW</span>';
+  }
+
+  $('btn-logout').addEventListener('click', () => {
+    state.token = null;
+    state.refresh = null;
+    state.user = null;
+    state.node = null;
+    state.walletVerified = null;
+    LS.remove('ts_tok');
+    LS.remove('ts_ref');
+    LS.remove('ts_email');
+    LS.remove('ts_remember');
+    LS.remove('ts_wallet_verified');
+    location.reload();
+  });
+
+  // === Explore API panel ===
+  const EXPLORE_QUERIES = {
+    validatorMonthlyReport: {
+      argLabel: 'Month (YYYY-MM-DD, 1st of month)',
+      argDefault: () => new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10),
+      build: (arg) => ({
+        query: `query validatorMonthlyReport($date: String!, $validatorId: String!) {
+          validatorMonthlyReport(date: $date, validatorId: $validatorId) {
+            month payDate nodeCreatedAt
+            uptime uptimeTime uptimeGraphUrl
+            currentEarning withdrawEarning totalRewardPaid diffRewardFromLastMonth rewardGraphUrl
+            totalMNWStaked diffTotalMNWStakedFromLastMonth
+            nodesLimit totalStakedNodesCount validatorStakedNodesCount
+            totalStakedDays wallet firstName
+          }
+        }`,
+        variables: { date: arg, validatorId: state.user?.id || '' }
+      })
+    },
+    userValidatorRewards: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query userValidatorRewards($nodeId: String, $take: Int, $page: Int) {
+          userValidatorRewards(nodeId: $nodeId, take: $take, page: $page) {
+            data
+            meta { total page take }
+          }
+        }`,
+        variables: { nodeId: state.node?.id || null, take: 20, page: 1 }
+      })
+    },
+    nodeUptime: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query nodeUptime($nodeId: String!) {
+          nodeUptime(nodeId: $nodeId) {
+            total
+            totalTime
+            items
+          }
+        }`,
+        variables: { nodeId: state.node?.id }
+      })
+    },
+    earlyUnstakePenalty: {
+      argLabel: '(uses your node automatically)',
+      argDefault: () => '',
+      argHidden: true,
+      build: () => ({
+        query: `query earlyUnstakePenalty($nodeId: String!) {
+          earlyUnstakePenalty(nodeId: $nodeId) {
+            reward
+            penalty
+          }
+        }`,
+        variables: { nodeId: state.node?.id }
+      })
+    },
+    nodeGlobalStats: {
+      argLabel: '',
+      argHidden: true,
+      build: () => ({
+        query: `query {
+          nodeGlobalStats {
+            totalRewardsPaid
+            totalMnwStaked
+            currentStakeLimit
+            allTimeNodes
+          }
+        }`,
+        variables: {}
+      })
+    },
+    getValidators: {
+      argLabel: 'Page (1, 2, ...)',
+      argDefault: () => '1',
+      build: (arg) => ({
+        query: `query getValidators($take: Int, $page: Int) {
+          getValidators(take: $take, page: $page) {
+            data
+            meta { total page take }
+          }
+        }`,
+        variables: { take: 20, page: parseInt(arg) || 1 }
+      })
+    },
+    getValidator: {
+      argLabel: 'Validator ID',
+      argDefault: () => state.user?.id || '',
+      build: (arg) => ({
+        query: `query getValidator($id: String!) {
+          getValidator(id: $id) {
+            id createdAt updatedAt name email wallet
+            isApproved connectedApp
+            reviewAnswer reviewRejectType moderationComment
+          }
+        }`,
+        variables: { id: arg }
+      })
+    },
+    groupedValidatorLocations: {
+      argLabel: '',
+      argHidden: true,
+      build: () => ({
+        query: `query { groupedValidatorLocations }`,
+        variables: {}
+      })
+    },
+    validatorLocations: {
+      argLabel: 'Country filter (optional)',
+      argDefault: () => '',
+      build: (arg) => ({
+        query: `query validatorLocations($take: Int, $page: Int, $country: String) {
+          validatorLocations(take: $take, page: $page, country: $country) {
+            data
+            meta { total page take }
+          }
+        }`,
+        variables: { take: 20, page: 1, country: arg || null }
+      })
+    },
+    validatorRewardStats: {
+      argLabel: '(uses your validator ID)',
+      argHidden: true,
+      build: () => ({
+        query: `query validatorRewardStats($validatorId: String) {
+          validatorRewardStats(validatorId: $validatorId) {
+            paid
+            toBePaid
+            upcoming
+          }
+        }`,
+        variables: { validatorId: state.user?.id || null }
+      })
+    },
+    nodePrincipalAndRewardsByDays: {
+      argLabel: '',
+      argHidden: true,
+      build: () => {
+        const to = new Date().toISOString().slice(0, 10);
+        const from = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+        return {
+          query: `query nodePrincipalAndRewardsByDays($from: DateTime, $to: DateTime) {
+            nodePrincipalAndRewardsByDays(from: $from, to: $to)
+          }`,
+          variables: { from, to }
+        };
+      }
+    }
+  };
+
+  function updateExploreArgField() {
+    const key = $('explore-query').value;
+    const def = EXPLORE_QUERIES[key];
+    const wrap = $('explore-arg-wrap');
+    if (!def || def.argHidden) {
+      wrap.style.display = 'none';
+    } else {
+      wrap.style.display = '';
+      const label = wrap.querySelector('label');
+      const input = $('explore-arg');
+      label.textContent = def.argLabel || 'Argument';
+      input.placeholder = def.argLabel || '';
+      input.value = def.argDefault ? def.argDefault() : '';
+    }
+  }
+
+  $('btn-explore-toggle').addEventListener('click', () => {
+    const panel = $('explore-panel');
+    const btn = $('btn-explore-toggle');
+    if (panel.classList.contains('hidden')) {
+      panel.classList.remove('hidden');
+      btn.textContent = 'Hide';
+      updateExploreArgField();
+    } else {
+      panel.classList.add('hidden');
+      btn.textContent = 'Show';
+    }
+  });
+
+  $('explore-query').addEventListener('change', updateExploreArgField);
+
+  $('btn-explore-run').addEventListener('click', async () => {
+    const key = $('explore-query').value;
+    const def = EXPLORE_QUERIES[key];
+    if (!def) return;
+    const arg = $('explore-arg').value.trim();
+    const btn = $('btn-explore-run');
+    const errEl = $('explore-error');
+    const outWrap = $('explore-output-wrap');
+    errEl.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Running…';
+    const t0 = performance.now();
+    try {
+      const built = def.build(arg);
+      const raw = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + state.token },
+        body: JSON.stringify({ query: built.query, variables: built.variables })
+      }).then(r => r.json());
+      const ms = Math.round(performance.now() - t0);
+      $('explore-output').textContent = JSON.stringify(raw, null, 2);
+      $('explore-meta').textContent = key + '  ·  ' + ms + 'ms' + (raw.errors ? '  ·  has errors' : '  ·  ok');
+      outWrap.classList.remove('hidden');
+    } catch (e) {
+      errEl.textContent = e.message || 'Query failed.';
+      errEl.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Run';
+    }
+  });
+
+  $('btn-explore-copy').addEventListener('click', () => {
+    const txt = $('explore-output').textContent;
+    navigator.clipboard.writeText(txt).then(() => {
+      const b = $('btn-explore-copy');
+      const orig = b.textContent;
+      b.textContent = 'Copied';
+      setTimeout(() => { b.textContent = orig; }, 1500);
+    });
+  });
+
+  (async function restore() {
+    const tok = LS.get('ts_tok');
+    const ref = LS.get('ts_ref');
+    const em = LS.get('ts_email');
+    const remembered = LS.get('ts_remember') === '1';
+    const verifiedWallet = LS.get('ts_wallet_verified');
+    if (tok && em) {
+      state.token = tok;
+      state.refresh = ref;
+      state.email = em;
+      state.remember = remembered;
+      if ($('remember-me')) $('remember-me').checked = remembered;
+      stepDone('login');
+      stepDone('code');
+      stepUnlock('wallet');
+      try {
+        await loadMe();
+        // If we previously verified a wallet and it matches the current user's wallet,
+        // skip the signature step and go straight to the dashboard.
+        const currentWallet = (state.user && state.user.wallet || '').toLowerCase();
+        if (verifiedWallet && currentWallet && verifiedWallet === currentWallet) {
+          state.walletVerified = verifiedWallet;
+          stepDone('wallet');
+          await loadDashboard();
+        }
+      } catch (_) {}
+    }
+  })();
+</script>
+</body>
+</html>
