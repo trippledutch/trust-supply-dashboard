@@ -175,21 +175,25 @@
       </div>
     </div>
     <div class="grid" style="margin-top: 14px;">
-      <div class="stat"><div class="l">Node ID</div><div class="v sm mono" id="d-nodeid">&mdash;</div></div>
       <div class="stat"><div class="l">Node address</div><div class="v sm mono" id="d-nodeaddr">&mdash;</div></div>
       <div class="stat"><div class="l">Wallet</div><div class="v sm mono" id="d-wallet">&mdash;</div></div>
-      <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
-      <div class="stat"><div class="l">Period</div><div class="v" id="d-period">&mdash;</div></div>
-      <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
-      <div class="stat"><div class="l">Total validations</div><div class="v" id="d-total-validations">&mdash;</div></div>
       <div class="stat"><div class="l">CLI version</div><div class="v" id="d-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
+
+      <div class="stat"><div class="l">Workers</div><div class="v" id="d-workers">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked</div><div class="v" id="d-staked">&mdash;<span class="unit">MNW</span></div></div>
+      <div class="stat"><div class="l">Staking period</div><div class="v" id="d-period">&mdash;</div></div>
       <div class="stat"><div class="l">Uptime</div><div class="v" id="d-uptime">&mdash;<span class="unit">%</span></div></div>
+
+      <div class="stat"><div class="l">Total validations</div><div class="v" id="d-total-validations">&mdash;</div></div>
       <div class="stat"><div class="l">Earned</div><div class="v" id="d-earned">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">Projected APY</div><div class="v" id="d-apy">&mdash;<span class="unit">%</span></div></div>
+      <div class="stat"><div class="l">Projected validations</div><div class="v" id="d-projected-validations">&mdash;</div></div>
+
       <div class="stat"><div class="l">Staking started</div><div class="v sm" id="d-started">&mdash;</div></div>
-      <div class="stat"><div class="l">Unstaking date</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
-      <div class="stat"><div class="l">Closes at</div><div class="v sm" id="d-closes">&mdash;</div></div>
-      <div class="stat"><div class="l">Last activity</div><div class="v sm" id="d-last">&mdash;</div></div>
+      <div class="stat"><div class="l">Staking end</div><div class="v sm" id="d-unstakes">&mdash;</div></div>
+      <div class="stat"><div class="l">Days staked</div><div class="v" id="d-days-staked">&mdash;</div></div>
+
       <div class="stat"><div class="l">If unstaked now: net payout</div><div class="v" id="d-unstake-reward">&mdash;<span class="unit">MNW</span></div></div>
       <div class="stat"><div class="l">If unstaked now: total loss</div><div class="v" id="d-unstake-penalty">&mdash;<span class="unit">MNW</span></div></div>
     </div>
@@ -200,12 +204,12 @@
     <h2>Ecosystem</h2>
     <div class="grid">
       <div class="stat"><div class="l">Running nodes</div><div class="v" id="e-nodes">&mdash;</div></div>
-      <div class="stat"><div class="l">MNW bridged</div><div class="v" id="e-bridged">&mdash;</div></div>
-      <div class="stat"><div class="l">MNW staked</div><div class="v" id="e-staked">&mdash;</div></div>
-      <div class="stat"><div class="l">Staked % circulating</div><div class="v" id="e-stakedpct">&mdash;<span class="unit">%</span></div></div>
-      <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
       <div class="stat"><div class="l">Active validators</div><div class="v" id="e-validators">&mdash;</div></div>
       <div class="stat"><div class="l">Latest CLI</div><div class="v" id="e-cli">&mdash;</div></div>
+      <div class="stat"><div class="l">MNW staked</div><div class="v" id="e-staked">&mdash;</div></div>
+
+      <div class="stat"><div class="l">MNW bridged</div><div class="v" id="e-bridged">&mdash;</div></div>
+      <div class="stat"><div class="l">Staked % total supply</div><div class="v" id="e-stakedpcttotal">&mdash;<span class="unit">%</span></div></div>
     </div>
     <div class="hint" style="margin-top: 10px;">Total supply cap: 47,897,218 MNW</div>
   </div>
@@ -284,6 +288,7 @@
 
 <footer>
   Open-source tool by the Trust.Supply community. Runs entirely in your browser. Your session token is held in memory only and cleared when you close this tab or log out.
+  <div style="margin-top: 8px; opacity: 0.7;">validator.html v0.0.1 &middot; by trippledutch</div>
 </footer>
 </div>
 
@@ -552,33 +557,51 @@
     const months = periodMap[n.period] || 12;
     const rate = MNW_RATES[months] || 0.10;
 
-    $('d-nodeid').textContent = short(n.id, 8);
-    $('d-nodeid').title = n.id;
     const nodeAddr = n.address || '—';
     $('d-nodeaddr').textContent = short(nodeAddr, 8);
     $('d-nodeaddr').title = nodeAddr;
     const wallet = (state.user && state.user.wallet) || '—';
     $('d-wallet').textContent = short(wallet, 8);
     $('d-wallet').title = wallet;
+    $('d-cli').textContent = (state.user && state.user.nodeVersion) || '—';
+    $('d-last').textContent = fmtDate(n.lastActivity);
+
+    $('d-workers').textContent = fmtNum(n.workers);
     $('d-staked').innerHTML = fmtNum(n.stakedAmount) + '<span class="unit">MNW</span>';
     $('d-period').textContent = months + ' months';
-    $('d-workers').textContent = fmtNum(n.workers);
-    $('d-cli').textContent = (state.user && state.user.nodeVersion) || '—';
     $('d-uptime').innerHTML = fmtNum(n.totalUptime, 2) + '<span class="unit">%</span>';
+
+    // Earned, APY (Total validations + Projected validations are set by renderValidations)
     const earned = (n.earnedRewards && n.earnedRewards.earning) || 0;
     $('d-earned').innerHTML = fmtNum(earned, 2) + '<span class="unit">MNW</span>';
     const apy = (n.projectedRewards && n.projectedRewards.apy) || 0;
     $('d-apy').innerHTML = fmtNum(apy * 100, 2) + '<span class="unit">%</span>';
+
     $('d-started').textContent = fmtDate(n.createdAt);
     $('d-unstakes').textContent = fmtDate(n.unstakesAt);
-    $('d-closes').textContent = fmtDate(n.closesAt);
-    $('d-last').textContent = fmtDate(n.lastActivity);
 
+    // Days staked (days remaining)
+    const now = Date.now();
+    const startedMs = n.createdAt ? new Date(n.createdAt).getTime() : null;
+    const endMs = n.unstakesAt ? new Date(n.unstakesAt).getTime() : null;
+    const daysStaked = startedMs ? Math.max(0, Math.floor((now - startedMs) / 86400000)) : null;
+    const daysToGo = endMs ? Math.max(0, Math.ceil((endMs - now) / 86400000)) : null;
+    if (daysStaked !== null) {
+      const base = fmtNum(daysStaked);
+      const suffix = daysToGo !== null ? ' <span class="unit">(' + fmtNum(daysToGo) + ')</span>' : '';
+      $('d-days-staked').innerHTML = base + suffix;
+    }
+
+    // Stash for projected validations calculation in renderValidations
+    n._mnwRate = rate;
+    n._months = months;
+    n._daysStaked = daysStaked;
+    state.node = n;
+
+    // Status pill
     const pill = $('d-status');
     pill.textContent = n.status || (n.active ? 'active' : 'inactive');
     pill.className = 'pill ' + (n.active ? 'ok' : 'bad');
-
-    n._mnwRate = rate;
   }
 
   let currentRange = '30';
@@ -591,7 +614,24 @@
     // Prefer server-reported total over summing; fall back to sum if missing.
     const serverTotal = graphData.total;
     const sumTotal = items.reduce((s, i) => s + (i.amount || 0), 0);
-    $('d-total-validations').textContent = fmtNum(serverTotal != null ? serverTotal : sumTotal);
+    const totalVal = serverTotal != null ? serverTotal : sumTotal;
+    $('d-total-validations').textContent = fmtNum(totalVal);
+
+    // Projected validations over full staking period:
+    //   periodDays / daysStaked * totalValidations
+    // i.e. extrapolate current daily rate across the full period length.
+    // Uses real period lengths: 12mo=365, 6mo=180, 3mo=90.
+    const periodDaysMap = { 12: 365, 6: 180, 3: 90 };
+    const months = node._months;
+    const periodDays = periodDaysMap[months] || (months * 30);
+    const daysStaked = node._daysStaked;
+    if (periodDays && daysStaked && daysStaked > 0 && totalVal > 0) {
+      const projected = Math.round((periodDays / daysStaked) * totalVal);
+      $('d-projected-validations').textContent = fmtNum(projected);
+    } else {
+      $('d-projected-validations').textContent = '—';
+    }
+
     applyRange();
   }
 
@@ -656,8 +696,6 @@
     $('e-bridged').textContent = fmtNum(latestValue(eco.bridgedTokenAmount));
     const staked = latestValue(eco.stackedTokenAmount);
     $('e-staked').textContent = fmtNum(staked);
-    const pct = latestValue(eco.stackedTokenAmountCirculationPercentage);
-    $('e-stakedpct').innerHTML = fmtNum(pct, 2) + '<span class="unit">%</span>';
     const pctTotal = staked ? (staked / TOTAL_SUPPLY) * 100 : null;
     $('e-stakedpcttotal').innerHTML = (pctTotal !== null ? fmtNum(pctTotal, 2) : '—') + '<span class="unit">%</span>';
     $('e-validators').textContent = fmtNum(latestValue(eco.totalActiveValidatorsCount));
