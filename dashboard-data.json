@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-04-29",
+  "lastUpdated": "2026-05-1",
   "data": {   
-    "activeNodes": 3836,
-    "activeValidators": 92,
-    "dailyValidations": 18257,
+    "activeNodes": 3811,
+    "activeValidators": 90,
+    "dailyValidations": 18210,
     
     "dexLiquidity": 1072882,
     "cexLocked": 3070697,
@@ -12,9 +12,9 @@
     "ethereumMNW": 28042332,
     "lostTokens": 500000,
     
-    "nodes3m": 71,
+    "nodes3m": 74,
     "nodes6m": 396,
-    "nodes12m": 3366,
+    "nodes12m": 3341,
     
     "reward3m": 0.06,
     "reward6m": 0.08,
