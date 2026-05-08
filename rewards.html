@@ -6,7 +6,8 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Trust.Supply Validator Rewards v1.1.0</title>
+    <!-- v1.1.1 audit: 8 May 2026 — Etherscan free tier offset cap drops from 10,000 to 1,000 on 1 Jul 2026; offset and pagination sentinel updated -->
+    <title>Trust.Supply Validator Rewards v1.1.1</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
     <style>
         :root {
@@ -276,7 +277,7 @@
         <h1>🏆 Trust.Supply Validator Rewards</h1>
         <p>MNW token reward payouts · RewardValidator · Polygon (Chain 137)</p>
         <p style="font-size:0.9em;opacity:0.8;margin-top:10px;">
-            📅 <span class="date-full">Version 1.1.0 | 23 April 2026</span><span class="date-short">v1.1.0 | 23 Apr 2026</span>
+            📅 <span class="date-full">Version 1.1.1 | 8 May 2026</span><span class="date-short">v1.1.1 | 8 May 2026</span>
         </p>
     </header>
     <div class="content-wrapper">
@@ -343,7 +344,7 @@
         </div>
     </div>
     <footer class="footer">
-        <p><span class="date-full">Trust.Supply Validator Rewards v1.1.0 | Updated 23 April 2026</span><span class="date-short">Rewards v1.1.0 | 23 Apr 2026</span></p>
+        <p><span class="date-full">Trust.Supply Validator Rewards v1.1.1 | Updated 8 May 2026</span><span class="date-short">Rewards v1.1.1 | 8 May 2026</span></p>
         <p style="font-size:0.85em;margin-top:5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
     </footer>
 </div>
@@ -388,7 +389,7 @@ function monthLabel(ym) {
 function shortAddr(a) { return a ? a.slice(0,6)+"…"+a.slice(-4) : "—"; }
 
 async function fetchBatch(endBlock) {
-    const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx&contractaddress=${MNW_CONTRACT}&address=${AUTOMATION}&startblock=0&endblock=${endBlock}&page=1&offset=10000&sort=desc&apikey=${API_KEY}`;
+    const url = `${BASE_URL}?chainid=${CHAIN_ID}&module=account&action=tokentx&contractaddress=${MNW_CONTRACT}&address=${AUTOMATION}&startblock=0&endblock=${endBlock}&page=1&offset=1000&sort=desc&apikey=${API_KEY}`;
     const r = await fetch(url);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
@@ -431,7 +432,7 @@ async function startScan() {
                 ["btnExport","btnExport2","btnToggleDetail"].forEach(id=>document.getElementById(id).disabled=false);
                 setStatus(`Scanning… ${allRewards.length} rewards found so far`,"scanning");
             }
-            if (txs.length<10000) { log("Last batch — all data retrieved.","ok"); break; }
+            if (txs.length<1000) { log("Last batch — all data retrieved.","ok"); break; }
             currentEndBlock=parseInt(txs[txs.length-1].blockNumber)-1;
             await new Promise(r=>setTimeout(r,150));
         }
