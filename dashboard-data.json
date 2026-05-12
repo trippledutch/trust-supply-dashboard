@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-4",
+  "lastUpdated": "2026-05-12",
   "data": {   
     "activeNodes": 3713,
     "activeValidators": 88,
@@ -14,7 +14,7 @@
     
     "nodes3m": 74,
     "nodes6m": 245,
-    "nodes12m": 3394,
+    "nodes12m": 3341,
     
     "reward3m": 0.06,
     "reward6m": 0.08,
