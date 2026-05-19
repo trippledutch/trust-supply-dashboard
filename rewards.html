@@ -1,263 +1,359 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="theme-color" content="#0a1024">
     <!-- v1.1.1 audit: 8 May 2026 — Etherscan free tier offset cap drops from 10,000 to 1,000 on 1 Jul 2026; offset and pagination sentinel updated -->
-    <title>Trust.Supply Validator Rewards v1.1.1</title>
+    <title>Validator Rewards · Trust.Supply Tools</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --success: #28a745;
-            --success-light: #d4edda;
-            --info: #17a2b8;
-            --info-light: #d1ecf1;
-            --green: #27ae60;
-            --amber: #f39c12;
-            --red: #e74c3c;
-            --gray-100: #f8f9fa;
-            --gray-200: #e9ecef;
-            --gray-500: #6c757d;
-            --gray-700: #495057;
-            --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-            --shadow-glow: 0 4px 16px rgba(102, 126, 234, 0.3);
-            --radius: 10px;
-            --transition: all 0.3s ease;
-            --mono: 'Courier New', 'Lucida Console', monospace;
+            --bg:#0a1024;--bg-2:#0f1832;--panel:#121d3a;--panel-2:#162345;
+            --line:rgba(120,160,255,.14);--line-strong:rgba(120,160,255,.28);
+            --ink:#e6ecff;--ink-dim:#9aa6c8;--ink-faint:#8a96b8;
+            --cyan:#5fe3ff;--cyan-deep:#26b8d8;--amber:#ffb454;--rose:#ff5d7a;--green:#52e3a4;
+            --body:"Inter",system-ui,sans-serif;
+            --mono:"JetBrains Mono",ui-monospace,monospace;
+            /* legacy aliases for unchanged JS inline styles */
+            --primary:#5fe3ff;
+            --primary-dark:#26b8d8;
+            --success:#4ade80;
+            --success-light:rgba(82,227,164,.12);
+            --info:#5fe3ff;
+            --info-light:rgba(95,227,255,.10);
+            --red:#ff5d7a;
+            --gray-100:rgba(255,255,255,.02);
+            --gray-200:var(--line);
+            --gray-500:var(--ink-faint);
+            --gray-700:var(--ink-dim);
+            --shadow-sm:0 1px 0 rgba(255,255,255,.04) inset;
+            --shadow-md:0 8px 24px -16px rgba(0,0,0,.6);
+            --shadow-lg:0 18px 40px -22px rgba(0,0,0,.6);
+            --shadow-glow:0 0 0 1px rgba(95,227,255,.18);
+            --radius:10px;
+            --transition:all .2s ease;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 20px;
-            color: #333;
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{
+            background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;
+            -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+            min-height:100vh;line-height:1.5;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(95,227,255,.10),transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 100%, rgba(82,227,164,.08),transparent 60%),
+                linear-gradient(180deg,#0a1024 0%,#0c1330 100%);
+            background-attachment:fixed;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+        body::before{
+            content:"";position:fixed;inset:0;pointer-events:none;
+            background-image:
+                linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);
+            background-size:48px 48px;
+            mask-image:radial-gradient(ellipse 100% 80% at 50% 50%,#000 30%,transparent 80%);
+            z-index:0;
         }
-        .back-nav {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 12px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+        body::after{
+            content:"";position:fixed;inset:0;pointer-events:none;
+            background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);
+            z-index:0;
         }
-        .back-nav a {
-            color: white; text-decoration: none; font-weight: 600; font-size: 14px;
-            display: inline-flex; align-items: center; gap: 5px;
-            transition: var(--transition); opacity: 0.95;
+        .container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 24px;background:transparent;border-radius:0;box-shadow:none;overflow:visible}
+
+        /* Site header */
+        header.site{
+            display:flex;align-items:center;gap:18px;padding:16px 0 12px;
+            border-bottom:1px solid var(--line);
+            position:sticky;top:0;z-index:100;
+            background:rgba(10,16,36,.85);backdrop-filter:blur(14px);
         }
-        .back-nav a:hover { opacity: 1; transform: translateX(-3px); }
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white; padding: 30px; text-align: center;
+        .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+        .brand .word{display:flex;flex-direction:column;line-height:1}
+        .brand .word b{font-family:var(--body);font-weight:700;letter-spacing:.01em;font-size:26px}
+        .brand .word b .wm-a{color:var(--ink)}
+        .brand .word b .wm-b{color:var(--cyan)}
+        .brand .word small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-faint);margin-top:6px;text-transform:uppercase}
+        .spacer{flex:1}
+        .status-dot{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase}
+        .status-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.5s ease-in-out infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+        /* Top nav */
+        .nav-wrap{border-bottom:1px solid var(--line)}
+        nav.tabs-top{display:flex;gap:2px;padding:10px 0;overflow-x:auto;scrollbar-width:none}
+        nav.tabs-top::-webkit-scrollbar{display:none}
+        nav.tabs-top a{
+            display:inline-flex;align-items:center;gap:8px;
+            color:var(--ink-faint);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+            padding:11px 14px;cursor:pointer;border-radius:6px;white-space:nowrap;
+            text-decoration:none;font-weight:500;transition:color .15s,background .15s;
         }
-        header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 700; }
-        header p { opacity: 0.9; font-size: 1.1em; }
-        .content-wrapper { padding: 30px; }
-        #status {
-            text-align: center; font-size: 14px; font-weight: 700;
-            margin-bottom: 20px; padding: 12px; border-radius: 8px; border: 2px solid;
-            color: var(--info); background: var(--info-light); border-color: var(--info);
+        nav.tabs-top a .n{font-size:10px;color:var(--ink-faint);opacity:.6;font-weight:400}
+        nav.tabs-top a[aria-current="page"]{color:#062032;background:var(--cyan)}
+        nav.tabs-top a[aria-current="page"] .n{color:#062032;opacity:.7}
+        nav.tabs-top a:hover{color:var(--ink)}
+
+        /* Hero */
+        main.hero{padding:36px 0 16px}
+        .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .eyebrow::before{content:"";width:18px;height:1px;background:var(--cyan)}
+        h1{font-family:var(--body);letter-spacing:-.02em;font-size:clamp(28px,5vw,46px);font-weight:300;line-height:1.08;max-width:900px}
+        h1 .l1{display:block;font-size:.55em;font-style:italic;color:var(--ink-dim);font-weight:300;margin-bottom:6px}
+        h1 .l2{display:block;color:var(--ink);font-weight:600}
+        h1 .l2 em{font-style:italic;color:var(--cyan);font-weight:600}
+        .lede{font-size:clamp(14px,1.4vw,16px);color:var(--ink-dim);max-width:62ch;line-height:1.65;margin-top:14px}
+        .lede strong{color:var(--ink);font-weight:600}
+
+        /* Hide legacy chrome blocks */
+        .container > header:not(.site){display:none}
+        .container > .back-nav{display:none}
+
+        .content-wrapper{padding:24px 0 12px}
+
+        /* Status banner */
+        #status{
+            text-align:center;
+            font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+            margin-bottom:20px;padding:12px;border-radius:10px;
+            color:var(--cyan);background:rgba(95,227,255,.06);border:1px solid var(--line-strong);
         }
-        #status.scanning { color: var(--primary-dark); background: rgba(102,126,234,0.1); border-color: var(--primary); }
-        #status.error    { color: var(--red); background: #fde8e8; border-color: var(--red); }
-        #status.ready    { color: var(--success); background: var(--success-light); border-color: var(--success); }
-        .controls {
-            display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; align-items: center;
+        #status strong{color:var(--ink);font-weight:600;letter-spacing:.06em}
+        #status.scanning{color:var(--cyan);background:rgba(95,227,255,.08);border-color:var(--cyan)}
+        #status.error{color:#ff8aa0;background:rgba(255,93,122,.10);border-color:rgba(255,93,122,.5)}
+        #status.ready{color:var(--green);background:rgba(82,227,164,.10);border-color:rgba(82,227,164,.5)}
+
+        /* Controls */
+        .controls{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;align-items:center}
+
+        /* Buttons */
+        button{
+            padding:11px 18px;border-radius:999px;
+            background:var(--cyan);color:#062032;
+            border:1px solid var(--cyan);cursor:pointer;
+            font-family:var(--mono);font-weight:500;font-size:11.5px;
+            letter-spacing:.14em;text-transform:uppercase;
+            transition:all .2s;display:inline-flex;align-items:center;gap:6px;
         }
-        button {
-            padding: 16px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white; border: none; cursor: pointer; font-weight: 800;
-            text-transform: uppercase; font-size: 14px; transition: var(--transition);
-            box-shadow: var(--shadow-glow); display: inline-flex; align-items: center; gap: 6px;
+        button:hover:not(:disabled){background:#7eebff;border-color:#7eebff}
+        button:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.04);color:var(--ink-faint);border-color:var(--line)}
+        .btn-stop{background:rgba(255,93,122,.14);color:#ff8aa0;border:1px solid rgba(255,93,122,.5)}
+        .btn-stop:hover:not(:disabled){background:rgba(255,93,122,.22);color:#ff9eb1;border-color:#ff5d7a}
+        .export-btn{
+            background:rgba(255,255,255,.03);color:var(--ink);
+            border:1px solid var(--line-strong);
         }
-        button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .btn-stop { background: linear-gradient(135deg, var(--red) 0%, #c0392b 100%); box-shadow: 0 4px 16px rgba(231,76,60,0.3); }
-        .btn-stop:hover:not(:disabled) { box-shadow: 0 8px 20px rgba(231,76,60,0.4); }
-        .export-btn { background: white; color: var(--primary); border: 2px solid var(--primary); box-shadow: var(--shadow-sm); }
-        .export-btn:hover:not(:disabled) { background: var(--gray-100); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-        .export-btn:disabled { opacity: 0.5; border-color: var(--gray-200); color: var(--gray-500); }
-        .secondary-btn { background: linear-gradient(135deg, #6c757d 0%, #495057 100%); box-shadow: none; }
-        #scanTimer { font-family: var(--mono); font-size: 0.8rem; color: var(--gray-500); margin-left: auto; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; margin-bottom: 25px; }
-        .box {
-            background: var(--gray-100); padding: 20px 10px; border-radius: 12px;
-            border: 2px solid var(--gray-200); text-align: center; transition: var(--transition);
+        .export-btn:hover:not(:disabled){background:rgba(95,227,255,.08);color:var(--cyan);border-color:var(--cyan)}
+        .export-btn:disabled{opacity:.35;border-color:var(--line);color:var(--ink-faint);background:rgba(255,255,255,.02)}
+        .secondary-btn{
+            background:rgba(255,255,255,.03);color:var(--ink-dim);
+            border:1px solid var(--line-strong);
         }
-        .box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary); }
-        .stat-val { font-size: 32px; font-weight: 900; display: block; line-height: 1.2; margin-top: 5px; color: var(--primary); font-family: var(--mono); }
-        .lbl { font-size: 13px; color: var(--gray-500); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; display: block; }
-        .sub-lbl { font-size: 11px; color: var(--gray-500); display: block; margin-top: 4px; }
-        .progress-wrap { background: var(--gray-200); border-radius: 4px; height: 8px; margin-bottom: 20px; overflow: hidden; display: none; }
-        .progress-wrap.active { display: block; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg,var(--primary),var(--primary-dark)); width: 0%; transition: width .3s; border-radius: 4px; }
-        .log-box {
-            background: #1a202c; border: 2px solid #2d3748; border-radius: 10px;
-            padding: 12px 14px; max-height: 160px; overflow-y: auto;
-            font-family: var(--mono); font-size: 0.75rem; margin-bottom: 20px; display: none;
+        .secondary-btn:hover:not(:disabled){background:rgba(255,255,255,.06);color:var(--ink);border-color:var(--line-strong)}
+        #scanTimer{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-left:auto;letter-spacing:.06em}
+
+        /* Stats grid */
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+        .box{
+            background:rgba(255,255,255,.02);padding:18px 14px;border-radius:12px;
+            border:1px solid var(--line);text-align:center;
+            transition:border-color .2s,background .2s;
         }
-        .log-box.active { display: block; }
-        .log-box span { display: block; line-height: 1.7; }
-        .log-ok { color: #4ade80; } .log-warn { color: #fbbf24; } .log-err { color: #f87171; } .log-info { color: #60a5fa; }
-        .log-section-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
-        .yearly-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 15px; margin-bottom: 25px; }
-        .year-card { background: var(--gray-100); border: 2px solid var(--gray-200); border-radius: 12px; padding: 20px; transition: var(--transition); }
-        .year-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary); }
-        .year-card h3 { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-        .year-card .amount { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--green); }
-        .year-card .meta { font-family: var(--mono); font-size: 0.75rem; color: var(--gray-500); margin-top: 6px; }
-        .log-container { background: white; border-radius: 12px; border: 2px solid #cbd5e1; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        .log-header { background: linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); padding: 16px; display: grid; font-size: 12px; color: white; border-bottom: 2px solid var(--primary-dark); font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 0.8px; }
-        .log-header.monthly { grid-template-columns: 1.5fr 0.8fr 1.5fr 0.8fr 1fr; }
-        .log-header.detail  { grid-template-columns: 0.4fr 1fr 1.2fr 1fr 2fr; }
-        .log-body { max-height: 400px; overflow-y: auto; font-family: var(--mono); font-size: 13px; background: #f8fafc; }
-        .log-row { display: grid; padding: 14px; border-bottom: 1px solid #e2e8f0; color: #1e293b; text-align: center; transition: var(--transition); font-weight: 600; }
-        .log-row.monthly { grid-template-columns: 1.5fr 0.8fr 1.5fr 0.8fr 1fr; }
-        .log-row.detail  { grid-template-columns: 0.4fr 1fr 1.2fr 1fr 2fr; }
-        .log-row:hover { background: white; box-shadow: inset 0 0 0 1px var(--primary); }
-        .log-row:last-child { border-bottom: none; }
-        .log-row .amount { color: var(--green); font-weight: 700; }
-        .log-row a { color: var(--primary); text-decoration: none; }
-        .log-row a:hover { text-decoration: underline; }
-        .log-row.total-row { background: linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%); color: white; font-weight: 800; }
-        .log-row.total-row:hover { box-shadow: none; }
-        .log-row.year-sep { background: linear-gradient(135deg,rgba(102,126,234,0.1),rgba(118,75,162,0.1)); color: var(--primary); font-weight: 700; }
-        .detail-wrap { display: none; }
-        .detail-wrap.visible { display: block; }
-        .footer { text-align: center; padding: 20px; color: var(--gray-500); border-top: 2px solid var(--gray-200); font-size: 13px; font-weight: 600; }
-        /* ============ TABLET (≤ 768px) ============ */
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { border-radius: 14px; }
-            .content-wrapper { padding: 18px; }
-            header { padding: 24px 18px; }
-            header h1 { font-size: 1.8em; line-height: 1.2; }
-            header p { font-size: 0.95em; }
-            .stats-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
-            .stat-val { font-size: 24px; }
-            .lbl { font-size: 11px; letter-spacing: 0.5px; }
-            .sub-lbl { font-size: 10px; }
-            .controls { flex-direction: column; gap: 10px; }
-            .controls button { width: 100%; justify-content: center; }
-            #scanTimer { margin-left: 0; text-align: center; width: 100%; }
-            .date-full { display: none; }
-            .date-short { display: inline; }
-            .yearly-grid { grid-template-columns: 1fr; gap: 12px; }
-            .log-header.monthly,
-            .log-header.detail,
-            .log-row.monthly,
-            .log-row.detail { font-size: 11px; padding: 10px 8px; }
+        .box:hover{border-color:var(--line-strong);background:rgba(255,255,255,.035)}
+        .stat-val{
+            font-family:var(--body);font-size:30px;font-weight:700;
+            display:block;line-height:1.15;margin-top:6px;
+            color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+        }
+        .lbl{
+            font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+            color:var(--ink-faint);font-weight:500;display:block;
+        }
+        .sub-lbl{
+            font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+            color:var(--ink-faint);display:block;margin-top:4px;
         }
 
-        /* ============ PHONE (≤ 480px) — table becomes card list ============ */
-        @media (max-width: 480px) {
-            body { padding: 8px; }
-            .container { border-radius: 12px; }
-            .content-wrapper { padding: 14px; }
-            .back-nav { padding: 10px 14px; }
-            header { padding: 20px 14px; }
-            header h1 { font-size: 1.45em; }
-            header p { font-size: 0.85em; }
-            #status { font-size: 13px; padding: 10px; }
-            .stats-grid { gap: 8px; margin-bottom: 20px; }
-            .box { padding: 14px 8px; border-radius: 10px; }
-            .stat-val { font-size: 20px; }
-            .lbl { font-size: 10px; }
-            .sub-lbl { font-size: 9px; }
-            button { padding: 14px 12px; font-size: 13px; min-height: 48px; }
-            .log-section-title { font-size: 13px; margin-bottom: 10px; }
+        /* Progress */
+        .progress-wrap{background:rgba(0,0,0,.3);border-radius:999px;height:6px;margin-bottom:20px;overflow:hidden;display:none}
+        .progress-wrap.active{display:block}
+        .progress-bar{height:100%;background:var(--cyan);width:0%;transition:width .3s;border-radius:999px}
 
-            /* Year card compaction */
-            .year-card { padding: 14px; }
-            .year-card h3 { font-size: 0.9rem; }
-            .year-card .amount { font-size: 1.2rem; }
-            .year-card .meta { font-size: 0.7rem; }
+        /* Log box (scanner stream) */
+        .log-box{
+            background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;
+            padding:12px 14px;max-height:160px;overflow-y:auto;
+            font-family:var(--mono);font-size:11px;margin-bottom:20px;display:none;
+        }
+        .log-box.active{display:block}
+        .log-box span{display:block;line-height:1.7}
+        .log-ok{color:var(--green)}.log-warn{color:var(--amber)}.log-err{color:#ff8aa0}.log-info{color:var(--cyan)}
 
-            /* Hide table headers, stack each row as a card */
-            .log-header.monthly,
-            .log-header.detail { display: none; }
+        /* Section titles */
+        .log-section-title{
+            font-family:var(--mono);font-size:10.5px;font-weight:500;
+            margin-bottom:12px;color:var(--ink);
+            text-transform:uppercase;letter-spacing:.18em;
+        }
 
-            .log-row.monthly,
-            .log-row.detail {
-                display: block;
-                padding: 12px 14px;
-                text-align: left;
-                border-bottom: 2px solid #e2e8f0;
-                font-size: 13px;
+        /* Yearly grid */
+        .yearly-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:24px}
+        .year-card{
+            background:linear-gradient(180deg,rgba(95,227,255,.04),rgba(255,255,255,0) 50%),
+                       linear-gradient(180deg,#142042 0%,#0e1730 100%);
+            border:1px solid var(--line-strong);border-radius:12px;padding:18px;
+            transition:border-color .2s,transform .2s;
+            box-shadow:0 18px 40px -22px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.04) inset;
+        }
+        .year-card:hover{border-color:var(--cyan);transform:translateY(-1px)}
+        .year-card h3{
+            font-family:var(--mono);font-size:11px;font-weight:500;
+            letter-spacing:.18em;text-transform:uppercase;
+            color:var(--ink-faint);margin-bottom:10px;
+        }
+        .year-card .amount{
+            font-family:var(--body);font-size:22px;font-weight:700;
+            color:var(--green);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+        }
+        .year-card .meta{
+            font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;
+            color:var(--ink-faint);margin-top:8px;
+        }
+
+        /* Log container (tables) */
+        .log-container{
+            background:rgba(0,0,0,.18);
+            border-radius:10px;
+            border:1px solid var(--line);
+            overflow:hidden;
+            margin-bottom:22px;
+        }
+        .log-header{
+            background:#0c1430;padding:13px 14px;display:grid;
+            font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);
+            border-bottom:1px solid var(--line-strong);
+            font-weight:500;text-align:center;
+            text-transform:uppercase;letter-spacing:.16em;
+        }
+        .log-header.monthly{grid-template-columns:1.5fr .8fr 1.5fr .8fr 1fr}
+        .log-header.detail{grid-template-columns:.4fr 1fr 1.2fr 1fr 2fr}
+        .log-body{
+            max-height:400px;overflow-y:auto;
+            font-family:var(--mono);font-size:12.5px;background:transparent;
+        }
+        .log-row{
+            display:grid;padding:11px 14px;
+            border-bottom:1px solid var(--line);
+            color:var(--ink-dim);text-align:center;
+            transition:background .15s;font-weight:400;
+            font-variant-numeric:tabular-nums;
+        }
+        .log-row.monthly{grid-template-columns:1.5fr .8fr 1.5fr .8fr 1fr}
+        .log-row.detail{grid-template-columns:.4fr 1fr 1.2fr 1fr 2fr}
+        .log-row:hover{background:rgba(95,227,255,.04);color:var(--ink)}
+        .log-row:last-child{border-bottom:none}
+        .log-row .amount{color:var(--green);font-weight:500}
+        .log-row a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted transparent;transition:border-color .15s}
+        .log-row a:hover{border-bottom-color:var(--cyan)}
+        .log-row.total-row{
+            background:rgba(95,227,255,.08);color:#ffffff;font-weight:700;
+            border-top:1px solid var(--line-strong);
+            border-left:2px solid var(--cyan);
+        }
+        .log-row.total-row:hover{background:rgba(95,227,255,.10)}
+        .log-row.year-sep{
+            background:rgba(255,255,255,.02);
+            color:var(--cyan);font-weight:600;
+            border-top:1px solid var(--line-strong);
+        }
+
+        .detail-wrap{display:none;scroll-margin-top:80px}
+        .detail-wrap.visible{display:block}
+
+        /* Footer */
+        .footer, footer.footer{
+            margin-top:28px;padding:22px 0 28px;
+            border-top:1px solid var(--line);
+            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+            font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);
+            background:transparent;text-align:left;line-height:1.6;
+        }
+        .footer a, footer.footer a{color:var(--cyan);text-decoration:none}
+        .footer a:hover, footer.footer a:hover{color:#7eebff}
+        .footer p{margin:0}
+
+        /* Responsive */
+        @media (max-width:768px){
+            .container{padding:0 16px}
+            .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+            .stat-val{font-size:24px}
+            .controls{flex-direction:column;gap:10px}
+            .controls button{width:100%;justify-content:center}
+            #scanTimer{margin-left:0;text-align:center;width:100%}
+            .date-full{display:none}
+            .date-short{display:inline}
+            .yearly-grid{grid-template-columns:1fr;gap:12px}
+            .log-header.monthly,.log-header.detail,
+            .log-row.monthly,.log-row.detail{font-size:11px;padding:10px 8px}
+        }
+        @media (max-width:480px){
+            .container{padding:0 12px}
+            .stat-val{font-size:20px}
+            .lbl{font-size:10px}
+            .sub-lbl{font-size:9px}
+            button{padding:11px 14px;font-size:11px;min-height:44px}
+            .log-section-title{font-size:10px;margin-bottom:10px}
+            .year-card{padding:14px}
+            .year-card h3{font-size:10px}
+            .year-card .amount{font-size:18px}
+            .year-card .meta{font-size:10px}
+            .log-header.monthly,.log-header.detail{display:none}
+            .log-row.monthly,.log-row.detail{
+                display:block;padding:12px 14px;text-align:left;
+                border-bottom:2px solid var(--line);font-size:13px;
             }
-            .log-row.monthly > span,
-            .log-row.detail > span {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 3px 0;
-                text-align: right;
-                gap: 8px;
+            .log-row.monthly > span,.log-row.detail > span{
+                display:flex;justify-content:space-between;align-items:center;
+                padding:3px 0;text-align:right;gap:8px;
             }
-            /* Add field labels before each cell on phone */
-            .log-row.monthly > span:nth-child(1)::before { content: "Month"; }
-            .log-row.monthly > span:nth-child(2)::before { content: "# Tx"; }
-            .log-row.monthly > span:nth-child(3)::before { content: "MNW Rewarded"; }
-            .log-row.monthly > span:nth-child(4)::before { content: "% of Year"; }
-            .log-row.monthly > span:nth-child(5)::before { content: "Avg / Tx"; }
-            .log-row.detail > span:nth-child(1)::before { content: "#"; }
-            .log-row.detail > span:nth-child(2)::before { content: "Date"; }
-            .log-row.detail > span:nth-child(3)::before { content: "MNW"; }
-            .log-row.detail > span:nth-child(4)::before { content: "To"; }
-            .log-row.detail > span:nth-child(5)::before { content: "Tx Hash"; }
-            .log-row.monthly > span::before,
-            .log-row.detail > span::before {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                font-size: 10px;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                color: var(--gray-500);
-                text-align: left;
-                flex-shrink: 0;
+            .log-row.monthly > span:nth-child(1)::before{content:"Month"}
+            .log-row.monthly > span:nth-child(2)::before{content:"# Tx"}
+            .log-row.monthly > span:nth-child(3)::before{content:"MNW Rewarded"}
+            .log-row.monthly > span:nth-child(4)::before{content:"% of Year"}
+            .log-row.monthly > span:nth-child(5)::before{content:"Avg / Tx"}
+            .log-row.detail > span:nth-child(1)::before{content:"#"}
+            .log-row.detail > span:nth-child(2)::before{content:"Date"}
+            .log-row.detail > span:nth-child(3)::before{content:"MNW"}
+            .log-row.detail > span:nth-child(4)::before{content:"To"}
+            .log-row.detail > span:nth-child(5)::before{content:"Tx Hash"}
+            .log-row.monthly > span::before,.log-row.detail > span::before{
+                font-family:var(--mono);font-size:9.5px;font-weight:500;
+                text-transform:uppercase;letter-spacing:.14em;
+                color:var(--ink-faint);text-align:left;flex-shrink:0;
             }
-            /* Year separator keeps its full-width banner look */
-            .log-row.monthly.year-sep > span { display: block; text-align: center; }
-            .log-row.monthly.year-sep > span::before { content: none; }
-            .log-row.monthly.year-sep > span:nth-child(n+2) { display: none; }
-
-            /* Total row — centered block */
-            .log-row.monthly.total-row > span { display: flex; }
-            .log-row.monthly.total-row > span::before { color: rgba(255,255,255,0.8); }
-
-            /* Bar widgets inside cells — full width, aligned right */
-            .log-row.monthly .amount > div {
-                width: 100%;
-                min-width: 0 !important;
-                margin-top: 6px !important;
+            .log-row.monthly.year-sep > span{display:block;text-align:center}
+            .log-row.monthly.year-sep > span::before{content:none}
+            .log-row.monthly.year-sep > span:nth-child(n+2){display:none}
+            .log-row.monthly.total-row > span{display:flex}
+            .log-row.monthly.total-row > span::before{color:rgba(255,255,255,.7)}
+            .log-row.monthly .amount > div{
+                width:100%;min-width:0 !important;margin-top:6px !important;
             }
-
-            /* Transaction hash + address truncation */
-            .log-row.detail a { word-break: break-all; font-size: 11px; }
-            .log-body { max-height: 500px; }
-            .log-box { max-height: 120px; font-size: 0.7rem; }
-
-            /* Footer action buttons stack */
-            .content-wrapper > div[style*="flex-wrap"] { flex-direction: column; gap: 10px !important; }
-            .content-wrapper > div[style*="flex-wrap"] button { max-width: 100% !important; width: 100% !important; }
-
-            .footer { padding: 16px; font-size: 12px; }
+            .log-row.detail a{word-break:break-all;font-size:11px}
+            .log-body{max-height:500px}
+            .log-box{max-height:120px;font-size:10px}
+            .content-wrapper > div[style*="flex-wrap"]{flex-direction:column;gap:10px !important}
+            .content-wrapper > div[style*="flex-wrap"] button{max-width:100% !important;width:100% !important}
+            .footer{padding:18px 0;font-size:10px}
         }
-
-        @media (min-width: 769px) { .date-short { display: none; } }
+        @media (min-width:769px){.date-short{display:none}}
     </style>
     <!-- Google Analytics GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YMKV678N2"></script>
@@ -270,23 +366,45 @@
 </head>
 <body>
 <div class="container">
-    <div class="back-nav">
-        <a href="index.html">← Back to Tools</a>
-    </div>
-    <header>
-        <h1>🏆 Trust.Supply Validator Rewards</h1>
-        <p>MNW token reward payouts · RewardValidator · Polygon (Chain 137)</p>
-        <p style="font-size:0.9em;opacity:0.8;margin-top:10px;">
-            📅 <span class="date-full">Version 1.1.1 | 8 May 2026</span><span class="date-short">v1.1.1 | 8 May 2026</span>
-        </p>
+
+    <header class="site">
+        <a class="brand" href="index.html">
+            <span class="word">
+                <b><span class="wm-a">Trust</span><span class="wm-b">.Supply</span></b>
+                <small>Unofficial analytics suite</small>
+            </span>
+        </a>
+        <span class="spacer"></span>
+        <span class="status-dot">Live · on-chain</span>
     </header>
+
+    <div class="nav-wrap">
+        <nav class="tabs-top" aria-label="Main navigation">
+            <a href="index.html"><span class="n">01</span>Overview</a>
+            <a href="dashboard.html"><span class="n">02</span>Dashboard</a>
+            <a href="holders-eth.html"><span class="n">03</span>Holders</a>
+            <a href="analytics.html"><span class="n">04</span>Analytics</a>
+            <a href="rewards.html" aria-current="page"><span class="n">05</span>Rewards</a>
+            <a href="validator.html"><span class="n">06</span>My Validator</a>
+        </nav>
+    </div>
+
+    <main class="hero">
+        <div class="eyebrow">polygon · automation wallet · reward payouts</div>
+        <h1>
+            <span class="l1">MNW reward payouts · RewardValidator</span>
+            <span class="l2">Validator <em>Rewards</em></span>
+        </h1>
+        <p class="lede">On-chain reward payout analysis from the automation wallet, with backwards block scanning via the Etherscan v2 API. <strong>v1.1.1 · 8 May 2026</strong></p>
+    </main>
+
     <div class="content-wrapper">
         <div id="status">System Ready — Click <strong>Run Scan</strong> to fetch all reward transactions</div>
         <div class="controls">
-            <button id="btnScan" onclick="startScan()">▶ Run Scan</button>
-            <button id="btnStop" class="btn-stop" onclick="stopScan()" disabled>⏹ Stop</button>
-            <button id="btnExport" class="export-btn" onclick="exportCSV()" disabled>📥 Export CSV</button>
-            <button id="btnToggleDetail" class="secondary-btn" onclick="toggleDetail()" disabled>🔍 Show Transactions</button>
+            <button id="btnScan" onclick="startScan()">Run Scan</button>
+            <button id="btnStop" class="btn-stop" onclick="stopScan()" disabled>Stop</button>
+            <button id="btnExport" class="export-btn" onclick="exportCSV()" disabled>Export CSV</button>
+            <button id="btnToggleDetail" class="secondary-btn" onclick="toggleDetail()" disabled>Show Transactions</button>
             <span id="scanTimer"></span>
         </div>
         <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
@@ -337,15 +455,19 @@
                 </div>
             </div>
         </div>
-        <div style="margin-top:30px;text-align:center;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;">
-            <button onclick="startScan()" style="flex:1;min-width:200px;max-width:250px;">▶ Run Scan</button>
-            <button id="btnExport2" class="export-btn" onclick="exportCSV()" disabled style="flex:1;min-width:200px;max-width:250px;">📥 Export CSV</button>
-            <button onclick="window.location.href='index.html'" class="secondary-btn" style="flex:1;min-width:200px;max-width:250px;">← Back to Tools</button>
+        <div style="margin-top:24px;text-align:center;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+            <button onclick="startScan()" style="flex:1;min-width:180px;max-width:240px;">Run Scan</button>
+            <button id="btnExport2" class="export-btn" onclick="exportCSV()" disabled style="flex:1;min-width:180px;max-width:240px;">Export CSV</button>
+            <button onclick="window.location.href='index.html'" class="secondary-btn" style="flex:1;min-width:180px;max-width:240px;">Back to Tools</button>
         </div>
     </div>
+
     <footer class="footer">
-        <p><span class="date-full">Trust.Supply Validator Rewards v1.1.1 | Updated 8 May 2026</span><span class="date-short">Rewards v1.1.1 | 8 May 2026</span></p>
-        <p style="font-size:0.85em;margin-top:5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
+        <div>
+            <span class="date-full">Trust.Supply Validator Rewards v1.1.1 · Updated 8 May 2026</span>
+            <span class="date-short">Rewards v1.1.1 · 8 May 2026</span>
+        </div>
+        <div>Community tool by <a href="https://twitter.com/trippledutch" target="_blank" rel="noopener">@trippledutch</a> · Real-time blockchain analysis</div>
     </footer>
 </div>
 <script>
@@ -493,7 +615,7 @@ function renderAll() {
         const mnw=Number(byYear[y].raw)/Math.pow(10,MNW_DECIMALS);
         const pct=(mnw/totalMNW*100).toFixed(1);
         const div=document.createElement("div"); div.className="year-card";
-        div.innerHTML=`<h3>📅 ${y}</h3><div class="amount">${fmtMNWNum(mnw)} MNW</div><div class="meta">${byYear[y].count} transactions · ${pct}% of all time</div><div style="margin-top:10px;background:#e9ecef;border-radius:4px;height:6px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:4px;"></div></div>`;
+        div.innerHTML=`<h3>${y}</h3><div class="amount">${fmtMNWNum(mnw)} MNW</div><div class="meta">${byYear[y].count} transactions · ${pct}% of all time</div><div style="margin-top:12px;background:rgba(0,0,0,.3);border-radius:999px;height:5px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--cyan);border-radius:999px;"></div></div>`;
         yg.appendChild(div);
     }
 
@@ -515,7 +637,7 @@ function renderAll() {
         const pct=(mnw/yearMNWNum*100).toFixed(1);
         const barW=(mnw/maxMonthMNW*100).toFixed(1);
         const row=document.createElement("div"); row.className="log-row monthly";
-        row.innerHTML=`<span style="text-align:left;">${monthLabel(ym)}</span><span>${byMonth[ym].count}</span><span class="amount">${fmtMNWNum(mnw)}<div style="margin-top:4px;background:#e9ecef;border-radius:3px;height:4px;min-width:60px;overflow:hidden;"><div style="height:100%;width:${barW}%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:3px;"></div></div></span><span style="color:var(--primary);font-weight:700;">${pct}%</span><span>${fmtMNWNum(avg)}</span>`;
+        row.innerHTML=`<span style="text-align:left;">${monthLabel(ym)}</span><span>${byMonth[ym].count}</span><span class="amount">${fmtMNWNum(mnw)}<div style="margin-top:5px;background:rgba(0,0,0,.3);border-radius:999px;height:3px;min-width:60px;overflow:hidden;"><div style="height:100%;width:${barW}%;background:var(--cyan);border-radius:999px;"></div></div></span><span style="color:var(--cyan);font-weight:600;">${pct}%</span><span>${fmtMNWNum(avg)}</span>`;
         monthlyBody.appendChild(row);
     }
     const totalRow=document.createElement("div"); totalRow.className="log-row monthly total-row";
@@ -536,7 +658,8 @@ function toggleDetail() {
     const wrap=document.getElementById("detailWrap");
     const btn=document.getElementById("btnToggleDetail");
     const vis=wrap.classList.toggle("visible");
-    btn.textContent=vis?"🔼 Hide Transactions":"🔍 Show Transactions";
+    btn.textContent=vis?"Hide Transactions":"Show Transactions";
+    if (vis) wrap.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function exportCSV() {
