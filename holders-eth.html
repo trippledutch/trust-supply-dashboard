@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Top 100 MNW Holders (Ethereum) - Trust.Supply Tools</title>
+    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --blue: #2563eb;
+            --blue-dark: #1e40af;
+            --success: #4ade80;
+            --danger: #ef4444;
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .back-link:hover { opacity: 1; }
+
+        header {
+            text-align: center;
+            padding: 20px 20px 40px;
+        }
+        header h1 {
+            font-size: 2.8em;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #60a5fa 0%, #fff 50%, #4ade80 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            max-width: 760px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+        .chain-pill {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-top: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            color: #1e293b;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+        .stat__label {
+            font-size: 0.72em;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .stat__value {
+            font-size: 1.6em;
+            font-weight: 800;
+            color: var(--slate-900);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+        .stat__sub {
+            font-size: 0.78em;
+            color: var(--slate-500);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--slate-200);
+        }
+        .tab {
+            background: var(--slate-100);
+            border: 1px solid var(--slate-200);
+            color: var(--slate-700);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        .tab:hover {
+            border-color: var(--primary);
+            color: var(--slate-900);
+        }
+        .tab.is-active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+        }
+        .tab__count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-left: 6px;
+            font-weight: 700;
+        }
+        .tab:not(.is-active) .tab__count {
+            background: white;
+            color: var(--slate-500);
+            border: 1px solid var(--slate-200);
+        }
+
+        .tablewrap {
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            max-height: 640px;
+            overflow: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+        }
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: var(--slate-800);
+            color: var(--slate-200);
+            text-align: left;
+            padding: 12px 12px;
+            font-weight: 700;
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        th.ctr, td.ctr { text-align: center; }
+        tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--slate-100);
+            vertical-align: middle;
+            color: var(--slate-700);
+        }
+        tbody tr:hover { background: var(--slate-50); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .addr {
+            font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            color: var(--slate-500);
+        }
+        .addr a { color: inherit; text-decoration: none; }
+        .addr a:hover { color: var(--blue); text-decoration: underline; }
+
+        .pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72em;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+        .pill--add { background: rgba(74, 222, 128, 0.15); color: #166534; }
+        .pill--sell { background: rgba(239, 68, 68, 0.12); color: #991b1b; }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+        .tag--ex {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+            color: white;
+        }
+        .tag--team {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .mnw-value { color: var(--slate-900); font-weight: 700; }
+        .pct { color: var(--slate-500); font-weight: 600; }
+
+        .foot-note {
+            font-size: 0.82em;
+            color: var(--slate-500);
+            margin-top: 16px;
+            text-align: center;
+        }
+        .foot-note a { color: var(--blue); text-decoration: none; }
+        .foot-note a:hover { text-decoration: underline; }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            opacity: 0.9;
+            color: white;
+        }
+        footer p { margin: 4px 0; font-size: 0.92em; }
+
+        @media (max-width: 900px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .panel { padding: 22px; }
+            header h1 { font-size: 2em; }
+            table { font-size: 0.8em; }
+            tbody td { padding: 8px 8px; }
+            th.hide-sm, td.hide-sm { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Trust.Supply Tools</a>
+
+        <header>
+            <h1>Top 100 MNW Holders</h1>
+            <p>On-chain MNW holder breakdown tagged by behaviour: <strong>Adding</strong> (accumulating), <strong>Selling</strong> (distributing), <strong>Exchanges</strong> (CEX/DEX/bridge venues), and <strong>Team</strong> (team-held).</p>
+            <span class="chain-pill">⟠ Ethereum Mainnet</span>
+        </header>
+
+        <div class="panel">
+            <div class="tabs" role="tablist">
+                <button class="tab is-active" data-view="all">All <span class="tab__count">100</span></button>
+                <button class="tab" data-view="adding">Adding <span class="tab__count">32</span></button>
+                <button class="tab" data-view="selling">Selling <span class="tab__count">7</span></button>
+                <button class="tab" data-view="exchanges">Exchanges <span class="tab__count">12</span></button>
+                <button class="tab" data-view="team">Team <span class="tab__count">8</span></button>
+            </div>
+
+            <div class="stats-row" id="stats"></div>
+
+            <div class="tablewrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="num">#</th>
+                            <th>Address</th>
+                            <th class="hide-sm">Label</th>
+                            <th>Flag</th>
+                            <th class="ctr hide-sm">Exch</th>
+                            <th class="ctr hide-sm">Team</th>
+                            <th class="hide-sm">Notes</th>
+                            <th class="num">MNW</th>
+                            <th class="num">USD</th>
+                            <th class="num">%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+
+            <p class="foot-note">14,764 total MNW holders on Ethereum. Source: <a href="https://etherscan.io/token/0xd3E4Ba569045546D09CF021ECC5dFe42b1d7f6E4" target="_blank" rel="noopener">Etherscan</a>, manually annotated. Snapshot reflects most recent dashboard refresh.</p>
+        </div>
+
+        <footer>
+            <p><strong>Created by @trippledutch</strong> for the Trust.Supply community</p>
+            <p>Top 100 Holders v1.0.0 | Updated 19 May 2026</p>
+        </footer>
+    </div>
+
+<script>
+(function(){
+    const TOKEN_ETH = '0xd3E4Ba569045546D09CF021ECC5dFe42b1d7f6E4';
+    const data = [
+        {r:1,a:"0x40ec5b33f54e0e8a33a975908c5ba1c14e5bbbdf",l:"Bridged",f:"",n:"Polygon 13462K",m:13462816.12,u:210729.40,p:28.11},
+        {r:2,a:"0x32eef6c0ab7267e474051351e8c82066d93f4948",l:"KuCoin",f:"Selling",x:1,n:"3050K",m:3030697.98,u:47438.60,p:6.33},
+        {r:3,a:"0x83699cc2a902d0cee9dd8ff4503085348bcb7711",l:"Swap-wallet",f:"",t:1,n:"1451K",m:1451053.38,u:22712.90,p:3.03},
+        {r:4,a:"0x22220a9fdf4f53fad09f1fab5562c40f5a7f5b7d",l:"",f:"",n:"681K",m:681743.49,u:10671.13,p:1.42},
+        {r:5,a:"0x78194ba1a135a71f7fba71fda7cdd3885872b8ff",l:"Uniswap-V3",f:"",x:1,n:"383K",m:384469.60,u:6017.99,p:0.80},
+        {r:6,a:"0x1c87d0fd7ee960cb179a8ec3950a836d89f62e95",l:"",f:"Adding",n:"188K-325K",m:325953.95,u:5102.06,p:0.68},
+        {r:7,a:"0x978796f54e40eed408dfa2ecebeb7aa0e795af87",l:"TeamMember",f:"",t:1,n:"273K",m:273224.00,u:4276.69,p:0.57},
+        {r:8,a:"0x5cca30aeea9b82aa35d7f46715097ab3985bd3f2",l:"",f:"",n:"266K",m:266030.89,u:4164.10,p:0.56},
+        {r:9,a:"0x0378d9a7836e77d4db38a3aeb9e66916a47f9545",l:"From KuCoin",f:"Adding",x:1,n:"142K-254K",m:254333.84,u:3981.01,p:0.53},
+        {r:10,a:"0xe789127ebf84cc9bf966a730b73dd7b00ad37ab2",l:"",f:"Adding",n:"29K-250K",m:250017.17,u:3913.44,p:0.52},
+        {r:11,a:"0x3d05cdfa47485298965d93ca0573dd8477f14869",l:"",f:"",n:"247K",m:247016.37,u:3866.47,p:0.52},
+        {r:12,a:"0xac4dbeff3e1ff5f49b61526879d141211b194476",l:"",f:"",n:"245K",m:245258.55,u:3838.96,p:0.51},
+        {r:13,a:"0x3a21cf11e9c94471773ea51c99b11d379b9ea6d1",l:"",f:"",n:"240K",m:240095.50,u:3758.14,p:0.50},
+        {r:14,a:"0x6f7367b061f70ba1db47f6ee7163b87de408b4c9",l:"",f:"",n:"224K",m:224254.18,u:3510.18,p:0.47},
+        {r:15,a:"0xf8152684ba9cb9005048baeaded38f1ca497861f",l:"",f:"",n:"36K-200K",m:200840.20,u:3143.69,p:0.42},
+        {r:16,a:"0x0ec7b5bf3d4df8e5ce1a41577d1ae2566c0432b5",l:"New",f:"Adding",n:"100K-166K",m:166836.41,u:2611.44,p:0.35},
+        {r:17,a:"0xb1afc48a23377b38039358457410e5888b4bf65d",l:"From KuCoin",f:"",x:1,n:"166K",m:166637.38,u:2608.32,p:0.35},
+        {r:18,a:"0xe57dbf57e47cae0585b54e490cee36430ca399f0",l:"",f:"",n:"158K",m:158263.61,u:2477.25,p:0.33},
+        {r:19,a:"0x9203bd308cd00bece0d5b3f9dd0f924f1a45ca45",l:"",f:"",n:"155K",m:155643.82,u:2436.25,p:0.32},
+        {r:20,a:"0x1e3e4a9d07804a0ab31881a66b8911cb7ae46f11",l:"",f:"",n:"143K",m:143017.15,u:2238.60,p:0.30},
+        {r:21,a:"0x000000000004444c5dc75cb358380d2e3de08a90",l:"Uniswap",f:"",x:1,n:"",m:141485.94,u:2214.64,p:0.30},
+        {r:22,a:"0x0c63f4f06da8c18db26a65d7427254a6ccfd4416",l:"FromGate",f:"",x:1,n:"140K",m:140590.92,u:2200.63,p:0.29},
+        {r:23,a:"0xe4a040d7ef987b8368855434cc2d8faaf1d07612",l:"From KuCoin",f:"Selling",x:1,n:"178K-138K",m:138302.44,u:2164.81,p:0.29},
+        {r:24,a:"0x99e07c2a9e3c47536049239e6a2c635aeb5a17a3",l:"",f:"",n:"131K",m:131150.53,u:2052.86,p:0.27},
+        {r:25,a:"0x795ef698dfe8e5a0ee73622b327d077be1af2bd2",l:"",f:"",n:"148K-130K",m:130000.01,u:2034.85,p:0.27},
+        {r:26,a:"0xb9b29f746e463d0d7d4ce6bc4470afd4a054f8d4",l:"TeamMember",f:"",t:1,n:"130K",m:130000.00,u:2034.85,p:0.27},
+        {r:27,a:"0xb397d0512e07a0d45204850634ac72a6c9086a99",l:"",f:"",n:"129K",m:129891.98,u:2033.16,p:0.27},
+        {r:28,a:"0x9e03ebf5af8c0c015ddef8f26a262e5640eba24e",l:"TeamMember",f:"",t:1,n:"128K",m:128000.00,u:2003.55,p:0.27},
+        {r:29,a:"0x0fde17a5a7eaa89000737e2d2162dd703fc5bd26",l:"",f:"Adding",n:"96K-123K",m:123978.54,u:1940.60,p:0.26},
+        {r:30,a:"0x8b841d96922b39622dafe4bb4ff14e40abcd3bed",l:"",f:"",n:"120K",m:120540.88,u:1886.79,p:0.25},
+        {r:31,a:"0x778743e51dd5224a7ae7b72e83549fb57b0fc3cb",l:"New",f:"Adding",n:"56K-116K",m:116633.47,u:1825.63,p:0.24},
+        {r:32,a:"0x6fa539d9d416f676e7cd700bbf958b6cc3c0a1b3",l:"",f:"Selling",n:"154K-111K",m:111952.34,u:1752.36,p:0.23},
+        {r:33,a:"0x4bc0909676f2096fa081237a87917e3dff342ae2",l:"",f:"",n:"108K",m:108129.84,u:1692.52,p:0.23},
+        {r:34,a:"0x2af774b3411a1ed710df01309ec58817c15a3a20",l:"",f:"Adding",n:"38K-106K",m:106596.25,u:1668.52,p:0.22},
+        {r:35,a:"0x4b4882fcdb964c14060539a99dc36839d910af9a",l:"",f:"Adding",n:"28K-105K",m:105146.39,u:1645.82,p:0.22},
+        {r:36,a:"0xcac07bdbf7b73b6b0832cbc36fdfa7f5f8e69adb",l:"TeamMember",f:"",t:1,n:"350K-105K",m:105000.00,u:1643.53,p:0.22},
+        {r:37,a:"0xb3152b03e27a1be38963317838a84a6c9e06bb4d",l:"",f:"Adding",n:"51K-102K",m:102219.22,u:1600.01,p:0.21},
+        {r:38,a:"0xae4f812347308ce8bd2a384298c2e13f965cfa7c",l:"From KuCoin",f:"Selling",x:1,n:"102K",m:102092.76,u:1598.03,p:0.21},
+        {r:39,a:"0x2ae2229f46f9df09ffe23bf12175814202d56e4b",l:"",f:"Adding",n:"25K-100K",m:100934.08,u:1579.89,p:0.21},
+        {r:40,a:"0x2fc2f88d1409f75ac585f3cc3c2b6a2019177513",l:"",f:"",n:"57K-100K",m:100889.88,u:1579.20,p:0.21},
+        {r:41,a:"0xa1d38a6b1335069c1a4b079dadb7f5dc484879ac",l:"",f:"Adding",n:"28K-100K",m:100698.74,u:1576.21,p:0.21},
+        {r:42,a:"0x61c75d1739ea935db7432c2e61641af1b19688e5",l:"",f:"",n:"100K",m:100643.24,u:1575.34,p:0.21},
+        {r:43,a:"0xd122b6883262f6ea047b0322e3431978ebf81813",l:"",f:"Adding",n:"30-100K",m:100184.68,u:1568.16,p:0.21},
+        {r:44,a:"0xd09d9eb9e23836cf9015aaadc0398cf6518e1cc2",l:"",f:"",n:"100K",m:100150.15,u:1567.62,p:0.21},
+        {r:45,a:"0x02267ad7af785fb828dd928c1170d50ed84edd55",l:"",f:"Adding",n:"92K-70K-100K",m:100050.62,u:1566.06,p:0.21},
+        {r:46,a:"0x75fcc3b01495888aeac1751169e8cf5bfe139998",l:"",f:"",n:"100K",m:100000.00,u:1565.27,p:0.21},
+        {r:47,a:"0xe75426d113bfbe9ee6c2f1e90e714d0c0b4ec777",l:"",f:"",n:"100K",m:100000.00,u:1565.27,p:0.21},
+        {r:48,a:"0x5296296674d5f2dfa60ebad03d06f6eb2a68eee1",l:"",f:"",n:"100K",m:100000.00,u:1565.27,p:0.21},
+        {r:49,a:"0x494424e2ec7cb55c5e548d3956920939b2e043e6",l:"New",f:"Adding",n:"53K-99K",m:99790.11,u:1561.98,p:0.21},
+        {r:50,a:"0x0f99aca6346249f1cf1063d20c0a3ffd106cfe13",l:"",f:"",n:"98K",m:98594.66,u:1543.27,p:0.21},
+        {r:51,a:"0xa36c0fa6241e06cde6bb8c1578507a43a6228246",l:"TeamMember",f:"Adding",t:1,n:"94K-96K",m:96515.00,u:1510.72,p:0.20},
+        {r:52,a:"0x9372ec04a90108e62cc21aef59d9d29cca219af6",l:"TeamMember",f:"",t:1,n:"96K",m:96260.00,u:1506.73,p:0.20},
+        {r:53,a:"0xb5c4b808cbdb15c7fe220f787870554d98a4e8e7",l:"",f:"Adding",n:"36K-94K",m:94936.34,u:1486.01,p:0.20},
+        {r:54,a:"0x4dfe32a3791ad87753a50557691fdabc9da66027",l:"New",f:"Adding",n:"91K",m:91090.03,u:1425.80,p:0.19},
+        {r:55,a:"0x1b3ff914b8277ce40d43354793e61393a4c131d1",l:"",f:"Adding",n:"61K-79K",m:83461.48,u:1306.40,p:0.17},
+        {r:56,a:"0x051b70754eb444e16cf0c69f68c49f6e6b77645a",l:"",f:"Adding",n:"25K-66K",m:82543.54,u:1292.03,p:0.17},
+        {r:57,a:"0x416ff6d242a2c2e092c07816dc35fabc53e18ccd",l:"",f:"Adding",n:"74K-82K",m:82461.50,u:1290.75,p:0.17},
+        {r:58,a:"0x589fd9e03b07f7e166fc6f22204604183fa9411f",l:"",f:"",n:"80K",m:80434.60,u:1259.02,p:0.17},
+        {r:59,a:"0x7aa882863bb6178cc30736ab895c39a177249ada",l:"",f:"Adding",n:"46K-75K",m:75084.40,u:1175.27,p:0.16},
+        {r:60,a:"0xde9887cacfaef8c9a21fbbcb26eb164632093b59",l:"",f:"",n:"21K-72K",m:72946.07,u:1141.80,p:0.15},
+        {r:61,a:"0xed629229923a58c492ff27fdddda2e5b074f741c",l:"",f:"",n:"71K",m:71726.35,u:1122.71,p:0.15},
+        {r:62,a:"0x38d402a65eb3168aa589f554eee20c4f0f24a097",l:"",f:"Selling",n:"125K-70K",m:70051.36,u:1096.49,p:0.15},
+        {r:63,a:"0x8e16cda080fc651312795ba2db782f7053355961",l:"",f:"",n:"68K",m:68990.04,u:1079.88,p:0.14},
+        {r:64,a:"0xa23b59213877f0ea8a6565c0f3c610175741d06d",l:"",f:"Adding",n:"32K-67K",m:67222.44,u:1052.21,p:0.14},
+        {r:65,a:"0xc94cac5a43742d81758484a74ae1374dbad8a15b",l:"",f:"Adding",n:"36K-54K-66K",m:66188.20,u:1036.02,p:0.14},
+        {r:66,a:"0xf89f32c49c955bd87d2c1085ebff8f02df747558",l:"",f:"",n:"64K",m:64242.77,u:1005.57,p:0.13},
+        {r:67,a:"0xaa1c45e43f47427e92ca51fec4e897df6f0bc346",l:"",f:"Adding",n:"55K-63K",m:63344.49,u:991.51,p:0.13},
+        {r:68,a:"0xe6ca97966e7bef4b3e0c6757f87dc84cdaf72715",l:"",f:"Adding",n:"52K-62K",m:62146.17,u:972.76,p:0.13},
+        {r:69,a:"0xdf1629025f0e5ff68665d08eac4b2f0d1c2caa69",l:"",f:"Adding",n:"31K-61K",m:61778.98,u:967.01,p:0.13},
+        {r:70,a:"0xb63ef2587b86e2673fea29d70cce3641f9d7513d",l:"",f:"",n:"61K",m:61690.03,u:965.62,p:0.13},
+        {r:71,a:"0x04c831c1421d78fd88a594042b94a67a8bf69150",l:"FromGate",f:"",x:1,n:"61K",m:61551.76,u:963.45,p:0.13},
+        {r:72,a:"0x887f67ccc3b4a7ccb76fc5216a814f57afad1970",l:"",f:"",n:"61K",m:61089.61,u:956.22,p:0.13},
+        {r:73,a:"0x042383f6ef4635adc0c9e46b3be9fd144d893535",l:"",f:"",n:"60K",m:60960.06,u:954.19,p:0.13},
+        {r:74,a:"0x06cd684f15797d6df07f2c7bab0c320fb03db5e0",l:"New",f:"Adding",n:"60K",m:60186.07,u:942.07,p:0.13},
+        {r:75,a:"0x352f2123f79a1a7a77cdad5eba80f05c42360fc0",l:"",f:"",n:"60K",m:60031.74,u:939.66,p:0.13},
+        {r:76,a:"0x1ddb36249224e74cd9ac00d7e1721d4a13390e61",l:"",f:"Selling",n:"100K-60K",m:60000.00,u:939.16,p:0.13},
+        {r:77,a:"0x31903388a0acfd99f9071da510dc78425a13b039",l:"",f:"Selling",n:"60K",m:60000.00,u:939.16,p:0.13},
+        {r:78,a:"0xc8085de0b9ad3bd6b96dbfc2ae72d2dd08e295b0",l:"",f:"",n:"40K-59K",m:59009.14,u:923.65,p:0.12},
+        {r:79,a:"0x866f7cf97596d47fe501805fbe8002a0cb1b746e",l:"",f:"Adding",n:"54K-15K-58K",m:58296.09,u:912.49,p:0.12},
+        {r:80,a:"0x279fb30086d02ae9ac8d9c1547226814a4c17ff7",l:"",f:"",n:"58K",m:58129.73,u:909.89,p:0.12},
+        {r:81,a:"0x75ccdf5878971ad53fe6e7f830868ad9e0c218f6",l:"",f:"",n:"57K",m:57939.79,u:906.91,p:0.12},
+        {r:82,a:"0xb0cf0850e66bd41dbf95275c55d1eb69270d4944",l:"",f:"Adding",n:"57K",m:57500.00,u:900.03,p:0.12},
+        {r:83,a:"0x8a0f3c3546aed90dedcd8dcba48d3af2c1608382",l:"From KuCoin",f:"",x:1,n:"53K-55K",m:55515.06,u:868.96,p:0.12},
+        {r:84,a:"0xac78cc30f9756fe843a0fa02e65e5ca4c5b3e086",l:"New",f:"",n:"54K",m:54730.25,u:856.68,p:0.11},
+        {r:85,a:"0x76ff4495e2f08f68d88158d0c677a45b96a28661",l:"",f:"Adding",n:"54K",m:54502.04,u:853.10,p:0.11},
+        {r:86,a:"0x73e3cbdc91f8e888ef2f50735cfb3152b42f2559",l:"",f:"",n:"53K",m:53481.54,u:837.13,p:0.11},
+        {r:87,a:"0x72cff12e7897c24b5a4d8df9b55bd0b370730781",l:"",f:"",n:"53K",m:53232.85,u:833.24,p:0.11},
+        {r:88,a:"0x52e74ba68592070bfc07ae19ca0a5ce2035bebd6",l:"",f:"",n:"51K",m:51805.26,u:810.89,p:0.11},
+        {r:89,a:"0x5f30445d03bf83401530a242e0cc4be08e90d943",l:"",f:"",n:"51K",m:51390.80,u:804.40,p:0.11},
+        {r:90,a:"0x04017b238e628b85e789278f0ea4d05f6a495f9c",l:"",f:"",n:"70K moved 51K",m:51200.00,u:801.42,p:0.11},
+        {r:91,a:"0x0f72292894edd0bc45155f8b713d89d7fa325206",l:"",f:"",n:"50K",m:50660.00,u:792.97,p:0.11},
+        {r:92,a:"0x03349180821f1c80ed92233cbcdeea2f19f39089",l:"",f:"Adding",n:"26K-50K",m:50554.56,u:791.32,p:0.11},
+        {r:93,a:"0x52f40e109ff667a4926ec4e9346ab1872334c152",l:"New",f:"Adding",n:"50K",m:50005.65,u:782.72,p:0.10},
+        {r:94,a:"0xe53b585de9a64e967a8b604ec118dd911eb3d093",l:"New",f:"",n:"21K-50K",m:50005.00,u:782.71,p:0.10},
+        {r:95,a:"0x6ec94dbc74f01110b17b0256c43e4573ab5c7969",l:"",f:"",n:"50K",m:50000.18,u:782.64,p:0.10},
+        {r:96,a:"0x00f224acbeda78e370bc04ba8700ca0a34a8adb8",l:"TeamPayments",f:"",t:1,n:"49K",m:49500.43,u:774.82,p:0.10},
+        {r:97,a:"0x2b6c82b3840418443263d848807ebb20c9e4a287",l:"",f:"",n:"25K-49K",m:49141.61,u:769.20,p:0.10},
+        {r:98,a:"0xca61e1d9ba333445339c59375ef2481e6783f9d2",l:"",f:"",n:"48K",m:48554.47,u:760.01,p:0.10},
+        {r:99,a:"0xcaf7d3d72b615bdeafd3ae513eb3987af38b1a1f",l:"FromGate",f:"",x:1,n:"47K",m:47905.84,u:749.86,p:0.10},
+        {r:100,a:"0xf6007ee949b8a5e3b340367ed039ee90b3cf5f79",l:"From KuCoin",f:"",x:1,n:"47K",m:47364.03,u:741.37,p:0.10}
+    ];
+
+    const fmt = (n) => n.toLocaleString('en-US', {maximumFractionDigits: 0});
+    const usd = (n) => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    const usdShort = (n) => {
+        if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+        if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+        return '$' + n.toFixed(0);
+    };
+    const mnwShort = (n) => {
+        if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+        if (n >= 1e3) return (n/1e3).toFixed(0) + 'K';
+        return n.toFixed(0);
+    };
+    const shortAddr = (a) => a.slice(0, 6) + '…' + a.slice(-4);
+
+    const flagPill = (f) => {
+        if (f === 'Adding') return '<span class="pill pill--add">↑ Adding</span>';
+        if (f === 'Selling') return '<span class="pill pill--sell">↓ Selling</span>';
+        return '';
+    };
+    const exCell = (d) => d.x === 1 ? '<span class="tag tag--ex">EX</span>' : '';
+    const teamCell = (d) => d.t === 1 ? '<span class="tag tag--team">TEAM</span>' : '';
+
+    const rowHtml = (d) =>
+        '<tr>' +
+            '<td class="num">' + d.r + '</td>' +
+            '<td class="addr"><a href="https://etherscan.io/token/' + TOKEN_ETH + '?a=' + d.a + '" target="_blank" rel="noopener" title="' + d.a + '">' + shortAddr(d.a) + '</a></td>' +
+            '<td class="hide-sm">' + (d.l || '') + '</td>' +
+            '<td>' + flagPill(d.f) + '</td>' +
+            '<td class="ctr hide-sm">' + exCell(d) + '</td>' +
+            '<td class="ctr hide-sm">' + teamCell(d) + '</td>' +
+            '<td class="hide-sm">' + (d.n || '') + '</td>' +
+            '<td class="num mnw-value">' + fmt(d.m) + '</td>' +
+            '<td class="num">' + usd(d.u) + '</td>' +
+            '<td class="num pct">' + d.p.toFixed(2) + '%</td>' +
+        '</tr>';
+
+    let currentView = 'all';
+
+    function render() {
+        let rows, label;
+        if (currentView === 'adding')        { rows = data.filter(d => d.f === 'Adding');  label = 'Adding'; }
+        else if (currentView === 'selling')  { rows = data.filter(d => d.f === 'Selling'); label = 'Selling'; }
+        else if (currentView === 'exchanges'){ rows = data.filter(d => d.x === 1);         label = 'Exchanges'; }
+        else if (currentView === 'team')     { rows = data.filter(d => d.t === 1);         label = 'Team'; }
+        else                                  { rows = data;                                label = 'All wallets'; }
+
+        document.getElementById('tbody').innerHTML = rows.map(rowHtml).join('');
+
+        const totalMnw = rows.reduce((s, d) => s + d.m, 0);
+        const totalUsd = rows.reduce((s, d) => s + d.u, 0);
+        const totalPct = rows.reduce((s, d) => s + d.p, 0);
+
+        document.getElementById('stats').innerHTML =
+            '<div class="stat"><div class="stat__label">' + label + '</div><div class="stat__value">' + rows.length + '</div><div class="stat__sub">wallets shown</div></div>' +
+            '<div class="stat"><div class="stat__label">Total MNW</div><div class="stat__value">' + mnwShort(totalMnw) + '</div><div class="stat__sub">' + fmt(totalMnw) + ' tokens</div></div>' +
+            '<div class="stat"><div class="stat__label">Total USD</div><div class="stat__value">' + usdShort(totalUsd) + '</div><div class="stat__sub">' + usd(totalUsd) + '</div></div>' +
+            '<div class="stat"><div class="stat__label">Supply share</div><div class="stat__value">' + totalPct.toFixed(2) + '%</div><div class="stat__sub">of circulating supply</div></div>';
+    }
+
+    document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(b => b.classList.toggle('is-active', b === btn));
+            currentView = btn.dataset.view;
+            render();
+        });
+    });
+
+    render();
+})();
+</script>
+</body>
+</html>
