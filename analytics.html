@@ -1,525 +1,391 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="theme-color" content="#0a1024">
     <!-- v1.5.5 audit: 8 May 2026 — Etherscan free tier offset cap drops from 10,000 to 1,000 on 1 Jul 2026; offset and pagination sentinel updated -->
-    <title>Trust.Supply Validator Analytics v1.5.5</title>
+    <title>Validator Analytics · Trust.Supply Tools</title>
     <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* ==================== DESIGN SYSTEM (Matching Dashboard) ==================== */
+        /* ==================== CLOUDLABS DESIGN SYSTEM ==================== */
         :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --success: #28a745;
-            --success-light: #d4edda;
-            --warning: #ffc107;
-            --warning-light: #fff3cd;
-            --info: #17a2b8;
-            --info-light: #d1ecf1;
-            --gray-100: #f8f9fa;
-            --gray-200: #e9ecef;
-            --gray-500: #6c757d;
-            --gray-700: #495057;
-            --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-            --shadow-glow: 0 4px 16px rgba(102, 126, 234, 0.3);
-            --radius: 10px;
-            --transition: all 0.3s ease;
+            --bg:#0a1024;--bg-2:#0f1832;--panel:#121d3a;--panel-2:#162345;
+            --line:rgba(120,160,255,.14);--line-strong:rgba(120,160,255,.28);
+            --ink:#e6ecff;--ink-dim:#9aa6c8;--ink-faint:#8a96b8;
+            --cyan:#5fe3ff;--cyan-deep:#26b8d8;--amber:#ffb454;--rose:#ff5d7a;--green:#52e3a4;
+            --body:"Inter",system-ui,sans-serif;
+            --mono:"JetBrains Mono",ui-monospace,monospace;
+            /* legacy aliases so existing inline style="color: var(--primary)" still resolves */
+            --primary:#5fe3ff;
+            --primary-dark:#26b8d8;
+            --success:#4ade80;
+            --success-light:rgba(82,227,164,.12);
+            --warning:#ffb454;
+            --warning-light:rgba(255,180,84,.12);
+            --info:#5fe3ff;
+            --info-light:rgba(95,227,255,.10);
+            --gray-100:rgba(255,255,255,.02);
+            --gray-200:var(--line);
+            --gray-500:var(--ink-faint);
+            --gray-700:var(--ink-dim);
+            --shadow-sm:0 1px 0 rgba(255,255,255,.04) inset;
+            --shadow-md:0 8px 24px -16px rgba(0,0,0,.6);
+            --shadow-lg:0 18px 40px -22px rgba(0,0,0,.6);
+            --shadow-glow:0 0 0 1px rgba(95,227,255,.18);
+            --radius:10px;
+            --transition:all .2s ease;
         }
         
         /* BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            padding: 20px; 
-            color: #333; 
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{
+            background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;
+            -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+            min-height:100vh;line-height:1.5;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 0%, rgba(95,227,255,.10),transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 100%, rgba(82,227,164,.08),transparent 60%),
+                linear-gradient(180deg,#0a1024 0%,#0c1330 100%);
+            background-attachment:fixed;
         }
-        .container { 
-            max-width: 1400px; 
-            margin: 0 auto; 
-            background: white; 
-            border-radius: 20px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
-            overflow: hidden; 
+        body::before{
+            content:"";position:fixed;inset:0;pointer-events:none;
+            background-image:
+                linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);
+            background-size:48px 48px;
+            mask-image:radial-gradient(ellipse 100% 80% at 50% 50%,#000 30%,transparent 80%);
+            z-index:0;
         }
-        
-        /* BACK NAVIGATION */
-        .back-nav { 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 12px 20px; 
-            margin: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        body::after{
+            content:"";position:fixed;inset:0;pointer-events:none;
+            background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);
+            z-index:0;
         }
-        .back-nav a { 
-            color: white; 
-            text-decoration: none; 
-            font-weight: 600; 
-            font-size: 14px; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 5px; 
-            transition: var(--transition);
-            opacity: 0.95;
+        .container{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 24px;background:transparent;border-radius:0;box-shadow:none;overflow:visible}
+
+        /* Site header */
+        header.site{
+            display:flex;align-items:center;gap:18px;padding:16px 0 12px;
+            border-bottom:1px solid var(--line);
+            position:sticky;top:0;z-index:100;
+            background:rgba(10,16,36,.85);backdrop-filter:blur(14px);
         }
-        .back-nav a:hover { 
-            opacity: 1;
-            transform: translateX(-3px); 
+        .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+        .brand .word{display:flex;flex-direction:column;line-height:1}
+        .brand .word b{font-family:var(--body);font-weight:700;letter-spacing:.01em;font-size:26px}
+        .brand .word b .wm-a{color:var(--ink)}
+        .brand .word b .wm-b{color:var(--cyan)}
+        .brand .word small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-faint);margin-top:6px;text-transform:uppercase}
+        .spacer{flex:1}
+        .status-dot{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase}
+        .status-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.5s ease-in-out infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+        /* Top nav */
+        .nav-wrap{border-bottom:1px solid var(--line)}
+        nav.tabs-top{display:flex;gap:2px;padding:10px 0;overflow-x:auto;scrollbar-width:none}
+        nav.tabs-top::-webkit-scrollbar{display:none}
+        nav.tabs-top a{
+            display:inline-flex;align-items:center;gap:8px;
+            color:var(--ink-faint);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+            padding:11px 14px;cursor:pointer;border-radius:6px;white-space:nowrap;
+            text-decoration:none;font-weight:500;transition:color .15s,background .15s;
         }
-        
-        /* HEADER */
-        header { 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            color: white; 
-            padding: 30px; 
-            text-align: center; 
-        }
-        header h1 { 
-            font-size: 2.5em; 
-            margin-bottom: 10px; 
-            font-weight: 700; 
-        }
-        header p { 
-            opacity: 0.9; 
-            font-size: 1.1em; 
-        }
-        
-        /* CONTENT AREA */
-        .content-wrapper {
-            padding: 30px;
-        }
+        nav.tabs-top a .n{font-size:10px;color:var(--ink-faint);opacity:.6;font-weight:400}
+        nav.tabs-top a[aria-current="page"]{color:#062032;background:var(--cyan)}
+        nav.tabs-top a[aria-current="page"] .n{color:#062032;opacity:.7}
+        nav.tabs-top a:hover{color:var(--ink)}
+
+        /* Hero */
+        main.hero{padding:36px 0 16px}
+        .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .eyebrow::before{content:"";width:18px;height:1px;background:var(--cyan)}
+        h1{font-family:var(--body);letter-spacing:-.02em;font-size:clamp(28px,5vw,46px);font-weight:300;line-height:1.08;max-width:900px}
+        h1 .l1{display:block;font-size:.55em;font-style:italic;color:var(--ink-dim);font-weight:300;margin-bottom:6px}
+        h1 .l2{display:block;color:var(--ink);font-weight:600}
+        h1 .l2 em{font-style:italic;color:var(--cyan);font-weight:600}
+        .lede{font-size:clamp(14px,1.4vw,16px);color:var(--ink-dim);max-width:62ch;line-height:1.65;margin-top:14px}
+        .lede strong{color:var(--ink);font-weight:600}
+
+        /* Hide legacy header/back-nav blocks; site header replaces them */
+        .container > header:not(.site){display:none}
+        .container > .back-nav, .container > .back-nav-bottom{display:none}
+
+        /* Content area */
+        .content-wrapper{padding:24px 0 12px}
         
         /* STATUS */
-        #status { 
-            text-align: center; 
-            color: var(--info); 
-            font-size: 14px; 
-            font-weight: 700; 
-            margin-bottom: 20px; 
-            padding: 12px;
-            background: var(--info-light);
-            border-radius: 8px;
-            border: 2px solid var(--info);
-        }
-        
-        /* CONTROLS */
-        .controls { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            margin-bottom: 25px; 
-        }
-        /* DATE RANGE PICKER v1.5.5 */
-        .date-range-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .date-field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-            min-width: 150px;
-        }
-        .date-field label {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--gray-500);
-        }
-        input[type="date"] {
-            padding: 14px;
-            border-radius: 8px;
-            background: white;
-            color: #333;
-            border: 2px solid var(--gray-200);
-            font-weight: 600;
-            font-size: 15px;
-            transition: var(--transition);
-            width: 100%;
-            cursor: pointer;
-        }
-        input[type="date"]:hover { border-color: var(--primary); }
-        input[type="date"]:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        .date-sep {
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--primary);
-            padding-bottom: 12px;
-            flex-shrink: 0;
-        }
-        .date-presets {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            align-items: flex-end;
-            padding-bottom: 2px;
-        }
-        .preset-btn {
-            padding: 10px 14px !important;
-            font-size: 12px !important;
-            font-weight: 800 !important;
-            border-radius: 6px !important;
-            background: white !important;
-            color: var(--primary) !important;
-            border: 2px solid var(--primary) !important;
-            box-shadow: none !important;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex: none;
-        }
-        .preset-btn:hover {
-            background: var(--primary) !important;
-            color: white !important;
-            transform: translateY(-1px) !important;
-            box-shadow: 0 4px 10px rgba(102,126,234,0.3) !important;
-        }
-        @media (max-width: 768px) {
-            .date-range-row { flex-wrap: wrap; }
-            .date-field { min-width: 0; flex: 1 1 120px; }
-            input[type="date"] { font-size: 13px; padding: 10px 8px; }
-            .date-sep { padding-bottom: 10px; font-size: 18px; }
-            .date-presets { width: 100%; justify-content: space-between; }
-            .preset-btn { flex: 1 1 0; padding: 9px 4px !important; font-size: 11px !important; }
-        }
-        button { 
-            padding: 16px; 
-            border-radius: 8px; 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            font-size: 16px; 
-            transition: var(--transition);
-            box-shadow: var(--shadow-glow);
-        }
-        button:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* EXPORT BUTTON */
-        .export-btn {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-        .export-btn:hover:not(:disabled) {
-            background: var(--gray-100);
-            box-shadow: var(--shadow-md);
-        }
-        .export-btn:disabled {
-            opacity: 0.5;
-            border-color: var(--gray-200);
-            color: var(--gray-500);
-        }
-        
-        /* STATS GRID */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; 
-            margin-bottom: 25px; 
-        }
-        .box { 
-            background: var(--gray-100); 
-            padding: 20px 10px; 
-            border-radius: 12px; 
-            border: 2px solid var(--gray-200); 
-            text-align: center;
-            transition: var(--transition);
-        }
-        .box:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary);
-        }
-        
-        /* SUMMARY ROW */
-        .summary-row { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-bottom: 25px; 
-        }
-        .summary-box { 
-            padding: 30px 20px; 
-            border-radius: 12px; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 140px;
-            transition: var(--transition);
-        }
-        .summary-box:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-        .grand-total-box { 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            border: 2px solid var(--primary);
-            color: white;
-            box-shadow: var(--shadow-glow);
-        }
-        .avg-total-box { 
-            background: var(--success-light); 
-            border: 2px solid var(--success);
-        }
-        
-        /* TYPOGRAPHY */
-        .stat-val { 
-            font-size: 42px; 
-            font-weight: 900; 
-            display: block; 
-            line-height: 1.2; 
-            margin-top: 5px; 
-        }
-        .sub-val { 
-            font-size: 28px; 
-            font-weight: 800; 
-            display: block; 
-            margin-top: 5px; 
-        }
-        .lbl { 
-            font-size: 13px; 
-            color: var(--gray-500); 
-            text-transform: uppercase; 
-            font-weight: 800; 
-            letter-spacing: 1px; 
-            display: block; 
-        }
-        .title-lbl { 
-            font-size: 15px; 
-            font-weight: 900; 
-            color: white; 
-            margin-bottom: 4px; 
-        }
-        
-        /* LOG TABLE */
-        .log-section-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #333;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .log-section-title .highlight {
-            color: var(--primary);
-            font-weight: 400;
-            text-transform: none;
-            font-size: 12px;
-        }
-        .log-container { 
-            background: white; 
-            border-radius: 12px; 
-            border: 2px solid #cbd5e1; 
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .log-header { 
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
-            padding: 16px; 
-            display: grid; 
-            grid-template-columns: 0.5fr 1.5fr 1fr 1.2fr 1.2fr; 
-            font-size: 12px; 
-            color: white; 
-            border-bottom: 2px solid var(--primary-dark); 
-            font-weight: 800; 
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        #log-body { 
-            max-height: 400px; 
-            overflow-y: auto; 
-            font-family: 'Courier New', monospace; 
-            font-size: 14px; 
-            background: #f8fafc;
-        }
-        .log-row { 
-            display: grid; 
-            grid-template-columns: 0.5fr 1.5fr 1fr 1.2fr 1.2fr; 
-            padding: 14px; 
-            border-bottom: 1px solid #e2e8f0; 
-            color: #1e293b; 
-            text-align: center;
-            transition: var(--transition);
-            font-weight: 600;
-        }
-        .log-row:hover {
-            background: white;
-            box-shadow: inset 0 0 0 1px var(--primary);
-        }
-        .log-row:last-child {
-            border-bottom: none;
-        }
-        .today-row { 
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%); 
-            color: var(--primary-dark); 
-            font-weight: 800;
-            border-left: 4px solid var(--primary);
-        }
-        .today-row:hover {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-        }
-        
-        /* BOTTOM NAVIGATION */
-        .back-nav-bottom {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 30px 20px;
-            text-align: center;
-            border-top: 3px solid var(--primary);
-            margin-top: 20px;
-        }
-        .back-nav-bottom a {
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            padding: 14px 32px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .back-nav-bottom a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        /* FOOTER */
-        .footer { 
-            text-align: center; 
-            padding: 20px; 
-            color: var(--gray-500); 
-            border-top: 2px solid var(--gray-200);
-            font-size: 13px;
-            font-weight: 600;
-        }
-        
-        /* WALLET PANEL v1.5.5 */
-        .wallet-panel {
-            background: linear-gradient(135deg, rgba(102,126,234,0.12) 0%, rgba(118,75,162,0.12) 100%);
-            padding: 22px 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            border-bottom: 3px solid rgba(102,126,234,0.3);
-        }
-        .wallet-half {
-            padding: 0 20px;
-        }
-        .wallet-half:first-child {
-            border-right: 2px solid rgba(102,126,234,0.2);
-            padding-left: 0;
-        }
-        .wallet-half:last-child {
-            padding-right: 0;
-        }
-        .wallet-card-title {
-            font-size: 12px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary-dark);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .wallet-card-title a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 600;
-            margin-left: auto;
-            opacity: 0.7;
-        }
-        .wallet-card-title a:hover { opacity: 1; text-decoration: underline; }
-        .wallet-balances {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-        .wallet-balance-item { display: flex; flex-direction: column; gap: 4px; }
-        .wallet-balance-label {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        .wallet-balance-value {
-            font-size: 22px;
-            font-weight: 900;
-            color: var(--primary);
-            font-variant-numeric: tabular-nums;
-        }
-        .wallet-balance-value.pol { color: #16a34a; }
-        .wallet-balance-value.loading { color: var(--gray-500); font-size: 14px; font-weight: 600; }
-        .wallet-balance-value.error { color: #dc2626; font-size: 14px; font-weight: 700; }
-        @media (max-width: 768px) {
-            .wallet-panel { grid-template-columns: 1fr; gap: 16px; padding: 16px 20px; }
-            .wallet-half { border-right: none !important; padding: 0 !important; }
-            .wallet-half:first-child { border-bottom: 2px solid rgba(102,126,234,0.2); padding-bottom: 16px !important; }
-            .wallet-balance-value { font-size: 18px; }
+        #status{
+            text-align:center;color:var(--cyan);
+            font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+            margin-bottom:20px;padding:12px;
+            background:rgba(95,227,255,.06);
+            border:1px solid var(--line-strong);
+            border-radius:10px;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .summary-row {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 1.8em;
-            }
-            header p {
-                font-size: 0.65em !important;
-            }
-            .footer {
-                font-size: 9.5px;
-            }
-            .date-full {
-                display: none;
-            }
-            .date-short {
-                display: inline;
-            }
+        /* CONTROLS */
+        .controls{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+        .date-range-row{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+        .date-field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px}
+        .date-field label{
+            font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+            color:var(--ink-faint);font-weight:500;
         }
-        @media (min-width: 769px) {
-            .date-short {
-                display: none;
-            }
+        input[type="date"]{
+            padding:11px 13px;border-radius:8px;
+            background:rgba(0,0,0,.25);color:var(--ink);
+            border:1px solid var(--line);
+            font-family:var(--body);font-weight:400;font-size:14px;
+            transition:border-color .15s,background .15s;
+            width:100%;cursor:pointer;
+            color-scheme:dark;
+        }
+        input[type="date"]:hover{border-color:var(--line-strong)}
+        input[type="date"]:focus{outline:none;border-color:var(--cyan);background:rgba(0,0,0,.35)}
+        .date-sep{
+            font-family:var(--mono);font-size:18px;font-weight:400;
+            color:var(--cyan);padding-bottom:12px;flex-shrink:0;
+        }
+        .date-presets{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end;padding-bottom:2px}
+        .preset-btn{
+            padding:9px 14px !important;
+            font-family:var(--mono) !important;
+            font-size:10.5px !important;
+            font-weight:500 !important;
+            letter-spacing:.14em !important;
+            text-transform:uppercase !important;
+            border-radius:999px !important;
+            background:rgba(255,255,255,.02) !important;
+            color:var(--ink-dim) !important;
+            border:1px solid var(--line) !important;
+            box-shadow:none !important;
+            flex:none;
+        }
+        .preset-btn:hover{
+            background:rgba(95,227,255,.08) !important;
+            color:var(--cyan) !important;
+            border-color:var(--cyan) !important;
+            transform:none !important;
+        }
+        @media (max-width:768px){
+            .date-range-row{flex-wrap:wrap}
+            .date-field{min-width:0;flex:1 1 120px}
+            input[type="date"]{font-size:13px;padding:10px 10px}
+            .date-sep{padding-bottom:10px;font-size:16px}
+            .date-presets{width:100%;justify-content:space-between}
+            .preset-btn{flex:1 1 0;padding:8px 6px !important;font-size:10px !important}
+        }
+
+        /* BUTTONS */
+        button{
+            padding:11px 20px;border-radius:999px;
+            background:var(--cyan);color:#062032;
+            border:1px solid var(--cyan);cursor:pointer;
+            font-family:var(--mono);font-weight:500;font-size:11.5px;
+            letter-spacing:.14em;text-transform:uppercase;
+            transition:all .2s;
+        }
+        button:hover{background:#7eebff;border-color:#7eebff}
+        button:disabled{opacity:.35;cursor:not-allowed;background:rgba(255,255,255,.04);color:var(--ink-faint);border-color:var(--line)}
+
+        /* EXPORT BUTTON */
+        .export-btn{
+            background:rgba(255,255,255,.03);
+            color:var(--ink);
+            border:1px solid var(--line-strong);
+        }
+        .export-btn:hover:not(:disabled){
+            background:rgba(95,227,255,.08);
+            color:var(--cyan);
+            border-color:var(--cyan);
+        }
+        .export-btn:disabled{opacity:.35;border-color:var(--line);color:var(--ink-faint);background:rgba(255,255,255,.02)}
+        
+        /* STATS GRID */
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+        .box{
+            background:rgba(255,255,255,.02);
+            padding:18px 14px;border-radius:12px;
+            border:1px solid var(--line);
+            text-align:center;
+            transition:border-color .2s,background .2s;
+        }
+        .box:hover{border-color:var(--line-strong);background:rgba(255,255,255,.035)}
+
+        /* SUMMARY ROW */
+        .summary-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+        .summary-box{
+            padding:26px 20px;border-radius:14px;
+            text-align:center;display:flex;flex-direction:column;align-items:center;
+            min-height:140px;transition:border-color .2s,background .2s;
+        }
+        .grand-total-box{
+            background:linear-gradient(180deg,rgba(95,227,255,.10),rgba(255,255,255,0) 60%),
+                       linear-gradient(180deg,#142042 0%,#0e1730 100%);
+            border:1px solid var(--cyan);
+            color:var(--ink);
+            box-shadow:0 18px 40px -22px rgba(0,0,0,.6),0 0 0 1px rgba(95,227,255,.18) inset;
+        }
+        .avg-total-box{
+            background:linear-gradient(180deg,rgba(82,227,164,.08),rgba(255,255,255,0) 60%),
+                       linear-gradient(180deg,#142042 0%,#0e1730 100%);
+            border:1px solid rgba(82,227,164,.5);
+        }
+
+        /* TYPOGRAPHY */
+        .stat-val{
+            font-family:var(--body);font-size:38px;font-weight:700;
+            display:block;line-height:1.15;margin-top:6px;
+            font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+            color:var(--ink);
+        }
+        .sub-val{
+            font-family:var(--body);font-size:24px;font-weight:700;
+            display:block;margin-top:5px;font-variant-numeric:tabular-nums;
+            color:var(--ink);
+        }
+        .lbl{
+            font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+            text-transform:uppercase;font-weight:500;
+            color:var(--ink-faint);display:block;
+        }
+        .title-lbl{
+            font-family:var(--mono);font-size:11px;font-weight:500;
+            letter-spacing:.16em;text-transform:uppercase;
+            color:var(--ink);margin-bottom:4px;
+        }
+
+        /* LOG TABLE */
+        .log-section-title{
+            font-family:var(--mono);font-size:10.5px;font-weight:500;
+            margin-bottom:12px;color:var(--ink);
+            text-transform:uppercase;letter-spacing:.18em;
+        }
+        .log-section-title .highlight{
+            color:var(--cyan);font-family:var(--mono);font-weight:400;
+            text-transform:none;font-size:10.5px;letter-spacing:.06em;margin-left:8px;
+        }
+        .log-container{
+            background:rgba(0,0,0,.18);
+            border-radius:10px;
+            border:1px solid var(--line);
+            overflow:hidden;
+        }
+        .log-header{
+            background:#0c1430;
+            padding:13px 16px;
+            display:grid;grid-template-columns:.5fr 1.5fr 1fr 1.2fr 1.2fr;
+            font-family:var(--mono);font-size:9.5px;
+            color:var(--ink-faint);
+            border-bottom:1px solid var(--line-strong);
+            font-weight:500;text-align:center;
+            text-transform:uppercase;letter-spacing:.16em;
+        }
+        #log-body{
+            max-height:420px;overflow-y:auto;
+            font-family:var(--mono);font-size:12.5px;
+            background:transparent;
+        }
+        .log-row{
+            display:grid;grid-template-columns:.5fr 1.5fr 1fr 1.2fr 1.2fr;
+            padding:11px 14px;
+            border-bottom:1px solid var(--line);
+            color:var(--ink-dim);text-align:center;
+            transition:background .15s;font-weight:400;
+            font-variant-numeric:tabular-nums;
+        }
+        .log-row:hover{background:rgba(95,227,255,.04);color:var(--ink)}
+        .log-row:last-child{border-bottom:none}
+        .today-row{
+            background:rgba(95,227,255,.08);
+            color:var(--cyan);font-weight:500;
+            border-left:2px solid var(--cyan);
+        }
+        .today-row:hover{background:rgba(95,227,255,.14)}
+
+        /* WALLET PANEL */
+        .wallet-panel{
+            margin-top:20px;
+            background:linear-gradient(180deg,rgba(95,227,255,.04),rgba(255,255,255,0) 30%),
+                       linear-gradient(180deg,#142042 0%,#0e1730 100%);
+            padding:20px 22px;
+            display:grid;grid-template-columns:1fr 1fr;gap:0;
+            border:1px solid var(--line-strong);
+            border-radius:14px;
+            box-shadow:0 18px 40px -22px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.04) inset;
+        }
+        .wallet-half{padding:0 20px}
+        .wallet-half:first-child{border-right:1px solid var(--line);padding-left:0}
+        .wallet-half:last-child{padding-right:0}
+        .wallet-card-title{
+            font-family:var(--mono);font-size:10.5px;font-weight:500;
+            text-transform:uppercase;letter-spacing:.18em;
+            color:var(--ink);
+            margin-bottom:14px;
+            display:flex;align-items:center;gap:8px;
+        }
+        .wallet-card-title a{
+            color:var(--cyan);text-decoration:none;
+            font-family:var(--mono);font-size:9.5px;font-weight:500;
+            letter-spacing:.12em;margin-left:auto;
+            border-bottom:1px dotted transparent;
+        }
+        .wallet-card-title a:hover{border-bottom-color:var(--cyan)}
+        .wallet-balances{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .wallet-balance-item{display:flex;flex-direction:column;gap:4px}
+        .wallet-balance-label{
+            font-family:var(--mono);font-size:9.5px;font-weight:500;
+            color:var(--ink-faint);
+            text-transform:uppercase;letter-spacing:.18em;
+        }
+        .wallet-balance-value{
+            font-family:var(--body);font-size:22px;font-weight:700;
+            color:var(--ink);
+            font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+        }
+        .wallet-balance-value.pol{color:var(--green)}
+        .wallet-balance-value.loading{color:var(--ink-faint);font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em}
+        .wallet-balance-value.error{color:#ff8aa0;font-family:var(--mono);font-size:12px;font-weight:500}
+        @media (max-width:768px){
+            .wallet-panel{grid-template-columns:1fr;gap:16px;padding:16px 18px}
+            .wallet-half{border-right:none !important;padding:0 !important}
+            .wallet-half:first-child{border-bottom:1px solid var(--line);padding-bottom:16px !important}
+            .wallet-balance-value{font-size:18px}
+        }
+
+        /* Site footer */
+        .footer, footer.footer{
+            margin-top:28px;padding:22px 0 28px;
+            border-top:1px solid var(--line);
+            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+            font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);
+            background:transparent;text-align:left;line-height:1.6;
+        }
+        .footer a, footer.footer a{color:var(--cyan);text-decoration:none}
+        .footer a:hover, footer.footer a:hover{color:#7eebff}
+        .footer p{margin:0}
+
+        /* RESPONSIVE */
+        @media (max-width:768px){
+            .stats-grid{grid-template-columns:1fr}
+            .summary-row{grid-template-columns:1fr}
+            .stat-val{font-size:30px}
+            .footer{font-size:10px}
+            .date-full{display:none}
+            .date-short{display:inline}
+        }
+        @media (min-width:769px){
+            .date-short{display:none}
         }
     </style>
     <!-- Google Analytics GA4 -->
@@ -534,17 +400,37 @@
 <body>
 
 <div class="container">
-    <div class="back-nav">
-        <a href="index.html">← Back to Tools</a>
-    </div>
-    
-    <header>
-        <h1>📊 Trust.Supply Validator Analytics</h1>
-        <p>Real-time blockchain transaction analysis and validation tracking</p>
-        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">
-            📅 <span class="date-full">Version 1.5.5 | 8 May 2026</span><span class="date-short">v1.5.5 | 8 May 2026</span>
-        </p>
+
+    <header class="site">
+        <a class="brand" href="index.html">
+            <span class="word">
+                <b><span class="wm-a">Trust</span><span class="wm-b">.Supply</span></b>
+                <small>Unofficial analytics suite</small>
+            </span>
+        </a>
+        <span class="spacer"></span>
+        <span class="status-dot">Live · on-chain</span>
     </header>
+
+    <div class="nav-wrap">
+        <nav class="tabs-top" aria-label="Main navigation">
+            <a href="index.html"><span class="n">01</span>Overview</a>
+            <a href="dashboard.html"><span class="n">02</span>Dashboard</a>
+            <a href="holders-eth.html"><span class="n">03</span>Holders</a>
+            <a href="analytics.html" aria-current="page"><span class="n">04</span>Analytics</a>
+            <a href="rewards.html"><span class="n">05</span>Rewards</a>
+            <a href="validator.html"><span class="n">06</span>My Validator</a>
+        </nav>
+    </div>
+
+    <main class="hero">
+        <div class="eyebrow">polygon · live blockchain · validation tracking</div>
+        <h1>
+            <span class="l1">Real-time transaction analysis</span>
+            <span class="l2">Validator <em>Analytics</em></span>
+        </h1>
+        <p class="lede">Live blockchain transaction scanning, query and validation counting, and CSV export. <strong>v1.5.5 · 8 May 2026</strong></p>
+    </main>
 
     <!-- WALLET BALANCES v1.5.5 -->
     <div class="wallet-panel">
@@ -658,9 +544,9 @@
         <div id="recentQueries" style="display: none; margin: 20px 0;">
             <div class="log-section-title">🔍 Validation Transaction Details</div>
             <div class="log-container">
-                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <div style="font-size: 0.9em; color: var(--gray-700); line-height: 1.6;">
-                        <strong>📊 Real Blockchain Data:</strong> Shows decoded validation transactions from your scan. Each entry includes the actual transaction ID from PolygonScan, pool name, 3-letter code, query ID, date, and coordinates.
+                <div style="background: rgba(95,227,255,.06); border: 1px solid var(--line); padding: 14px 16px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-dim); letter-spacing: .04em; line-height: 1.6;">
+                        <strong style="color: var(--cyan); letter-spacing: .08em; text-transform: uppercase;">Real blockchain data</strong> — decoded validation transactions from your scan. Each entry includes the actual transaction ID, pool name, 3-letter code, query ID, date, and coordinates.
                     </div>
                 </div>
                 <div id="queries-body" style="max-height: 500px; overflow-y: auto;">
@@ -669,7 +555,7 @@
             </div>
         </div>
 
-        <div class="log-section-title">Detailed History Log <span class="highlight">(Purple row = Today)</span></div>
+        <div class="log-section-title">Detailed History Log <span class="highlight">(Cyan row = Today)</span></div>
         <div class="log-container">
             <div class="log-header">
                 <span>#</span>
@@ -684,39 +570,36 @@
         </div>
         
         <!-- Progress Indicator -->
-        <div id="progressIndicator" style="display: none; margin-top: 20px; padding: 20px; background: rgba(102, 126, 234, 0.1); border-radius: 10px; text-align: center;">
-            <div style="font-size: 16px; font-weight: bold; color: var(--primary); margin-bottom: 10px;">
-                <span id="progressText">Scanning blockchain...</span>
+        <div id="progressIndicator" style="display: none; margin-top: 20px; padding: 18px 20px; background: rgba(95,227,255,.06); border: 1px solid var(--line-strong); border-radius: 10px; text-align: center;">
+            <div style="font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;">
+                <span id="progressText">Scanning blockchain…</span>
             </div>
-            <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
-                <div id="progressBar" style="background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
+            <div style="background: rgba(0,0,0,.3); height: 6px; border-radius: 999px; overflow: hidden;">
+                <div id="progressBar" style="background: var(--cyan); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
             </div>
-            <div style="font-size: 14px; color: var(--gray-500); margin-top: 8px;">
-                <span id="progressDetails">Initializing...</span>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 10px; letter-spacing: .04em;">
+                <span id="progressDetails">Initializing…</span>
             </div>
-            <div style="font-size: 14px; color: var(--primary); margin-top: 8px; font-weight: 600;">
-                Elapsed Time: <span id="elapsedTime">00:00</span>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-dim); margin-top: 6px; font-weight: 500; letter-spacing: .04em;">
+                Elapsed: <span id="elapsedTime" style="color: var(--cyan);">00:00</span>
             </div>
         </div>
         
         <!-- Action Buttons -->
         <div style="margin-top: 30px; text-align: center; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
             <button onclick="runV106()" id="scanBtn" style="flex: 1; min-width: 200px; max-width: 250px;">Show Transactions</button>
-            <button onclick="showDetailsWindow()" id="detailsBtn" disabled style="flex: 1; min-width: 200px; max-width: 250px; background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);">🔍 Show Details</button>
-            <button onclick="exportCSV()" id="exportBtn" class="export-btn" disabled style="flex: 1; min-width: 200px; max-width: 250px;">📥 Export CSV</button>
-            <button onclick="window.location.href='index.html'" style="flex: 1; min-width: 200px; max-width: 250px; background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">← Back to Tools</button>
+            <button onclick="showDetailsWindow()" id="detailsBtn" class="export-btn" disabled style="flex: 1; min-width: 200px; max-width: 250px;">Show Details</button>
+            <button onclick="exportCSV()" id="exportBtn" class="export-btn" disabled style="flex: 1; min-width: 200px; max-width: 250px;">Export CSV</button>
+            <button onclick="window.location.href='index.html'" class="export-btn" style="flex: 1; min-width: 200px; max-width: 250px;">Back to Tools</button>
         </div>
     </div>
     
-    <div class="back-nav-bottom" style="display: none;">
-        <a href="index.html">← Back to Tools</a>
-    </div>
-    
     <footer class="footer">
-        <p>
-            <span class="date-full">Trust.Supply Validator Analytics v1.5.5 | Updated 8 May 2026</span><span class="date-short">Analytics v1.5.5 | 8 May 2026</span>
-        </p>
-        <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | Real-time blockchain analysis</p>
+        <div>
+            <span class="date-full">Trust.Supply Validator Analytics v1.5.5 · Updated 8 May 2026</span>
+            <span class="date-short">Analytics v1.5.5 · 8 May 2026</span>
+        </div>
+        <div>Community tool by <a href="https://twitter.com/trippledutch" target="_blank" rel="noopener">@trippledutch</a> · Real-time blockchain analysis</div>
     </footer>
 </div>
 
@@ -1001,35 +884,34 @@
         
         // NEW v1.3.0: Updated header with "Last 50" and total available info
         let html = `
-            <div style="margin-bottom: 15px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; color: white;">
-                <div style="font-size: 1.3em; font-weight: 700; margin-bottom: 8px;">📊 Validation Transaction Details (Last ${recentQueries.length})</div>
-                <div style="opacity: 0.95;">Showing ${startIndex + 1}-${endIndex} of ${recentQueries.length} decoded validations</div>
-                ${totalValidations > recentQueries.length ? `<div style="opacity: 0.95; margin-top: 5px;">📥 ${remainingToLoad.toLocaleString()} more available to load</div>` : ''}
+            <div style="margin-bottom: 14px; padding: 14px 18px; background: linear-gradient(180deg,rgba(95,227,255,.06),rgba(255,255,255,0) 60%), linear-gradient(180deg,#142042 0%,#0e1730 100%); border: 1px solid var(--line-strong); border-radius: 12px;">
+                <div style="font-family: var(--body); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 6px;">Validation Transaction Details <span style="color: var(--ink-faint); font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin-left: 6px;">Last ${recentQueries.length}</span></div>
+                <div style="font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-dim);">Showing ${startIndex + 1}–${endIndex} of ${recentQueries.length} decoded validations</div>
+                ${totalValidations > recentQueries.length ? `<div style="font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-faint); margin-top: 4px;">${remainingToLoad.toLocaleString()} more available to load</div>` : ''}
             </div>
-            
+
             <!-- Load More and Export Buttons -->
-            <div style="margin-bottom: 15px; display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                <button id="loadMoreBtn" onclick="loadNext50Validations()" ${remainingToLoad <= 0 ? 'disabled' : ''} 
-                        style="padding: 10px 20px; background: ${remainingToLoad > 0 ? '#667eea' : '#ccc'}; color: white; border: none; border-radius: 6px; cursor: ${remainingToLoad > 0 ? 'pointer' : 'not-allowed'}; font-weight: 600; font-size: 0.95em;">
-                    📥 Load Next 50 Validations ${remainingToLoad > 0 ? `(${Math.min(50, remainingToLoad)} available)` : '(None)'}
+            <div style="margin-bottom: 14px; display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <button id="loadMoreBtn" onclick="loadNext50Validations()" ${remainingToLoad <= 0 ? 'disabled' : ''}>
+                    Load Next 50 ${remainingToLoad > 0 ? `(${Math.min(50, remainingToLoad)} available)` : '(None)'}
                 </button>
-                <button onclick="exportValidationsToCSV()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.95em;">
-                    📥 Export All ${recentQueries.length} to CSV
+                <button onclick="exportValidationsToCSV()" class="export-btn">
+                    Export All ${recentQueries.length} to CSV
                 </button>
             </div>
-            
+
             <!-- Table -->
-            <div style="overflow-x: auto; border: 1px solid var(--gray-300); border-radius: 8px;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 1.05em;">
-                    <thead style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); border-bottom: 2px solid var(--primary);">
-                        <tr>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">#</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Timestamp</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Pool</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Code</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Query</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Date</th>
-                            <th style="padding: 12px 6px; text-align: left; font-weight: 700; color: var(--primary); white-space: nowrap;">Location</th>
+            <div style="overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: rgba(0,0,0,.18);">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead>
+                        <tr style="background: #0c1430; border-bottom: 1px solid var(--line-strong);">
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">#</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Timestamp</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Pool</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Code</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Query</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Date</th>
+                            <th style="padding: 11px 12px; text-align: left; font-family: var(--mono); font-weight: 500; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); white-space: nowrap;">Location</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1046,31 +928,31 @@
             // Parse the Query URL
             const parsed = parseQueryId(query.queryId);
             
-            const rowBg = index % 2 === 0 ? 'white' : 'rgba(102, 126, 234, 0.03)';
-            
             // NEW v1.2.9: Create Google Maps link from coordinates
-            let locationLink = 'N/A';
+            let locationLink = '<span style="color: var(--ink-faint);">N/A</span>';
             if (parsed && parsed.latitude && parsed.longitude) {
                 const mapsUrl = `https://www.google.com/maps?q=${parsed.latitude},${parsed.longitude}`;
-                locationLink = `<a href="#" onclick="window.open('${mapsUrl}', 'mapWindow', 'width=1200,height=800,left=100,top=100'); return false;" style="color: var(--info); text-decoration: none; font-family: monospace; font-weight: 500;" title="Open in Google Maps (New Window)">${parsed.latitude}, ${parsed.longitude} 🗺️</a>`;
+                locationLink = `<a href="#" onclick="window.open('${mapsUrl}', 'mapWindow', 'width=1200,height=800,left=100,top=100'); return false;" style="color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 12px; border-bottom: 1px dotted transparent;" onmouseover="this.style.borderBottomColor='var(--cyan)'" onmouseout="this.style.borderBottomColor='transparent'" title="Open in Google Maps">${parsed.latitude}, ${parsed.longitude}</a>`;
             }
-            
+
             html += `
-                <tr style="background: ${rowBg}; border-bottom: 1px solid var(--gray-200);">
-                    <td style="padding: 8px 6px; font-weight: 600; color: var(--gray-600);">${absoluteIndex}</td>
-                    <td style="padding: 8px 6px;">
-                        <a href="https://polygonscan.com/tx/${query.txHash}" 
-                           target="_blank" 
-                           style="color: var(--primary); text-decoration: none; font-family: monospace; font-weight: 500;"
+                <tr style="border-bottom: 1px solid var(--line);" onmouseover="this.style.background='rgba(95,227,255,.04)'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 9px 12px; font-family: var(--mono); font-size: 12px; color: var(--ink-faint);">${absoluteIndex}</td>
+                    <td style="padding: 9px 12px;">
+                        <a href="https://polygonscan.com/tx/${query.txHash}"
+                           target="_blank"
+                           style="color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 12px; border-bottom: 1px dotted transparent;"
+                           onmouseover="this.style.borderBottomColor='var(--cyan)'"
+                           onmouseout="this.style.borderBottomColor='transparent'"
                            title="View transaction on PolygonScan">
                             ${timestampStr}
                         </a>
                     </td>
-                    <td style="padding: 8px 6px; font-weight: 600; color: var(--primary);">${query.poolName || 'N/A'}</td>
-                    <td style="padding: 8px 6px; font-family: monospace; font-weight: 700; color: var(--success); font-size: 1.1em;">${parsed ? parsed.code : 'N/A'}</td>
-                    <td style="padding: 8px 6px; font-family: monospace; color: var(--gray-700);">${parsed ? parsed.id : 'N/A'}</td>
-                    <td style="padding: 8px 6px; font-family: monospace; color: var(--gray-700);">${parsed ? parsed.date : 'N/A'}</td>
-                    <td style="padding: 8px 6px;">${locationLink}</td>
+                    <td style="padding: 9px 12px; font-family: var(--body); font-size: 13px; color: var(--ink); font-weight: 500;">${query.poolName || 'N/A'}</td>
+                    <td style="padding: 9px 12px; font-family: var(--mono); font-weight: 600; color: var(--green); font-size: 12px; letter-spacing: .04em;">${parsed ? parsed.code : 'N/A'}</td>
+                    <td style="padding: 9px 12px; font-family: var(--mono); font-size: 12px; color: var(--ink-dim);">${parsed ? parsed.id : 'N/A'}</td>
+                    <td style="padding: 9px 12px; font-family: var(--mono); font-size: 12px; color: var(--ink-dim);">${parsed ? parsed.date : 'N/A'}</td>
+                    <td style="padding: 9px 12px;">${locationLink}</td>
                 </tr>
             `;
         });
@@ -1084,40 +966,25 @@
         // NEW v1.2.6: Pagination controls
         if (totalPages > 1) {
             html += `
-                <div style="margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''} 
-                            style="padding: 8px 12px; background: ${currentPage === 1 ? '#e0e0e0' : 'var(--primary)'}; color: ${currentPage === 1 ? '#999' : 'white'}; border: none; border-radius: 4px; cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600;">
-                        ⏮️ First
-                    </button>
-                    <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} 
-                            style="padding: 8px 12px; background: ${currentPage === 1 ? '#e0e0e0' : 'var(--primary)'}; color: ${currentPage === 1 ? '#999' : 'white'}; border: none; border-radius: 4px; cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'}; font-weight: 600;">
-                        ◄ Prev
-                    </button>
-                    
-                    <span style="padding: 8px 16px; background: white; border: 2px solid var(--primary); border-radius: 4px; font-weight: 700; color: var(--primary);">
-                        Page ${currentPage} of ${totalPages}
+                <div style="margin-top: 18px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <button class="export-btn" onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''} style="padding: 8px 14px;">First</button>
+                    <button class="export-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} style="padding: 8px 14px;">Prev</button>
+
+                    <span style="padding: 8px 14px; background: rgba(95,227,255,.10); border: 1px solid var(--cyan); border-radius: 999px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan);">
+                        Page ${currentPage} / ${totalPages}
                     </span>
-                    
-                    <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} 
-                            style="padding: 8px 12px; background: ${currentPage === totalPages ? '#e0e0e0' : 'var(--primary)'}; color: ${currentPage === totalPages ? '#999' : 'white'}; border: none; border-radius: 4px; cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600;">
-                        Next ►
-                    </button>
-                    <button onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''} 
-                            style="padding: 8px 12px; background: ${currentPage === totalPages ? '#e0e0e0' : 'var(--primary)'}; color: ${currentPage === totalPages ? '#999' : 'white'}; border: none; border-radius: 4px; cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'}; font-weight: 600;">
-                        Last ⏭️
-                    </button>
+
+                    <button class="export-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} style="padding: 8px 14px;">Next</button>
+                    <button class="export-btn" onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''} style="padding: 8px 14px;">Last</button>
                 </div>
-                
+
                 <!-- Quick page jump -->
-                <div style="margin-top: 15px; text-align: center;">
-                    <label style="font-weight: 600; color: var(--gray-700); margin-right: 10px;">Jump to page:</label>
-                    <input type="number" id="pageJumpInput" min="1" max="${totalPages}" value="${currentPage}" 
-                           style="width: 80px; padding: 6px; border: 2px solid var(--gray-300); border-radius: 4px; text-align: center; font-weight: 600;"
+                <div style="margin-top: 14px; text-align: center; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <label style="font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); margin: 0;">Jump to page</label>
+                    <input type="number" id="pageJumpInput" min="1" max="${totalPages}" value="${currentPage}"
+                           style="width: 80px; padding: 7px 10px; background: rgba(0,0,0,.25); border: 1px solid var(--line); border-radius: 8px; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--ink); color-scheme: dark;"
                            onkeypress="if(event.key === 'Enter') { changePage(parseInt(this.value)); }">
-                    <button onclick="changePage(parseInt(document.getElementById('pageJumpInput').value))" 
-                            style="padding: 6px 16px; background: var(--success); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 5px;">
-                        Go
-                    </button>
+                    <button onclick="changePage(parseInt(document.getElementById('pageJumpInput').value))" style="padding: 8px 14px;">Go</button>
                 </div>
             `;
         }
