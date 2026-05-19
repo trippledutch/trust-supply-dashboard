@@ -1,385 +1,351 @@
-<!DOCTYPE html>
-<html lang="en"> 
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>Trust.Supply Tools - Unofficial Analytics Suite</title>
-    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1024">
+<title>Trust.Supply Tools · Unofficial Analytics Suite</title>
+<link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
 
-    <style>
-        :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --blue: #2563eb;
-            --blue-dark: #1e40af;
-            --card: #1e293b;
-            --bg-dark: #0f172a;
-            --success: #4ade80;
-            --accent: #60a5fa;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Header */
-        header {
-            text-align: center;
-            padding: 40px 20px 60px 20px;
-        }
-        
-        header h1 {
-            font-size: 3.5em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #60a5fa 0%, #fff 50%, #4ade80 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
-        }
-        
-        header p {
-            font-size: 1.3em;
-            opacity: 0.95;
-            font-weight: 500;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        /* Tools Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        /* Tool Card */
-        .tool-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
-        
-        .tool-card.analytics::before {
-            background: linear-gradient(90deg, var(--blue) 0%, var(--blue-dark) 100%);
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
-        }
-        
-        .tool-icon {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-        }
-        
-        .tool-card h2 {
-            font-size: 2em;
-            font-weight: 800;
-            margin-bottom: 15px;
-            color: #1e293b;
-        }
-        
-        .tool-card .version {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        
-        .tool-card.analytics .version {
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-        }
-        
-        .tool-card .description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            color: #475569;
-            margin-bottom: 25px;
-            flex-grow: 1;
-        }
-        
-        .tool-card .features {
-            list-style: none;
-            margin-bottom: 25px;
-        }
-        
-        .tool-card .features li {
-            padding: 8px 0;
-            color: #64748b;
-            font-size: 0.95em;
-            display: flex;
-            align-items: center;
-        }
-        
-        .tool-card .features li::before {
-            content: '✓';
-            color: var(--success);
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-right: 12px;
-        }
-        
-        .tool-card .cta {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 16px 32px;
-            border-radius: 12px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .tool-card.analytics .cta {
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-        }
-        
-        .tool-card .cta:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-        
-        .tool-card.analytics .cta:hover {
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-        }
-        
-        /* Info Section */
-        .info-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .info-section h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        
-        .info-section p {
-            line-height: 1.8;
-            opacity: 0.95;
-            font-size: 1.05em;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            opacity: 0.9;
-        }
-        
-        footer p {
-            margin: 5px 0;
-            font-size: 0.95em;
-        }
-        
-        footer a {
-            color: white;
-            text-decoration: underline;
-        }
-        
-        /* Responsive */
-        @media (max-width: 968px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 2.2em;
-            }
-            
-            header p {
-                font-size: 1.1em;
-            }
-        }
-    </style>
-    <!-- Google Analytics GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YMKV678N2"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-3YMKV678N2');
-    </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0a1024;--bg-2:#0f1832;--panel:#121d3a;--panel-2:#162345;
+  --line:rgba(120,160,255,.14);--line-strong:rgba(120,160,255,.28);
+  --ink:#e6ecff;--ink-dim:#9aa6c8;--ink-faint:#8a96b8;
+  --cyan:#5fe3ff;--cyan-deep:#26b8d8;--amber:#ffb454;--rose:#ff5d7a;--green:#52e3a4;
+  --body:"Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(95,227,255,.10),transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(82,227,164,.08),transparent 60%),
+    linear-gradient(180deg,#0a1024 0%,#0c1330 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 100% 80% at 50% 50%,#000 30%,transparent 80%);
+  z-index:0;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);
+  z-index:0;
+}
+
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 24px}
+
+/* Header */
+header{
+  display:flex;align-items:center;gap:18px;padding:16px 0 12px;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,16,36,.85);backdrop-filter:blur(14px);
+}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.brand .word{display:flex;flex-direction:column;line-height:1}
+.brand .word b{font-family:var(--body);font-weight:700;letter-spacing:.01em;font-size:26px}
+.brand .word b .wm-a{color:var(--ink)}
+.brand .word b .wm-b{color:var(--cyan)}
+.brand .word small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-faint);margin-top:6px;text-transform:uppercase}
+.spacer{flex:1}
+.status-dot{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase}
+.status-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+/* Nav */
+.nav-wrap{border-bottom:1px solid var(--line)}
+nav.tabs{
+  display:flex;gap:2px;padding:10px 0;
+  overflow-x:auto;scrollbar-width:none;
+}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--ink-faint);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  padding:11px 14px;cursor:pointer;border-radius:6px;white-space:nowrap;
+  text-decoration:none;font-weight:500;
+  transition:color .15s,background .15s;
+}
+nav.tabs a .n{font-size:10px;color:var(--ink-faint);opacity:.6;font-weight:400}
+nav.tabs a[aria-current="page"]{color:#062032;background:var(--cyan)}
+nav.tabs a[aria-current="page"] .n{color:#062032;opacity:.7}
+nav.tabs a:hover{color:var(--ink)}
+
+/* Hero */
+main{padding:36px 0 40px}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--cyan)}
+
+h1{font-family:var(--body);letter-spacing:-.02em;font-size:clamp(28px,5.4vw,52px);font-weight:300;line-height:1.08;max-width:900px}
+h1 .l1{display:block;font-size:.55em;font-style:italic;color:var(--ink-dim);font-weight:300;margin-bottom:6px}
+h1 .l2{display:block;color:var(--ink);font-weight:600}
+h1 .l2 em{font-style:italic;color:var(--cyan);font-weight:600}
+h1 .l3{display:block;font-size:.5em;color:var(--ink-dim);font-weight:300;margin-top:8px}
+
+.lede{font-size:clamp(15px,1.6vw,17px);color:var(--ink-dim);max-width:62ch;line-height:1.65;margin-top:18px}
+.lede strong{color:var(--ink);font-weight:600}
+
+/* Tool grid */
+.tools{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  margin-top:36px;
+}
+@media (max-width:1100px){.tools{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){.tools{grid-template-columns:1fr}}
+
+.tool{
+  position:relative;
+  border:1px solid var(--line-strong);
+  background:
+    linear-gradient(180deg,rgba(95,227,255,.05),rgba(255,255,255,0) 45%),
+    linear-gradient(180deg,#172246 0%,#0f1832 100%);
+  border-radius:12px;
+  padding:22px 22px 20px;
+  display:flex;flex-direction:column;
+  text-decoration:none;color:var(--ink);
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  min-height:280px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.04) inset,
+    0 18px 40px -22px rgba(0,0,0,.6);
+}
+.tool:hover{
+  border-color:var(--cyan);
+  transform:translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 22px 50px -20px rgba(0,0,0,.7),
+    0 0 0 1px rgba(95,227,255,.18);
+}
+.tool .ix{
+  position:absolute;top:18px;right:18px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-faint);
+}
+.tool .tag{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--cyan);
+  text-transform:uppercase;margin-bottom:14px;
+}
+.tool h2{
+  font-family:var(--body);font-weight:600;font-size:20px;
+  letter-spacing:-.01em;line-height:1.25;color:var(--ink);
+  margin-bottom:10px;
+  padding-right:34px; /* leave room for ix */
+}
+.tool p{
+  font-size:13.5px;color:var(--ink-dim);line-height:1.6;
+  margin-bottom:16px;flex-grow:1;
+}
+.tool ul{
+  list-style:none;margin:0 0 18px;padding:0;
+}
+.tool ul li{
+  font-family:var(--mono);font-size:11px;letter-spacing:.05em;
+  color:var(--ink-faint);padding:4px 0;line-height:1.5;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.tool ul li::before{
+  content:"·";color:var(--cyan);font-weight:700;
+}
+.tool .cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:999px;
+  border:1px solid var(--line-strong);background:rgba(255,255,255,.03);
+  color:var(--ink);text-decoration:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;align-self:flex-start;font-weight:500;
+}
+.tool .cta:hover{background:rgba(95,227,255,.08);border-color:var(--cyan);color:var(--cyan)}
+.tool .cta .arr{transition:transform .2s}
+.tool .cta:hover .arr{transform:translateX(3px)}
+.tool .ver{
+  font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+  letter-spacing:.14em;text-transform:uppercase;margin-left:10px;
+}
+
+/* Disclaimer */
+.disclaimer{
+  margin-top:40px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,180,84,.04),rgba(255,255,255,0));
+  border-radius:12px;padding:22px 24px;
+}
+.disclaimer h3{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);font-weight:500;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.disclaimer h3::before{content:"";width:14px;height:1px;background:var(--amber)}
+.disclaimer p{font-size:13.5px;color:var(--ink-dim);line-height:1.7}
+.disclaimer strong{color:var(--ink);font-weight:600}
+
+/* Footer */
+footer{
+  margin-top:36px;padding:22px 0 28px;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);
+}
+footer .versions{display:flex;flex-wrap:wrap;gap:14px}
+footer .versions span{color:var(--ink-dim)}
+footer a{color:var(--cyan);text-decoration:none}
+footer a:hover{color:#7eebff}
+
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Trust.Supply Tools on trustnodes.nl</h1>
-            <p>Unofficial community-created analytics suite for Trust.Supply validator economics and MNW tokenomics</p>
-        </header>
-        
-        <div class="tools-grid">
-            <!-- Economic Dashboard Card -->
-            <div class="tool-card">
-                <div class="tool-icon">💰</div>
-                <h2>Economic Dashboard</h2>
-                <span class="version">v1.2.4</span>
-                <p class="description">
-                    Comprehensive validator economics, treasury modeling, and tokenomics analysis with real-time data integration.
-                </p>
-                <ul class="features">
-                    <li>Live MNW price from CoinGecko</li>
-                    <li>On-chain staked MNW via Alchemy</li>
-                    <li>Dynamic liquidity tier analysis</li>
-                    <li>Token velocity scenarios</li>
-                    <li>Network scaling projections</li>
-                    <li>Team treasury sustainability</li>
-                </ul>
-                <button class="cta" onclick="window.location.href='dashboard.html'">
-                    Open Dashboard →
-                </button>
-            </div>
-            
-            <!-- Validator Analytics Card -->
-            <div class="tool-card analytics">
-                <div class="tool-icon">📊</div>
-                <h2>Validator Analytics</h2>
-                <span class="version">v1.5.5</span>
-                <p class="description">
-                    Real-time transaction analysis and validation tracking from Polygon blockchain with detailed historical logs.
-                </p>
-                <ul class="features">
-                    <li>Live blockchain transaction scanning</li>
-                    <li>Query and validation counting</li>
-                    <li>Custom date range with preset shortcuts</li>
-                    <li>Live MNW &amp; POL wallet balances</li>
-                    <li>Monthly summary breakdown</li>
-                    <li>CSV export for custom analysis</li>
-                </ul>
-                <button class="cta" onclick="window.location.href='analytics.html'">
-                    Open Analytics →
-                </button>
-            </div>
-            
-            <!-- Validator Rewards Card -->
-            <div class="tool-card analytics">
-                <div class="tool-icon">🏆</div>
-                <h2>Validator Rewards</h2>
-                <span class="version">v1.1.1</span>
-                <p class="description">
-                    On-chain MNW reward payout analysis from the automation wallet, with backwards block scanning via the Etherscan v2 API.
-                </p>
-                <ul class="features">
-                    <li>MNW token reward tracking</li>
-                    <li>Backwards endblock crawling pagination</li>
-                    <li>Automation wallet payout history</li>
-                    <li>Polygon blockchain data</li>
-                    <li>Reward aggregation and totals</li>
-                    <li>Transaction-level detail view</li>
-                </ul>
-                <button class="cta" onclick="window.location.href='rewards.html'">
-                    Open Rewards →
-                </button>
-            </div>
+<div class="app">
 
-            <!-- Top 100 MNW Holders Card -->
-            <div class="tool-card analytics">
-                <div class="tool-icon">🐳</div>
-                <h2>Top 100 MNW Holders (Ethereum)</h2>
-                <span class="version">v1.0.0</span>
-                <p class="description">
-                    On-chain breakdown of the largest MNW holders on Ethereum, tagged by behaviour: accumulating, distributing, exchanges, and team-held.
-                </p>
-                <ul class="features">
-                    <li>Top 100 holders of 14,764 total</li>
-                    <li>Tagged Adding / Selling / Exchange / Team</li>
-                    <li>Filterable tabs with live totals</li>
-                    <li>Per-wallet MNW, USD, and supply %</li>
-                    <li>Direct Etherscan address links</li>
-                    <li>Manually annotated snapshots</li>
-                </ul>
-                <button class="cta" onclick="window.location.href='holders-eth.html'">
-                    Open Holders →
-                </button>
-            </div>
+  <header>
+    <a class="brand" href="index.html">
+      <span class="word">
+        <b><span class="wm-a">Trust</span><span class="wm-b">.Supply</span></b>
+        <small>Unofficial analytics suite</small>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <span class="status-dot">Live · on-chain</span>
+  </header>
 
-            <!-- My Validator Card -->
-            <div class="tool-card">
-                <div class="tool-icon">🛡️</div>
-                <h2>My Validator</h2>
-                <span class="version">v0.0.6</span>
-                <p class="description">
-                    Personal Trust.Supply validator dashboard. Logs into the Trust.Supply API directly from your browser, with wallet-signature ownership verification.
-                </p>
-                <ul class="features">
-                    <li>Email-code login + wallet signature</li>
-                    <li>Live node status, uptime, earnings</li>
-                    <li>Days staked and projected validations</li>
-                    <li>Early-unstake net payout and total loss</li>
-                    <li>Daily validations with week/month/all view</li>
-                    <li>Ecosystem context: nodes, validators, MNW staked</li>
-                </ul>
-                <button class="cta" onclick="window.location.href='validator.html'">
-                    Open My Validator →
-                </button>
-            </div>
-        </div>
-        
-        <div class="info-section">
-            <h3>⚠️ Important Disclaimer</h3>
-            <p>
-                These are <strong>unofficial, community-created analytical tools</strong>. All data is derived from publicly available sources. 
-                Economic models, formulas, and projections are provided for informational and educational purposes only. 
-                <strong>This does not constitute financial, investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies. 
-                Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the accuracy of information displayed herein. 
-                Users assume all risk and responsibility for any decisions made based on these tools. Always conduct your own research and consult qualified professionals before making investment decisions.
-            </p>
-        </div>
-        
-        <footer>
-            <p><strong>Created by @trippledutch</strong> for the Trust.Supply community</p>
-            <p>Dashboard v1.2.4 | Analytics v1.5.5 | Rewards v1.1.1 | My Validator v0.0.6 | Top 100 Holders v1.0.0 | Updated 19 May 2026</p>
-        </footer>
+  <div class="nav-wrap">
+    <nav class="tabs" aria-label="Main navigation">
+      <a href="index.html" aria-current="page"><span class="n">01</span>Overview</a>
+      <a href="dashboard.html"><span class="n">02</span>Dashboard</a>
+      <a href="holders-eth.html"><span class="n">03</span>Holders</a>
+      <a href="analytics.html"><span class="n">04</span>Analytics</a>
+      <a href="rewards.html"><span class="n">05</span>Rewards</a>
+      <a href="validator.html"><span class="n">06</span>My Validator</a>
+    </nav>
+  </div>
+
+  <main>
+    <div class="eyebrow">on-chain · evidence-based · trustnodes.nl</div>
+    <h1>
+      <span class="l1">Unofficial community-built tools</span>
+      <span class="l2">Trust.Supply <em>analytics suite</em></span>
+      <span class="l3">for validator economics and MNW tokenomics</span>
+    </h1>
+    <p class="lede">
+      Five independent dashboards: validator economics modelling, MNW holder analysis, real-time
+      transaction tracking, reward payout reconciliation, and a personal validator view.
+      <strong>All data is derived from public on-chain sources.</strong>
+    </p>
+
+    <section class="tools">
+
+      <a href="dashboard.html" class="tool">
+        <span class="ix">01</span>
+        <div class="tag">Economic Dashboard <span class="ver">v1.2.4</span></div>
+        <h2>Validator economics &amp; tokenomics</h2>
+        <p>Comprehensive treasury modelling, liquidity tier analysis, and network scaling projections with live market data.</p>
+        <ul>
+          <li>Live MNW price from CoinGecko</li>
+          <li>On-chain staked MNW via Alchemy</li>
+          <li>Token velocity scenarios</li>
+          <li>Team treasury sustainability</li>
+        </ul>
+        <span class="cta">Open Dashboard <span class="arr">→</span></span>
+      </a>
+
+      <a href="holders-eth.html" class="tool">
+        <span class="ix">02</span>
+        <div class="tag">Top 100 Holders · Ethereum <span class="ver">v1.0.0</span></div>
+        <h2>MNW holder breakdown</h2>
+        <p>On-chain breakdown of the largest MNW holders on Ethereum, tagged by behaviour — accumulating, distributing, exchanges, and team.</p>
+        <ul>
+          <li>Top 100 of 14,764 holders</li>
+          <li>Adding / Selling / EX / Team tags</li>
+          <li>Per-wallet MNW, USD and supply %</li>
+          <li>Direct Etherscan address links</li>
+        </ul>
+        <span class="cta">Open Holders <span class="arr">→</span></span>
+      </a>
+
+      <a href="analytics.html" class="tool">
+        <span class="ix">03</span>
+        <div class="tag">Validator Analytics <span class="ver">v1.5.5</span></div>
+        <h2>Real-time validation tracking</h2>
+        <p>Transaction analysis and validation tracking from the Polygon blockchain with detailed historical logs and CSV export.</p>
+        <ul>
+          <li>Live blockchain transaction scanning</li>
+          <li>Custom date range with presets</li>
+          <li>MNW &amp; POL wallet balances</li>
+          <li>CSV export for custom analysis</li>
+        </ul>
+        <span class="cta">Open Analytics <span class="arr">→</span></span>
+      </a>
+
+      <a href="rewards.html" class="tool">
+        <span class="ix">04</span>
+        <div class="tag">Validator Rewards <span class="ver">v1.1.1</span></div>
+        <h2>Reward payout analysis</h2>
+        <p>On-chain MNW reward payouts from the automation wallet, with backwards block scanning via the Etherscan v2 API.</p>
+        <ul>
+          <li>MNW token reward tracking</li>
+          <li>Backwards endblock pagination</li>
+          <li>Automation wallet payout history</li>
+          <li>Transaction-level detail view</li>
+        </ul>
+        <span class="cta">Open Rewards <span class="arr">→</span></span>
+      </a>
+
+      <a href="validator.html" class="tool">
+        <span class="ix">05</span>
+        <div class="tag">My Validator <span class="ver">v0.0.6</span></div>
+        <h2>Personal validator dashboard</h2>
+        <p>Logs into the Trust.Supply API directly from your browser, with wallet-signature ownership verification.</p>
+        <ul>
+          <li>Email-code login + wallet signature</li>
+          <li>Live node status, uptime, earnings</li>
+          <li>Days staked &amp; projected validations</li>
+          <li>Early-unstake net payout</li>
+        </ul>
+        <span class="cta">Open Validator <span class="arr">→</span></span>
+      </a>
+
+    </section>
+
+    <div class="disclaimer">
+      <h3>Disclaimer</h3>
+      <p>
+        These are <strong>unofficial, community-created analytical tools</strong>. All data is derived
+        from publicly available sources. Economic models, formulas, and projections are provided for
+        informational and educational purposes only. <strong>This does not constitute financial,
+        investment, or legal advice.</strong> Numbers presented may contain errors or inaccuracies.
+        Morpheus.Network, Trust.Supply, and all associated parties bear no responsibility for the
+        accuracy of information displayed herein.
+      </p>
     </div>
+  </main>
+
+  <footer>
+    <div class="versions">
+      <span>Dashboard v1.2.4</span>
+      <span>Holders v1.0.0</span>
+      <span>Analytics v1.5.5</span>
+      <span>Rewards v1.1.1</span>
+      <span>My Validator v0.0.6</span>
+    </div>
+    <div>
+      Built by <a href="https://twitter.com/trippledutch" target="_blank" rel="noopener">@trippledutch</a> · Updated 19 May 2026
+    </div>
+  </footer>
+
+</div>
 </body>
 </html>

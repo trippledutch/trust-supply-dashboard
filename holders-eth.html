@@ -1,293 +1,276 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>Top 100 MNW Holders (Ethereum) - Trust.Supply Tools</title>
-    <link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
-    <style>
-        :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --blue: #2563eb;
-            --blue-dark: #1e40af;
-            --success: #4ade80;
-            --danger: #ef4444;
-            --slate-900: #0f172a;
-            --slate-800: #1e293b;
-            --slate-700: #334155;
-            --slate-500: #64748b;
-            --slate-400: #94a3b8;
-            --slate-200: #e2e8f0;
-            --slate-100: #f1f5f9;
-            --slate-50: #f8fafc;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1024">
+<title>Top 100 MNW Holders · Trust.Supply Tools</title>
+<link rel="icon" href="/favicon.ico?v=3" type="image/x-icon">
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.95em;
-            opacity: 0.9;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        .back-link:hover { opacity: 1; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-        header {
-            text-align: center;
-            padding: 20px 20px 40px;
-        }
-        header h1 {
-            font-size: 2.8em;
-            font-weight: 900;
-            margin-bottom: 12px;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #60a5fa 0%, #fff 50%, #4ade80 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
-        }
-        header p {
-            font-size: 1.1em;
-            opacity: 0.95;
-            max-width: 760px;
-            margin: 0 auto;
-            font-weight: 500;
-        }
-        .chain-pill {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: 700;
-            margin-top: 14px;
-            letter-spacing: 0.3px;
-        }
+<style>
+:root{
+  --bg:#0a1024;--bg-2:#0f1832;--panel:#121d3a;--panel-2:#162345;
+  --line:rgba(120,160,255,.14);--line-strong:rgba(120,160,255,.28);
+  --ink:#e6ecff;--ink-dim:#9aa6c8;--ink-faint:#8a96b8;
+  --cyan:#5fe3ff;--cyan-deep:#26b8d8;--amber:#ffb454;--rose:#ff5d7a;--green:#52e3a4;
+  --body:"Inter",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
 
-        .panel {
-            background: white;
-            border-radius: 20px;
-            padding: 36px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            color: #1e293b;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        .panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(95,227,255,.10),transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(82,227,164,.08),transparent 60%),
+    linear-gradient(180deg,#0a1024 0%,#0c1330 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 100% 80% at 50% 50%,#000 30%,transparent 80%);
+  z-index:0;
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);
+  z-index:0;
+}
 
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-        .stat {
-            background: var(--slate-50);
-            border: 1px solid var(--slate-200);
-            border-radius: 12px;
-            padding: 16px 18px;
-        }
-        .stat__label {
-            font-size: 0.72em;
-            color: var(--slate-500);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .stat__value {
-            font-size: 1.6em;
-            font-weight: 800;
-            color: var(--slate-900);
-            font-variant-numeric: tabular-nums;
-            line-height: 1.1;
-        }
-        .stat__sub {
-            font-size: 0.78em;
-            color: var(--slate-500);
-            font-weight: 500;
-            margin-top: 4px;
-        }
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 24px}
 
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 22px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--slate-200);
-        }
-        .tab {
-            background: var(--slate-100);
-            border: 1px solid var(--slate-200);
-            color: var(--slate-700);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s ease;
-        }
-        .tab:hover {
-            border-color: var(--primary);
-            color: var(--slate-900);
-        }
-        .tab.is-active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
-        }
-        .tab__count {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 1px 8px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            margin-left: 6px;
-            font-weight: 700;
-        }
-        .tab:not(.is-active) .tab__count {
-            background: white;
-            color: var(--slate-500);
-            border: 1px solid var(--slate-200);
-        }
+/* Header */
+header.site{
+  display:flex;align-items:center;gap:18px;padding:16px 0 12px;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,16,36,.85);backdrop-filter:blur(14px);
+}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.brand .word{display:flex;flex-direction:column;line-height:1}
+.brand .word b{font-family:var(--body);font-weight:700;letter-spacing:.01em;font-size:26px}
+.brand .word b .wm-a{color:var(--ink)}
+.brand .word b .wm-b{color:var(--cyan)}
+.brand .word small{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--ink-faint);margin-top:6px;text-transform:uppercase}
+.spacer{flex:1}
+.status-dot{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase}
+.status-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 
-        .tablewrap {
-            border: 1px solid var(--slate-200);
-            border-radius: 12px;
-            max-height: 640px;
-            overflow: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88em;
-        }
-        thead th {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            background: var(--slate-800);
-            color: var(--slate-200);
-            text-align: left;
-            padding: 12px 12px;
-            font-weight: 700;
-            font-size: 0.72em;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-        th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
-        th.ctr, td.ctr { text-align: center; }
-        tbody td {
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--slate-100);
-            vertical-align: middle;
-            color: var(--slate-700);
-        }
-        tbody tr:hover { background: var(--slate-50); }
-        tbody tr:last-child td { border-bottom: none; }
+/* Nav */
+.nav-wrap{border-bottom:1px solid var(--line)}
+nav.tabs-top{
+  display:flex;gap:2px;padding:10px 0;
+  overflow-x:auto;scrollbar-width:none;
+}
+nav.tabs-top::-webkit-scrollbar{display:none}
+nav.tabs-top a{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--ink-faint);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  padding:11px 14px;cursor:pointer;border-radius:6px;white-space:nowrap;
+  text-decoration:none;font-weight:500;
+  transition:color .15s,background .15s;
+}
+nav.tabs-top a .n{font-size:10px;color:var(--ink-faint);opacity:.6;font-weight:400}
+nav.tabs-top a[aria-current="page"]{color:#062032;background:var(--cyan)}
+nav.tabs-top a[aria-current="page"] .n{color:#062032;opacity:.7}
+nav.tabs-top a:hover{color:var(--ink)}
 
-        .addr {
-            font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.9em;
-            color: var(--slate-500);
-        }
-        .addr a { color: inherit; text-decoration: none; }
-        .addr a:hover { color: var(--blue); text-decoration: underline; }
+/* Hero */
+main{padding:36px 0 40px}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--cyan)}
 
-        .pill {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.72em;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-        .pill--add { background: rgba(74, 222, 128, 0.15); color: #166534; }
-        .pill--sell { background: rgba(239, 68, 68, 0.12); color: #991b1b; }
+h1{font-family:var(--body);letter-spacing:-.02em;font-size:clamp(28px,5vw,46px);font-weight:300;line-height:1.08;max-width:900px}
+h1 .l1{display:block;font-size:.55em;font-style:italic;color:var(--ink-dim);font-weight:300;margin-bottom:6px}
+h1 .l2{display:block;color:var(--ink);font-weight:600}
+h1 .l2 em{font-style:italic;color:var(--cyan);font-weight:600}
 
-        .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7em;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-        }
-        .tag--ex {
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-            color: white;
-        }
-        .tag--team {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-        }
+.lede{font-size:clamp(14px,1.4vw,16px);color:var(--ink-dim);max-width:62ch;line-height:1.65;margin-top:14px}
+.lede strong{color:var(--ink);font-weight:600}
 
-        .mnw-value { color: var(--slate-900); font-weight: 700; }
-        .pct { color: var(--slate-500); font-weight: 600; }
+/* Panel */
+.panel{
+  margin-top:28px;
+  border:1px solid var(--line-strong);
+  background:
+    linear-gradient(180deg,rgba(95,227,255,.04),rgba(255,255,255,0) 30%),
+    linear-gradient(180deg,#142042 0%,#0e1730 100%);
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.04) inset;
+}
 
-        .foot-note {
-            font-size: 0.82em;
-            color: var(--slate-500);
-            margin-top: 16px;
-            text-align: center;
-        }
-        .foot-note a { color: var(--blue); text-decoration: none; }
-        .foot-note a:hover { text-decoration: underline; }
+/* Tabs (filter) */
+.tabs{
+  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;
+}
+.tab{
+  appearance:none;cursor:pointer;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--line);
+  color:var(--ink-dim);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  padding:8px 13px;border-radius:999px;
+  transition:all .15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.tab:hover{color:var(--ink);border-color:var(--line-strong)}
+.tab.is-active{background:rgba(95,227,255,.12);border-color:var(--cyan);color:var(--cyan)}
+.tab__count{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--line);
+  padding:2px 7px;border-radius:999px;color:var(--ink-faint);
+}
+.tab.is-active .tab__count{background:rgba(95,227,255,.12);border-color:rgba(95,227,255,.4);color:var(--cyan)}
 
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            opacity: 0.9;
-            color: white;
-        }
-        footer p { margin: 4px 0; font-size: 0.92em; }
+/* Stats */
+.stats-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;
+}
+.stat{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  border-radius:10px;
+  padding:14px 16px;
+}
+.stat__label{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:500;margin-bottom:8px;
+}
+.stat__value{
+  font-family:var(--body);font-size:24px;font-weight:700;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.1;letter-spacing:-.01em;
+}
+.stat__sub{
+  font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+  letter-spacing:.06em;margin-top:6px;
+}
 
-        @media (max-width: 900px) {
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-            .panel { padding: 22px; }
-            header h1 { font-size: 2em; }
-            table { font-size: 0.8em; }
-            tbody td { padding: 8px 8px; }
-            th.hide-sm, td.hide-sm { display: none; }
-        }
-    </style>
+/* Table */
+.tablewrap{
+  border:1px solid var(--line);
+  border-radius:10px;
+  max-height:640px;
+  overflow:auto;
+  background:rgba(0,0,0,.18);
+}
+table{
+  width:100%;border-collapse:collapse;font-size:13px;
+}
+thead th{
+  position:sticky;top:0;z-index:2;
+  background:#0c1430;
+  color:var(--ink-faint);
+  text-align:left;padding:11px 12px;
+  font-family:var(--mono);font-weight:500;
+  font-size:9.5px;text-transform:uppercase;letter-spacing:.16em;
+  border-bottom:1px solid var(--line-strong);
+}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+th.ctr,td.ctr{text-align:center}
+tbody td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+  color:var(--ink-dim);
+}
+tbody tr:hover{background:rgba(95,227,255,.04)}
+tbody tr:last-child td{border-bottom:none}
+
+.addr{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+.addr a{color:inherit;text-decoration:none;border-bottom:1px dotted transparent;transition:color .15s,border-color .15s}
+.addr a:hover{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* Chips: behaviour pills */
+.pill{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.14em;
+  padding:3px 9px;border-radius:4px;text-transform:uppercase;
+  display:inline-block;
+}
+.pill--add{background:rgba(82,227,164,.12);color:var(--green);border:1px solid rgba(82,227,164,.4)}
+.pill--sell{background:rgba(255,93,122,.15);color:#ff8aa0;border:1px solid rgba(255,93,122,.4)}
+
+/* EX / TEAM tags */
+.tag{
+  font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.18em;
+  padding:2px 7px;border-radius:4px;text-transform:uppercase;display:inline-block;
+}
+.tag--ex{background:rgba(95,227,255,.12);color:var(--cyan);border:1px solid rgba(95,227,255,.4)}
+.tag--team{background:rgba(255,180,84,.12);color:#ffc97a;border:1px solid rgba(255,180,84,.4)}
+
+.mnw-value{color:var(--ink);font-weight:600}
+.pct{color:var(--ink-faint);font-family:var(--mono);font-size:12px}
+
+.foot-note{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  color:var(--ink-faint);margin-top:16px;text-align:center;
+}
+.foot-note a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--cyan)}
+.foot-note a:hover{color:#7eebff;border-bottom-color:#7eebff}
+
+/* Footer */
+footer.site{
+  margin-top:36px;padding:22px 0 28px;
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-faint);
+}
+footer.site a{color:var(--cyan);text-decoration:none}
+footer.site a:hover{color:#7eebff}
+
+@media (max-width:900px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  table{font-size:12px}
+  tbody td{padding:8px 8px}
+  th.hide-sm,td.hide-sm{display:none}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to Trust.Supply Tools</a>
+<div class="app">
 
-        <header>
-            <h1>Top 100 MNW Holders</h1>
-            <p>On-chain MNW holder breakdown tagged by behaviour.</p>
-            <span class="chain-pill">⟠ Ethereum Mainnet</span>
-        </header>
+    <header class="site">
+        <a class="brand" href="index.html">
+            <span class="word">
+                <b><span class="wm-a">Trust</span><span class="wm-b">.Supply</span></b>
+                <small>Unofficial analytics suite</small>
+            </span>
+        </a>
+        <span class="spacer"></span>
+        <span class="status-dot">Live · on-chain</span>
+    </header>
+
+    <div class="nav-wrap">
+        <nav class="tabs-top" aria-label="Main navigation">
+            <a href="index.html"><span class="n">01</span>Overview</a>
+            <a href="dashboard.html"><span class="n">02</span>Dashboard</a>
+            <a href="holders-eth.html" aria-current="page"><span class="n">03</span>Holders</a>
+            <a href="analytics.html"><span class="n">04</span>Analytics</a>
+            <a href="rewards.html"><span class="n">05</span>Rewards</a>
+            <a href="validator.html"><span class="n">06</span>My Validator</a>
+        </nav>
+    </div>
+
+    <main>
+        <div class="eyebrow">on-chain · ethereum mainnet · snapshot</div>
+        <h1>
+            <span class="l1">14,764 holders — these are the largest 100</span>
+            <span class="l2">Top 100 <em>MNW Holders</em></span>
+        </h1>
+        <p class="lede">On-chain MNW holder breakdown tagged by behaviour: <strong>Adding</strong> (accumulating), <strong>Selling</strong> (distributing), <strong>Exchanges</strong> (CEX/DEX/bridge venues), and <strong>Team</strong> (team-held).</p>
 
         <div class="panel">
             <div class="tabs" role="tablist">
@@ -320,14 +303,16 @@
                 </table>
             </div>
 
-            <p class="foot-note">14,764 total MNW holders on Ethereum. Source: <a href="https://etherscan.io/token/0xd3E4Ba569045546D09CF021ECC5dFe42b1d7f6E4" target="_blank" rel="noopener">Etherscan</a>, manually annotated. Snapshot reflects most recent dashboard refresh.</p>
+            <p class="foot-note">Source: <a href="https://etherscan.io/token/0xd3E4Ba569045546D09CF021ECC5dFe42b1d7f6E4" target="_blank" rel="noopener">Etherscan</a> · manually annotated · snapshot reflects most recent dashboard refresh</p>
         </div>
+    </main>
 
-        <footer>
-            <p>Trust.Supply Top 100 MNW Holders v1.0.0 | Updated 19 May 2026</p>
-            <p style="font-size: 0.85em; margin-top: 5px;">Community tool by @trippledutch | On-chain holder analysis</p>
-        </footer>
-    </div>
+    <footer class="site">
+        <div>Trust.Supply Top 100 MNW Holders v1.0.0 · Updated 19 May 2026</div>
+        <div>Community tool by <a href="https://twitter.com/trippledutch" target="_blank" rel="noopener">@trippledutch</a> · On-chain holder analysis</div>
+    </footer>
+
+</div>
 
 <script>
 (function(){
@@ -450,8 +435,8 @@
     const shortAddr = (a) => a.slice(0, 6) + '…' + a.slice(-4);
 
     const flagPill = (f) => {
-        if (f === 'Adding') return '<span class="pill pill--add">↑ Adding</span>';
-        if (f === 'Selling') return '<span class="pill pill--sell">↓ Selling</span>';
+        if (f === 'Adding') return '<span class="pill pill--add">Adding</span>';
+        if (f === 'Selling') return '<span class="pill pill--sell">Selling</span>';
         return '';
     };
     const exCell = (d) => d.x === 1 ? '<span class="tag tag--ex">EX</span>' : '';
